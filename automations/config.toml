@@ -1,0 +1,42 @@
+# paper-video configuration. Every key is required; there are no hidden defaults.
+
+[llm]
+# Provider: "claude-code" (local `claude` CLI, uses your Claude login),
+#           "anthropic" (Anthropic API, needs ANTHROPIC_API_KEY or `ant auth login`),
+#           "openai" (OpenAI API, needs OPENAI_API_KEY).
+provider = "claude-code"
+model = "opus"
+effort = "high"
+# Wall-clock limit for one model call.
+timeout_seconds = 1800
+
+[tts]
+# Kokoro-82M, run locally via kokoro-onnx (Apache-2.0 weights).
+voice = "af_heart"
+speed = 1.0
+model_url = "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.onnx"
+voices_url = "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/voices-v1.0.bin"
+
+[render]
+# Pinned Manim Community image. Generated scene code only ever runs inside it,
+# with no network, a read-only root filesystem and only the work directory mounted.
+image = "manimcommunity/manim:v0.21.0"
+resolution = [1920, 1080]
+frame_rate = 60
+cpus = 4
+memory = "6g"
+parallel_scenes = 3
+# Automatic repair attempts when a generated scene fails to render.
+max_fix_attempts = 3
+# Rounds of automated visual review + repair per scene.
+visual_review_rounds = 1
+# Silence after each narrated beat, in seconds.
+beat_pause = 0.35
+
+[review]
+# Rounds of automated science review + revision for the storyboard and the page.
+max_revision_rounds = 2
+
+[publish]
+media_bucket = "aisafetyrisks-media"
+site_url = "https://aisafetyrisks.org"

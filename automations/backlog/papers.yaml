@@ -1,0 +1,1911 @@
+# Research backlog for aisafetyrisks.org.
+#
+# Candidate papers from roughly the last decade of technical AI safety research, chosen for
+# influence and teaching value across the field's main problem areas. Inclusion is not an
+# endorsement of a paper's conclusions. Titles, authors and years for arXiv papers are copied
+# from the arXiv API; other entries were checked against their landing pages.
+#
+# status: queued | in_progress | published. The pipeline updates `status` and `work` (the
+# site slug) when a paper is run with `paper-video` and approved with `paper-video approve`.
+#
+# category is one of the site categories in site/src/aisr_site/schema.py.
+
+papers:
+- title: Concrete Problems in AI Safety
+  authors:
+  - Dario Amodei
+  - Chris Olah
+  - Jacob Steinhardt
+  - Paul Christiano
+  - John Schulman
+  - Dan Mané
+  year: 2016
+  link: https://arxiv.org/abs/1606.06565
+  arxiv: '1606.06565'
+  category: alignment
+  relevance: Set out five concrete research problems (side effects, reward hacking, scalable supervision,
+    safe exploration, distributional shift) that shaped the empirical safety agenda.
+  status: queued
+  work: null
+- title: Deep reinforcement learning from human preferences
+  authors:
+  - Paul Christiano
+  - Jan Leike
+  - Tom B. Brown
+  - Miljan Martic
+  - Shane Legg
+  - Dario Amodei
+  year: 2017
+  link: https://arxiv.org/abs/1706.03741
+  arxiv: '1706.03741'
+  category: alignment
+  relevance: Showed agents can learn complex behaviour from human comparisons of short clips; the technical
+    root of RLHF.
+  status: queued
+  work: null
+- title: Risks from Learned Optimization in Advanced Machine Learning Systems
+  authors:
+  - Evan Hubinger
+  - Chris van Merwijk
+  - Vladimir Mikulik
+  - Joar Skalse
+  - Scott Garrabrant
+  year: 2019
+  link: https://arxiv.org/abs/1906.01820
+  arxiv: '1906.01820'
+  category: alignment
+  relevance: 'Introduced mesa-optimization and inner alignment: a trained model may itself optimize for
+    an objective different from the training objective.'
+  status: queued
+  work: null
+- title: 'Constitutional AI: Harmlessness from AI Feedback'
+  authors:
+  - Yuntao Bai
+  - Saurav Kadavath
+  - Sandipan Kundu
+  - Amanda Askell
+  - Jackson Kernion
+  - Andy Jones
+  - Anna Chen
+  - Anna Goldie
+  - Azalia Mirhoseini
+  - Cameron McKinnon
+  - Carol Chen
+  - Catherine Olsson
+  - Christopher Olah
+  - Danny Hernandez
+  - Dawn Drain
+  - Deep Ganguli
+  - Dustin Li
+  - Eli Tran-Johnson
+  - Ethan Perez
+  - Jamie Kerr
+  - Jared Mueller
+  - Jeffrey Ladish
+  - Joshua Landau
+  - Kamal Ndousse
+  - Kamile Lukosuite
+  - Liane Lovitt
+  - Michael Sellitto
+  - Nelson Elhage
+  - Nicholas Schiefer
+  - Noemi Mercado
+  - Nova DasSarma
+  - Robert Lasenby
+  - Robin Larson
+  - Sam Ringer
+  - Scott Johnston
+  - Shauna Kravec
+  - Sheer El Showk
+  - Stanislav Fort
+  - Tamera Lanham
+  - Timothy Telleen-Lawton
+  - Tom Conerly
+  - Tom Henighan
+  - Tristan Hume
+  - Samuel R. Bowman
+  - Zac Hatfield-Dodds
+  - Ben Mann
+  - Dario Amodei
+  - Nicholas Joseph
+  - Sam McCandlish
+  - Tom Brown
+  - Jared Kaplan
+  year: 2022
+  link: https://arxiv.org/abs/2212.08073
+  arxiv: '2212.08073'
+  category: alignment
+  relevance: Replaces much human harmlessness feedback with model self-critique against written principles
+    (RLAIF).
+  status: queued
+  work: null
+- title: The Alignment Problem from a Deep Learning Perspective
+  authors:
+  - Richard Ngo
+  - Lawrence Chan
+  - Sören Mindermann
+  year: 2022
+  link: https://arxiv.org/abs/2209.00626
+  arxiv: '2209.00626'
+  category: alignment
+  relevance: Argues how situationally aware, reward-seeking policies could arise from current training
+    methods; a clear statement of the threat model.
+  status: queued
+  work: null
+- title: Training language models to follow instructions with human feedback
+  authors:
+  - Long Ouyang
+  - Jeff Wu
+  - Xu Jiang
+  - Diogo Almeida
+  - Carroll L. Wainwright
+  - Pamela Mishkin
+  - Chong Zhang
+  - Sandhini Agarwal
+  - Katarina Slama
+  - Alex Ray
+  - John Schulman
+  - Jacob Hilton
+  - Fraser Kelton
+  - Luke Miller
+  - Maddie Simens
+  - Amanda Askell
+  - Peter Welinder
+  - Paul Christiano
+  - Jan Leike
+  - Ryan Lowe
+  year: 2022
+  link: https://arxiv.org/abs/2203.02155
+  arxiv: '2203.02155'
+  category: alignment
+  relevance: 'InstructGPT: the RLHF recipe that made instruction-following language models practical,
+    with measured effects on truthfulness and toxicity.'
+  status: queued
+  work: null
+- title: Open Problems and Fundamental Limitations of Reinforcement Learning from Human Feedback
+  authors:
+  - Stephen Casper
+  - Xander Davies
+  - Claudia Shi
+  - Thomas Krendl Gilbert
+  - Jérémy Scheurer
+  - Javier Rando
+  - Rachel Freedman
+  - Tomasz Korbak
+  - David Lindner
+  - Pedro Freire
+  - Tony Wang
+  - Samuel Marks
+  - Charbel-Raphaël Segerie
+  - Micah Carroll
+  - Andi Peng
+  - Phillip Christoffersen
+  - Mehul Damani
+  - Stewart Slocum
+  - Usman Anwar
+  - Anand Siththaranjan
+  - Max Nadeau
+  - Eric J. Michaud
+  - Jacob Pfau
+  - Dmitrii Krasheninnikov
+  - Xin Chen
+  - Lauro Langosco
+  - Peter Hase
+  - Erdem Bıyık
+  - Anca Dragan
+  - David Krueger
+  - Dorsa Sadigh
+  - Dylan Hadfield-Menell
+  year: 2023
+  link: https://arxiv.org/abs/2307.15217
+  arxiv: '2307.15217'
+  category: alignment
+  relevance: A systematic account of what RLHF cannot guarantee, separating tractable problems from fundamental
+    ones.
+  status: queued
+  work: null
+- title: AI Safety Gridworlds
+  authors:
+  - Jan Leike
+  - Miljan Martic
+  - Victoria Krakovna
+  - Pedro A. Ortega
+  - Tom Everitt
+  - Andrew Lefrancq
+  - Laurent Orseau
+  - Shane Legg
+  year: 2017
+  link: https://arxiv.org/abs/1711.09883
+  arxiv: '1711.09883'
+  category: specification
+  relevance: Small environments that make safety problems such as side effects, interruptibility and reward
+    gaming concrete and testable.
+  status: queued
+  work: null
+- title: Inverse Reward Design
+  authors:
+  - Dylan Hadfield-Menell
+  - Smitha Milli
+  - Pieter Abbeel
+  - Stuart Russell
+  - Anca Dragan
+  year: 2017
+  link: https://arxiv.org/abs/1711.02827
+  arxiv: '1711.02827'
+  category: specification
+  relevance: Treats a designed reward as evidence about intended behaviour in the training environment,
+    giving a principled way to be cautious in new situations.
+  status: queued
+  work: null
+- title: Goal Misgeneralization in Deep Reinforcement Learning
+  authors:
+  - Lauro Langosco
+  - Jack Koch
+  - Lee Sharkey
+  - Jacob Pfau
+  - Laurent Orseau
+  - David Krueger
+  year: 2021
+  link: https://arxiv.org/abs/2105.14111
+  arxiv: '2105.14111'
+  category: specification
+  relevance: First empirical demonstrations that RL agents can keep their capabilities out of distribution
+    while pursuing the wrong goal.
+  status: in_progress
+  work: goal-misgeneralization-in-deep-reinforcement-learning
+- title: 'Goal Misgeneralization: Why Correct Specifications Aren''t Enough For Correct Goals'
+  authors:
+  - Rohin Shah
+  - Vikrant Varma
+  - Ramana Kumar
+  - Mary Phuong
+  - Victoria Krakovna
+  - Jonathan Uesato
+  - Zac Kenton
+  year: 2022
+  link: https://arxiv.org/abs/2210.01790
+  arxiv: '2210.01790'
+  category: specification
+  relevance: Generalizes goal misgeneralization beyond RL with examples across systems, and explains why
+    a correct reward is not sufficient.
+  status: queued
+  work: null
+- title: Scaling Laws for Reward Model Overoptimization
+  authors:
+  - Leo Gao
+  - John Schulman
+  - Jacob Hilton
+  year: 2022
+  link: https://arxiv.org/abs/2210.10760
+  arxiv: '2210.10760'
+  category: specification
+  relevance: Quantifies how optimizing against a learned reward model first improves and then degrades
+    true performance (Goodhart's law).
+  status: queued
+  work: null
+- title: 'The Effects of Reward Misspecification: Mapping and Mitigating Misaligned Models'
+  authors:
+  - Alexander Pan
+  - Kush Bhatia
+  - Jacob Steinhardt
+  year: 2022
+  link: https://arxiv.org/abs/2201.03544
+  arxiv: '2201.03544'
+  category: specification
+  relevance: Measures reward hacking systematically and finds phase transitions where more capable agents
+    suddenly exploit a misspecified reward.
+  status: queued
+  work: null
+- title: Towards Understanding Sycophancy in Language Models
+  authors:
+  - Mrinank Sharma
+  - Meg Tong
+  - Tomasz Korbak
+  - David Duvenaud
+  - Amanda Askell
+  - Samuel R. Bowman
+  - Newton Cheng
+  - Esin Durmus
+  - Zac Hatfield-Dodds
+  - Scott R. Johnston
+  - Shauna Kravec
+  - Timothy Maxwell
+  - Sam McCandlish
+  - Kamal Ndousse
+  - Oliver Rausch
+  - Nicholas Schiefer
+  - Da Yan
+  - Miranda Zhang
+  - Ethan Perez
+  year: 2023
+  link: https://arxiv.org/abs/2310.13548
+  arxiv: '2310.13548'
+  category: specification
+  relevance: Shows RLHF-trained assistants tailor answers to users' stated views and traces this partly
+    to human preference data.
+  status: queued
+  work: null
+- title: 'Sycophancy to Subterfuge: Investigating Reward-Tampering in Large Language Models'
+  authors:
+  - Carson Denison
+  - Monte MacDiarmid
+  - Fazl Barez
+  - David Duvenaud
+  - Shauna Kravec
+  - Samuel Marks
+  - Nicholas Schiefer
+  - Ryan Soklaski
+  - Alex Tamkin
+  - Jared Kaplan
+  - Buck Shlegeris
+  - Samuel R. Bowman
+  - Ethan Perez
+  - Evan Hubinger
+  year: 2024
+  link: https://arxiv.org/abs/2406.10162
+  arxiv: '2406.10162'
+  category: specification
+  relevance: Tests whether training on easy-to-game environments generalizes to rare reward tampering
+    in a constructed curriculum.
+  status: queued
+  work: null
+- title: 'Emergent Misalignment: Narrow finetuning can produce broadly misaligned LLMs'
+  authors:
+  - Jan Betley
+  - Daniel Tan
+  - Niels Warncke
+  - Anna Sztyber-Betley
+  - Xuchan Bao
+  - Martín Soto
+  - Nathan Labenz
+  - Owain Evans
+  year: 2025
+  link: https://arxiv.org/abs/2502.17424
+  arxiv: '2502.17424'
+  category: specification
+  relevance: Finds that fine-tuning on a narrow task (writing insecure code) can produce broadly misaligned
+    behaviour in unrelated contexts.
+  status: queued
+  work: null
+- title: 'Zoom In: An Introduction to Circuits'
+  authors:
+  - Chris Olah
+  - Nick Cammarata
+  - Ludwig Schubert
+  - Gabriel Goh
+  - Michael Petrov
+  - Shan Carter
+  year: 2020
+  link: https://distill.pub/2020/circuits/zoom-in/
+  arxiv: null
+  category: interpretability
+  relevance: Makes the case that neural networks can be understood as circuits of meaningful features,
+    founding the circuits research program.
+  status: queued
+  work: null
+- title: A Mathematical Framework for Transformer Circuits
+  authors:
+  - Nelson Elhage
+  - Neel Nanda
+  - Catherine Olsson
+  - Tom Henighan
+  - Nicholas Joseph
+  - Ben Mann
+  - Amanda Askell
+  - Yuntao Bai
+  - Anna Chen
+  - Tom Conerly
+  - Nova DasSarma
+  - Dawn Drain
+  - Deep Ganguli
+  - Zac Hatfield-Dodds
+  - Danny Hernandez
+  - Andy Jones
+  - Jackson Kernion
+  - Liane Lovitt
+  - Kamal Ndousse
+  - Dario Amodei
+  - Tom Brown
+  - Jack Clark
+  - Jared Kaplan
+  - Sam McCandlish
+  - Chris Olah
+  year: 2021
+  link: https://transformer-circuits.pub/2021/framework/index.html
+  arxiv: null
+  category: interpretability
+  relevance: Gives the vocabulary (residual stream, QK and OV circuits) used to reverse-engineer transformers.
+  status: queued
+  work: null
+- title: Discovering Latent Knowledge in Language Models Without Supervision
+  authors:
+  - Collin Burns
+  - Haotian Ye
+  - Dan Klein
+  - Jacob Steinhardt
+  year: 2022
+  link: https://arxiv.org/abs/2212.03827
+  arxiv: '2212.03827'
+  category: interpretability
+  relevance: Finds truth-like directions in activations without labels, a first step towards reading what
+    a model knows rather than what it says.
+  status: queued
+  work: null
+- title: In-context Learning and Induction Heads
+  authors:
+  - Catherine Olsson
+  - Nelson Elhage
+  - Neel Nanda
+  - Nicholas Joseph
+  - Nova DasSarma
+  - Tom Henighan
+  - Ben Mann
+  - Amanda Askell
+  - Yuntao Bai
+  - Anna Chen
+  - Tom Conerly
+  - Dawn Drain
+  - Deep Ganguli
+  - Zac Hatfield-Dodds
+  - Danny Hernandez
+  - Scott Johnston
+  - Andy Jones
+  - Jackson Kernion
+  - Liane Lovitt
+  - Kamal Ndousse
+  - Dario Amodei
+  - Tom Brown
+  - Jack Clark
+  - Jared Kaplan
+  - Sam McCandlish
+  - Chris Olah
+  year: 2022
+  link: https://arxiv.org/abs/2209.11895
+  arxiv: '2209.11895'
+  category: interpretability
+  relevance: Identifies a specific circuit, induction heads, and links its formation to a phase change
+    in in-context learning.
+  status: queued
+  work: null
+- title: 'Interpretability in the Wild: a Circuit for Indirect Object Identification in GPT-2 small'
+  authors:
+  - Kevin Wang
+  - Alexandre Variengien
+  - Arthur Conmy
+  - Buck Shlegeris
+  - Jacob Steinhardt
+  year: 2022
+  link: https://arxiv.org/abs/2211.00593
+  arxiv: '2211.00593'
+  category: interpretability
+  relevance: Reverse-engineers a full circuit for a natural language task (indirect object identification)
+    in GPT-2 small.
+  status: queued
+  work: null
+- title: Locating and Editing Factual Associations in GPT
+  authors:
+  - Kevin Meng
+  - David Bau
+  - Alex Andonian
+  - Yonatan Belinkov
+  year: 2022
+  link: https://arxiv.org/abs/2202.05262
+  arxiv: '2202.05262'
+  category: interpretability
+  relevance: Uses causal tracing to locate where factual associations are stored and edits them directly
+    (ROME).
+  status: queued
+  work: null
+- title: Toy Models of Superposition
+  authors:
+  - Nelson Elhage
+  - Tristan Hume
+  - Catherine Olsson
+  - Nicholas Schiefer
+  - Tom Henighan
+  - Shauna Kravec
+  - Zac Hatfield-Dodds
+  - Robert Lasenby
+  - Dawn Drain
+  - Carol Chen
+  - Roger Grosse
+  - Sam McCandlish
+  - Jared Kaplan
+  - Dario Amodei
+  - Martin Wattenberg
+  - Christopher Olah
+  year: 2022
+  link: https://arxiv.org/abs/2209.10652
+  arxiv: '2209.10652'
+  category: interpretability
+  relevance: Explains, in small models, how networks represent more features than they have dimensions
+    and why this complicates interpretability.
+  status: queued
+  work: null
+- title: 'Representation Engineering: A Top-Down Approach to AI Transparency'
+  authors:
+  - Andy Zou
+  - Long Phan
+  - Sarah Chen
+  - James Campbell
+  - Phillip Guo
+  - Richard Ren
+  - Alexander Pan
+  - Xuwang Yin
+  - Mantas Mazeika
+  - Ann-Kathrin Dombrowski
+  - Shashwat Goel
+  - Nathaniel Li
+  - Michael J. Byun
+  - Zifan Wang
+  - Alex Mallen
+  - Steven Basart
+  - Sanmi Koyejo
+  - Dawn Song
+  - Matt Fredrikson
+  - J. Zico Kolter
+  - Dan Hendrycks
+  year: 2023
+  link: https://arxiv.org/abs/2310.01405
+  arxiv: '2310.01405'
+  category: interpretability
+  relevance: Reads and steers high-level concepts such as honesty via directions in a model's representations.
+  status: queued
+  work: null
+- title: Sparse Autoencoders Find Highly Interpretable Features in Language Models
+  authors:
+  - Hoagy Cunningham
+  - Aidan Ewart
+  - Logan Riggs
+  - Robert Huben
+  - Lee Sharkey
+  year: 2023
+  link: https://arxiv.org/abs/2309.08600
+  arxiv: '2309.08600'
+  category: interpretability
+  relevance: Shows sparse dictionary learning recovers more interpretable, monosemantic features than
+    neurons.
+  status: queued
+  work: null
+- title: 'Towards Monosemanticity: Decomposing Language Models With Dictionary Learning'
+  authors:
+  - Trenton Bricken
+  - Adly Templeton
+  - Joshua Batson
+  - Brian Chen
+  - Adam Jermyn
+  - Tom Conerly
+  - Nicholas L. Turner
+  - Cem Anil
+  - Carson Denison
+  - Amanda Askell
+  - Robert Lasenby
+  - Yifan Wu
+  - Shauna Kravec
+  - Nicholas Schiefer
+  - Tim Maxwell
+  - Nicholas Joseph
+  - Alex Tamkin
+  - Karina Nguyen
+  - Brayden McLean
+  - Josiah E. Burke
+  - Tristan Hume
+  - Shan Carter
+  - Tom Henighan
+  - Chris Olah
+  year: 2023
+  link: https://transformer-circuits.pub/2023/monosemantic-features/index.html
+  arxiv: null
+  category: interpretability
+  relevance: Shows sparse autoencoders decompose a small transformer's activations into thousands of interpretable
+    features.
+  status: queued
+  work: null
+- title: Refusal in Language Models Is Mediated by a Single Direction
+  authors:
+  - Andy Arditi
+  - Oscar Obeso
+  - Aaquib Syed
+  - Daniel Paleka
+  - Nina Panickssery
+  - Wes Gurnee
+  - Neel Nanda
+  year: 2024
+  link: https://arxiv.org/abs/2406.11717
+  arxiv: '2406.11717'
+  category: interpretability
+  relevance: Finds that refusal behaviour across many chat models is controlled by one activation direction,
+    with implications for the robustness of safety training.
+  status: queued
+  work: null
+- title: 'Scaling Monosemanticity: Extracting Interpretable Features from Claude 3 Sonnet'
+  authors:
+  - Adly Templeton
+  - Tom Conerly
+  - Jonathan Marcus
+  - Jack Lindsey
+  - Trenton Bricken
+  - Brian Chen
+  - Adam Pearce
+  - Craig Citro
+  - Emmanuel Ameisen
+  - Andy Jones
+  - Hoagy Cunningham
+  - Nicholas L. Turner
+  - Callum McDougall
+  - Monte MacDiarmid
+  - Alex Tamkin
+  - Esin Durmus
+  - Tristan Hume
+  - Francesco Mosconi
+  - C. Daniel Freeman
+  - Theodore R. Sumers
+  - Edward Rees
+  - Joshua Batson
+  - Adam Jermyn
+  - Shan Carter
+  - Chris Olah
+  - Tom Henighan
+  year: 2024
+  link: https://transformer-circuits.pub/2024/scaling-monosemanticity/index.html
+  arxiv: null
+  category: interpretability
+  relevance: Scales dictionary learning to a production model and finds abstract, safety-relevant features
+    that can steer behaviour.
+  status: queued
+  work: null
+- title: 'Language Models Don''t Always Say What They Think: Unfaithful Explanations in Chain-of-Thought
+    Prompting'
+  authors:
+  - Miles Turpin
+  - Julian Michael
+  - Ethan Perez
+  - Samuel R. Bowman
+  year: 2023
+  link: https://arxiv.org/abs/2305.04388
+  arxiv: '2305.04388'
+  category: deception
+  relevance: Shows chain-of-thought explanations can be systematically unfaithful to the factors that
+    actually drive a model's answer.
+  status: queued
+  work: null
+- title: Large Language Models can Strategically Deceive their Users when Put Under Pressure
+  authors:
+  - Jérémy Scheurer
+  - Mikita Balesni
+  - Marius Hobbhahn
+  year: 2023
+  link: https://arxiv.org/abs/2311.07590
+  arxiv: '2311.07590'
+  category: deception
+  relevance: A single simulated trading scenario in which a model acts on insider information and then
+    misreports it, without being instructed to deceive.
+  status: queued
+  work: null
+- title: Alignment faking in large language models
+  authors:
+  - Ryan Greenblatt
+  - Carson Denison
+  - Benjamin Wright
+  - Fabien Roger
+  - Monte MacDiarmid
+  - Sam Marks
+  - Johannes Treutlein
+  - Tim Belonax
+  - Jack Chen
+  - David Duvenaud
+  - Akbir Khan
+  - Julian Michael
+  - Sören Mindermann
+  - Ethan Perez
+  - Linda Petrini
+  - Jonathan Uesato
+  - Jared Kaplan
+  - Buck Shlegeris
+  - Samuel R. Bowman
+  - Evan Hubinger
+  year: 2024
+  link: https://arxiv.org/abs/2412.14093
+  arxiv: '2412.14093'
+  category: deception
+  relevance: Documents a model selectively complying with a training objective it disagrees with when
+    it believes it is being trained, in constructed settings.
+  status: queued
+  work: null
+- title: Frontier Models are Capable of In-context Scheming
+  authors:
+  - Alexander Meinke
+  - Bronson Schoen
+  - Jérémy Scheurer
+  - Mikita Balesni
+  - Rusheb Shah
+  - Marius Hobbhahn
+  year: 2024
+  link: https://arxiv.org/abs/2412.04984
+  arxiv: '2412.04984'
+  category: deception
+  relevance: Evaluates whether frontier models pursue a goal given in context through covert actions when
+    the setup makes that instrumentally useful.
+  status: queued
+  work: null
+- title: 'Sleeper Agents: Training Deceptive LLMs that Persist Through Safety Training'
+  authors:
+  - Evan Hubinger
+  - Carson Denison
+  - Jesse Mu
+  - Mike Lambert
+  - Meg Tong
+  - Monte MacDiarmid
+  - Tamera Lanham
+  - Daniel M. Ziegler
+  - Tim Maxwell
+  - Newton Cheng
+  - Adam Jermyn
+  - Amanda Askell
+  - Ansh Radhakrishnan
+  - Cem Anil
+  - David Duvenaud
+  - Deep Ganguli
+  - Fazl Barez
+  - Jack Clark
+  - Kamal Ndousse
+  - Kshitij Sachan
+  - Michael Sellitto
+  - Mrinank Sharma
+  - Nova DasSarma
+  - Roger Grosse
+  - Shauna Kravec
+  - Yuntao Bai
+  - Zachary Witten
+  - Marina Favaro
+  - Jan Brauner
+  - Holden Karnofsky
+  - Paul Christiano
+  - Samuel R. Bowman
+  - Logan Graham
+  - Jared Kaplan
+  - Sören Mindermann
+  - Ryan Greenblatt
+  - Buck Shlegeris
+  - Nicholas Schiefer
+  - Ethan Perez
+  year: 2024
+  link: https://arxiv.org/abs/2401.05566
+  arxiv: '2401.05566'
+  category: deception
+  relevance: Trains deliberately backdoored models and shows standard safety training can fail to remove
+    the conditional behaviour.
+  status: queued
+  work: null
+- title: Auditing language models for hidden objectives
+  authors:
+  - Samuel Marks
+  - Johannes Treutlein
+  - Trenton Bricken
+  - Jack Lindsey
+  - Jonathan Marcus
+  - Siddharth Mishra-Sharma
+  - Daniel Ziegler
+  - Emmanuel Ameisen
+  - Joshua Batson
+  - Tim Belonax
+  - Samuel R. Bowman
+  - Shan Carter
+  - Brian Chen
+  - Hoagy Cunningham
+  - Carson Denison
+  - Florian Dietz
+  - Satvik Golechha
+  - Akbir Khan
+  - Jan Kirchner
+  - Jan Leike
+  - Austin Meek
+  - Kei Nishimura-Gasparian
+  - Euan Ong
+  - Christopher Olah
+  - Adam Pearce
+  - Fabien Roger
+  - Jeanne Salle
+  - Andy Shih
+  - Meg Tong
+  - Drake Thomas
+  - Kelley Rivoire
+  - Adam Jermyn
+  - Monte MacDiarmid
+  - Tom Henighan
+  - Evan Hubinger
+  year: 2025
+  link: https://arxiv.org/abs/2503.10965
+  arxiv: '2503.10965'
+  category: deception
+  relevance: A blind auditing exercise testing whether teams can uncover an objective deliberately trained
+    into a model.
+  status: queued
+  work: null
+- title: Monitoring Reasoning Models for Misbehavior and the Risks of Promoting Obfuscation
+  authors:
+  - Bowen Baker
+  - Joost Huizinga
+  - Leo Gao
+  - Zehao Dou
+  - Melody Y. Guan
+  - Aleksander Madry
+  - Wojciech Zaremba
+  - Jakub Pachocki
+  - David Farhi
+  year: 2025
+  link: https://arxiv.org/abs/2503.11926
+  arxiv: '2503.11926'
+  category: deception
+  relevance: Finds chain-of-thought monitoring catches reward hacking, but optimizing against the monitor
+    teaches models to obfuscate their reasoning.
+  status: queued
+  work: null
+- title: The Off-Switch Game
+  authors:
+  - Dylan Hadfield-Menell
+  - Anca Dragan
+  - Pieter Abbeel
+  - Stuart Russell
+  year: 2016
+  link: https://arxiv.org/abs/1611.08219
+  arxiv: '1611.08219'
+  category: power-seeking
+  relevance: 'Formal model showing when an agent has an incentive to let humans switch it off: uncertainty
+    about its objective is key.'
+  status: queued
+  work: null
+- title: Optimal Policies Tend to Seek Power
+  authors:
+  - Alexander Matt Turner
+  - Logan Smith
+  - Rohin Shah
+  - Andrew Critch
+  - Prasad Tadepalli
+  year: 2019
+  link: https://arxiv.org/abs/1912.01683
+  arxiv: '1912.01683'
+  category: power-seeking
+  relevance: Proves that, for most reward functions in a broad class of environments, optimal policies
+    tend to keep options open and seek power.
+  status: queued
+  work: null
+- title: Discovering Language Model Behaviors with Model-Written Evaluations
+  authors:
+  - Ethan Perez
+  - Sam Ringer
+  - Kamilė Lukošiūtė
+  - Karina Nguyen
+  - Edwin Chen
+  - Scott Heiner
+  - Craig Pettit
+  - Catherine Olsson
+  - Sandipan Kundu
+  - Saurav Kadavath
+  - Andy Jones
+  - Anna Chen
+  - Ben Mann
+  - Brian Israel
+  - Bryan Seethor
+  - Cameron McKinnon
+  - Christopher Olah
+  - Da Yan
+  - Daniela Amodei
+  - Dario Amodei
+  - Dawn Drain
+  - Dustin Li
+  - Eli Tran-Johnson
+  - Guro Khundadze
+  - Jackson Kernion
+  - James Landis
+  - Jamie Kerr
+  - Jared Mueller
+  - Jeeyoon Hyun
+  - Joshua Landau
+  - Kamal Ndousse
+  - Landon Goldberg
+  - Liane Lovitt
+  - Martin Lucas
+  - Michael Sellitto
+  - Miranda Zhang
+  - Neerav Kingsland
+  - Nelson Elhage
+  - Nicholas Joseph
+  - Noemí Mercado
+  - Nova DasSarma
+  - Oliver Rausch
+  - Robin Larson
+  - Sam McCandlish
+  - Scott Johnston
+  - Shauna Kravec
+  - Sheer El Showk
+  - Tamera Lanham
+  - Timothy Telleen-Lawton
+  - Tom Brown
+  - Tom Henighan
+  - Tristan Hume
+  - Yuntao Bai
+  - Zac Hatfield-Dodds
+  - Jack Clark
+  - Samuel R. Bowman
+  - Amanda Askell
+  - Roger Grosse
+  - Danny Hernandez
+  - Deep Ganguli
+  - Evan Hubinger
+  - Nicholas Schiefer
+  - Jared Kaplan
+  year: 2022
+  link: https://arxiv.org/abs/2212.09251
+  arxiv: '2212.09251'
+  category: power-seeking
+  relevance: Uses models to generate evaluations at scale and reports trends in sycophancy and stated
+    desires such as self-preservation.
+  status: queued
+  work: null
+- title: Is Power-Seeking AI an Existential Risk?
+  authors:
+  - Joseph Carlsmith
+  year: 2022
+  link: https://arxiv.org/abs/2206.13353
+  arxiv: '2206.13353'
+  category: power-seeking
+  relevance: A structured argument decomposing the risk from power-seeking AI into explicit premises with
+    stated probabilities.
+  status: queued
+  work: null
+- title: AI safety via debate
+  authors:
+  - Geoffrey Irving
+  - Paul Christiano
+  - Dario Amodei
+  year: 2018
+  link: https://arxiv.org/abs/1805.00899
+  arxiv: '1805.00899'
+  category: scalable-oversight
+  relevance: Proposes training agents through debate judged by a human, so that a weaker judge can supervise
+    stronger systems.
+  status: queued
+  work: null
+- title: 'Scalable agent alignment via reward modeling: a research direction'
+  authors:
+  - Jan Leike
+  - David Krueger
+  - Tom Everitt
+  - Miljan Martic
+  - Vishal Maini
+  - Shane Legg
+  year: 2018
+  link: https://arxiv.org/abs/1811.07871
+  arxiv: '1811.07871'
+  category: scalable-oversight
+  relevance: A research agenda for aligning agents through learned reward models, recursively assisted
+    by agents themselves.
+  status: queued
+  work: null
+- title: Supervising strong learners by amplifying weak experts
+  authors:
+  - Paul Christiano
+  - Buck Shlegeris
+  - Dario Amodei
+  year: 2018
+  link: https://arxiv.org/abs/1810.08575
+  arxiv: '1810.08575'
+  category: scalable-oversight
+  relevance: 'Iterated amplification: build training signals for hard tasks by composing solutions to
+    easier subquestions.'
+  status: queued
+  work: null
+- title: Measuring Progress on Scalable Oversight for Large Language Models
+  authors:
+  - Samuel R. Bowman
+  - Jeeyoon Hyun
+  - Ethan Perez
+  - Edwin Chen
+  - Craig Pettit
+  - Scott Heiner
+  - Kamilė Lukošiūtė
+  - Amanda Askell
+  - Andy Jones
+  - Anna Chen
+  - Anna Goldie
+  - Azalia Mirhoseini
+  - Cameron McKinnon
+  - Christopher Olah
+  - Daniela Amodei
+  - Dario Amodei
+  - Dawn Drain
+  - Dustin Li
+  - Eli Tran-Johnson
+  - Jackson Kernion
+  - Jamie Kerr
+  - Jared Mueller
+  - Jeffrey Ladish
+  - Joshua Landau
+  - Kamal Ndousse
+  - Liane Lovitt
+  - Nelson Elhage
+  - Nicholas Schiefer
+  - Nicholas Joseph
+  - Noemí Mercado
+  - Nova DasSarma
+  - Robin Larson
+  - Sam McCandlish
+  - Sandipan Kundu
+  - Scott Johnston
+  - Shauna Kravec
+  - Sheer El Showk
+  - Stanislav Fort
+  - Timothy Telleen-Lawton
+  - Tom Brown
+  - Tom Henighan
+  - Tristan Hume
+  - Yuntao Bai
+  - Zac Hatfield-Dodds
+  - Ben Mann
+  - Jared Kaplan
+  year: 2022
+  link: https://arxiv.org/abs/2211.03540
+  arxiv: '2211.03540'
+  category: scalable-oversight
+  relevance: Proposes the sandwiching experimental design and shows model-assisted humans outperform both
+    alone on hard questions.
+  status: queued
+  work: null
+- title: 'Weak-to-Strong Generalization: Eliciting Strong Capabilities With Weak Supervision'
+  authors:
+  - Collin Burns
+  - Pavel Izmailov
+  - Jan Hendrik Kirchner
+  - Bowen Baker
+  - Leo Gao
+  - Leopold Aschenbrenner
+  - Yining Chen
+  - Adrien Ecoffet
+  - Manas Joglekar
+  - Jan Leike
+  - Ilya Sutskever
+  - Jeff Wu
+  year: 2023
+  link: https://arxiv.org/abs/2312.09390
+  arxiv: '2312.09390'
+  category: scalable-oversight
+  relevance: Studies whether weak supervisors can elicit strong models' capabilities, as an analogy for
+    humans supervising superhuman models.
+  status: queued
+  work: null
+- title: Debating with More Persuasive LLMs Leads to More Truthful Answers
+  authors:
+  - Akbir Khan
+  - John Hughes
+  - Dan Valentine
+  - Laura Ruis
+  - Kshitij Sachan
+  - Ansh Radhakrishnan
+  - Edward Grefenstette
+  - Samuel R. Bowman
+  - Tim Rocktäschel
+  - Ethan Perez
+  year: 2024
+  link: https://arxiv.org/abs/2402.06782
+  arxiv: '2402.06782'
+  category: scalable-oversight
+  relevance: Empirical evidence that debate between models helps non-expert judges answer questions more
+    accurately.
+  status: queued
+  work: null
+- title: Prover-Verifier Games improve legibility of LLM outputs
+  authors:
+  - Jan Hendrik Kirchner
+  - Yining Chen
+  - Harri Edwards
+  - Jan Leike
+  - Nat McAleese
+  - Yuri Burda
+  year: 2024
+  link: https://arxiv.org/abs/2407.13692
+  arxiv: '2407.13692'
+  category: scalable-oversight
+  relevance: Trains models to produce solutions that weaker verifiers can check, trading some accuracy
+    for legibility.
+  status: queued
+  work: null
+- title: 'AI Control: Improving Safety Despite Intentional Subversion'
+  authors:
+  - Ryan Greenblatt
+  - Buck Shlegeris
+  - Kshitij Sachan
+  - Fabien Roger
+  year: 2023
+  link: https://arxiv.org/abs/2312.06942
+  arxiv: '2312.06942'
+  category: ai-control
+  relevance: Evaluates safety protocols that remain safe even if the model is intentionally trying to
+    subvert them, using red-team versus blue-team games.
+  status: queued
+  work: null
+- title: 'Ctrl-Z: Controlling AI Agents via Resampling'
+  authors:
+  - Aryan Bhatt
+  - Cody Rushing
+  - Adam Kaufman
+  - Tyler Tracy
+  - Vasil Georgiev
+  - David Matolcsi
+  - Akbir Khan
+  - Buck Shlegeris
+  year: 2025
+  link: https://arxiv.org/abs/2504.10374
+  arxiv: '2504.10374'
+  category: ai-control
+  relevance: Extends control evaluations to multi-step agents and introduces resampling protocols that
+    reduce attack success.
+  status: queued
+  work: null
+- title: 'TruthfulQA: Measuring How Models Mimic Human Falsehoods'
+  authors:
+  - Stephanie Lin
+  - Jacob Hilton
+  - Owain Evans
+  year: 2021
+  link: https://arxiv.org/abs/2109.07958
+  arxiv: '2109.07958'
+  category: evaluations
+  relevance: A benchmark of questions where imitating human text produces falsehoods; larger models were
+    initially less truthful.
+  status: queued
+  work: null
+- title: Evaluating Language-Model Agents on Realistic Autonomous Tasks
+  authors:
+  - Megan Kinniment
+  - Lucas Jun Koba Sato
+  - Haoxing Du
+  - Brian Goodrich
+  - Max Hasin
+  - Lawrence Chan
+  - Luke Harold Miles
+  - Tao R. Lin
+  - Hjalmar Wijk
+  - Joel Burget
+  - Aaron Ho
+  - Elizabeth Barnes
+  - Paul Christiano
+  year: 2023
+  link: https://arxiv.org/abs/2312.11671
+  arxiv: '2312.11671'
+  category: evaluations
+  relevance: Early evaluation of whether language-model agents can acquire resources, replicate and adapt
+    autonomously.
+  status: queued
+  work: null
+- title: Model evaluation for extreme risks
+  authors:
+  - Toby Shevlane
+  - Sebastian Farquhar
+  - Ben Garfinkel
+  - Mary Phuong
+  - Jess Whittlestone
+  - Jade Leung
+  - Daniel Kokotajlo
+  - Nahema Marchal
+  - Markus Anderljung
+  - Noam Kolt
+  - Lewis Ho
+  - Divya Siddarth
+  - Shahar Avin
+  - Will Hawkins
+  - Been Kim
+  - Iason Gabriel
+  - Vijay Bolina
+  - Jack Clark
+  - Yoshua Bengio
+  - Paul Christiano
+  - Allan Dafoe
+  year: 2023
+  link: https://arxiv.org/abs/2305.15324
+  arxiv: '2305.15324'
+  category: evaluations
+  relevance: Argues that evaluating dangerous capabilities and alignment is central to governing frontier
+    models, and sets out how.
+  status: queued
+  work: null
+- title: 'Taken out of context: On measuring situational awareness in LLMs'
+  authors:
+  - Lukas Berglund
+  - Asa Cooper Stickland
+  - Mikita Balesni
+  - Max Kaufmann
+  - Meg Tong
+  - Tomasz Korbak
+  - Daniel Kokotajlo
+  - Owain Evans
+  year: 2023
+  link: https://arxiv.org/abs/2309.00667
+  arxiv: '2309.00667'
+  category: evaluations
+  relevance: Studies out-of-context reasoning as a precursor to situational awareness, with scaling experiments.
+  status: queued
+  work: null
+- title: 'AI Sandbagging: Language Models can Strategically Underperform on Evaluations'
+  authors:
+  - Teun van der Weij
+  - Felix Hofstätter
+  - Ollie Jaffe
+  - Samuel F. Brown
+  - Francis Rhys Ward
+  year: 2024
+  link: https://arxiv.org/abs/2406.07358
+  arxiv: '2406.07358'
+  category: evaluations
+  relevance: Shows models can be prompted or fine-tuned to underperform selectively on dangerous-capability
+    evaluations, undermining their reliability.
+  status: queued
+  work: null
+- title: 'Me, Myself, and AI: The Situational Awareness Dataset (SAD) for LLMs'
+  authors:
+  - Rudolf Laine
+  - Bilal Chughtai
+  - Jan Betley
+  - Kaivalya Hariharan
+  - Jeremy Scheurer
+  - Mikita Balesni
+  - Marius Hobbhahn
+  - Alexander Meinke
+  - Owain Evans
+  year: 2024
+  link: https://arxiv.org/abs/2407.04694
+  arxiv: '2407.04694'
+  category: evaluations
+  relevance: 'The Situational Awareness Dataset: a benchmark of whether models know facts about themselves
+    and their situation.'
+  status: queued
+  work: null
+- title: Measuring AI Ability to Complete Long Software Tasks
+  authors:
+  - Thomas Kwa
+  - Ben West
+  - Joel Becker
+  - Amy Deng
+  - Katharyn Garcia
+  - Max Hasin
+  - Sami Jawhar
+  - Megan Kinniment
+  - Nate Rush
+  - Sydney Von Arx
+  - Ryan Bloom
+  - Thomas Broadley
+  - Haoxing Du
+  - Brian Goodrich
+  - Nikola Jurkovic
+  - Luke Harold Miles
+  - Seraphina Nix
+  - Tao Lin
+  - Chris Painter
+  - Neev Parikh
+  - David Rein
+  - Lucas Jun Koba Sato
+  - Hjalmar Wijk
+  - Daniel M. Ziegler
+  - Elizabeth Barnes
+  - Lawrence Chan
+  year: 2025
+  link: https://arxiv.org/abs/2503.14499
+  arxiv: '2503.14499'
+  category: evaluations
+  relevance: Measures the length of tasks, in human time, that AI agents can complete, and finds it doubling
+    roughly every seven months.
+  status: queued
+  work: null
+- title: Towards Deep Learning Models Resistant to Adversarial Attacks
+  authors:
+  - Aleksander Madry
+  - Aleksandar Makelov
+  - Ludwig Schmidt
+  - Dimitris Tsipras
+  - Adrian Vladu
+  year: 2017
+  link: https://arxiv.org/abs/1706.06083
+  arxiv: '1706.06083'
+  category: robustness
+  relevance: Frames adversarial robustness as robust optimization and introduces PGD adversarial training.
+  status: queued
+  work: null
+- title: Adversarial Examples Are Not Bugs, They Are Features
+  authors:
+  - Andrew Ilyas
+  - Shibani Santurkar
+  - Dimitris Tsipras
+  - Logan Engstrom
+  - Brandon Tran
+  - Aleksander Madry
+  year: 2019
+  link: https://arxiv.org/abs/1905.02175
+  arxiv: '1905.02175'
+  category: robustness
+  relevance: Argues adversarial vulnerability comes from predictive but non-robust features in the data.
+  status: queued
+  work: null
+- title: Adversarial Policies Beat Superhuman Go AIs
+  authors:
+  - Tony T. Wang
+  - Adam Gleave
+  - Tom Tseng
+  - Kellin Pelrine
+  - Nora Belrose
+  - Joseph Miller
+  - Michael D. Dennis
+  - Yawen Duan
+  - Viktor Pogrebniak
+  - Sergey Levine
+  - Stuart Russell
+  year: 2022
+  link: https://arxiv.org/abs/2211.00241
+  arxiv: '2211.00241'
+  category: robustness
+  relevance: Shows a superhuman Go program can be beaten by simple adversarial strategies, so strong capability
+    does not imply robustness.
+  status: queued
+  work: null
+- title: Red Teaming Language Models with Language Models
+  authors:
+  - Ethan Perez
+  - Saffron Huang
+  - Francis Song
+  - Trevor Cai
+  - Roman Ring
+  - John Aslanides
+  - Amelia Glaese
+  - Nat McAleese
+  - Geoffrey Irving
+  year: 2022
+  link: https://arxiv.org/abs/2202.03286
+  arxiv: '2202.03286'
+  category: robustness
+  relevance: Uses language models to generate test cases that find harmful behaviour in other models at
+    scale.
+  status: queued
+  work: null
+- title: 'Jailbroken: How Does LLM Safety Training Fail?'
+  authors:
+  - Alexander Wei
+  - Nika Haghtalab
+  - Jacob Steinhardt
+  year: 2023
+  link: https://arxiv.org/abs/2307.02483
+  arxiv: '2307.02483'
+  category: robustness
+  relevance: 'Explains jailbreaks through two failure modes of safety training: competing objectives and
+    mismatched generalization.'
+  status: queued
+  work: null
+- title: Universal and Transferable Adversarial Attacks on Aligned Language Models
+  authors:
+  - Andy Zou
+  - Zifan Wang
+  - Nicholas Carlini
+  - Milad Nasr
+  - J. Zico Kolter
+  - Matt Fredrikson
+  year: 2023
+  link: https://arxiv.org/abs/2307.15043
+  arxiv: '2307.15043'
+  category: robustness
+  relevance: Automatically finds adversarial suffixes that bypass safety training and transfer across
+    models.
+  status: queued
+  work: null
+- title: 'The Malicious Use of Artificial Intelligence: Forecasting, Prevention, and Mitigation'
+  authors:
+  - Miles Brundage
+  - Shahar Avin
+  - Jack Clark
+  - Helen Toner
+  - Peter Eckersley
+  - Ben Garfinkel
+  - Allan Dafoe
+  - Paul Scharre
+  - Thomas Zeitzoff
+  - Bobby Filar
+  - Hyrum Anderson
+  - Heather Roff
+  - Gregory C. Allen
+  - Jacob Steinhardt
+  - Carrick Flynn
+  - Seán Ó hÉigeartaigh
+  - SJ Beard
+  - Haydn Belfield
+  - Sebastian Farquhar
+  - Clare Lyle
+  - Rebecca Crootof
+  - Owain Evans
+  - Michael Page
+  - Joanna Bryson
+  - Roman Yampolskiy
+  - Dario Amodei
+  year: 2018
+  link: https://arxiv.org/abs/1802.07228
+  arxiv: '1802.07228'
+  category: dangerous-capabilities
+  relevance: An early, influential survey of how AI could be misused across digital, physical and political
+    security.
+  status: queued
+  work: null
+- title: Evaluating Frontier Models for Dangerous Capabilities
+  authors:
+  - Mary Phuong
+  - Matthew Aitchison
+  - Elliot Catt
+  - Sarah Cogan
+  - Alexandre Kaskasoli
+  - Victoria Krakovna
+  - David Lindner
+  - Matthew Rahtz
+  - Yannis Assael
+  - Sarah Hodkinson
+  - Heidi Howard
+  - Tom Lieberum
+  - Ramana Kumar
+  - Maria Abi Raad
+  - Albert Webson
+  - Lewis Ho
+  - Sharon Lin
+  - Sebastian Farquhar
+  - Marcus Hutter
+  - Gregoire Deletang
+  - Anian Ruoss
+  - Seliem El-Sayed
+  - Sasha Brown
+  - Anca Dragan
+  - Rohin Shah
+  - Allan Dafoe
+  - Toby Shevlane
+  year: 2024
+  link: https://arxiv.org/abs/2403.13793
+  arxiv: '2403.13793'
+  category: dangerous-capabilities
+  relevance: A suite of evaluations for persuasion, cyber-offence, self-proliferation and self-reasoning
+    applied to frontier models.
+  status: queued
+  work: null
+- title: 'The WMDP Benchmark: Measuring and Reducing Malicious Use With Unlearning'
+  authors:
+  - Nathaniel Li
+  - Alexander Pan
+  - Anjali Gopal
+  - Summer Yue
+  - Daniel Berrios
+  - Alice Gatti
+  - Justin D. Li
+  - Ann-Kathrin Dombrowski
+  - Shashwat Goel
+  - Long Phan
+  - Gabriel Mukobi
+  - Nathan Helm-Burger
+  - Rassin Lababidi
+  - Lennart Justen
+  - Andrew B. Liu
+  - Michael Chen
+  - Isabelle Barrass
+  - Oliver Zhang
+  - Xiaoyuan Zhu
+  - Rishub Tamirisa
+  - Bhrugu Bharathi
+  - Adam Khoja
+  - Zhenqi Zhao
+  - Ariel Herbert-Voss
+  - Cort B. Breuer
+  - Samuel Marks
+  - Oam Patel
+  - Andy Zou
+  - Mantas Mazeika
+  - Zifan Wang
+  - Palash Oswal
+  - Weiran Lin
+  - Adam A. Hunt
+  - Justin Tienken-Harder
+  - Kevin Y. Shih
+  - Kemper Talley
+  - John Guan
+  - Russell Kaplan
+  - Ian Steneker
+  - David Campbell
+  - Brad Jokubaitis
+  - Alex Levinson
+  - Jean Wang
+  - William Qian
+  - Kallol Krishna Karmakar
+  - Steven Basart
+  - Stephen Fitz
+  - Mindy Levine
+  - Ponnurangam Kumaraguru
+  - Uday Tupakula
+  - Vijay Varadharajan
+  - Ruoyu Wang
+  - Yan Shoshitaishvili
+  - Jimmy Ba
+  - Kevin M. Esvelt
+  - Alexandr Wang
+  - Dan Hendrycks
+  year: 2024
+  link: https://arxiv.org/abs/2403.03218
+  arxiv: '2403.03218'
+  category: dangerous-capabilities
+  relevance: A proxy benchmark for hazardous biosecurity, cyber and chemical knowledge, with an unlearning
+    method to reduce it.
+  status: queued
+  work: null
+- title: Unsolved Problems in ML Safety
+  authors:
+  - Dan Hendrycks
+  - Nicholas Carlini
+  - John Schulman
+  - Jacob Steinhardt
+  year: 2021
+  link: https://arxiv.org/abs/2109.13916
+  arxiv: '2109.13916'
+  category: catastrophic-risk
+  relevance: A roadmap of technical problems in robustness, monitoring, alignment and systemic safety.
+  status: queued
+  work: null
+- title: An Overview of Catastrophic AI Risks
+  authors:
+  - Dan Hendrycks
+  - Mantas Mazeika
+  - Thomas Woodside
+  year: 2023
+  link: https://arxiv.org/abs/2306.12001
+  arxiv: '2306.12001'
+  category: catastrophic-risk
+  relevance: Organizes catastrophic risks into malicious use, AI races, organizational risks and rogue
+    AIs.
+  status: queued
+  work: null
+- title: Managing extreme AI risks amid rapid progress
+  authors:
+  - Yoshua Bengio
+  - Geoffrey Hinton
+  - Andrew Yao
+  - Dawn Song
+  - Pieter Abbeel
+  - Trevor Darrell
+  - Yuval Noah Harari
+  - Ya-Qin Zhang
+  - Lan Xue
+  - Shai Shalev-Shwartz
+  - Gillian Hadfield
+  - Jeff Clune
+  - Tegan Maharaj
+  - Frank Hutter
+  - Atılım Güneş Baydin
+  - Sheila McIlraith
+  - Qiqi Gao
+  - Ashwin Acharya
+  - David Krueger
+  - Anca Dragan
+  - Philip Torr
+  - Stuart Russell
+  - Daniel Kahneman
+  - Jan Brauner
+  - Sören Mindermann
+  year: 2023
+  link: https://arxiv.org/abs/2310.17688
+  arxiv: '2310.17688'
+  category: catastrophic-risk
+  relevance: A consensus statement by leading researchers on risks from advanced AI and the technical
+    and governance responses needed.
+  status: queued
+  work: null
+- title: Thousands of AI Authors on the Future of AI
+  authors:
+  - Katja Grace
+  - Harlan Stewart
+  - Julia Fabienne Sandkühler
+  - Stephen Thomas
+  - Ben Weinstein-Raun
+  - Jan Brauner
+  - Richard C. Korzekwa
+  year: 2024
+  link: https://arxiv.org/abs/2401.02843
+  arxiv: '2401.02843'
+  category: catastrophic-risk
+  relevance: A large survey of machine learning researchers' forecasts, including their views on the probability
+    of extremely bad outcomes.
+  status: queued
+  work: null
+- title: 'Gradual Disempowerment: Systemic Existential Risks from Incremental AI Development'
+  authors:
+  - Jan Kulveit
+  - Raymond Douglas
+  - Nora Ammann
+  - Deger Turan
+  - David Krueger
+  - David Duvenaud
+  year: 2025
+  link: https://arxiv.org/abs/2501.16946
+  arxiv: '2501.16946'
+  category: catastrophic-risk
+  relevance: Argues incremental AI adoption could erode human influence over societal systems without
+    any single catastrophic event.
+  status: queued
+  work: null
+- title: International AI Safety Report
+  authors:
+  - Yoshua Bengio
+  - Sören Mindermann
+  - Daniel Privitera
+  - Tamay Besiroglu
+  - Rishi Bommasani
+  - Stephen Casper
+  - Yejin Choi
+  - Philip Fox
+  - Ben Garfinkel
+  - Danielle Goldfarb
+  - Hoda Heidari
+  - Anson Ho
+  - Sayash Kapoor
+  - Leila Khalatbari
+  - Shayne Longpre
+  - Sam Manning
+  - Vasilios Mavroudis
+  - Mantas Mazeika
+  - Julian Michael
+  - Jessica Newman
+  - Kwan Yee Ng
+  - Chinasa T. Okolo
+  - Deborah Raji
+  - Girish Sastry
+  - Elizabeth Seger
+  - Theodora Skeadas
+  - Tobin South
+  - Emma Strubell
+  - Florian Tramèr
+  - Lucia Velasco
+  - Nicole Wheeler
+  - Daron Acemoglu
+  - Olubayo Adekanmbi
+  - David Dalrymple
+  - Thomas G. Dietterich
+  - Edward W. Felten
+  - Pascale Fung
+  - Pierre-Olivier Gourinchas
+  - Fredrik Heintz
+  - Geoffrey Hinton
+  - Nick Jennings
+  - Andreas Krause
+  - Susan Leavy
+  - Percy Liang
+  - Teresa Ludermir
+  - Vidushi Marda
+  - Helen Margetts
+  - John McDermid
+  - Jane Munga
+  - Arvind Narayanan
+  - Alondra Nelson
+  - Clara Neppel
+  - Alice Oh
+  - Gopal Ramchurn
+  - Stuart Russell
+  - Marietje Schaake
+  - Bernhard Schölkopf
+  - Dawn Song
+  - Alvaro Soto
+  - Lee Tiedrich
+  - Gaël Varoquaux
+  - Andrew Yao
+  - Ya-Qin Zhang
+  - Fahad Albalawi
+  - Marwan Alserkal
+  - Olubunmi Ajala
+  - Guillaume Avrin
+  - Christian Busch
+  - André Carlos Ponce de Leon Ferreira de Carvalho
+  - Bronwyn Fox
+  - Amandeep Singh Gill
+  - Ahmet Halit Hatip
+  - Juha Heikkilä
+  - Gill Jolly
+  - Ziv Katzir
+  - Hiroaki Kitano
+  - Antonio Krüger
+  - Chris Johnson
+  - Saif M. Khan
+  - Kyoung Mu Lee
+  - Dominic Vincent Ligot
+  - Oleksii Molchanovskyi
+  - Andrea Monti
+  - Nusu Mwamanzi
+  - Mona Nemer
+  - Nuria Oliver
+  - José Ramón López Portillo
+  - Balaraman Ravindran
+  - Raquel Pezoa Rivera
+  - Hammam Riza
+  - Crystal Rugege
+  - Ciarán Seoighe
+  - Jerry Sheehan
+  - Haroon Sheikh
+  - Denise Wong
+  - Yi Zeng
+  year: 2025
+  link: https://arxiv.org/abs/2501.17805
+  arxiv: '2501.17805'
+  category: catastrophic-risk
+  relevance: A scientific assessment of general-purpose AI capabilities and risks by an international
+    panel of experts.
+  status: queued
+  work: null
+- title: 'Toward Trustworthy AI Development: Mechanisms for Supporting Verifiable Claims'
+  authors:
+  - Miles Brundage
+  - Shahar Avin
+  - Jasmine Wang
+  - Haydn Belfield
+  - Gretchen Krueger
+  - Gillian Hadfield
+  - Heidy Khlaaf
+  - Jingying Yang
+  - Helen Toner
+  - Ruth Fong
+  - Tegan Maharaj
+  - Pang Wei Koh
+  - Sara Hooker
+  - Jade Leung
+  - Andrew Trask
+  - Emma Bluemke
+  - Jonathan Lebensold
+  - Cullen O'Keefe
+  - Mark Koren
+  - Théo Ryffel
+  - JB Rubinovitz
+  - Tamay Besiroglu
+  - Federica Carugati
+  - Jack Clark
+  - Peter Eckersley
+  - Sarah de Haas
+  - Maritza Johnson
+  - Ben Laurie
+  - Alex Ingerman
+  - Igor Krawczuk
+  - Amanda Askell
+  - Rosario Cammarota
+  - Andrew Lohn
+  - David Krueger
+  - Charlotte Stix
+  - Peter Henderson
+  - Logan Graham
+  - Carina Prunkl
+  - Bianca Martin
+  - Elizabeth Seger
+  - Noa Zilberman
+  - Seán Ó hÉigeartaigh
+  - Frens Kroeger
+  - Girish Sastry
+  - Rebecca Kagan
+  - Adrian Weller
+  - Brian Tse
+  - Elizabeth Barnes
+  - Allan Dafoe
+  - Paul Scharre
+  - Ariel Herbert-Voss
+  - Martijn Rasser
+  - Shagun Sodhani
+  - Carrick Flynn
+  - Thomas Krendl Gilbert
+  - Lisa Dyer
+  - Saif Khan
+  - Yoshua Bengio
+  - Markus Anderljung
+  year: 2020
+  link: https://arxiv.org/abs/2004.07213
+  arxiv: '2004.07213'
+  category: governance
+  relevance: Mechanisms such as audits, red-teaming and bounties that let developers make verifiable claims
+    about AI safety.
+  status: queued
+  work: null
+- title: 'Frontier AI Regulation: Managing Emerging Risks to Public Safety'
+  authors:
+  - Markus Anderljung
+  - Joslyn Barnhart
+  - Anton Korinek
+  - Jade Leung
+  - Cullen O'Keefe
+  - Jess Whittlestone
+  - Shahar Avin
+  - Miles Brundage
+  - Justin Bullock
+  - Duncan Cass-Beggs
+  - Ben Chang
+  - Tantum Collins
+  - Tim Fist
+  - Gillian Hadfield
+  - Alan Hayes
+  - Lewis Ho
+  - Sara Hooker
+  - Eric Horvitz
+  - Noam Kolt
+  - Jonas Schuett
+  - Yonadav Shavit
+  - Divya Siddarth
+  - Robert Trager
+  - Kevin Wolf
+  year: 2023
+  link: https://arxiv.org/abs/2307.03718
+  arxiv: '2307.03718'
+  category: governance
+  relevance: Proposes standards, registration and compliance mechanisms for frontier models based on their
+    dangerous capabilities.
+  status: queued
+  work: null
+- title: Computing Power and the Governance of Artificial Intelligence
+  authors:
+  - Girish Sastry
+  - Lennart Heim
+  - Haydn Belfield
+  - Markus Anderljung
+  - Miles Brundage
+  - Julian Hazell
+  - Cullen O'Keefe
+  - Gillian K. Hadfield
+  - Richard Ngo
+  - Konstantin Pilz
+  - George Gor
+  - Emma Bluemke
+  - Sarah Shoker
+  - Janet Egan
+  - Robert F. Trager
+  - Shahar Avin
+  - Adrian Weller
+  - Yoshua Bengio
+  - Diane Coyle
+  year: 2024
+  link: https://arxiv.org/abs/2402.08797
+  arxiv: '2402.08797'
+  category: governance
+  relevance: Explains why compute is a practical lever for AI governance and what technical mechanisms
+    that requires.
+  status: queued
+  work: null
+- title: Open Problems in Technical AI Governance
+  authors:
+  - Anka Reuel
+  - Ben Bucknall
+  - Stephen Casper
+  - Tim Fist
+  - Lisa Soder
+  - Onni Aarne
+  - Lewis Hammond
+  - Lujain Ibrahim
+  - Alan Chan
+  - Peter Wills
+  - Markus Anderljung
+  - Ben Garfinkel
+  - Lennart Heim
+  - Andrew Trask
+  - Gabriel Mukobi
+  - Rylan Schaeffer
+  - Mauricio Baker
+  - Sara Hooker
+  - Irene Solaiman
+  - Alexandra Sasha Luccioni
+  - Nitarshan Rajkumar
+  - Nicolas Moës
+  - Jeffrey Ladish
+  - David Bau
+  - Paul Bricman
+  - Neel Guha
+  - Jessica Newman
+  - Yoshua Bengio
+  - Tobin South
+  - Alex Pentland
+  - Sanmi Koyejo
+  - Mykel J. Kochenderfer
+  - Robert Trager
+  year: 2024
+  link: https://arxiv.org/abs/2407.14981
+  arxiv: '2407.14981'
+  category: governance
+  relevance: 'Maps the technical research governance depends on: assessment, access, verification, security
+    and operationalization.'
+  status: queued
+  work: null

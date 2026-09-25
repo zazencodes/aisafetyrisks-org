@@ -1,0 +1,27 @@
+slug: goal-misgeneralization-in-deep-reinforcement-learning
+title: Goal Misgeneralization in Deep Reinforcement Learning
+authors:
+- Lauro Langosco
+- Jack Koch
+- Lee Sharkey
+- Jacob Pfau
+- Laurent Orseau
+- David Krueger
+published: '2021-05-28'
+venue: ICML 2022
+url: https://arxiv.org/abs/2105.14111v7
+pdf_url: https://arxiv.org/pdf/2105.14111v7
+arxiv_id: 2105.14111v7
+doi: null
+abstract: We study goal misgeneralization, a type of out-of-distribution generalization failure in reinforcement
+  learning (RL). Goal misgeneralization failures occur when an RL agent retains its capabilities out-of-distribution
+  yet pursues the wrong goal. For instance, an agent might continue to competently avoid obstacles, but
+  navigate to the wrong place. In contrast, previous works have typically focused on capability generalization
+  failures, where an agent fails to do anything sensible at test time. We formalize this distinction between
+  capability and goal generalization, provide the first empirical demonstrations of goal misgeneralization,
+  and present a partial characterization of its causes.
+source:
+  input: '2105.14111'
+  retrieved_on: '2026-09-25'
+  sha256: c156771fa2f9b5fa923765cffba243a98476b784bb59156fa9795960ffb89484
+  pages: 16

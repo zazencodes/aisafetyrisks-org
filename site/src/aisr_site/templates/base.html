@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% set page_title = page_title|default(site.name ~ " — " ~ site.tagline) %}
+  {% set page_description = page_description|default(site.description) %}
+  {% set page_image = page_image|default(base ~ "/og-default.png") %}
+  {% set og_type = og_type|default("website") %}
+  <title>{{ page_title }}</title>
+  <meta name="description" content="{{ page_description }}">
+  <link rel="canonical" href="{{ base }}{{ path }}">
+  {% if noindex|default(false) %}<meta name="robots" content="noindex">{% endif %}
+  <meta property="og:site_name" content="{{ site.name }}">
+  <meta property="og:type" content="{{ og_type }}">
+  <meta property="og:title" content="{{ page_title }}">
+  <meta property="og:description" content="{{ page_description }}">
+  <meta property="og:url" content="{{ base }}{{ path }}">
+  <meta property="og:image" content="{{ page_image }}">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page_title }}">
+  <meta name="twitter:description" content="{{ page_description }}">
+  <meta name="twitter:image" content="{{ page_image }}">
+  <meta name="theme-color" content="#f8f7f3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15171a" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="alternate" type="application/rss+xml" title="{{ site.name }}" href="/feed.xml">
+  <link rel="preload" href="/static/fonts/charter_regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="{{ css_url }}">
+  {% block head_extra %}{% endblock %}
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  {% block banner %}{% endblock %}
+  <header class="site-header">
+    <div class="wrap">
+      <a class="wordmark" href="/">AI Safety <span>Risks</span></a>
+      <nav class="nav" aria-label="Primary">
+        {% for href, label in [("/", "Explainers"), ("/ai-safety/", "What is AI safety?"), ("/about/", "About"), ("/support/", "Support")] %}
+        <a href="{{ href }}"{% if path == href %} aria-current="page"{% endif %}>{{ label }}</a>
+        {% endfor %}
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+  {% block main %}{% endblock %}
+  </main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>{{ site.name }} publishes source-grounded explanations of AI safety research. Every factual claim links to the passage in the original paper it comes from. Design adapted from the <a href="https://shikun.io/projects/clarity">Clarity template</a> by Shikun Liu.</p>
+      <nav aria-label="Footer">
+        <a href="/feed.xml">RSS</a>
+        {% if site.youtube_channel_url %}<a href="{{ site.youtube_channel_url }}">YouTube</a>{% endif %}
+        <a href="/about/">About</a>
+        <a href="/support/">Support</a>
+      </nav>
+    </div>
+  </footer>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

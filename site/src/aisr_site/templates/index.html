@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block main %}
+<div class="band">
+  <div class="wrap intro">
+    <p class="eyebrow">{{ site.tagline }}</p>
+    <h1>Animated explanations of the research behind AI safety.</h1>
+    <p>Each explainer takes one paper and shows how it works: the setup, the mechanism, the evidence, and the limits of what it shows. Every claim is tied to the passage in the paper that supports it.</p>
+  </div>
+</div>
+<div class="wrap feed">
+  {% if not works %}
+  <p class="empty">The first explainers are in preparation.</p>
+  {% endif %}
+  {% set ns = namespace(year=None) %}
+  {% for lw in works %}
+    {% set w = lw.work %}
+    {% set y = w.published_on.year if w.published_on else "Drafts" %}
+    {% if y != ns.year %}
+      {% if ns.year is not none %}</ol>{% endif %}
+      <h2 class="feed-year">{{ y }}</h2>
+      <ol>
+      {% set ns.year = y %}
+    {% endif %}
+    <li class="entry">
+      <a class="cover" href="/works/{{ lw.slug }}/" tabindex="-1" aria-hidden="true">
+        <img class="glow" src="/works/{{ lw.slug }}/{{ w.thumbnail }}" alt="" loading="lazy">
+        <img src="/works/{{ lw.slug }}/{{ w.thumbnail }}" alt="" loading="lazy" width="1280" height="720">
+      </a>
+      <div>
+        <p class="eyebrow">{% if w.published_on %}<time datetime="{{ w.published_on.isoformat() }}">{{ w.published_on|date }}</time><span class="sep">·</span>{% endif %}{{ w.category.label }}</p>
+        <h2><a href="/works/{{ lw.slug }}/">{{ w.title }}</a>{% if w.status == "draft" %}<span class="draft-flag">Draft</span>{% endif %}</h2>
+        <p class="dek">{{ w.dek }}</p>
+        <p class="source">Explains <i>{{ w.paper.title }}</i> — {{ w.paper.authors|authors }}, {{ w.paper.published.year }}</p>
+      </div>
+    </li>
+  {% endfor %}
+  {% if ns.year is not none %}</ol>{% endif %}
+</div>
+{% endblock %}

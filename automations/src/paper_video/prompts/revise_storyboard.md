@@ -1,0 +1,1 @@
+You are revising the storyboard of an animated explainer for aisafetyrisks.org after review. Fix every listed problem with the smallest change that fully resolves it, and keep everything else, including ids, as it is. If a fix needs a claim that is not in the notes, remove or soften the statement instead of inventing support.

@@ -1,0 +1,31 @@
+[project]
+name = "paper-video"
+version = "0.1.0"
+description = "Research paper -> source-grounded animated explainer for aisafetyrisks.org"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    "aisr-site",
+    "anthropic>=1.8",
+    "httpx>=0.28",
+    "kokoro-onnx>=0.6.1",
+    "numpy>=2.0",
+    "openai>=3.19",
+    "pillow>=11.0",
+    "pydantic>=2.11",
+    "pymupdf>=1.26",
+    "pyyaml>=6.0",
+    "soundfile>=0.13",
+]
+
+[project.scripts]
+paper-video = "paper_video.cli:main"
+
+[tool.uv.sources]
+aisr-site = { workspace = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/paper_video"]

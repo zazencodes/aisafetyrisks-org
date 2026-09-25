@@ -1,0 +1,22 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+node_modules/
+.wrangler/
+.DS_Store
+.env
+.dev.vars
+
+site/dist/
+
+# Paper sources are re-fetchable (URL + sha256 in paper.yaml) and often not redistributable.
+automations/works/*/source/
+# Binary and derived pipeline outputs. Text artifacts (YAML, scene code, checks) are versioned.
+automations/works/*/audio/
+automations/works/*/render/
+automations/works/*/frames/
+automations/works/*/out/
+
+# Local mirror of the R2 media bucket (same object keys as production).
+automations/media/

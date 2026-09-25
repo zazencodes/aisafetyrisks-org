@@ -1,0 +1,8 @@
+name: AI Safety Risks
+tagline: Explaining AI safety research
+description: >-
+  Animated, source-grounded explanations of AI safety research. Each explainer shows how a
+  paper works and what it does and does not show, with every claim linked to the original text.
+base_url: https://aisafetyrisks.org
+media_base_url: https://media.aisafetyrisks.org
+youtube_channel_url: null
