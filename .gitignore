@@ -17,6 +17,8 @@ automations/works/*/audio/
 automations/works/*/render/
 automations/works/*/frames/
 automations/works/*/out/
+automations/works/*/briefs/
 
 # Local mirror of the R2 media bucket (same object keys as production).
 automations/media/
+media/

@@ -1,15 +1,9 @@
-"""Run generated Manim code in a locked-down container.
-
-Generated code is untrusted. It is statically checked, then rendered in the pinned
-Manim image with: no network, read-only root filesystem, all capabilities dropped,
-no privilege escalation, CPU/memory/process limits, the host user's uid, and only
-these mounts: the kit and fonts (read-only), the work directory's scenes and audio
-(read-only) and its render directory (the only writable path).
-"""
+"""Statically check scene code and render it with the workspace's Manim installation."""
 
 import ast
 import os
 import subprocess
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -80,37 +74,28 @@ def render(wd: WorkDir, cfg: RenderConfig, scene_file: Path, class_name: str, st
     wd.render.mkdir(parents=True, exist_ok=True)
     wd.audio.mkdir(parents=True, exist_ok=True)
     rel = scene_file.relative_to(wd.scenes)
+    media = wd.render / "media" / rel.stem
     cmd = [
-        "docker", "run", "--rm",
-        "--network", "none",
-        "--read-only", "--tmpfs", "/tmp:rw,size=1g",
-        "--cap-drop", "ALL", "--security-opt", "no-new-privileges",
-        "--cpus", str(cfg.cpus), "--memory", cfg.memory, "--pids-limit", "512",
-        "--user", f"{os.getuid()}:{os.getgid()}",
-        "-e", "HOME=/tmp", "-e", "PYTHONPATH=/opt/kit", "-e", "PYTHONDONTWRITEBYTECODE=1",
-        "-v", f"{KIT}:/opt/kit:ro",
-        "-v", f"{KIT / 'fonts'}:/usr/local/share/fonts/aisr:ro",
-        "-v", f"{wd.scenes}:/work/scenes:ro",
-        "-v", f"{wd.audio}:/work/audio:ro",
-        "-v", f"{wd.render}:/work/render:rw",
-        "-w", "/work",
-        cfg.image,
-        "manim", "render",
+        sys.executable, "-m", "manim", "render",
         "-r", f"{width},{height}",
         "--progress_bar", "none",
-        "--media_dir", "/work/render/media",
+        "--media_dir", str(media),
     ]
     if still:
         cmd += ["-s", "--format", "png"]
     else:
         cmd += ["--frame_rate", str(cfg.frame_rate)]
-    cmd += [f"scenes/{rel}", class_name]
+    cmd += [str(wd.scenes / rel), class_name]
+    env = os.environ.copy()
+    env["PYTHONPATH"] = str(KIT)
+    env["PYTHONDONTWRITEBYTECODE"] = "1"
+    env["AISR_CONTEXT"] = str(wd.render / "context.json")
+    env["AISR_REPORTS"] = str(wd.render / "reports")
     try:
-        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=3600)
+        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=3600, cwd=wd.root, env=env)
     except subprocess.TimeoutExpired:
         return RenderResult(False, "render timed out after 3600s", None)
     log = proc.stdout + proc.stderr
-    media = wd.render / "media"
     if still:
         found = sorted((media / "images" / rel.stem).glob(f"{class_name}*.png"), key=lambda p: p.stat().st_mtime)
     else:

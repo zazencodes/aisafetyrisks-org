@@ -91,13 +91,24 @@ class WorkDir:
     def scene_file(self, scene_id: str) -> Path:
         return self.scenes / f"{scene_id}.py"
 
+    def visual_review(self, scene_id: str) -> Path:
+        return self.root / "visual-reviews" / f"{scene_id}.yaml"
+
     @property
     def thumbnail_scene(self) -> Path:
         return self.scenes / "thumbnail.py"
 
     @property
+    def site_draft(self) -> Path:
+        return self.root / "site.yaml"
+
+    @property
     def youtube(self) -> Path:
         return self.root / "youtube.yaml"
+
+    @property
+    def youtube_copy(self) -> Path:
+        return self.root / "youtube-copy.yaml"
 
     @property
     def checks(self) -> Path:
@@ -119,6 +130,10 @@ class WorkDir:
     @property
     def out(self) -> Path:
         return self.root / "out"
+
+    @property
+    def briefs(self) -> Path:
+        return self.root / "briefs"
 
     def pages(self) -> list[str]:
         """Extracted text of each PDF page; index 0 is page 1."""

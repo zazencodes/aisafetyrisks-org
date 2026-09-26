@@ -23,6 +23,7 @@ from manim import (
     Axes,
     Circle,
     Dot,
+    DashedLine,
     GrowFromEdge,
     Line,
     Rectangle,
@@ -33,6 +34,7 @@ from manim import (
 )
 
 from aisr_kit.style import (
+    AMBER,
     BLUE,
     FAINT,
     INK,
@@ -45,6 +47,8 @@ from aisr_kit.style import (
     SANS,
     SERIF,
     SOFT,
+    TEAL,
+    ROSE,
 )
 
 SAFE_WIDTH = 13.0
@@ -165,6 +169,71 @@ def Panel(width: float, height: float, color: str = FAINT) -> RoundedRectangle:
     """A quiet background panel to group related elements."""
     return RoundedRectangle(corner_radius=0.18, width=width, height=height, stroke_color=color,
                             stroke_width=1.5, fill_color=PANEL, fill_opacity=0.9)
+
+
+ROUTE_ITEMS = (
+    "The CoinRun puzzle",
+    "Define and test",
+    "Four environments",
+    "Training diversity",
+    "Actor and critic",
+    "Meaning and limits",
+)
+
+
+def Roadmap(stage: int, complete: bool = False) -> VGroup:
+    """The recurring six-step checklist. Checks are separate for a staggered reveal."""
+    if not 0 <= stage < len(ROUTE_ITEMS):
+        raise ValueError(f"invalid roadmap stage {stage}")
+    frame = Panel(9.2, 5.65).move_to([-1.75, 0, 0])
+    heading = Serif("Our route", size=39).move_to([-4.7, 2.34, 0])
+    rows = VGroup()
+    checks = VGroup()
+    for i, label in enumerate(ROUTE_ITEMS):
+        y = 1.52 - i * 0.75
+        is_active = i == stage and not complete
+        done = i < stage or complete
+        if is_active:
+            highlight = RoundedRectangle(corner_radius=0.12, width=8.55, height=0.65,
+                                         stroke_color=AMBER, stroke_width=1.6,
+                                         fill_color=AMBER, fill_opacity=0.1).move_to([-1.75, y, 0])
+        else:
+            highlight = RoundedRectangle(corner_radius=0.12, width=8.55, height=0.65,
+                                         stroke_color=FAINT, stroke_width=0.8,
+                                         fill_color=PANEL, fill_opacity=0.2).move_to([-1.75, y, 0])
+        marker = Circle(radius=0.13, stroke_color=TEAL if done else AMBER if is_active else MUTED,
+                        stroke_width=2, fill_color=PANEL, fill_opacity=1).move_to([-5.47, y, 0])
+        txt = T(label, size=28, color=INK if is_active else SOFT if done else MUTED,
+                weight=MEDIUM if is_active else None)
+        txt.move_to([-3.33, y, 0], aligned_edge=LEFT)
+        rows.add(VGroup(highlight, marker, txt))
+        if done:
+            x = -5.47
+            check = VGroup(
+                Line([x - 0.08, y, 0], [x - 0.01, y - 0.07, 0], color=TEAL, stroke_width=3),
+                Line([x - 0.01, y - 0.07, 0], [x + 0.12, y + 0.09, 0], color=TEAL, stroke_width=3),
+            )
+            checks.add(check)
+    group = VGroup(frame, heading, rows, checks)
+    group.card = VGroup(frame, heading, rows)
+    group.checks = checks
+    return group
+
+
+def RoadmapMotif() -> VGroup:
+    """A compact CoinRun reminder beside the recurring checklist."""
+    panel = Panel(3.15, 5.65).move_to([4.65, 0, 0])
+    ground = Line([3.43, -0.82, 0], [5.9, -0.82, 0], color=FAINT, stroke_width=3)
+    block = Rectangle(width=0.34, height=0.4, stroke_color=MUTED, stroke_width=1.5,
+                      fill_color=MUTED, fill_opacity=0.35).move_to([4.48, -0.62, 0])
+    wall = Rectangle(width=0.12, height=1.25, stroke_color=MUTED, stroke_width=1.5,
+                     fill_color=MUTED, fill_opacity=0.45).move_to([5.78, -0.21, 0])
+    agent = Agent(color=TEAL, radius=0.19).move_to([3.69, -0.6, 0])
+    coin = Circle(radius=0.17, stroke_color=AMBER, stroke_width=2,
+                  fill_color=AMBER, fill_opacity=1).move_to([4.75, 0.03, 0])
+    proxy = DashedLine([3.69, -1.34, 0], [5.77, -1.34, 0],
+                       color=ROSE, stroke_width=3, dash_length=0.12)
+    return VGroup(panel, ground, block, wall, agent, coin, proxy)
 
 
 def Grid(rows: int, cols: int, cell: float = 0.6, color: str = FAINT, fill: str = PANEL) -> VGroup:

@@ -16,8 +16,8 @@ from pathlib import Path
 
 from manim import FadeOut, MathTex, Scene, SingleStringMathTex, Text, config
 
-CONTEXT = Path(os.environ.get("AISR_CONTEXT", "/work/render/context.json"))
-REPORTS = Path(os.environ.get("AISR_REPORTS", "/work/render/reports"))
+CONTEXT = Path(os.environ["AISR_CONTEXT"])
+REPORTS = Path(os.environ["AISR_REPORTS"])
 TEXT_TYPES = (Text, MathTex, SingleStringMathTex)
 
 

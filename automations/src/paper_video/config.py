@@ -2,8 +2,6 @@
 
 import tomllib
 from pathlib import Path
-from typing import Literal
-
 from pydantic import BaseModel, ConfigDict
 
 AUTOMATIONS = Path(__file__).resolve().parents[2]
@@ -20,11 +18,13 @@ class Section(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
 
-class LLMConfig(Section):
-    provider: Literal["claude-code", "anthropic", "openai"]
+class AgyConfig(Section):
     model: str
-    effort: Literal["low", "medium", "high", "xhigh", "max"]
     timeout_seconds: int
+
+
+class AuthoringConfig(Section):
+    model: str
 
 
 class TTSConfig(Section):
@@ -35,19 +35,10 @@ class TTSConfig(Section):
 
 
 class RenderConfig(Section):
-    image: str
     resolution: tuple[int, int]
     frame_rate: int
-    cpus: int
-    memory: str
     parallel_scenes: int
-    max_fix_attempts: int
-    visual_review_rounds: int
     beat_pause: float
-
-
-class ReviewConfig(Section):
-    max_revision_rounds: int
 
 
 class PublishConfig(Section):
@@ -56,10 +47,10 @@ class PublishConfig(Section):
 
 
 class Config(Section):
-    llm: LLMConfig
+    agy: AgyConfig
+    authoring: AuthoringConfig
     tts: TTSConfig
     render: RenderConfig
-    review: ReviewConfig
     publish: PublishConfig
 
 

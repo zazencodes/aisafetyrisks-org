@@ -1,19 +1,21 @@
-"""Stage: notes + storyboard -> a draft Work on the website, checked and reviewed."""
+"""Stage: the page draft (site.yaml) -> a draft Work on the website, checked for provenance.
+
+The draft is written in the session running the workflow, from `paper-video brief <slug> site`.
+"""
 
 import hashlib
 import re
 import shutil
+from importlib.metadata import version
 
 from aisr_site.schema import Chapter, Claim, Paper, Reference, Video, Work, claim_refs_in
 from pydantic import ValidationError
 
-from paper_video import __version__
+from paper_video import __version__, log
 from paper_video.config import MEDIA_MIRROR, SITE_WORKS, Config
-from paper_video.context import as_yaml, metadata_text, paper_header, system
-from paper_video.llm import Provider, generate
-from paper_video.models import Notes, PaperRecord, Storyboard, WorkDraft
+from paper_video.context import metadata_text
+from paper_video.models import Notes, PaperRecord, WorkDraft
 from paper_video.provenance import verify_work
-from paper_video.review import blocking, issues_text, science_review
 from paper_video.workdir import WorkDir, dump_yaml, load_model, save_json
 
 URL = re.compile(r"https?://[^\s<>\"')\]]+")
@@ -34,7 +36,7 @@ def video_key(wd: WorkDir) -> str:
 
 
 def assemble_work(draft: WorkDraft, record: PaperRecord, notes: Notes, timeline: dict, key: str,
-                  links: list[str], provider: Provider, cfg: Config, youtube_url) -> tuple[Work | None, list[str]]:
+                  links: list[str], cfg: Config, youtube_url) -> tuple[Work | None, list[str]]:
     errors = []
     notes_by_id = {c.id: c for c in notes.claims}
     cited = []
@@ -89,9 +91,9 @@ def assemble_work(draft: WorkDraft, record: PaperRecord, notes: Notes, timeline:
             thumbnail="thumbnail.jpg",
             production={
                 "pipeline": f"paper-video {__version__}",
-                "language_model": provider.name,
+                "language_model": cfg.authoring.model,
                 "narration": f"Kokoro-82M, voice {cfg.tts.voice}",
-                "animation": f"Manim Community ({cfg.render.image.rsplit(':', 1)[1]})",
+                "animation": f"Manim Community ({version('manim')})",
             },
         )
     except ValidationError as e:
@@ -99,51 +101,20 @@ def assemble_work(draft: WorkDraft, record: PaperRecord, notes: Notes, timeline:
     return work, []
 
 
-def write_site_work(wd: WorkDir, record: PaperRecord, notes: Notes, sb: Storyboard, timeline: dict,
-                    provider: Provider, cfg: Config, category_hint: str | None) -> Work:
+def write_site_work(wd: WorkDir, record: PaperRecord, notes: Notes, timeline: dict, cfg: Config) -> Work:
     pages = wd.pages()
-    links = paper_links(pages)
     key = video_key(wd)
     site_dir = SITE_WORKS / wd.slug
     existing = site_dir / "work.yaml"
-    youtube_url = None
-    if existing.exists():
-        youtube_url = load_model(existing, Work).video.youtube_url
+    youtube_url = load_model(existing, Work).video.youtube_url if existing.exists() else None
 
-    narration = "\n".join(f"[{s.id} {s.title}] " + " ".join(b.narration for b in s.beats) for s in sb.scenes)
-    base = (
-        f"{paper_header(record)}\n\n# Reading notes\n\n{as_yaml(notes)}\n\n"
-        f"# Narration of the video this page accompanies\n\n{narration}\n\n"
-        "# URLs printed in the paper\n\n" + ("\n".join(f"- {u}" for u in links) or "(none)")
-        + (f"\n\n# Category\n\nUse the category `{category_hint}`." if category_hint else "")
-    )
-    draft = generate(provider, system("site"), base, WorkDraft)
-    meta = metadata_text(record)
-
-    history = []
-    work = None
-    for round_ in range(cfg.review.max_revision_rounds + 1):
-        work, errors = assemble_work(draft, record, notes, timeline, key, links, provider, cfg, youtube_url)
-        if work is not None:
-            errors = verify_work(work, pages, meta).errors
-        if errors:
-            history.append({"round": round_, "provenance": errors})
-            if round_ == cfg.review.max_revision_rounds:
-                break
-            problems = "Automated check failures:\n- " + "\n- ".join(errors)
-        else:
-            review = science_review(provider, record, pages, notes, "web page",
-                                    dump_yaml(work.model_dump(mode="json", exclude={"claims", "video", "production"})))
-            history.append({"round": round_, "provenance": [], "review": review.model_dump(mode="json")})
-            if not blocking(review) or round_ == cfg.review.max_revision_rounds:
-                break
-            problems = issues_text(review)
-        prompt = f"{base}\n\n# Current page\n\n{as_yaml(draft)}\n\n# Problems to fix\n\n{problems}"
-        draft = generate(provider, system("revise_site") + "\n\n" + system("site"), prompt, WorkDraft)
-
-    save_json(wd.checks / "site.json", {"rounds": history})
-    if work is None or history[-1]["provenance"]:
-        raise RuntimeError("the page still fails provenance checks; see checks/site.json")
+    draft = load_model(wd.site_draft, WorkDraft)
+    work, errors = assemble_work(draft, record, notes, timeline, key, paper_links(pages), cfg, youtube_url)
+    if work is not None:
+        errors = verify_work(work, pages, metadata_text(record)).errors
+    save_json(wd.checks / "site.json", {"ok": not errors, "errors": errors})
+    if errors:
+        raise ValueError("the page fails provenance checks:\n- " + "\n- ".join(errors))
 
     site_dir.mkdir(parents=True, exist_ok=True)
     existing.write_text(dump_yaml(work.model_dump(mode="json", exclude_none=False)))
@@ -154,4 +125,5 @@ def write_site_work(wd: WorkDir, record: PaperRecord, notes: Notes, sb: Storyboa
     for old in mirror.parent.glob("video-*.mp4"):
         old.unlink()
     shutil.copy(wd.out / "video.mp4", mirror)
+    log(f"page ok: {existing} ({len(work.claims)} claims cited)")
     return work

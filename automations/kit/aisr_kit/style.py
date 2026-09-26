@@ -1,6 +1,13 @@
 """Visual identity shared by every explainer. Colors mirror the website's dark palette."""
 
+from pathlib import Path
+
+import manimpango
 from manim import NORMAL, Text, config
+
+for font_file in (Path(__file__).resolve().parents[1] / "fonts").glob("*.ttf"):
+    if not manimpango.register_font(str(font_file)):
+        raise RuntimeError(f"could not register font {font_file}")
 
 BG = "#111418"
 PANEL = "#1A1E24"

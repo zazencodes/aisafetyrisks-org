@@ -1,38 +1,61 @@
-"""paper-video: turn an AI safety paper into a source-grounded animated explainer.
+"""paper-video: the deterministic steps of turning an AI safety paper into a source-grounded explainer.
 
-  paper-video <paper>                       ingest and run the whole pipeline (PDF path, arXiv id or URL)
-  paper-video run <slug> [--from STAGE]     re-run stages after editing artifacts
-  paper-video approve <slug> --reviewer N   human sign-off: re-verify, upload media, mark published
-  paper-video backlog [--status S]          list the research backlog
+The writing is done by the agent session running workflows/publish-paper/WORKFLOW.md,
+which calls these commands in order:
+
+  paper-video ingest <paper>                    fetch a paper (PDF path, arXiv id or URL) into a work directory
+  paper-video brief <slug> <task> [--scene ID]  write the brief for a writing task to briefs/
+  paper-video check <slug> notes|storyboard     provenance checks for notes.yaml / storyboard.yaml
+  paper-video review <slug> storyboard|site     record a science review from checks/reviews/
+  paper-video narrate <slug>                    synthesize narration and the render context
+  paper-video render <slug> [--scene ID ...]    render scenes and record visual-reviews/<scene>.yaml
+  paper-video assemble <slug>                   master video, captions and chapter timeline
+  paper-video thumbnail <slug>                  render the thumbnail scene
+  paper-video site <slug>                       build the page from site.yaml into site/content/works/
+  paper-video youtube <slug>                    package youtube-copy.yaml as youtube.yaml
+  paper-video report <slug>                     write checks/report.md for the human reviewer
+  paper-video approve <slug> --reviewer NAME    human sign-off: re-verify, upload media, mark published
+  paper-video backlog [--status S]              list the research backlog
 """
 
 import argparse
-import sys
 
 from paper_video import backlog, pipeline
-
-COMMANDS = {"run", "approve", "backlog"}
+from paper_video.briefs import TASKS
+from paper_video.review import SUBJECTS
 
 
 def main() -> None:
-    argv = sys.argv[1:]
-    if argv and argv[0] not in COMMANDS and not argv[0].startswith("-"):
-        argv = ["make", *argv]
-
     parser = argparse.ArgumentParser(prog="paper-video", description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = parser.add_subparsers(dest="command", required=True)
 
-    make = sub.add_parser("make", help="ingest a paper and run the whole pipeline")
-    make.add_argument("paper", help="PDF path, arXiv id, or URL (arXiv, PDF, or a page with citation metadata)")
-    make.add_argument("--source-url", help="public page for the paper (required for local PDFs and bare PDF URLs)")
-    make.add_argument("--slug", help="override the work's URL slug")
+    ingest = sub.add_parser("ingest", help="fetch a paper into a new work directory")
+    ingest.add_argument("paper", help="PDF path, arXiv id, or URL (arXiv, PDF, or a page with citation metadata)")
+    ingest.add_argument("--source-url", help="public page for the paper (required for local PDFs and bare PDF URLs)")
+    ingest.add_argument("--slug", help="override the work's URL slug")
 
-    run = sub.add_parser("run", help="run pipeline stages for an existing work")
-    run.add_argument("slug")
-    run.add_argument("--from", dest="start", choices=pipeline.STAGES, default=pipeline.STAGES[0])
-    run.add_argument("--to", dest="stop", choices=pipeline.STAGES, default=pipeline.STAGES[-1])
-    run.add_argument("--scene", action="append", help="limit the scenes stage to these scene ids")
+    brief = sub.add_parser("brief", help="write the brief for a writing task")
+    brief.add_argument("slug")
+    brief.add_argument("task", choices=TASKS)
+    brief.add_argument("--scene", help="scene id, for the scene task")
+
+    check = sub.add_parser("check", help="provenance checks for notes or storyboard")
+    check.add_argument("slug")
+    check.add_argument("artifact", choices=["notes", "storyboard"])
+
+    review = sub.add_parser("review", help="record a science review")
+    review.add_argument("slug")
+    review.add_argument("subject", choices=SUBJECTS)
+
+    for name, text in (("narrate", "synthesize narration"), ("assemble", "assemble the master video"),
+                       ("thumbnail", "render the thumbnail"), ("site", "build the page from site.yaml"),
+                       ("youtube", "write the YouTube package"), ("report", "write checks/report.md")):
+        sub.add_parser(name, help=text).add_argument("slug")
+
+    render = sub.add_parser("render", help="render scenes and record agent-written visual reviews")
+    render.add_argument("slug")
+    render.add_argument("--scene", action="append", help="limit to these scene ids")
 
     approve = sub.add_parser("approve", help="approve a reviewed draft for publication")
     approve.add_argument("slug")
@@ -41,12 +64,30 @@ def main() -> None:
     bl = sub.add_parser("backlog", help="list backlog papers")
     bl.add_argument("--status", choices=["queued", "in_progress", "published"])
 
-    args = parser.parse_args(argv)
+    args = parser.parse_args()
     match args.command:
-        case "make":
-            pipeline.publish(args.paper, args.source_url, args.slug)
-        case "run":
-            pipeline.run(args.slug, args.start, args.stop, args.scene)
+        case "ingest":
+            pipeline.ingest_paper(args.paper, args.source_url, args.slug)
+        case "brief":
+            pipeline.brief(args.slug, args.task, args.scene)
+        case "check":
+            pipeline.check(args.slug, args.artifact)
+        case "review":
+            pipeline.review(args.slug, args.subject)
+        case "narrate":
+            pipeline.narrate_work(args.slug)
+        case "render":
+            pipeline.render_work(args.slug, args.scene)
+        case "assemble":
+            pipeline.assemble(args.slug)
+        case "thumbnail":
+            pipeline.thumbnail(args.slug)
+        case "site":
+            pipeline.site(args.slug)
+        case "youtube":
+            pipeline.youtube(args.slug)
+        case "report":
+            pipeline.report(args.slug)
         case "approve":
             pipeline.approve(args.slug, args.reviewer)
         case "backlog":

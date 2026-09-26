@@ -1,4 +1,4 @@
-"""Stage: YouTube package (youtube.yaml).
+"""Stage: YouTube package (youtube.yaml). The copy is written in the agent session.
 
 The `upload` block is a ready YouTube Data API v3 `videos.insert` body, and `files`
 names the media to send with it, so an uploader can be added later without changing
@@ -7,10 +7,10 @@ the pipeline. Nothing is uploaded here.
 
 from aisr_site.schema import Work
 
-from paper_video.context import as_yaml, paper_header, short_citation, system
-from paper_video.llm import Provider, generate
-from paper_video.models import Notes, PaperRecord, YouTubeCopy
-from paper_video.workdir import WorkDir, dump_yaml
+from paper_video import log
+from paper_video.context import short_citation
+from paper_video.models import PaperRecord, YouTubeCopy
+from paper_video.workdir import WorkDir, dump_yaml, load_model
 
 
 def _stamp(seconds: float) -> str:
@@ -18,10 +18,8 @@ def _stamp(seconds: float) -> str:
     return f"{s // 3600}:{s % 3600 // 60:02d}:{s % 60:02d}" if s >= 3600 else f"{s // 60}:{s % 60:02d}"
 
 
-def youtube_package(wd: WorkDir, record: PaperRecord, notes: Notes, work: Work, site_url: str,
-                    provider: Provider) -> dict:
-    prompt = f"{paper_header(record)}\n\n# Reading notes\n\n{as_yaml(notes)}\n\n# Web page summary\n\n{work.summary}"
-    copy = generate(provider, system("youtube"), prompt, YouTubeCopy)
+def youtube_package(wd: WorkDir, record: PaperRecord, work: Work, site_url: str) -> dict:
+    copy = load_model(wd.youtube_copy, YouTubeCopy)
     page = f"{site_url}/works/{wd.slug}/"
     chapters = "\n".join(f"{_stamp(c.start)} {c.title}" for c in work.video.chapters)
     description = (
@@ -54,4 +52,5 @@ def youtube_package(wd: WorkDir, record: PaperRecord, notes: Notes, work: Work, 
         },
     }
     wd.youtube.write_text(dump_yaml(package))
+    log(f"youtube package written: {wd.youtube}")
     return package

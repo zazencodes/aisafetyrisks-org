@@ -33,6 +33,10 @@ def spoken(text: str) -> str:
     return text.replace("%", " percent").replace("≈", "about").replace("—", ", ").replace("–", " to ")
 
 
+def audio_key(text: str, cfg: TTSConfig) -> str:
+    return hashlib.sha256(f"{cfg.voice}|{cfg.speed}|{spoken(text)}".encode()).hexdigest()[:16]
+
+
 def narrate(wd: WorkDir, sb: Storyboard, cfg: TTSConfig) -> dict[str, float]:
     """Synthesize any beat whose text or voice changed. Returns {beat_id: seconds}."""
     manifest_path = wd.audio / "manifest.json"
@@ -41,7 +45,7 @@ def narrate(wd: WorkDir, sb: Storyboard, cfg: TTSConfig) -> dict[str, float]:
     durations = {}
     for beat in sb.beats():
         text = spoken(beat.narration)
-        key = hashlib.sha256(f"{cfg.voice}|{cfg.speed}|{text}".encode()).hexdigest()[:16]
+        key = audio_key(beat.narration, cfg)
         wav = wd.audio / f"{beat.id}.wav"
         entry = manifest.get(beat.id)
         if not (entry and entry["key"] == key and wav.exists()):

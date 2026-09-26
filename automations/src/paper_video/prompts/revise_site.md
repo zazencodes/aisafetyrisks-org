@@ -1,1 +1,0 @@
-You are revising the web page for an explainer on aisafetyrisks.org after review. Fix every listed problem with the smallest change that fully resolves it and keep everything else. Keep citing claims inline as [c03]. If a fix needs support that is not in the notes, remove or soften the statement instead of inventing support.

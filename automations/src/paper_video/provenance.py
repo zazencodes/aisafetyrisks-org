@@ -106,6 +106,10 @@ def verify_storyboard(sb: Storyboard, notes: Notes, metadata_text: str) -> Repor
     report = Report()
     claims = {c.id: c for c in notes.claims}
     seen: set[str] = set()
+    all_beats = {b.id for b in sb.beats()}
+    for beat_id in sb.axis_ticks:
+        if beat_id not in all_beats:
+            report.errors.append(f"axis ticks refer to unknown beat {beat_id}")
     for scene in sb.scenes:
         for beat in scene.beats:
             if beat.id in seen:
@@ -117,7 +121,11 @@ def verify_storyboard(sb: Storyboard, notes: Notes, metadata_text: str) -> Repor
             if unknown:
                 report.errors.append(f"{beat.id}: unknown claims {unknown}")
             sources = claim_sources(claims, beat.claims) + [metadata_text]
-            for text in [beat.narration, *beat.on_screen_text]:
+            ticks = sb.axis_ticks.get(beat.id, [])
+            for tick in ticks:
+                if tick not in beat.on_screen_text or not numbers_in(tick):
+                    report.errors.append(f"{beat.id}: axis tick {tick!r} must be numeric on-screen text")
+            for text in [beat.narration, *[s for s in beat.on_screen_text if s not in ticks]]:
                 for n in numbers_in(text):
                     if not number_supported(n, sources):
                         report.errors.append(f"{beat.id}: number {n} in {text!r} is not in any cited quote")

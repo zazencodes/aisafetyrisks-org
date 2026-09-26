@@ -1,8 +1,9 @@
-"""Stage: storyboard scenes -> Manim code -> rendered, checked and visually reviewed clips.
+"""Stage: scene files -> rendered, checked and visually reviewed clips; the thumbnail still.
 
-Scene files in scenes/ are editable. A file records the hash of the storyboard scene
-it was generated from; it is only regenerated when that scene changes, so manual
-fixes to code survive re-runs. Renders are cached by code, kit and narration.
+Scene files in scenes/ are written by the session running the workflow (one subagent per scene,
+from `paper-video brief <slug> scene --scene <id>`). Each file's first line records the hash of
+the storyboard scene it implements; a file whose scene has changed is refused until updated.
+Renders are cached by code, kit and narration; agent-written visual reviews are keyed to each render.
 """
 
 import hashlib
@@ -10,19 +11,19 @@ import json
 import re
 import shutil
 from concurrent.futures import ThreadPoolExecutor
-from dataclasses import dataclass, field
 from pathlib import Path
 
 from PIL import Image
 
-from paper_video.config import KIT, Config
-from paper_video.context import as_yaml, paper_header, prompt, short_citation, system
-from paper_video.llm import Provider, generate
+from paper_video import log
+from paper_video.config import KIT, Config, TTSConfig
+from paper_video.context import short_citation
 from paper_video.media import contact_sheet, frame_at
-from paper_video.models import Notes, PaperRecord, Scene, SceneCode, Storyboard, VisualReview
+from paper_video.models import PaperRecord, Scene, SceneVisualReview, Storyboard
+from paper_video.narrate import audio_key
 from paper_video.provenance import number_supported, numbers_in
 from paper_video.sandbox import beat_calls, render, static_check, string_literals
-from paper_video.workdir import WorkDir, load_json, save_json
+from paper_video.workdir import WorkDir, load_json, load_model, save_json
 
 HEADER = re.compile(r"^# storyboard: ([0-9a-f]{16})\n")
 
@@ -31,10 +32,17 @@ def class_name(scene_id: str) -> str:
     return scene_id.upper()
 
 
-def scene_hash(scene: Scene, sb: Storyboard) -> str:
-    payload = {"scene": scene.model_dump(mode="json"), "datasets": [d.model_dump(mode="json") for d in sb.datasets],
-               "visual_language": sb.visual_language}
+def _digest(payload) -> str:
     return hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()[:16]
+
+
+def scene_hash(scene: Scene, sb: Storyboard) -> str:
+    return _digest({"scene": scene.model_dump(mode="json"), "datasets": [d.model_dump(mode="json") for d in sb.datasets],
+                    "visual_language": sb.visual_language})
+
+
+def thumbnail_hash(sb: Storyboard) -> str:
+    return _digest([sb.thumbnail.model_dump(), sb.visual_language])
 
 
 def kit_hash() -> str:
@@ -44,21 +52,31 @@ def kit_hash() -> str:
     return h.hexdigest()[:16]
 
 
-def write_context(wd: WorkDir, record: PaperRecord, sb: Storyboard, durations: dict[str, float], cfg: Config) -> None:
+def narrated_durations(wd: WorkDir, sb: Storyboard, cfg: TTSConfig) -> dict[str, float]:
+    """Narration length of each beat. Fails if the audio does not match the storyboard's narration."""
+    manifest_path = wd.audio / "manifest.json"
+    manifest = load_json(manifest_path) if manifest_path.exists() else {}
+    stale = [b.id for b in sb.beats() if manifest.get(b.id, {}).get("key") != audio_key(b.narration, cfg)]
+    if stale:
+        raise ValueError(f"narration is missing or out of date for {stale}; run `paper-video narrate {wd.slug}`")
+    return {b.id: manifest[b.id]["duration"] for b in sb.beats()}
+
+
+def render_context(wd: WorkDir, record: PaperRecord, sb: Storyboard, durations: dict[str, float], cfg: Config) -> dict:
     beats = {}
     for scene in sb.scenes:
         for i, beat in enumerate(scene.beats):
             beats[beat.id] = {
-                "audio": f"/work/audio/{beat.id}.wav",
+                "audio": str(wd.audio / f"{beat.id}.wav"),
                 "duration": durations[beat.id],
                 "last": i == len(scene.beats) - 1,
             }
-    save_json(wd.render / "context.json", {
+    return {
         "paper": {"title": record.title, "short": short_citation(record), "year": record.published.year},
         "beat_pause": cfg.render.beat_pause,
         "beats": beats,
         "datasets": {d.id: d.model_dump(mode="json") for d in sb.datasets},
-    })
+    }
 
 
 def code_problems(code: str, scene: Scene, sb: Storyboard, record: PaperRecord) -> list[str]:
@@ -79,77 +97,46 @@ def code_problems(code: str, scene: Scene, sb: Storyboard, record: PaperRecord) 
     return problems
 
 
-def _scene_brief(record: PaperRecord, notes: Notes, sb: Storyboard, scene: Scene, durations: dict[str, float]) -> str:
-    cited = {c for b in scene.beats for c in b.claims}
-    claims = [c for c in notes.claims if c.id in cited]
-    outline = "\n".join(f"- {s.id} {s.title}: {s.purpose}" for s in sb.scenes)
-    timing = "\n".join(f"- {b.id}: {durations[b.id]:.1f} s of narration" for b in scene.beats)
-    return (
-        f"{paper_header(record)}\n\n# Visual language of the whole video\n\n{sb.visual_language}\n\n"
-        f"# Outline of the whole video\n\n{outline}\n\n# Datasets\n\n"
-        + "\n".join(as_yaml(d) for d in sb.datasets)
-        + f"\n\n# Claims cited in this scene\n\n"
-        + "\n".join(f"- {c.id} ({c.kind}): {c.statement}" for c in claims)
-        + f"\n\n# The scene to animate (class name {class_name(scene.id)})\n\n{as_yaml(scene)}\n\n# Beat timing\n\n{timing}"
-    )
+def _read_versioned(path: Path, digest: str) -> tuple[str | None, list[str]]:
+    """The file's code without its header line, or the problems that stop it being used."""
+    if not path.exists():
+        return None, [f"{path} does not exist"]
+    text = path.read_text()
+    m = HEADER.match(text)
+    if m is None:
+        return None, [f"the first line must be `# storyboard: {digest}`"]
+    if m.group(1) != digest:
+        return None, [f"the file was written for an earlier version of the storyboard ({m.group(1)}); update the code "
+                      f"for the current storyboard and set the first line to `# storyboard: {digest}`"]
+    return HEADER.sub("", text), []
 
 
-def _code_system(task: str | None = None) -> str:
-    base = prompt("scene_code") + "\n\n" + (KIT / "REFERENCE.md").read_text()
-    return f"{prompt(task)}\n\n{base}" if task else base
+def layout_problems(report: dict) -> list[str]:
+    problems = []
+    for b in report["beats"]:
+        problems += [f"{b['beat']}: {i}" for i in b["issues"]]
+        if b["overrun"] > 1.0:
+            problems.append(f"{b['beat']}: animations run {b['overrun']:.1f}s longer than the narration")
+    return problems
 
 
-def _generate_code(provider: Provider, system_prompt: str, brief: str, scene: Scene, sb: Storyboard,
-                   record: PaperRecord, attempts: int = 3) -> str:
-    feedback = ""
-    for _ in range(attempts):
-        code = generate(provider, system_prompt, brief + feedback, SceneCode).code
-        problems = code_problems(code, scene, sb, record)
-        if not problems:
-            return code
-        feedback = "\n\n# Your previous file was rejected\n\n" + "\n".join(f"- {p}" for p in problems) + f"\n\n```python\n{code}\n```"
-    raise RuntimeError(f"{scene.id}: could not generate a valid scene file:\n- " + "\n- ".join(problems))
-
-
-@dataclass
-class SceneOutcome:
-    scene_id: str
-    video: Path | None
-    report: dict | None
-    attempts: list[dict] = field(default_factory=list)
-    visual_reviews: list[dict] = field(default_factory=list)
-
-
-class SceneBuilder:
-    def __init__(self, wd: WorkDir, record: PaperRecord, notes: Notes, sb: Storyboard, durations: dict[str, float],
-                 provider: Provider, cfg: Config):
-        self.wd, self.record, self.notes, self.sb = wd, record, notes, sb
-        self.durations, self.provider, self.cfg = durations, provider, cfg
-
-    def code_for(self, scene: Scene) -> str:
-        path = self.wd.scene_file(scene.id)
-        digest = scene_hash(scene, self.sb)
-        if path.exists():
-            m = HEADER.match(path.read_text())
-            if m and m.group(1) == digest:
-                return path.read_text()
-        brief = _scene_brief(self.record, self.notes, self.sb, scene, self.durations)
-        code = _generate_code(self.provider, _code_system(), brief, scene, self.sb, self.record)
-        self._save(scene, code)
-        return path.read_text()
-
-    def _save(self, scene: Scene, code: str) -> None:
-        body = HEADER.sub("", code)
-        self.wd.scene_file(scene.id).parent.mkdir(parents=True, exist_ok=True)
-        self.wd.scene_file(scene.id).write_text(f"# storyboard: {scene_hash(scene, self.sb)}\n{body}")
+class SceneRenderer:
+    def __init__(self, wd: WorkDir, record: PaperRecord, sb: Storyboard, cfg: Config):
+        self.wd, self.record, self.sb, self.cfg = wd, record, sb, cfg
+        self.audio = load_json(wd.audio / "manifest.json")
 
     def _render_key(self, scene: Scene, code: str) -> str:
-        audio = load_json(self.wd.audio / "manifest.json")
-        payload = [code, kit_hash(), [audio[b.id]["key"] for b in scene.beats], self.cfg.render.model_dump(mode="json")]
+        payload = [code, kit_hash(), [self.audio[b.id]["key"] for b in scene.beats], self.cfg.render.model_dump(mode="json")]
         return hashlib.sha256(json.dumps(payload).encode()).hexdigest()[:16]
 
-    def _render(self, scene: Scene, code: str) -> tuple[bool, str, Path | None, dict | None]:
-        key = self._render_key(scene, code)
+    def is_current(self, scene: Scene) -> bool:
+        """Whether the cached render of `scene` matches its current code, kit and narration."""
+        code, _ = _read_versioned(self.wd.scene_file(scene.id), scene_hash(scene, self.sb))
+        stamp = self.wd.render / f"{scene.id}.key"
+        return (code is not None and stamp.exists() and (self.wd.render / f"{scene.id}.mp4").exists()
+                and stamp.read_text() == self._render_key(scene, self.wd.scene_file(scene.id).read_text()))
+
+    def _render(self, scene: Scene, key: str) -> tuple[bool, str, Path | None, dict | None]:
         stamp = self.wd.render / f"{scene.id}.key"
         cached = self.wd.render / f"{scene.id}.mp4"
         report_path = self.wd.render / "reports" / f"{class_name(scene.id)}.json"
@@ -163,133 +150,101 @@ class SceneBuilder:
         stamp.write_text(key)
         return True, result.log, cached, load_json(report_path)
 
-    def _fix(self, scene: Scene, code: str, problems: str) -> str:
-        brief = _scene_brief(self.record, self.notes, self.sb, scene, self.durations)
-        brief += f"\n\n# Current code\n\n```python\n{HEADER.sub('', code)}\n```\n\n# Problems to fix\n\n{problems}"
-        return _generate_code(self.provider, _code_system("fix_scene"), brief, scene, self.sb, self.record)
-
-    def _render_with_repair(self, scene: Scene, code: str, outcome: SceneOutcome):
-        for attempt in range(self.cfg.render.max_fix_attempts + 1):
-            ok, log, video, report = self._render(scene, code)
-            outcome.attempts.append({"ok": ok, "log_tail": log[-1500:]})
-            if ok:
-                return code, video, report
-            if attempt == self.cfg.render.max_fix_attempts:
-                break
-            self._save(scene, self._fix(scene, code, f"The render failed:\n\n```\n{log[-4000:]}\n```"))
-            code = self.wd.scene_file(scene.id).read_text()
-        return code, None, None
-
-    def _try_improvement(self, scene: Scene, code: str, problems: str, outcome: SceneOutcome):
-        """Apply a fix for layout/visual problems; keep the previous version if the fix does not render."""
-        self._save(scene, self._fix(scene, code, problems))
-        new_code, video, report = self._render_with_repair(scene, self.wd.scene_file(scene.id).read_text(), outcome)
-        if video is None:
-            self._save(scene, code)
-            return code, *self._render(scene, code)[2:]
-        return new_code, video, report
-
-    def layout_problems(self, report: dict) -> list[str]:
-        problems = []
-        for b in report["beats"]:
-            problems += [f"{b['beat']}: {i}" for i in b["issues"]]
-            if b["overrun"] > 1.0:
-                problems.append(f"{b['beat']}: animations run {b['overrun']:.1f}s longer than the narration")
-        return problems
-
-    def frames(self, scene: Scene, video: Path, report: dict) -> Path:
+    def _frames(self, scene: Scene, video: Path, report: dict) -> Path:
         shots = []
         for b in report["beats"]:
             path = frame_at(video, b["hold_end"] - 0.15, self.wd.frames / scene.id / f"{b['beat']}.png")
             shots.append((b["beat"], path))
         return contact_sheet(shots, self.wd.frames / f"{scene.id}-sheet.png")
 
-    def visual_review(self, scene: Scene, sheet: Path) -> VisualReview:
-        brief = f"# Storyboard scene\n\n{as_yaml(scene)}\n\nThe attached contact sheet shows the end of each beat, labelled with its id."
-        return generate(self.provider, system("visual_review", integrity=False), brief, VisualReview, images=[sheet])
+    def _visual_review(self, scene: Scene, key: str) -> dict | None:
+        path = self.wd.visual_review(scene.id)
+        if not path.exists():
+            return None
+        review = load_model(path, SceneVisualReview)
+        if review.render_key != key:
+            return None
+        return {"issues": [issue.model_dump(mode="json") for issue in review.issues]}
 
-    def build(self, scene: Scene) -> SceneOutcome:
-        outcome = SceneOutcome(scene.id, None, None)
-        code = self.code_for(scene)
-        code, video, report = self._render_with_repair(scene, code, outcome)
-        if video is None:
-            return outcome
-
-        layout = self.layout_problems(report)
-        if layout:
-            code, video, report = self._try_improvement(
-                scene, code, "Layout defects detected at the end of beats:\n- " + "\n- ".join(layout), outcome
-            )
-
-        for _ in range(self.cfg.render.visual_review_rounds):
-            review = self.visual_review(scene, self.frames(scene, video, report))
-            outcome.visual_reviews.append(review.model_dump(mode="json"))
-            serious = [i for i in review.issues if i.severity in ("blocker", "major")]
-            if not serious:
-                break
-            problems = "Issues found by the visual reviewer:\n" + "\n".join(
-                f"- {i.beat} [{i.severity}]: {i.problem} Fix: {i.suggested_fix}" for i in serious
-            )
-            code, video, report = self._try_improvement(scene, code, problems, outcome)
-
-        self.frames(scene, video, report)
-        outcome.video, outcome.report = video, report
-        return outcome
+    def build(self, scene: Scene) -> dict:
+        check_path = self.wd.checks / "scenes" / f"{scene.id}.json"
+        result = {"scene": scene.id, "rendered": False, "render_key": None, "problems": [], "render_log_tail": None,
+                  "layout_problems": [], "visual_review": None}
+        code, problems = _read_versioned(self.wd.scene_file(scene.id), scene_hash(scene, self.sb))
+        if code is not None:
+            problems = code_problems(code, scene, self.sb, self.record)
+        if problems:
+            result["problems"] = problems
+        else:
+            key = self._render_key(scene, self.wd.scene_file(scene.id).read_text())
+            ok, render_log, video, report = self._render(scene, key)
+            result["render_key"] = key
+            if not ok:
+                result["render_log_tail"] = render_log[-4000:]
+            else:
+                result["rendered"] = True
+                result["layout_problems"] = layout_problems(report)
+                self._frames(scene, video, report)
+                result["visual_review"] = self._visual_review(scene, key)
+        save_json(check_path, result)
+        return result
 
 
-def build_scenes(wd: WorkDir, record: PaperRecord, notes: Notes, sb: Storyboard, durations: dict[str, float],
-                 provider: Provider, cfg: Config, only: list[str] | None = None) -> list[SceneOutcome]:
-    write_context(wd, record, sb, durations, cfg)
-    builder = SceneBuilder(wd, record, notes, sb, durations, provider, cfg)
+def _log_result(r: dict) -> None:
+    if r["problems"]:
+        log(f"{r['scene']}: REJECTED\n  - " + "\n  - ".join(r["problems"]))
+    elif not r["rendered"]:
+        log(f"{r['scene']}: RENDER FAILED\n{r['render_log_tail']}")
+    elif r["visual_review"] is None:
+        log(f"{r['scene']}: rendered; {len(r['layout_problems'])} layout problems; visual review pending "
+            f"({r['render_key']})")
+        for p in r["layout_problems"]:
+            log(f"  [layout] {p}")
+    else:
+        issues = r["visual_review"]["issues"]
+        serious = [i for i in issues if i["severity"] in ("blocker", "major")]
+        log(f"{r['scene']}: rendered; {len(r['layout_problems'])} layout problems, "
+            f"{len(serious)} blocker/major and {len(issues) - len(serious)} minor visual issues")
+        for p in r["layout_problems"]:
+            log(f"  [layout] {p}")
+        for i in issues:
+            log(f"  [{i['severity']}] {i['beat']}: {i['problem']}\n    fix: {i['suggested_fix']}")
+
+
+def render_scenes(wd: WorkDir, record: PaperRecord, sb: Storyboard, cfg: Config, only: list[str] | None) -> list[dict]:
+    durations = narrated_durations(wd, sb, cfg.tts)
+    if load_json(wd.render / "context.json") != render_context(wd, record, sb, durations, cfg):
+        raise ValueError(f"render/context.json is out of date; run `paper-video narrate {wd.slug}`")
+    unknown = set(only or []) - {s.id for s in sb.scenes}
+    if unknown:
+        raise ValueError(f"no such scenes: {sorted(unknown)}")
+    renderer = SceneRenderer(wd, record, sb, cfg)
     targets = [s for s in sb.scenes if not only or s.id in only]
     with ThreadPoolExecutor(max_workers=cfg.render.parallel_scenes) as pool:
-        outcomes = list(pool.map(builder.build, targets))
-    for o in outcomes:
-        save_json(wd.checks / "scenes" / f"{o.scene_id}.json", {
-            "rendered": o.video is not None,
-            "layout_problems": builder.layout_problems(o.report) if o.report else None,
-            "render_attempts": o.attempts,
-            "visual_reviews": o.visual_reviews,
-        })
-    failed = [o.scene_id for o in outcomes if o.video is None]
+        results = list(pool.map(renderer.build, targets))
+    for r in results:
+        _log_result(r)
+    failed = [r["scene"] for r in results if not r["rendered"]]
     if failed:
-        raise RuntimeError(f"scenes failed to render: {failed}; see checks/scenes/")
-    return outcomes
+        raise RuntimeError(f"scenes not rendered: {failed}; see checks/scenes/")
+    pending = [r["scene"] for r in results if r["visual_review"] is None]
+    if pending:
+        raise RuntimeError(f"visual reviews pending for {pending}; write visual-reviews/<scene>.yaml with the current render key, then re-run render")
+    return results
 
 
-def build_thumbnail(wd: WorkDir, record: PaperRecord, sb: Storyboard, provider: Provider, cfg: Config) -> Path:
-    path = wd.thumbnail_scene
-    digest = hashlib.sha256(json.dumps([sb.thumbnail.model_dump(), sb.visual_language]).encode()).hexdigest()[:16]
-    brief = (
-        f"{paper_header(record)}\n\n# Visual language\n\n{sb.visual_language}\n\n"
-        f"# Thumbnail\n\nHeadline: {sb.thumbnail.headline}\nVisual: {sb.thumbnail.visual}"
-    )
-    sys_prompt = prompt("thumbnail") + "\n\n" + (KIT / "REFERENCE.md").read_text()
-    code = path.read_text() if path.exists() and HEADER.match(path.read_text()) and HEADER.match(path.read_text()).group(1) == digest else None
-    for attempt in range(cfg.render.max_fix_attempts + 1):
-        if code is None:
-            feedback = ""
-            for _ in range(3):
-                candidate = generate(provider, sys_prompt, brief + feedback, SceneCode).code
-                problems = static_check(candidate, "Thumbnail", "Scene")
-                problems += [f"text {s!r} contains digits" for s in string_literals(candidate)
-                             if numbers_in(s) and not s.startswith("#")]
-                if not problems:
-                    break
-                feedback = "\n\n# Rejected\n\n" + "\n".join(f"- {p}" for p in problems)
-            else:
-                raise RuntimeError(f"could not generate a valid thumbnail scene: {problems}")
-            path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text(f"# storyboard: {digest}\n{HEADER.sub('', candidate)}")
-            code = path.read_text()
-        result = render(wd, cfg.render, path, "Thumbnail", still=True, resolution=(1280, 720))
-        if result.ok:
-            break
-        brief += f"\n\n# The previous version failed to render\n\n```python\n{code}\n```\n\n```\n{result.log[-3000:]}\n```"
-        code = None
-    else:
-        raise RuntimeError("thumbnail failed to render")
+def build_thumbnail(wd: WorkDir, sb: Storyboard, cfg: Config) -> Path:
+    code, problems = _read_versioned(wd.thumbnail_scene, thumbnail_hash(sb))
+    if code is not None:
+        problems = static_check(code, "Thumbnail", "Scene")
+        problems += [f"text {s!r} contains digits" for s in string_literals(code) if numbers_in(s) and not s.startswith("#")]
+    if problems:
+        raise ValueError("thumbnail scene rejected:\n- " + "\n- ".join(problems))
+    result = render(wd, cfg.render, wd.thumbnail_scene, "Thumbnail", still=True, resolution=(1280, 720))
+    if not result.ok:
+        raise RuntimeError(f"thumbnail failed to render:\n{result.log[-3000:]}")
     wd.out.mkdir(parents=True, exist_ok=True)
     dest = wd.out / "thumbnail.jpg"
     Image.open(result.output).convert("RGB").save(dest, quality=88, optimize=True, progressive=True)
+    log(f"thumbnail written: {dest}")
     return dest

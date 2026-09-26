@@ -5,11 +5,10 @@ description = "Research paper -> source-grounded animated explainer for aisafety
 requires-python = ">=3.12,<3.14"
 dependencies = [
     "aisr-site",
-    "anthropic>=1.8",
     "httpx>=0.28",
     "kokoro-onnx>=0.6.1",
+    "manim==0.21.0",
     "numpy>=2.0",
-    "openai>=3.19",
     "pillow>=11.0",
     "pydantic>=2.11",
     "pymupdf>=1.26",

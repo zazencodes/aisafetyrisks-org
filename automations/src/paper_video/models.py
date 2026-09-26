@@ -124,6 +124,7 @@ class Storyboard(Strict):
     logline: str
     visual_language: str = Field(description="Recurring shapes, colors and motifs that carry across scenes")
     scenes: list[Scene] = Field(min_length=3)
+    axis_ticks: dict[str, list[str]] = Field(default_factory=dict, description="Per-beat axis scale labels, not reported findings; each must also appear in that beat's on_screen_text")
     datasets: list[Dataset]
     thumbnail: Thumbnail
 
@@ -164,6 +165,10 @@ class VisualIssue(Strict):
 
 class VisualReview(Strict):
     issues: list[VisualIssue]
+
+
+class SceneVisualReview(VisualReview):
+    render_key: str
 
 
 class SceneCode(Strict):

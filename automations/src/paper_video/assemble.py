@@ -16,7 +16,8 @@ def assemble_video(wd: WorkDir, sb: Storyboard) -> dict:
         if [b["beat"] for b in report["beats"]] != [b.id for b in scene.beats]:
             raise ValueError(f"render of {scene.id} is out of date with the storyboard; re-run the scenes stage")
         clips.append(clip)
-        chapters.append({"start": round(offset, 2), "title": scene.chapter})
+        if not chapters or chapters[-1]["title"] != scene.chapter:
+            chapters.append({"start": round(offset, 2), "title": scene.chapter})
         for b in report["beats"]:
             beats.append((offset + b["start"], b["narration"], narration[b["beat"]]))
         offset += probe(clip)["duration"]

@@ -1,163 +1,196 @@
-"""Orchestration: run stages, write the review report, approve and publish."""
+"""The commands behind the CLI. Each runs one deterministic step of the workflow and fails loudly.
+
+The writing (notes, storyboard, scene code, page, science reviews) happens in the agent
+session that runs workflows/publish-paper/WORKFLOW.md; these commands brief it, check its work,
+render, assemble and publish.
+"""
 
 import subprocess
 from datetime import date
+from pathlib import Path
 
 from aisr_site.schema import Review, Work
 
-from paper_video import backlog
-from paper_video.analyze import analyze
+from paper_video import backlog, log
+from paper_video.analyze import check_notes
 from paper_video.assemble import assemble_video
+from paper_video.briefs import write_brief
 from paper_video.config import MEDIA_MIRROR, REPO, SITE_WORKS, Config, load_config
 from paper_video.context import metadata_text
 from paper_video.ingest import ensure_source, ingest
-from paper_video.llm import make_provider
 from paper_video.models import Notes, PaperRecord, Storyboard
 from paper_video.narrate import narrate
 from paper_video.provenance import verify_work
-from paper_video.scenes import build_scenes, build_thumbnail
+from paper_video.review import SUBJECTS, current_review, record_review
+from paper_video.scenes import SceneRenderer, build_thumbnail, render_context, render_scenes
 from paper_video.site_content import write_site_work
-from paper_video.storyboard import check_storyboard, make_storyboard
-from paper_video.workdir import WorkDir, dump_yaml, load_json, load_model
+from paper_video.storyboard import check_storyboard
+from paper_video.workdir import WorkDir, dump_yaml, load_json, load_model, save_json
 from paper_video.youtube import youtube_package
 
-STAGES = ["analyze", "storyboard", "narrate", "scenes", "assemble", "thumbnail", "site", "youtube"]
 
-
-def log(msg: str) -> None:
-    print(f"[paper-video] {msg}", flush=True)
-
-
-def run(slug: str, start: str = "analyze", stop: str = "youtube", scenes: list[str] | None = None) -> None:
+def _open(slug: str) -> tuple[Config, WorkDir, PaperRecord]:
     cfg = load_config()
-    provider = make_provider(cfg.llm)
     wd = WorkDir.for_slug(slug)
     record = load_model(wd.paper, PaperRecord)
     ensure_source(wd, record)
-    todo = STAGES[STAGES.index(start): STAGES.index(stop) + 1]
-
-    notes = load_model(wd.notes, Notes) if wd.notes.exists() else None
-    sb = load_model(wd.storyboard, Storyboard) if wd.storyboard.exists() else None
-    for stage in todo:
-        log(f"{slug}: {stage}")
-        match stage:
-            case "analyze":
-                notes = analyze(wd, record, provider)
-            case "storyboard":
-                sb = make_storyboard(wd, record, notes, provider, cfg)
-            case "narrate":
-                check_storyboard(wd, record, notes, sb)
-                narrate(wd, sb, cfg.tts)
-            case "scenes":
-                check_storyboard(wd, record, notes, sb)
-                build_scenes(wd, record, notes, sb, narrate(wd, sb, cfg.tts), provider, cfg, only=scenes)
-            case "assemble":
-                assemble_video(wd, sb)
-            case "thumbnail":
-                build_thumbnail(wd, record, sb, provider, cfg)
-            case "site":
-                entry = backlog.find(backlog.load(), record.arxiv_id, str(record.url))
-                write_site_work(wd, record, notes, sb, load_json(wd.out / "timeline.json"), provider, cfg,
-                                entry.category.value if entry else None)
-            case "youtube":
-                work = load_model(SITE_WORKS / slug / "work.yaml", Work)
-                youtube_package(wd, record, notes, work, cfg.publish.site_url, provider)
-    write_report(wd, cfg)
-    log(f"{slug}: done. Review {wd.checks / 'report.md'}")
+    return cfg, wd, record
 
 
-def publish(ref: str, source_url: str | None, slug: str | None) -> str:
+def _notes(wd: WorkDir) -> Notes:
+    return load_model(wd.notes, Notes)
+
+
+def _storyboard(wd: WorkDir) -> Storyboard:
+    return load_model(wd.storyboard, Storyboard)
+
+
+def ingest_paper(ref: str, source_url: str | None, slug: str | None) -> None:
     cfg = load_config()
-    wd = ingest(ref, make_provider(cfg.llm), source_url=source_url, slug=slug)
+    wd = ingest(ref, cfg.agy, source_url=source_url, slug=slug)
     record = load_model(wd.paper, PaperRecord)
-    log(f"ingested {record.title!r} -> {wd.root}")
     backlog.set_status(record.arxiv_id, str(record.url), wd.slug, "in_progress")
-    run(wd.slug)
-    return wd.slug
+    log(f"ingested {record.title!r} -> {wd.root}")
+
+
+def brief(slug: str, task: str, scene_id: str | None) -> None:
+    cfg, wd, record = _open(slug)
+    log(f"brief written: {write_brief(wd, record, cfg, task, scene_id)}")
+
+
+def check(slug: str, artifact: str) -> None:
+    _, wd, record = _open(slug)
+    match artifact:
+        case "notes":
+            check_notes(wd)
+        case "storyboard":
+            check_storyboard(wd, record, _notes(wd), _storyboard(wd))
+
+
+def review(slug: str, subject: str) -> None:
+    _, wd, _ = _open(slug)
+    record_review(wd, subject)
+
+
+def narrate_work(slug: str) -> None:
+    cfg, wd, record = _open(slug)
+    sb = _storyboard(wd)
+    check_storyboard(wd, record, _notes(wd), sb)
+    durations = narrate(wd, sb, cfg.tts)
+    save_json(wd.render / "context.json", render_context(wd, record, sb, durations, cfg))
+    log(f"narration ready: {sum(durations.values()) / 60:.1f} min over {len(durations)} beats")
+
+
+def render_work(slug: str, scenes: list[str] | None) -> None:
+    cfg, wd, record = _open(slug)
+    render_scenes(wd, record, _storyboard(wd), cfg, scenes)
+
+
+def assemble(slug: str) -> None:
+    cfg, wd, record = _open(slug)
+    sb = _storyboard(wd)
+    renderer = SceneRenderer(wd, record, sb, cfg)
+    stale = [s.id for s in sb.scenes if not renderer.is_current(s)]
+    if stale:
+        raise ValueError(f"renders missing or out of date for {stale}; run `paper-video render {slug}`")
+    timeline = assemble_video(wd, sb)
+    log(f"video assembled: {wd.out / 'video.mp4'} ({timeline['duration']:.0f} s)")
+    for p in timeline["problems"]:
+        log(f"  problem: {p}")
+
+
+def thumbnail(slug: str) -> None:
+    cfg, wd, _ = _open(slug)
+    build_thumbnail(wd, _storyboard(wd), cfg)
+
+
+def site(slug: str) -> None:
+    cfg, wd, record = _open(slug)
+    write_site_work(wd, record, _notes(wd), load_json(wd.out / "timeline.json"), cfg)
+
+
+def youtube(slug: str) -> None:
+    cfg, wd, record = _open(slug)
+    work = load_model(SITE_WORKS / slug / "work.yaml", Work)
+    youtube_package(wd, record, work, cfg.publish.site_url)
 
 
 # ------------------------------------------------------------------ review
 
 
-def _review_state(wd: WorkDir) -> dict:
-    state = {}
-    for name in ("notes", "storyboard", "site", "video"):
-        path = wd.checks / f"{name}.json"
-        state[name] = load_json(path) if path.exists() else None
-    scenes_dir = wd.checks / "scenes"
-    state["scenes"] = {p.stem: load_json(p) for p in sorted(scenes_dir.glob("*.json"))} if scenes_dir.exists() else {}
-    return state
+def _check(path: Path) -> dict | None:
+    return load_json(path) if path.exists() else None
 
 
-def _last_review(check: dict | None) -> dict | None:
-    rounds = [r for r in (check or {}).get("rounds", []) if "review" in r]
-    return rounds[-1]["review"] if rounds else None
-
-
-def write_report(wd: WorkDir, cfg: Config) -> None:
-    s = _review_state(wd)
+def report(slug: str) -> None:
+    _, wd, _ = _open(slug)
     lines = [f"# Review report: {wd.slug}", ""]
     lines += ["Human review is required before publication. Watch `out/video.mp4` in full, read the page",
               "(`uv run aisr-site serve --drafts --media-root automations/media`), and check each claim against",
               "the evidence register. Then run `paper-video approve " + wd.slug + " --reviewer \"Your Name\"`.", ""]
-    if s["notes"]:
-        lines += ["## Source notes", f"- Quotes verified against the PDF. Page corrections: {len(s['notes']['notes'])}.",
-                  f"- Evidence dropped as unverifiable: {len(s['notes']['dropped_evidence'])}."]
-        lines += [f"  - {d['claim']}: {d['quote'][:100]!r}" for d in s["notes"]["dropped_evidence"]]
-        lines.append("")
-    for name, title in (("storyboard", "Storyboard"), ("site", "Web page")):
-        review = _last_review(s[name])
-        if s[name] is None:
+    notes = _check(wd.checks / "notes.json")
+    if notes:
+        lines += ["## Source notes", f"- Quotes found in the PDF: {'yes' if notes['ok'] else 'NO'}. "
+                  f"Page corrections: {len(notes['notes'])}.", ""]
+    for subject, title, check_file in (("storyboard", "Storyboard", "storyboard.json"), ("site", "Web page", "site.json")):
+        check_ = _check(wd.checks / check_file)
+        if check_ is None:
             continue
-        lines.append(f"## {title} science review")
-        if review is None:
-            lines.append("- No review recorded (provenance checks did not pass).")
+        lines += [f"## {title}", f"- Provenance checks: {'pass' if check_['ok'] else 'FAIL'}."]
+        lines += [f"  - {e}" for e in check_["errors"]]
+        r = current_review(wd, subject)
+        if r is None:
+            lines.append("- Science review: **none of the current version**.")
         else:
-            lines.append(f"- Verdict: **{review['verdict']}** after {len(s[name]['rounds'])} round(s).")
-            lines += [f"- [{i['severity']}] {i['location']}: {i['problem']}" for i in review["issues"]]
+            lines.append(f"- Science review: **{r.verdict}**.")
+            lines += [f"  - [{i.severity}] {i.location}: {i.problem}" for i in r.issues]
         lines.append("")
-    if s["scenes"]:
+    current_scene_ids = {scene.id for scene in _storyboard(wd).scenes}
+    scenes = ([wd.checks / "scenes" / f"{scene_id}.json" for scene_id in sorted(current_scene_ids)]
+              if (wd.checks / "scenes").exists() else [])
+    scenes = [path for path in scenes if path.exists()]
+    if scenes:
         lines.append("## Scenes")
-        for scene_id, c in s["scenes"].items():
-            vis = c["visual_reviews"][-1]["issues"] if c["visual_reviews"] else []
-            lines.append(f"- {scene_id}: rendered={c['rendered']}, render attempts={len(c['render_attempts'])}, "
-                         f"layout problems={len(c['layout_problems'] or [])}, visual issues={len(vis)} "
-                         f"(contact sheet `frames/{scene_id}-sheet.png`)")
+        for path in scenes:
+            c = load_json(path)
+            vis = c["visual_review"]["issues"] if c["visual_review"] else []
+            lines.append(f"- {c['scene']}: rendered={c['rendered']}, layout problems={len(c['layout_problems'])}, "
+                         f"visual review={'pending' if c['visual_review'] is None else 'recorded'}, "
+                         f"visual issues={len(vis)} (contact sheet `frames/{c['scene']}-sheet.png`)")
+            lines += [f"  - [rejected] {p}" for p in c["problems"]]
             lines += [f"  - [{i['severity']}] {i['beat']}: {i['problem']}" for i in vis]
-            lines += [f"  - [layout] {p}" for p in c["layout_problems"] or []]
+            lines += [f"  - [layout] {p}" for p in c["layout_problems"]]
         lines.append("")
-    if s["video"]:
-        lines += ["## Video", f"- Duration {s['video']['duration']:.0f} s, {s['video']['width']}x{s['video']['height']}."]
-        lines += [f"- {p}" for p in s["video"]["problems"]]
+    video = _check(wd.checks / "video.json")
+    if video:
+        lines += ["## Video", f"- Duration {video['duration']:.0f} s, {video['width']}x{video['height']}."]
+        lines += [f"- {p}" for p in video["problems"]]
         lines.append("")
     (wd.checks / "report.md").write_text("\n".join(lines) + "\n")
+    log(f"report written: {wd.checks / 'report.md'}")
 
 
 def approve(slug: str, reviewer: str) -> None:
-    """Human sign-off: re-check provenance, upload media, mark the work published."""
-    cfg = load_config()
-    wd = WorkDir.for_slug(slug)
-    record = load_model(wd.paper, PaperRecord)
-    ensure_source(wd, record)
+    """Human sign-off: re-check provenance and reviews, upload media, mark the work published."""
+    cfg, wd, record = _open(slug)
     path = SITE_WORKS / slug / "work.yaml"
     work = load_model(path, Work)
 
-    # The page may have been edited by hand since generation: verify it again now.
-    check = verify_work(work, wd.pages(), metadata_text(record))
-    if not check.ok:
-        raise RuntimeError("the page fails provenance checks:\n- " + "\n- ".join(check.errors))
-    state = _review_state(wd)
-    for name in ("storyboard", "site"):
-        review = _last_review(state[name])
-        if review is None:
-            raise RuntimeError(f"no {name} science review on record")
-        blockers = [i for i in review["issues"] if i["severity"] == "blocker"]
-        if blockers:
-            raise RuntimeError(f"{name} review has unresolved blockers: {[i['problem'] for i in blockers]}")
+    # The page may have been edited by hand since it was built: verify it again now.
+    check_ = verify_work(work, wd.pages(), metadata_text(record))
+    if not check_.ok:
+        raise RuntimeError("the page fails provenance checks:\n- " + "\n- ".join(check_.errors))
+    for subject in SUBJECTS:
+        r = current_review(wd, subject)
+        if r is None:
+            raise RuntimeError(f"no science review of the current {subject}; it changed since the last review")
+        unresolved = [i.problem for i in r.issues if i.severity in ("blocker", "major")]
+        if unresolved:
+            raise RuntimeError(f"{subject} review has unresolved blocker or major issues: {unresolved}")
 
     video = MEDIA_MIRROR / work.video.key
     if not video.exists():
-        raise FileNotFoundError(f"{video} is missing; re-run the site stage")
+        raise FileNotFoundError(f"{video} is missing; re-run `paper-video site {slug}`")
     subprocess.run(
         ["npx", "wrangler", "r2", "object", "put", f"{cfg.publish.media_bucket}/{work.video.key}",
          "--file", str(video), "--content-type", "video/mp4",

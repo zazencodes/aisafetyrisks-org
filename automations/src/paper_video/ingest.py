@@ -13,8 +13,8 @@ from urllib.parse import urljoin, urlparse
 import httpx
 import pymupdf
 
-from paper_video.config import WORKS
-from paper_video.llm import Provider, generate
+from paper_video import agy
+from paper_video.config import WORKS, AgyConfig
 from paper_video.models import ExtractedMetadata, PaperRecord, SourceFile
 from paper_video.provenance import contains
 from paper_video.workdir import WorkDir, save_json, save_model
@@ -162,11 +162,11 @@ def download(url: str, dest: Path) -> None:
     dest.write_bytes(r.content)
 
 
-def metadata_from_pdf(provider: Provider, pages: list[str], source_url: str, pdf_url: str) -> dict:
+def metadata_from_pdf(cfg: AgyConfig, pages: list[str], source_url: str, pdf_url: str) -> dict:
     """For PDFs without machine-readable metadata: read it off the first pages and verify it."""
     front = "\n\n".join(f"=== Page {i + 1} ===\n{t}" for i, t in enumerate(pages[:2]))
-    meta = generate(
-        provider,
+    meta = agy.generate(
+        cfg,
         "You extract bibliographic metadata from the first pages of a research paper. Copy names and titles exactly as printed.",
         f"Extract the metadata of this paper.\n\n{front}",
         ExtractedMetadata,
@@ -188,7 +188,7 @@ def metadata_from_pdf(provider: Provider, pages: list[str], source_url: str, pdf
     }
 
 
-def ingest(ref: str, provider: Provider, source_url: str | None = None, slug: str | None = None) -> WorkDir:
+def ingest(ref: str, cfg: AgyConfig, source_url: str | None = None, slug: str | None = None) -> WorkDir:
     meta, pdf = resolve(ref, source_url)
     staging = WORKS / ".incoming.pdf"
     if isinstance(pdf, Path):
@@ -200,7 +200,7 @@ def ingest(ref: str, provider: Provider, source_url: str | None = None, slug: st
     if sum(len(p.strip()) for p in pages) < 2000:
         raise ValueError("the PDF has almost no extractable text (scanned?); OCR is not supported")
     if meta is None:
-        meta = metadata_from_pdf(provider, pages, source_url, source_url if isinstance(pdf, Path) else pdf)
+        meta = metadata_from_pdf(cfg, pages, source_url, source_url if isinstance(pdf, Path) else pdf)
 
     wd = WorkDir(WORKS / (slug or slugify(meta["title"])))
     if wd.paper.exists():
