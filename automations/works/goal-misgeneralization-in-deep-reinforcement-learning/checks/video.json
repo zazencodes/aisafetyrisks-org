@@ -1,0 +1,32 @@
+{
+  "duration": 302.666667,
+  "width": 1920,
+  "height": 1080,
+  "chapters": [
+    {
+      "start": 0.0,
+      "title": "The question"
+    },
+    {
+      "start": 45.52,
+      "title": "The experiment"
+    },
+    {
+      "start": 98.03,
+      "title": "The mechanism"
+    },
+    {
+      "start": 156.02,
+      "title": "A second example"
+    },
+    {
+      "start": 201.0,
+      "title": "What helped in CoinRun"
+    },
+    {
+      "start": 250.83,
+      "title": "Meaning and limits"
+    }
+  ],
+  "problems": []
+}

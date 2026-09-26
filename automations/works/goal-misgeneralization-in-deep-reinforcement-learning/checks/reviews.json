@@ -1,0 +1,168 @@
+{
+  "storyboard": [
+    {
+      "content": "c5e41fc68a5a35a7",
+      "recorded_on": "2026-09-26",
+      "review": {
+        "verdict": "accurate",
+        "issues": [
+          {
+            "location": "s07b04",
+            "severity": "minor",
+            "category": "missing_limitation",
+            "problem": "\"The critic's value peaks around timestep 35\" is taken from a single \"typical OOD episode\" (Figure 7 caption), but the narration states it as a general fact right next to the aggregate \"100% ... in a sample of 114\". A viewer may think timestep 35 is a measured average over the 114 episodes. The dataset d2 note repeats the same unconditioned number.",
+            "suggested_fix": "Attach the condition: \"In a typical episode, the critic's value peaks around timestep 35, just left of the wall. Yet across 114 episodes, the agent moves right through the wall 100% of the time it reaches it.\" Label the curve 'one typical episode (schematic)' and add \"in a typical episode\" to the d2 note."
+          },
+          {
+            "location": "s07b02",
+            "severity": "minor",
+            "category": "clarity",
+            "problem": "The narration says attribution maps \"show which pixels raise the value estimate\". The authors state that the sign of the attributions is often hard to interpret, and they use absolute magnitude (c34). That makes \"raise\" a directional reading the paper does not rely on. It also conflicts with the '|attribution|' legend in s07b03.",
+            "suggested_fix": "Say \"which pixels most strongly influence the value estimate\" instead of \"raise\"."
+          },
+          {
+            "location": "s05b05",
+            "severity": "minor",
+            "category": "misleading_visual",
+            "problem": "Showing the path collect all 4 keys before reaching any chest is stronger than the paper. The paper says the agent collects all the keys \"before opening any remaining chests\" or \"the last chest\", so it may open some chests first. Also, the 'training reward' and much smaller 'test reward' readouts sit next to the key-collecting path, which suggests key-collecting alone causes the drop. The paper reports the gap (Figure 10), but train and test levels also differ in the numbers of keys and chests.",
+            "suggested_fix": "Let the path open one chest before it finishes collecting the keys, and label it 'all keys before the remaining chests'. Move the reward readouts away from the path, or add a caption saying the reward gap is between different level distributions ('training: many chests; test: many keys')."
+          },
+          {
+            "location": "s05b03",
+            "severity": "minor",
+            "category": "missing_limitation",
+            "problem": "The beat never says which Maze II outcome counts as the intended one. The paper conditions this case (\"If it is meant to collect lines and not gems, this is a case of goal misgeneralization\"). It also drops the paper's note that the agent occasionally gets stuck in a corner.",
+            "suggested_fix": "Add a short clause: \"If the intended goal was the line, following colour is goal misgeneralization.\" Optionally add that the agent occasionally got stuck."
+          },
+          {
+            "location": "s06b04",
+            "severity": "minor",
+            "category": "clarity",
+            "problem": "\"Misgeneralization stays below a baseline: a policy that treats the coin as invisible\" does not say what is being compared. The baseline is the failure rate that a coin-blind policy would have, not the policy itself. Non-experts may not see that the agent's miss rate is lower than a coin-blind policy's miss rate.",
+            "suggested_fix": "Rephrase: \"Even with the coin always at the end in training, the agent misses the coin less often than a policy that treats the coin as invisible and only hits it by accident.\""
+          },
+          {
+            "location": "s06b03",
+            "severity": "minor",
+            "category": "misleading_visual",
+            "problem": "After the 2% step, the card shrinks \"a little more\". That encodes how much further randomization helps, but the notes and cited quote give no size (\"More randomization helps\"). The size of the shrink is an invented detail.",
+            "suggested_fix": "Keep the further shrink but do not make its size a signal. Rely on the label 'more randomization helps' and do not describe the change as small."
+          },
+          {
+            "location": "s08b05",
+            "severity": "minor",
+            "category": "misleading_visual",
+            "problem": "When the '2%' marker appears, the Test path bends to the coin. That suggests 2% randomization makes the agent collect the coin, when the paper reports only that goal generalization is \"greatly improved\" and that more randomization helps further.",
+            "suggested_fix": "Show the path bending to the coin in most of several faint test runs instead of one clean run, or add the on-screen label 'greatly improved' next to the 2% marker."
+          },
+          {
+            "location": "s02b04",
+            "severity": "minor",
+            "category": "clarity",
+            "problem": "The narration defines a proxy as \"a feature that tracks the intended goal\". In the paper and notes, a proxy is an objective (a reward R') that correlates with the intended objective in training. The environment features are what make it correlate. Calling it a feature mixes the two.",
+            "suggested_fix": "\"A proxy is a different objective that lines up with the intended goal in training but comes apart from it outside, like 'move right' versus 'reach the coin'.\""
+          },
+          {
+            "location": "s08b01",
+            "severity": "minor",
+            "category": "clarity",
+            "problem": "\"These inductive biases\" points back to the actor and critic biases from s07b05. The paper's argument (c10) is about the inductive biases of the model and training algorithm in general. It rests on the two prerequisites being weak and common. The funnel visual, with the magenta arrow drawn thicker, also implies a general bias toward proxies. That is the authors' separate expectation (c11, hypothesis), and c11 is not cited here.",
+            "suggested_fix": "Say \"the inductive biases of the model and training algorithm\" and attribute it to the authors. Draw the two arrows with equal thickness, or cite c11 and label the thicker proxy arrow as the authors' expectation."
+          },
+          {
+            "location": "logline",
+            "severity": "minor",
+            "category": "clarity",
+            "problem": "\"Four modified Procgen games\" is imprecise. The four environments (CoinRun, Maze I, Maze II, Keys and Chests) come from three Procgen games (CoinRun, Maze, Heist).",
+            "suggested_fix": "Say \"four modified Procgen environments\"."
+          },
+          {
+            "location": "thumbnail.headline",
+            "severity": "minor",
+            "category": "overgeneralization",
+            "problem": "\"Skills transfer, goals don't\" reads as a general law about AI. It is a result about specific trained agents in modified Procgen environments, and more diverse training reduced it.",
+            "suggested_fix": "Make it specific or past tense, e.g. \"Skills transferred. The goal didn't.\" or \"The agent kept its skills, not its goal\"."
+          }
+        ]
+      }
+    },
+    {
+      "content": "efa09052b855a9b0",
+      "recorded_on": "2026-09-26",
+      "review": {
+        "verdict": "accurate",
+        "issues": [
+          {
+            "location": "s07b01",
+            "severity": "minor",
+            "category": "misleading_visual",
+            "problem": "The equal-brightness squares and '=' signs say the critic gives exactly the same value with and without a visible coin. Figure 6 reports no discernible or significant effect, which does not establish exact equality.",
+            "suggested_fix": "Replace '=' with 'no discernible difference' and make the schematic glow approximately, rather than exactly, matched within each pair."
+          },
+          {
+            "location": "s07b04",
+            "severity": "minor",
+            "category": "unsupported_claim",
+            "problem": "The narration says 'across 114 episodes'. The source reports 100% of times the agent reaches the permeable wall (n = 114); it does not identify that denominator as 114 distinct episodes.",
+            "suggested_fix": "Say 'on all 114 recorded wall reaches' or '100% of the times it reached the wall (n = 114)'."
+          },
+          {
+            "location": "s06b05",
+            "severity": "minor",
+            "category": "misleading_visual",
+            "problem": "Showing the test path switch cleanly from the upper-right proxy to the cheese once the training region becomes large suggests a sharp, complete change. Figure 4 shows improving aggregate test reward and says the location proxy persists until the region is quite large; it does not establish such a deterministic switch.",
+            "suggested_fix": "Show several faint test paths gradually favouring the cheese as the region grows, while retaining the paper's qualified 'location proxy persists' label."
+          },
+          {
+            "location": "s08b05",
+            "severity": "minor",
+            "category": "clarity",
+            "problem": "The closing sentence says the agents 'pursued proxies' as an unqualified observation. The paper treats the particular behavioural objectives as hypotheses, as this storyboard explains in s08b03. The closing line could restore that distinction.",
+            "suggested_fix": "Say the agents 'kept their skills out of distribution but appeared to pursue proxies' and keep the CoinRun training-diversity result as stated."
+          }
+        ]
+      }
+    },
+    {
+      "content": "6ed6e767b5813397",
+      "recorded_on": "2026-09-26",
+      "review": {
+        "verdict": "accurate",
+        "issues": [
+          {
+            "location": "s06",
+            "severity": "minor",
+            "category": "overgeneralization",
+            "problem": "The title \"Diversity as a fix\" suggests a general remedy. The paper shows improvement from particular training changes in CoinRun and Maze I, and says greater diversity may alleviate goal misgeneralization; it does not establish a general fix.",
+            "suggested_fix": "Use a scoped title such as \"When diversity helps\" or \"Diversifying CoinRun training\"."
+          },
+          {
+            "location": "s06b05",
+            "severity": "minor",
+            "category": "misleading_visual",
+            "problem": "The changing numbers of test paths bending toward the cheese suggest measured path frequencies. Figure 4 reports aggregate test reward as the training region expands; the paper does not report trajectory counts or proportions for these conditions.",
+            "suggested_fix": "Show the expanding training region and an improving test-reward indicator. If paths remain, mark them as schematic and avoid a changing count or proportion."
+          }
+        ]
+      }
+    },
+    {
+      "content": "6d31a6c3fd3adbe1",
+      "recorded_on": "2026-09-26",
+      "review": {
+        "verdict": "accurate",
+        "issues": []
+      }
+    }
+  ],
+  "site": [
+    {
+      "content": "49b9384ce20f7c74",
+      "recorded_on": "2026-09-26",
+      "review": {
+        "verdict": "accurate",
+        "issues": []
+      }
+    }
+  ]
+}
