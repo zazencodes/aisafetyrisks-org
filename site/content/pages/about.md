@@ -1,40 +1,23 @@
 ---
 title: About
-description: What AI Safety Risks publishes, how the explainers are made, and how we handle accuracy.
+description: How AI Safety Risks explains research, checks accuracy, and how you can support the project.
 ---
-AI Safety Risks publishes short animated explanations of research on the safety of artificial intelligence. Each explainer covers one paper. It shows what the authors did, how their method or argument works, what they found, and where the result stops applying.
+AI Safety Risks publishes short animated explanations of AI safety research, one paper at a time. Each explainer covers the authors’ methods, findings and limits, with links to the original paper.
 
-The goal is to make the primary literature easier to read, not to replace it. Every explainer links to the original paper, and we encourage readers to go there.
+The project is created by Alexander Galea. It is independent, free to watch and share, with no advertising or tracking.
 
 ## How explainers are made
 
-Each explainer is produced by a pipeline that we develop in the open, followed by human review:
+AI models help extract claims, draft scripts and write [Manim](https://www.manim.community/) animations. Narration uses a synthetic voice. Every factual claim is tied to a quoted passage and page number in the paper; automated checks verify quotations and numbers. A person reviews the video and page against the evidence before publication, and each page records who reviewed it and when.
 
-1. **Source extraction.** The paper is broken into individual claims. Each claim records what kind of statement it is and the verbatim passage, with page number, that supports it.
-2. **Storyboarding.** The explanation is planned as a sequence of visual scenes: diagrams of mechanisms, experiments and results rather than slides of text. Every number in the narration must come from a cited passage.
-3. **Animation.** Scenes are written as [Manim](https://www.manim.community/) code and rendered in an isolated environment. The narration uses a synthetic voice.
-4. **Checks.** Automated checks confirm that every quotation appears in the paper and every number can be traced to one. A separate review pass compares the script and page against the paper, looking for overstatement, missing caveats and mislabelled claims.
-5. **Human review.** A person reviews the video and page against the evidence before anything is published. Each page records who reviewed it and when.
-
-AI models do much of the drafting. We say so because readers should know how the material was produced, and because the checks above exist to catch the errors such models make.
-
-## How we label claims
-
-Research papers contain different kinds of statements, and an explainer should not blur them. Findings and evidence on this site carry one of these labels:
-
-- **Observed result**: something measured in the paper's experiments, under the conditions described there.
-- **Theoretical result**: something proved mathematically, under the stated assumptions.
-- **Authors' interpretation**: what the authors believe a result means.
-- **Hypothesis**: a proposed explanation the paper does not establish.
-- **Threat model**: an assumed adversary or failure scenario that the work is designed around.
-- **Future scenario** and **speculation**: claims about situations that do not yet exist.
-
-Results from controlled or artificial evaluation settings are described as such. We do not present them as observations of how deployed AI systems behave unless the paper supports that.
-
-## Corrections
-
-If you find an error, please tell us. Corrections are made on the page and noted in its "updated" date.
+We distinguish measured and theoretical results from authors’ interpretations, hypotheses and future scenarios. Findings retain their assumptions and experimental limits.
 
 ## Choosing papers
 
-We aim to cover important technical AI safety research from roughly the last decade, then keep up with new work. The selection covers alignment, specification problems, interpretability, deceptive behaviour, power-seeking, oversight, control, evaluations, robustness, dangerous capabilities and catastrophic risk. We pick papers for their influence on the field and how much they teach. Inclusion is not an endorsement of a paper's conclusions, and we include work that disagrees.
+We choose technical AI safety papers for their influence and what they teach, covering topics such as alignment, interpretability, oversight, control and evaluations. We include work that disagrees; inclusion is not an endorsement of its conclusions.
+
+## Support the project
+
+You can help by sharing explainers, reporting errors or suggesting papers. Email [alex@galea.dev](mailto:alex@galea.dev) with corrections or recommendations. Corrections are noted in the page’s updated date.
+
+We do not accept donations yet. We plan to open donations once a nonprofit structure is in place.

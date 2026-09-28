@@ -38,7 +38,7 @@
     <div class="wrap">
       <a class="wordmark" href="/">AI Safety <span>Risks</span></a>
       <nav class="nav" aria-label="Primary">
-        {% for href, label in [("/", "Explainers"), ("/doomsday/", "Doomsday scenarios"), ("/ai-safety/", "What is AI safety?"), ("/about/", "About"), ("/support/", "Support")] %}
+        {% for href, label in [("/", "Explainers"), ("/doomsday/", "Doomsday scenarios"), ("/ai-safety/", "What is AI safety?"), ("/about/", "About")] %}
         <a href="{{ href }}"{% if path == href %} aria-current="page"{% endif %}>{{ label }}</a>
         {% endfor %}
       </nav>
@@ -54,7 +54,6 @@
         <a href="/feed.xml">RSS</a>
         {% if site.youtube_channel_url %}<a href="{{ site.youtube_channel_url }}">YouTube</a>{% endif %}
         <a href="/about/">About</a>
-        <a href="/support/">Support</a>
       </nav>
     </div>
   </footer>
