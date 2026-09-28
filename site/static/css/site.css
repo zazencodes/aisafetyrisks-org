@@ -216,6 +216,32 @@ a:hover { text-decoration-color: currentColor; }
 .page { padding-block: clamp(3rem, 8vw, 5.5rem) 4rem; }
 .page h1 { font: 400 clamp(2rem, 4.2vw, 2.9rem)/1.15 var(--serif); margin: 0 0 1.5rem; }
 
+/* Doomsday examples: readable three-beat storyboards until their scenes are animated. */
+.page-doomsday .measure { max-width: var(--wide); }
+.page-doomsday h1,
+.page-doomsday .prose > :not(.scenario-examples) { max-width: var(--measure); margin-left: auto; margin-right: auto; }
+.scenario-examples { margin: 2.5rem 0 3.5rem; }
+.scenario-example { background: var(--band); padding: clamp(1.25rem, 3vw, 2rem); margin: 1.2rem 0; }
+.scenario-example::before { content: "Hypothetical scenario"; display: block; font: 600 0.7rem/1.4 var(--sans); letter-spacing: 0.1em; text-transform: uppercase; color: var(--k-scenario); margin-bottom: 0.8rem; }
+.prose .scenario-example h4 { font: 400 clamp(1.35rem, 2.5vw, 1.8rem)/1.25 var(--serif); margin: 0 0 0.55rem; max-width: 34ch; }
+.prose .scenario-steps { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; padding: 0; margin: 0 0 1.5rem; counter-reset: scenario-step; }
+.prose .scenario-steps li { counter-increment: scenario-step; min-width: 0; position: relative; margin: 0; padding: 2.1rem 1.25rem 0 0; border-top: 1px solid var(--rule); font: 400 0.98rem/1.55 var(--sans); }
+.prose .scenario-steps li:not(:last-child)::after { content: ""; position: absolute; top: -0.25rem; right: 0.45rem; width: 0.4rem; height: 0.4rem; border-top: 1px solid var(--muted); border-right: 1px solid var(--muted); transform: rotate(45deg); }
+.prose .scenario-steps li::before { content: counter(scenario-step, decimal-leading-zero); position: absolute; top: 0.45rem; left: 0; font: 500 0.75rem/1 var(--mono); color: var(--muted); }
+.scenario-steps strong { display: block; font-weight: 600; color: var(--ink); margin-bottom: 0.25rem; }
+.prose .scenario-endpoint { font: 400 1.12rem/1.55 var(--serif); max-width: 52rem; margin: 0 0 1.8rem; }
+.scenario-endpoint strong { color: var(--k-threat); }
+.prose .scenario-evidence { font: 400 0.86rem/1.55 var(--sans); color: var(--muted); margin: 0; max-width: 70ch; }
+.scenario-evidence a { color: var(--accent); }
+@media (max-width: 680px) {
+  .scenario-example { padding: 1.25rem; }
+  .prose .scenario-steps { grid-template-columns: minmax(0, 1fr); margin-bottom: 1rem; }
+  .prose .scenario-steps li { border-top: 0; border-left: 1px solid var(--rule); padding: 0 0 1.25rem 2.75rem; }
+  .prose .scenario-steps li:last-child { padding-bottom: 0; }
+  .prose .scenario-steps li::before { top: 0.15rem; left: 0.7rem; }
+  .prose .scenario-steps li:not(:last-child)::after { top: auto; bottom: 0.7rem; left: 0.65rem; right: auto; transform: rotate(135deg); }
+}
+
 /* ---------------------------------------------------------------- Footer */
 .site-footer { border-top: 1px solid var(--rule); font-size: 0.84rem; color: var(--muted); padding: 2.5rem 0 3rem; }
 .site-footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 2rem; }
