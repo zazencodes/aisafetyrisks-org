@@ -106,15 +106,31 @@ class Beat(Strict):
 class Scene(Strict):
     id: str = Field(description="s01, s02, ...")
     title: str
-    chapter: str = Field(description="Chapter title for YouTube and the website, at most 40 characters")
+    chapter: str = Field(description="Chapter title for YouTube and the website, at most 40 characters; "
+                         "a scene that delivers a roadmap item uses that item's text")
+    roadmap_item: int | None = Field(description="1-based number of the roadmap item this scene delivers; "
+                                     "null for the opening scenes and the closing scene")
+    checkpoint: str | None = Field(description="Narration spoken over the roadmap checklist before this scene's beats. "
+                                   "Required on the first scene of each roadmap item and on the closing scene; null elsewhere")
     purpose: str = Field(description="What the viewer should understand after this scene")
     visual_concept: str = Field(description="The central diagram, mechanism or metaphor, and how it evolves")
     beats: list[Beat] = Field(min_length=1)
 
+    @property
+    def checkpoint_id(self) -> str:
+        return f"{self.id}cp"
+
+    def clips(self) -> list[tuple[str, str]]:
+        """(clip id, narration) in playing order: the checkpoint, if any, then the beats."""
+        head = [(self.checkpoint_id, self.checkpoint)] if self.checkpoint else []
+        return head + [(b.id, b.narration) for b in self.beats]
+
 
 class Thumbnail(Strict):
-    headline: str = Field(description="At most 5 words, no hype")
-    visual: str = Field(description="A single strong image drawn from the video's visual language")
+    headline: str = Field(description="2 to 4 plain words naming a concrete, surprising moment from the paper; "
+                          "no words shared with the title")
+    visual: str = Field(description="That moment, drawn with a few large shapes from the video's visual language, "
+                        "no labels")
 
 
 class Storyboard(Strict):
@@ -123,6 +139,8 @@ class Storyboard(Strict):
     title: str = Field(description="Video title, at most 70 characters, accurate and not sensational")
     logline: str
     visual_language: str = Field(description="Recurring shapes, colors and motifs that carry across scenes")
+    roadmap: list[str] = Field(description="The 3 to 5 items of the checklist shown after the opening and ticked off "
+                               "as the video delivers them; each at most 40 characters, no digits")
     scenes: list[Scene] = Field(min_length=3)
     axis_ticks: dict[str, list[str]] = Field(default_factory=dict, description="Per-beat axis scale labels, not reported findings; each must also appear in that beat's on_screen_text")
     datasets: list[Dataset]
@@ -130,6 +148,16 @@ class Storyboard(Strict):
 
     def beats(self) -> list[Beat]:
         return [b for s in self.scenes for b in s.beats]
+
+    def clips(self) -> list[tuple[str, str]]:
+        """Every narrated clip, (clip id, narration), in playing order."""
+        return [c for s in self.scenes for c in s.clips()]
+
+    def checkpoint_state(self, scene: Scene) -> tuple[int, int | None]:
+        """(items ticked, 0-based item highlighted) that a scene's checkpoint moves the checklist to."""
+        if scene.roadmap_item is None:
+            return len(self.roadmap), None
+        return scene.roadmap_item - 1, scene.roadmap_item - 1
 
 
 # ------------------------------------------------------------------ review
@@ -163,16 +191,9 @@ class VisualIssue(Strict):
     suggested_fix: str
 
 
-class VisualReview(Strict):
-    issues: list[VisualIssue]
-
-
-class SceneVisualReview(VisualReview):
+class SceneVisualReview(Strict):
     render_key: str
-
-
-class SceneCode(Strict):
-    code: str = Field(description="The complete Python file")
+    issues: list[VisualIssue]
 
 
 # ----------------------------------------------------------------- website

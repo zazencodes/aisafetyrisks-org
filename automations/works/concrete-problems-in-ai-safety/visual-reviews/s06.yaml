@@ -1,0 +1,10 @@
+render_key: 753f0a0d5e4979de
+issues:
+  - beat: s06b02
+    severity: minor
+    problem: The red "no" markers on the power grid cluster in the left half, so the grid reads as unevenly marked rather than sparsely marked everywhere.
+    suggested_fix: Spread the marked node indices across the whole grid.
+  - beat: s06b03
+    severity: minor
+    problem: In the simulation panel the outlet trial path and the middle trial path run close together near the robot and partly overlap.
+    suggested_fix: Increase the curvature difference between the first two simulation paths.

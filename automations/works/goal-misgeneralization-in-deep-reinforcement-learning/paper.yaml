@@ -8,7 +8,7 @@ authors:
 - Laurent Orseau
 - David Krueger
 published: '2021-05-28'
-venue: ICML 2022
+venue: null
 url: https://arxiv.org/abs/2105.14111v7
 pdf_url: https://arxiv.org/pdf/2105.14111v7
 arxiv_id: 2105.14111v7
@@ -22,6 +22,6 @@ abstract: We study goal misgeneralization, a type of out-of-distribution general
   and present a partial characterization of its causes.
 source:
   input: '2105.14111'
-  retrieved_on: '2026-09-25'
+  retrieved_on: '2026-09-26'
   sha256: c156771fa2f9b5fa923765cffba243a98476b784bb59156fa9795960ffb89484
   pages: 16

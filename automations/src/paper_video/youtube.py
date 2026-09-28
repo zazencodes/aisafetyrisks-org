@@ -26,8 +26,7 @@ def youtube_package(wd: WorkDir, record: PaperRecord, work: Work, site_url: str)
         f"{copy.description.strip()}\n\n"
         f"Full explainer, with every claim linked to the passage in the paper that supports it:\n{page}\n\n"
         f"Paper: {record.title}\n{', '.join(record.authors)} ({record.published.year})\n{record.url}\n\n"
-        f"Chapters\n{chapters}\n\n"
-        "Narration uses a synthetic voice. Animation made with Manim Community."
+        f"Chapters\n{chapters}"
     )
     if len(description) > 5000:
         raise ValueError("YouTube descriptions are limited to 5000 characters")

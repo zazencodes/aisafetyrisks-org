@@ -1,0 +1,10 @@
+render_key: 6e30f4c08971c210
+issues:
+- beat: s07b04
+  severity: minor
+  problem: '"Knows when it is wrong" fills its box almost edge to edge, leaving little padding.'
+  suggested_fix: Widen the node slightly and shift the confidence meter right to keep clearance.
+- beat: s07b01
+  severity: minor
+  problem: After the robot leaves, the training office holds only four mess dots and looks sparse next to the busy factory.
+  suggested_fix: Leave a faint trace of the robot's cleaning sweep in the office.

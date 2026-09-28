@@ -1,0 +1,31 @@
+slug: concrete-problems-in-ai-safety
+title: Concrete Problems in AI Safety
+authors:
+- Dario Amodei
+- Chris Olah
+- Jacob Steinhardt
+- Paul Christiano
+- John Schulman
+- Dan Mané
+published: '2016-06-21'
+venue: null
+url: https://arxiv.org/abs/1606.06565v2
+pdf_url: https://arxiv.org/pdf/1606.06565v2
+arxiv_id: 1606.06565v2
+doi: null
+abstract: 'Rapid progress in machine learning and artificial intelligence (AI) has brought increasing
+  attention to the potential impacts of AI technologies on society. In this paper we discuss one such
+  potential impact: the problem of accidents in machine learning systems, defined as unintended and harmful
+  behavior that may emerge from poor design of real-world AI systems. We present a list of five practical
+  research problems related to accident risk, categorized according to whether the problem originates
+  from having the wrong objective function ("avoiding side effects" and "avoiding reward hacking"), an
+  objective function that is too expensive to evaluate frequently ("scalable supervision"), or undesirable
+  behavior during the learning process ("safe exploration" and "distributional shift"). We review previous
+  work in these areas as well as suggesting research directions with a focus on relevance to cutting-edge
+  AI systems. Finally, we consider the high-level question of how to think most productively about the
+  safety of forward-looking applications of AI.'
+source:
+  input: '1606.06565'
+  retrieved_on: '2026-09-28'
+  sha256: a3ac7eda67026d6d95f2182b1202ac371b7d9feabcc10a48dc90e417fbac023e
+  pages: 29

@@ -13,9 +13,3 @@ paper-video = { workspace = true }
 
 [tool.uv.workspace]
 members = ["site", "automations"]
-
-[dependency-groups]
-dev = ["pytest>=8"]
-
-[tool.pytest.ini_options]
-testpaths = ["site/tests", "automations/tests"]

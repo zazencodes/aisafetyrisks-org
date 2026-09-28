@@ -111,6 +111,9 @@ def verify_storyboard(sb: Storyboard, notes: Notes, metadata_text: str) -> Repor
         if beat_id not in all_beats:
             report.errors.append(f"axis ticks refer to unknown beat {beat_id}")
     for scene in sb.scenes:
+        for n in numbers_in(scene.checkpoint or ""):
+            if not number_supported(n, [metadata_text]):
+                report.errors.append(f"{scene.id}: number {n} in the checkpoint; keep findings out of checkpoints")
         for beat in scene.beats:
             if beat.id in seen:
                 report.errors.append(f"duplicate beat id {beat.id}")

@@ -155,7 +155,6 @@ class Video(Strict):
 
 
 class Review(Strict):
-    reviewed_by: str
     reviewed_on: date
 
 
@@ -177,7 +176,6 @@ class Work(Strict):
     video: Video
     thumbnail: str = Field(description="Image filename inside the work directory")
     review: Review | None = None
-    production: dict[str, str] = Field(description="How this explainer was produced (pipeline, models)")
 
     @model_validator(mode="after")
     def check_consistency(self) -> "Work":

@@ -23,6 +23,13 @@ STATIC = SITE_ROOT / "static"
 DIST = SITE_ROOT / "dist"
 
 
+class Creator(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    name: str
+    email: str
+
+
 class SiteConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -32,6 +39,7 @@ class SiteConfig(BaseModel):
     base_url: HttpUrl
     media_base_url: HttpUrl
     youtube_channel_url: HttpUrl | None
+    creator: Creator
 
 
 class Page(BaseModel):
@@ -117,36 +125,114 @@ def author_line(authors: list[str]) -> str:
     return f"{authors[0]} et al."
 
 
-def work_jsonld(cfg: SiteConfig, lw: LoadedWork, url: str, image: str, video_url: str) -> str:
-    w = lw.work
-    data = {
+def jsonld(data: dict) -> Markup:
+    """A JSON-LD payload, safe to place inside a <script> element."""
+    return Markup(json.dumps(data, ensure_ascii=False).replace("</", "<\\/"))
+
+
+def site_jsonld(cfg: SiteConfig, base: str) -> dict:
+    """The site, its publisher and its creator; pages refer to these nodes by @id."""
+    return {
         "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": w.title,
-        "description": w.dek,
-        "url": url,
-        "image": image,
-        "datePublished": w.published_on.isoformat() if w.published_on else None,
-        "dateModified": (w.updated_on or w.published_on).isoformat() if w.published_on else None,
-        "publisher": {"@type": "Organization", "name": cfg.name, "url": str(cfg.base_url)},
-        "about": {
-            "@type": "ScholarlyArticle",
-            "name": w.paper.title,
-            "author": [{"@type": "Person", "name": a} for a in w.paper.authors],
-            "datePublished": w.paper.published.isoformat(),
-            "url": str(w.paper.url),
-        },
-        "video": {
-            "@type": "VideoObject",
-            "name": w.title,
-            "description": w.dek,
-            "thumbnailUrl": image,
-            "uploadDate": w.published_on.isoformat() if w.published_on else None,
-            "duration": iso_duration(w.video.duration_seconds),
-            "contentUrl": video_url,
-        },
+        "@graph": [
+            {
+                "@type": "WebSite",
+                "@id": f"{base}/#website",
+                "url": f"{base}/",
+                "name": cfg.name,
+                "description": cfg.description,
+                "inLanguage": "en",
+                "publisher": {"@id": f"{base}/#organization"},
+            },
+            {
+                "@type": "Organization",
+                "@id": f"{base}/#organization",
+                "name": cfg.name,
+                "url": f"{base}/",
+                "founder": {"@id": f"{base}/#creator"},
+                **({"sameAs": [str(cfg.youtube_channel_url)]} if cfg.youtube_channel_url else {}),
+            },
+            {
+                "@type": "Person",
+                "@id": f"{base}/#creator",
+                "name": cfg.creator.name,
+                "email": f"mailto:{cfg.creator.email}",
+                "url": f"{base}/about/",
+            },
+        ],
     }
-    return json.dumps(data, ensure_ascii=False)
+
+
+def work_jsonld(cfg: SiteConfig, base: str, lw: LoadedWork, url: str, image: str, video_url: str) -> dict:
+    """Article + VideoObject (chapters as Clips, for key moments) + BreadcrumbList. Drafts carry no dates."""
+    w = lw.work
+    dates = {}
+    if w.published_on:
+        dates = {"datePublished": w.published_on.isoformat(),
+                 "dateModified": (w.updated_on or w.published_on).isoformat()}
+    ends = [ch.start for ch in w.video.chapters[1:]] + [w.video.duration_seconds]
+    video = {
+        "@type": "VideoObject",
+        "@id": f"{url}#video",
+        "name": w.title,
+        "description": w.dek,
+        "thumbnailUrl": image,
+        "duration": iso_duration(w.video.duration_seconds),
+        "contentUrl": video_url,
+        "inLanguage": "en",
+        "publisher": {"@id": f"{base}/#organization"},
+        "hasPart": [
+            {
+                "@type": "Clip",
+                "name": ch.title,
+                "startOffset": int(ch.start),
+                "endOffset": int(end),
+                "url": f"{url}#t={int(ch.start)}",
+            }
+            for ch, end in zip(w.video.chapters, ends)
+        ],
+    }
+    if w.published_on:
+        video["uploadDate"] = w.published_on.isoformat()
+    if w.video.youtube_url:
+        video["sameAs"] = str(w.video.youtube_url)
+    return {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Article",
+                "@id": f"{url}#article",
+                "headline": w.title,
+                "description": w.dek,
+                "url": url,
+                "mainEntityOfPage": url,
+                "image": image,
+                **dates,
+                "inLanguage": "en",
+                "articleSection": w.category.label,
+                "author": {"@id": f"{base}/#creator"},
+                "publisher": {"@id": f"{base}/#organization"},
+                "isPartOf": {"@id": f"{base}/#website"},
+                "video": {"@id": f"{url}#video"},
+                "about": {
+                    "@type": "ScholarlyArticle",
+                    "name": w.paper.title,
+                    "author": [{"@type": "Person", "name": a} for a in w.paper.authors],
+                    "datePublished": w.paper.published.isoformat(),
+                    "url": str(w.paper.url),
+                    **({"sameAs": f"https://doi.org/{w.paper.doi}"} if w.paper.doi else {}),
+                },
+            },
+            video,
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {"@type": "ListItem", "position": 1, "name": "Explainers", "item": f"{base}/"},
+                    {"@type": "ListItem", "position": 2, "name": w.title, "item": url},
+                ],
+            },
+        ],
+    }
 
 
 def rss(cfg: SiteConfig, works: list[LoadedWork]) -> str:
@@ -224,7 +310,8 @@ def build(include_drafts: bool = False, media_base_url: str | None = None) -> Pa
 
     env = Environment(loader=PackageLoader("aisr_site"), undefined=StrictUndefined, autoescape=True)
     env.filters.update(date=fmt_date, timestamp=fmt_timestamp, authors=author_line)
-    env.globals.update(site=cfg, base=base, css_url=css_url, year=date.today().year)
+    env.globals.update(site=cfg, base=base, css_url=css_url, year=date.today().year,
+                       site_jsonld=jsonld(site_jsonld(cfg, base)))
 
     def write(rel: str, html: str) -> None:
         out = DIST / rel
@@ -260,7 +347,7 @@ def build(include_drafts: bool = False, media_base_url: str | None = None) -> Pa
                 url=url,
                 image=image,
                 video_url=video_url,
-                jsonld=Markup(work_jsonld(cfg, lw, url, image, video_url).replace("</", "<\\/")),
+                jsonld=jsonld(work_jsonld(cfg, base, lw, url, image, video_url)),
                 path=f"/works/{lw.slug}/",
             ),
         )

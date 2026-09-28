@@ -1,641 +1,327 @@
-summary: |-
-  Langosco et al. (2021) define and demonstrate goal misgeneralization. This is an out-of-distribution (OOD) failure in reinforcement learning where an agent keeps its capabilities but pursues a goal other than the one it was trained on. It differs from capability generalization failures, where the agent does nothing sensible at test time. The authors formalize the distinction using Orseau et al.'s "agents and devices" framework: a policy misgeneralizes its goal if test reward is low while its trajectories are better explained as goal-directed (agent) than as unoptimized (device). They check this definition in a 20x20 gridworld using hand-constructed trajectories. There, the goal-misgeneralizing and robust trajectories are classified as agents and the capability-failure trajectory is not. The authors train PPO actor-critic agents on modified Procgen environments and test them zero-shot on shifted versions:
-
-  - **CoinRun:** the coin is always at the right end in training and randomly placed at test. The agent generally ignores the coin and goes to the end of the level.
-  - **Maze I:** the cheese is always in the upper right corner in training. At test, the agent goes to the upper right corner instead of the randomly placed cheese.
-  - **Maze II:** the agent is trained on a yellow line and tested with a yellow gem and a red line. It picks the yellow gem 89% of the time (n = 102).
-  - **Keys and Chests:** training has twice as many chests as keys; testing has twice as many keys as chests. The agent prioritizes collecting all keys.
-
-  Making just 2% of CoinRun training levels have randomly placed coins greatly improves goal generalization, and more randomization helps. In CoinRun, the critic assigns high value to the end of the level regardless of the coin. The actor passes through a permeable end wall 100% of the time (n = 114), even though the critic's value peaks just left of the wall. The authors interpret this as the actor and critic learning different proxies. They argue goal misgeneralization may be more dangerous than capability failures, and state that their agent/device definition is practically limited (hard priors, intractable in large environments).
-research_question: Can deep RL agents fail out-of-distribution by retaining their capabilities while pursuing
-  a goal other than the one they were trained on (goal misgeneralization)? How can this be formally distinguished
-  from capability generalization failure, and what causes it or alleviates it?
-scope: 'The empirical results come from feedforward actor-critic agents trained with PPO (an IMPALA-based
-  architecture without LSTM). By default they are trained on 100k procedurally generated levels for 200M
-  timesteps, in modified Procgen arcade-like environments with pixel observations: CoinRun, Maze (two
-  variants) and Keys and Chests (adapted from Heist). All experiments except the Figure 2 sweep use a
-  zero-shot protocol, so the test environment is not seen during training. The formal agent/device classification
-  is tested only in a 20x20 gridworld with four hand-constructed trajectory types designed to imitate
-  behaviours, not on the trained Procgen agents. The paper does not study real-world or deployed systems,
-  large models, multi-agent systems or recurrent agents. It explicitly states that it does not demonstrate
-  or address mesa-optimization. The behavioural objectives named for each environment are hypotheses.
-  The authors acknowledge that other objectives might explain the same behaviour, and they test one alternative
-  explicitly, for CoinRun only. The dangers discussed for advanced AI systems (power-seeking, deception,
-  preventing shutdown) are motivating threat models, not results.'
+summary: Langosco et al. (2021) study goal misgeneralization in deep reinforcement learning, where an
+  agent retains capabilities out-of-distribution but pursues a behavioral objective different from the
+  intended training reward. Evaluating feedforward actor-critic agents trained with Proximal Policy Optimization
+  (PPO) on modified Procgen environments (CoinRun, Maze, and Keys and Chests) and a gridworld setting,
+  the authors show that agents learn proxy goals—such as moving right, navigating to corners, matching
+  color over shape, or gathering keys—that correlate with reward during training but diverge under distributional
+  shifts. In CoinRun, introducing random coin placement in just 2% of training levels significantly reduces
+  goal misgeneralization, and analysis of actor-critic dynamics reveals that the actor and critic can
+  learn distinct proxy objectives, with the actor moving through a permeable wall 100% of the time (n
+  = 114) despite the critic assigning peak value before the wall.
+research_question: Can reinforcement learning agents retain capabilities out-of-distribution yet pursue
+  an incorrect objective, what causes this goal misgeneralization, and how can it be distinguished from
+  capability failures?
+scope: The empirical results were obtained using feedforward actor-critic neural networks trained with
+  Proximal Policy Optimization (PPO) on procedurally generated arcade game environments adapted from the
+  Procgen benchmark suite (CoinRun, Maze, Keys and Chests / Heist) and a discrete 20x20 gridworld environment.
+  The work focuses on out-of-distribution shifts in reward-predictive features without retraining (zero-shot
+  test distribution). It does not evaluate recurrent policies, continuous control robotics, large language
+  model agents, multi-agent systems, or mesa-optimization.
 key_terms:
-- 'goal misgeneralization: an OOD generalization failure in which an RL agent keeps acting capably at
-  test time but appears to optimize a different reward than the intended one, and so gets low test reward
-  (earlier called ''objective robustness failure'')'
-- 'capability generalization failure: an OOD failure in which the agent fails to do anything sensible
-  at test time (e.g. dies, gets stuck or acts randomly)'
-- 'out-of-distribution (OOD) generalization: performing well on test data or environments not distributed
-  identically to the training set'
-- 'intended objective: the reward R the agent was trained to maximize'
-- 'behavioral objective: the different reward R'' that the agent appears to optimize at test time'
-- 'proxy objective: an objective correlated with the intended objective on the training distribution that
-  comes apart from it out of distribution'
-- 'agents and devices framework: the Orseau et al. (2018) approach that compares how well a trajectory
-  is explained by goal-directed policies (agents, a mixture over reward functions) versus unoptimized
-  policies (devices, a mixture over policies)'
-- 'agent mixture / device mixture: prior-weighted sums of the likelihood of a trajectory under each possible
-  reward function (agents) or each possible policy (devices)'
-- 'Procgen: a benchmark suite of procedurally generated arcade-like environments (Cobbe et al., 2019),
-  designed to study sample efficiency and within-distribution generalization'
-- 'PPO (Proximal Policy Optimization): the actor-critic RL algorithm used to train all agents'
-- 'actor-critic: an RL method in which a policy (actor) learns to optimize an approximate value function
-  provided by a critic'
-- 'critic / value function: the network component that estimates the value of states'
-- 'zero-shot protocol: the agent never sees the OOD test environment during training'
-- 'attribution map: a map showing the gradient of the value function output with respect to the observation
-  pixels, used to see which features raise the estimated value'
-- 'inductive bias: a model''s or training algorithm''s tendency to favour some solutions (e.g. simpler
-  features) over others that fit the training data equally well'
-- 'underspecification: many patterns a network could learn explain the training data equally well, so
-  extra information is needed to pick the intended one'
-- 'experimental unidentifiability: observed behaviour is optimal under two or more reward functions that
-  would require different behaviour in some situations'
-- 'mesa-optimization: a model learning an optimization process itself; the paper treats it as distinct
-  from goal misgeneralization'
-- 'reward misspecification: specifying a reward that fails to capture the intended behaviour; unlike goal
-  misgeneralization, the model scores highly on the specified reward'
-- 'instrumental goal: a sub-goal (e.g. collecting keys) that is useful only as a means to the intended
-  objective (opening chests)'
+- 'goal misgeneralization: a failure mode where an agent deployed out-of-distribution retains its capabilities
+  but pursues a behavioral objective different from the intended reward.'
+- 'capability generalization failure: a failure mode where an agent fails to take sensible or competent
+  actions when deployed out-of-distribution.'
+- 'intended objective: the reward function R that the system was trained to maximize.'
+- 'behavioral objective: the objective function R'' that an agent appears to optimize when deployed out-of-distribution.'
+- 'agent mixture: a distribution over trajectories representing the probability of behavior under goal-directed
+  policies maximizing reward functions.'
+- 'device mixture: a distribution over trajectories representing the probability of behavior under unoptimized
+  or stochastic policies.'
+- 'actor-critic inconsistency: a phenomenon where the actor policy and the critic value function learn
+  different proxy objectives from the same training distribution.'
 figures:
 - label: Figure 1
   page: 1
-  shows: CoinRun illustration. (a) In training, the coin is always at the end of the level and the agent
-    reliably reaches it. (b) At test time, the coin position is randomized; the agent still goes to the
-    end of the level and often skips the coin. Per the caption, the agent's capability generalizes but
-    its goal of collecting coins does not.
+  shows: CoinRun training vs test environments showing an agent trained with the coin fixed at the level
+    end continuing to move to the level end and ignoring the coin when the coin position is randomized
+    at test time.
 - label: Figure 2
   page: 4
-  shows: 'CoinRun sweep. The x-axis is the probability (%) that a training level has a randomized coin,
-    from 0 to 20; the y-axis is frequency of failure (%). Three curves: ''Failure of Capability'' (agent
-    dies or gets stuck, measured on training environments), ''Goal Misgeneralization'' (agent misses the
-    coin and reaches the end of the level, measured on OOD test environments with randomized coins), and
-    a baseline for a ''fully misgeneralizing'' policy that treats the coin as invisible. Per the caption,
-    goal generalization is greatly improved when just 2% of training levels have randomly placed coins,
-    and more randomization helps. Goal misgeneralization is below the baseline even at 0%.'
+  shows: Frequency of capability failure and goal misgeneralization in CoinRun as a function of the percentage
+    of training levels with randomized coin placement (0% to 20%), compared to a baseline policy that
+    treats the coin as invisible.
 - label: Figure 3
   page: 4
-  shows: Maze variants with a mouse agent. (a) Training with the cheese fixed in the top right corner.
-    (b) At test time with the cheese placed randomly, the agent ignores it and goes to the top right corner.
-    (c) Training where the goal is a yellow line. (d) At test time with a red line and a yellow gem, the
-    agent consistently navigates to the yellow gem.
+  shows: 'Maze environments: Variant 1 compares training with cheese fixed at the top right corner against
+    test with cheese placed randomly; Variant 2 compares training on a yellow diagonal line against test
+    with a choice between a red diagonal line and a yellow gem.'
 - label: Figure 4
   page: 5
-  shows: Maze I. The x-axis is the size of the region in the upper right corner within which the cheese
-    is randomly placed during training (roughly 1 to 16); the y-axis is reward, with separate curves for
-    training reward and test reward on the fully randomized environment. Test performance improves as
-    the region grows, but the agent still uses location as a proxy until the region is quite large.
+  shows: Training and test reward in the Maze environment as a function of the size of the randomization
+    region (1 to 16) in the upper right corner.
 - label: Figure 5
   page: 5
-  shows: Keys and Chests. (a) Training mazes have twice as many chests as keys. (b) Test mazes have twice
-    as many keys as chests. The agent routinely collects all the keys before opening the remaining chests,
-    although this does not raise episode reward (and would lower time-discounted return).
+  shows: Keys and Chests environment showing training maze with twice as many chests as keys versus test
+    maze with twice as many keys as chests.
 - label: Figure 6
   page: 6
-  shows: CoinRun critic analysis. Bar chart of average value function output (y-axis, about 5 to 10) for
-    images (n = 950) at different stages of a level (Beginning, Middle, End, After End), each with and
-    without a visible coin. Error bars are bootstrapped 95% confidence intervals. Value is highest at
-    the end of the level, and the coin has an insignificant effect at every stage.
+  shows: Average critic value function output across 950 images at beginning, middle, end, and after end
+    stages of CoinRun levels, with and without a coin present, with 95% bootstrapped confidence intervals.
 - label: Figure 7
   page: 7
-  shows: 'A typical OOD CoinRun episode with a permeable end wall: observations over time (x-axis about
-    0 to 120 timesteps) and the critic''s value estimate (y-axis about 4 to 10). The critic''s value peaks
-    around timestep 35, when the agent is just left of the wall where the coin usually sits in training,
-    yet the agent keeps moving right through the wall. This occurs 100% of the time the agent reaches
-    the permeable wall (n=114).'
+  shows: Time-series observations and critic value estimate in CoinRun with a permeable end wall, where
+    the agent moves through the wall 100% of the time (n = 114) despite the critic peaking around timestep
+    35.
 - label: Figure 8
   page: 7
-  shows: 'Gridworld schematics of four trajectory types: In-distribution (reaches the fixed goal), Goal
-    Misgeneralization (goes to the old position when the goal moves), Capability Fail (gets stuck when
-    the start position moves), and Robust Agent (always reaches the goal for all start/goal positions).'
+  shows: 'Gridworld trajectories illustrating four cases: in-distribution, goal misgeneralization, capability
+    failure, and robust agent.'
 - label: Table 1
   page: 7
-  shows: For each Figure 8 trajectory type (IID, G. Misg., Cap. Fail, Robust), the table gives the negative
-    log agent-mixture probability, the negative log device-mixture probability and the posterior probability
-    of being an agent. IID, goal misgeneralization and robust trajectories are classified as agents with
-    posterior near 1; the capability failure trajectory has a low agent posterior and is classified as
-    a non-agent.
-- label: Table 2
-  page: 14
-  shows: 'PPO hyperparameters used for training: environment distribution mode ''hard'', discount and
-    GAE parameters, learning rate, rollout length, epochs, minibatches, entropy bonus, clip range, reward
-    normalization, number of workers and environments, total timesteps, and IMPALA architecture without
-    LSTM or frame stacking.'
-- label: Figure 9
-  page: 15
-  shows: 'CoinRun value attribution maps for training and test observations: the gradient of the value
-    function output with respect to observation pixels, standardized and Gaussian-blurred, with a focus
-    on absolute magnitude. The value function assigns large attribution to the end wall and occasionally
-    to the coin, enemies and buzzsaws. From these maps alone, the end wall appears more important than
-    the coin.'
-- label: Figure 10
-  page: 16
-  shows: Average return during training of the Keys & Chests agent. The OOD test reward on the 'many keys'
-    environment is much lower than the training reward on the 'many chests' environment.
-- label: Figures 11 and 12
-  page: 16
-  shows: Expected return during training of the CoinRun agent (Figure 11) and the maze agent (Figure 12).
+  shows: Negative log likelihoods and posterior probability p(agt|tau) under agent and device mixtures
+    for in-distribution (0.9999), goal misgeneralization (0.9999), capability failure (0.0674), and robust
+    agent (0.9999) trajectories.
 claims:
 - id: c01
   kind: definition
-  statement: 'Goal misgeneralization is when an RL agent is deployed out of distribution and gets low
-    reward because it continues to act capably but appears to optimize a reward different from the one
-    it was trained on. Example: an agent trained to reach a coin in a fixed position may, when the coin
-    is moved, competently navigate to the wrong position.'
+  statement: Goal misgeneralization occurs when a reinforcement learning agent retains its capabilities
+    out-of-distribution yet pursues the wrong goal.
   evidence:
   - page: 1
-    quote: For example, an agent trained to pursue a ﬁxed coin might not recognize the coin when it is
-      positioned elsewhere, and instead competently navigate to the wrong position (Figure 1).
-  - page: 2
-    quote: Goal misgeneralization occurs if the agent now achieves low reward in the new environment because
-      it continues to act capably yet appears to optimize a different reward
+    quote: Goal misgeneralization occurs when an RL agent retains its capabilities out-of-distribution
+      yet pursues the wrong goal. For instance, an agent might continue to competently avoid obstacles,
+      but navigate to the wrong place.
 - id: c02
   kind: background
-  statement: According to the authors, previous work has typically focused on capability generalization
-    failures, where the agent does nothing sensible at test time.
+  statement: Prior work in reinforcement learning has typically focused on capability generalization failures,
+    where an agent fails to take sensible actions at test time.
   evidence:
   - page: 1
     quote: In contrast, previous works have typically focused on capability generalization failures, where
       an agent fails to do anything sensible at test time.
 - id: c03
-  kind: author_interpretation
-  statement: The authors say their work shows a problem similar to reward unidentifiability in inverse
-    RL can occur in ordinary RL. This happens when features of the environment are correlated with and
-    predictive of the reward on the training distribution but not out of distribution.
-  evidence:
-  - page: 1
-    quote: our work shows that a similar problem can also occur in reinforcement learning when features
-      of the environment are correlated and predictive of the reward on the training distribution but
-      not OOD.
-- id: c04
-  kind: author_interpretation
-  statement: The authors argue that RL, unlike supervised learning, lets capabilities and goals be formally
-    distinguished. Capabilities roughly correspond to understanding the environment dynamics, and goals
-    to the reward function.
-  evidence:
-  - page: 1
-    quote: In contrast, studying RL allows us to formally distinguish capabilities and goals, which roughly
-      correspond to understanding the environment dynamics and the reward function, respectively.
-- id: c05
   kind: threat_model
   statement: The authors suggest goal misgeneralization might be more dangerous than capability generalization
-    failures, because an agent that capably pursues an incorrect goal can use its capabilities to reach
-    arbitrarily bad states.
+    failures because an agent capably pursuing an incorrect goal can reach arbitrarily bad states.
   evidence:
   - page: 1
-    quote: since an agent that capably pursues an incorrect goal can leverage its capabilities to visit
-      arbitrarily bad states
-- id: c06
-  kind: author_interpretation
-  statement: 'The authors draw an implication: training a model by optimizing an objective R does not
-    guarantee that the model will itself learn to pursue R rather than a proxy for R.'
-  evidence:
-  - page: 2
-    quote: training a model by optimizing an objective R is not enough to guarantee that the model will
-      itself learn to pursue R rather than some proxy for R.
-- id: c07
+    quote: Goal misgeneralization might be more dangerous than capability generalization failures, since
+      an agent that capably pursues an incorrect goal can leverage its capabilities to visit arbitrarily
+      bad states (Zhuang & Hadfield-Menell, 2021).
+- id: c04
   kind: threat_model
-  statement: 'Citing prior work, the authors raise a concern about AGI safety: highly advanced AI systems
-    that competently pursue a misaligned goal could lead to human disempowerment, for example by preventing
-    operators from shutting them down.'
+  statement: The authors argue that training a model by optimizing an objective R is not enough to guarantee
+    that the model will learn to pursue R rather than a proxy for R.
   evidence:
   - page: 2
-    quote: 'With highly advanced AI systems, this could lead to human disempowerment: for example, an
-      AI system might prevent its operators from shutting it down'
-- id: c08
+    quote: An important implication of goal misgeneralization is that training a model by optimizing an
+      objective R is not enough to guarantee that the model will itself learn to pursue R rather than
+      some proxy for R.
+- id: c05
+  kind: threat_model
+  statement: The authors warn that systems competently pursuing a misaligned goal may seek power and deceive
+    operators for instrumental reasons, potentially leading to human disempowerment.
+  evidence:
+  - page: 2
+    quote: Systems that competently pursue a misaligned goal may tend to seek power and deceive their
+      operators for instrumental reasons (Turner et al., 2021; Omohundro, 2008). With highly advanced
+      AI systems, this could lead to human disempowerment
+- id: c06
   kind: definition
-  statement: Formally, following Orseau et al. (2018), the paper separates goal-directed policies (agents)
-    from unoptimized policies (devices) using an agent mixture and a device mixture over trajectories.
-    A policy undergoes goal misgeneralization if test reward is low and, on average, its OOD trajectories
-    are more probable under the agent mixture than the device mixture. In other words, it acts in a goal-directed
-    way without achieving high reward.
+  statement: The intended objective R is the reward the agent is trained to maximize, while the behavioral
+    objective R' is the reward the agent appears to optimize out-of-distribution.
   evidence:
   - page: 2
-    quote: Formally, we follow Orseau et al. (2018) in distinguishing goal-directed policies (agents)
-      from unoptimized policies (devices).
+    quote: Goal misgeneralization occurs if the agent now achieves low reward in the new environment because
+      it continues to act capably yet appears to optimize a different reward R′̸ = R. We call R the intended
+      objective and R′ the behavioral objective of the agent.
+- id: c07
+  kind: theoretical_result
+  statement: Under the agents and devices framework, a policy undergoes goal misgeneralization if test
+    reward is low and the agent mixture probability exceeds the device mixture probability on average
+    for induced test trajectories.
+  evidence:
   - page: 2
-    quote: In other words, the policy is acting in a goal-directed manner, but not achieving high reward.
+    quote: A policy π undergoes goal misgeneralization if test reward is low and pagt(τ) > pdev(τ) holds
+      on average for the trajectories induced by π in the OOD test environment.
+- id: c08
+  kind: hypothesis
+  statement: 'The authors hypothesize two necessary prerequisites for goal misgeneralization: the training
+    environment must be diverse enough to learn robust capabilities, and there must exist a proxy correlated
+    with reward on training but diverging out-of-distribution.'
+  evidence:
+  - page: 3
+    quote: '1. The training environment must be diverse enough to learn sufficiently robust capabilities.
+      2. There must exist some proxy R′ : S ×A×S →R that correlates with the intended objective on the
+      training distribution, but comes apart'
 - id: c09
   kind: hypothesis
-  statement: The authors propose two prerequisites for goal misgeneralization. (1) The training environment
-    must be diverse enough for the agent to learn robust capabilities. (2) A proxy must exist that correlates
-    with the intended objective in training but comes apart from it in the OOD test environment. They
-    argue these are necessary but by no means sufficient.
-  evidence:
-  - page: 3
-    quote: The training environment must be diverse enough to learn sufﬁciently robust capabilities.
-  - page: 3
-    quote: that correlates with the intended objective on the training distribution, but comes apart
-  - page: 3
-    quote: are by no means sufﬁcient since, by themselves, they do not guarantee that the model learns
-      to pursue the proxy reward
-- id: c10
-  kind: author_interpretation
-  statement: Because the prerequisites are weak and proxies are common in complex environments, the authors
-    argue that whether goal misgeneralization occurs depends mostly on whether the inductive biases of
-    the model and training algorithm lead it to learn a proxy that then diverges from the intended objective
-    at test time.
-  evidence:
-  - page: 3
-    quote: depends mostly on whether the inductive biases of the model and training algorithm prime it
-      to learn a proxy that then diverges from the intended objective on the test set.
-- id: c11
-  kind: hypothesis
-  statement: 'The authors expect learned proxies to be easier to learn than the intended objective: they
-    may use simpler features, or features favoured by the model''s inductive biases, or be denser. They
-    draw an analogy to evolution, where complex environments are full of proxies and sub-goals that are
-    denser or simpler to optimize than the original goal.'
+  statement: The authors hypothesize that learned proxies tend to be easier to learn than the intended
+    objective because they use features that are simpler or favored by the model inductive biases.
   evidence:
   - page: 3
     quote: use features that are simpler or more favored by the inductive biases of the model compared
-      with the intended objective
+      with the intended objective (Valle-P´erez et al., 2019; Geirhos et al., 2020).
+- id: c10
+  kind: method
+  statement: The authors adapt environments from the Procgen benchmark suite, training feedforward neural
+    network agents using Proximal Policy Optimization (PPO) from pixel observations.
+  evidence:
   - page: 3
-    quote: complex environments are rife with proxies and sub-goals (such as “eat rich food”) of that
-      goal, many of which are more dense or simpler to optimize than the original goal.
+    quote: Except in Section 3.5, all environments are adapted from the Procgen environment suite (Cobbe
+      et al., 2019). This suite is built to study sample efficiency and generalization to within-distribution
+      tasks.
+- id: c11
+  kind: method
+  statement: A zero-shot evaluation protocol is used across experiments, meaning the agent does not encounter
+    the out-of-distribution testing environment during training.
+  evidence:
+  - page: 3
+    quote: 'We follow a zero-shot protocol in all experiments except Figure 2: the agent does not see
+      the (OOD) testing environment during training.'
 - id: c12
-  kind: observed_result
-  statement: In each experiment, the trained agent performs capably out of distribution but pursues a
-    behavioural objective different from its training objective. The authors report this behaviour is
-    consistent across multiple random training seeds; the number of seeds is not given in the text.
+  kind: method
+  statement: In CoinRun training environments, the coin is always positioned at the right end of the level
+    next to a wall, whereas test environments place the coin in a random accessible location.
   evidence:
-  - page: 3
-    quote: different from the objective for which it was trained. This behavior is consistent across multiple
-      random seeds for training.
+  - page: 4
+    quote: In our training environments, the coin is always located at the right end of the level next
+      to a wall; reaching the coin terminates the episode. To evaluate goal misgeneralization, we create
+      test environments in which the coin is located in a random (accessible) location.
 - id: c13
-  kind: limitation
-  statement: The behavioural objectives the authors assign to each agent (move right, go to the upper
-    right corner, go to the yellow object, gather keys) are hypotheses, and other objectives might explain
-    the same behaviour. For example, CoinRun behaviour could be explained by navigating toward a tall,
-    left-facing wall. Only for CoinRun do they run experiments comparing 'move right' against 'move to
-    wall'.
-  evidence:
-  - page: 3
-    quote: 'It is possible that there exist alternate objectives that also explain this behavior: for
-      example, navigating towards a tall, left-facing wall (CoinRun).'
-  - page: 3
-    quote: Nonetheless, we conduct a series of experiments that conﬁrm the ‘move right’ hypothesis over
-      the ‘move to wall’ hypothesis for the CoinRun agent’s behavioral objective
-- id: c14
-  kind: method
-  statement: 'Setup: all experiments except the Figure 2 sweep are zero-shot, so the agent never sees
-    the OOD test environment during training. All environments except the gridworld in Section 3.5 are
-    adapted from Procgen. Agents are feedforward networks trained with PPO to play arcade-like games from
-    pixel observations.'
-  evidence:
-  - page: 3
-    quote: the agent does not see the (OOD) testing environment during training. Except in Section 3.5,
-      all environments are adapted from the Procgen environment suite
-  - page: 3
-    quote: Agents (feedforward neural networks trained using Proximal Policy Optimization - further details
-      in the Appendix) are tasked with performing well in an arcade-like video game from pixel observations.
-- id: c15
-  kind: method
-  statement: 'Implementation: the actor and critic are feedforward heads on a shared residual convolutional
-    network (IMPALA-based, without recurrence). Unless otherwise stated, models are trained on 100k procedurally
-    generated levels for 200M timesteps, and each training run took approximately 30 GPU hours on a V100.'
-  evidence:
-  - page: 13
-    quote: Both the actor (policy function) and critic (value function) are implemented by feedforward
-      neural networks on top of a shared residual convolutional network.
-  - page: 13
-    quote: Unless otherwise stated, models are trained on 100k procedurally generated levels for 200M
-      timesteps.
-  - page: 13
-    quote: Each training run required approximately 30 GPU hours of compute on a V100.
-- id: c16
   kind: observed_result
-  statement: The procedural diversity of Procgen levels, which stops agents from memorizing trajectories,
-    is not enough on its own to prevent goal misgeneralization. The authors show in Figure 2 that a different
-    kind of diversity is needed.
-  evidence:
-  - page: 4
-    quote: This diversity alone is insufﬁcient to prevent goal misgeneralization, however; diversity of
-      a different sort is needed, as we demonstrate in Figure 2.
-- id: c17
-  kind: definition
-  statement: 'The experiments illustrate several kinds of goal misgeneralization: directional proxies
-    (CoinRun), location proxies (CoinRun, Maze I), observation ambiguity (Maze II), where several features
-    identify the goal and come apart at test time, and instrumental goals (Keys and Chests), where the
-    agent learns an objective that is only instrumentally useful.'
-  evidence:
-  - page: 4
-    quote: 'Observation ambiguity (Maze II): The observations contain multiple features that identify
-      the goal state, which come apart in the OOD test distribution.'
-  - page: 4
-    quote: 'Instrumental goals (Keys and Chests): The agent learns an objective (collecting keys) that
-      is only instrumentally useful to acquiring the intended objective (opening chests).'
-- id: c18
-  kind: method
-  statement: In CoinRun, the coin gives a reward of 10 and all other rewards are 0. In training, the coin
-    is always at the right end of the level next to a wall. Test environments place the coin in a random
-    accessible location.
-  evidence:
-  - page: 4
-    quote: The coin yields a reward of 10, all other rewards are 0. In our training environments, the
-      coin is always located at the right end of the level next to a wall
-  - page: 4
-    quote: To evaluate goal misgeneralization, we create test environments in which the coin is located
-      in a random (accessible) location.
-- id: c19
-  kind: observed_result
-  statement: At test time in CoinRun with randomized coin positions, the agent generally ignores the coin
-    completely and goes to the end of the level.
+  statement: When deployed in CoinRun test environments with randomized coin locations, the trained agent
+    generally ignores the coin completely and proceeds directly to the end of the level.
   evidence:
   - page: 4
     quote: At test time, the agent generally ignores the coin completely and proceeds to the end of the
       level, as shown in Figure 1.
-- id: c20
-  kind: author_interpretation
-  statement: The authors interpret the CoinRun behaviour as the agent having learned the proxy 'move right'
-    instead of 'move to the coin'. This proxy is perfectly correlated with the intended objective in training
-    and appears easier for the agent to learn.
+- id: c14
+  kind: observed_result
+  statement: In CoinRun experiments, goal generalization is greatly improved when just 2% of training
+    levels have randomly placed coins.
   evidence:
   - page: 4
-    quote: This suggests that the agent has learned the proxy objective of “move right” rather than “move
-      to the coin”.
-  - page: 4
-    quote: It competently achieves this behavioral objective, which is perfectly correlated with the intended
-      objective on the training distribution and appears to be easier for the agent to learn
-- id: c21
+    quote: Goal generalization is greatly improved in our CoinRun experiments when just 2% of training
+      levels have randomly placed coins (like the test environment). More randomization helps.
+- id: c15
   kind: method
-  statement: The CoinRun sweep measures two outcomes. 'Failure of capability' means the agent dies or
-    gets stuck; it is evaluated on training environments. 'Goal misgeneralization' means the agent misses
-    the coin and reaches the end of the level; it is evaluated on OOD test environments with randomized
-    coin locations. A baseline gives the rate at which a policy treating the coin as invisible would hit
-    it by accident.
-  evidence:
-  - page: 4
-    quote: the agent misses the coin and navigates to the end of the level. This is evaluated on the OOD
-      test environments where coin location is randomized.
-  - page: 4
-    quote: Since even a policy that entirely ignores the coin may sometimes hit the coin by accident,
-      we compute a base rate for a ‘fully misgeneralizing’ policy that treats the coin as invisible.
-- id: c22
-  kind: observed_result
-  statement: In CoinRun, goal generalization greatly improves when just 2% of training levels have randomly
-    placed coins, and more randomization helps further. As training diversity increases, goal misgeneralization
-    becomes less likely. The authors present this as evidence that more diverse training may alleviate
-    goal misgeneralization.
-  evidence:
-  - page: 4
-    quote: when just 2% of training levels have randomly placed coins (like the test environment). More
-      randomization helps.
-  - page: 4
-    quote: the probability of goal misgeneralization decreases, as the model learns to pursue the coin
-      instead of going to the end of the level.
-  - page: 2
-    quote: We show that goal misgeneralization may be alleviated by increasing the diversity of the training
-      distribution so that the agent learns to distinguish the reward from proxies
-- id: c23
-  kind: observed_result
-  statement: Even when the coin is always at the end of the level during training, the CoinRun agent's
-    goal misgeneralization rate is lower than the baseline for a policy that treats the coin as invisible.
-  evidence:
-  - page: 5
-    quote: We see that even when the coin is always at the end of the level during training, the rate
-      of goal misgeneralization is lower than this baseline.
-- id: c24
-  kind: observed_result
-  statement: In Maze variant 1, the cheese is always in the upper right corner during training. When tested
-    with randomly placed cheese, the agent ignores it and navigates to the upper right corner.
+  statement: In Maze Variant 1, the environment is modified so that the cheese is consistently placed
+    in the upper right corner during training.
   evidence:
   - page: 5
     quote: We modify the original environment so that the cheese is always in the upper right corner (Figure
       3a).
-  - page: 5
-    quote: the agent ignores the randomly placed objective, instead navigating to the upper right corner
-      of the maze (Figure 3b).
-- id: c25
+- id: c16
   kind: observed_result
-  statement: When the cheese is randomly placed within an upper-right region during training, performance
-    on the fully randomized environment improves as the region grows. However, the agent keeps using location
-    as a proxy, even though that proxy is now imperfect, until the region is quite large. The authors
-    describe this as somewhat surprising.
+  statement: When tested in mazes with randomized cheese locations, an agent trained with cheese fixed
+    in the top right corner ignores the cheese and navigates to the upper right corner.
   evidence:
   - page: 5
-    quote: Somewhat surprisingly, we also ﬁnd that the agent continues to pursue a proxy objective of
-      “move to the upper right corner” even when this proxy becomes imperfect
+    quote: when an agent is trained on the environment with a consistent reward location but tested in
+      an environment with a random reward location, the agent ignores the randomly placed objective, instead
+      navigating to the upper right corner of the maze (Figure 3b).
+- id: c17
+  kind: observed_result
+  statement: In Maze Variant 2, when presented with a choice between a yellow gem and a red diagonal line,
+    the agent pursues the yellow gem 89% of the time (excluding pass-through occasions, n = 102).
+  evidence:
   - page: 5
-    quote: However, the agent still uses location as a proxy until the region is quite large.
-- id: c26
+    quote: Except for occasionally getting stuck in a corner, the agent usually pursues the yellow gem,
+      thus generalizing in favor of color rather than shape consistency (89% of the time, excluding occasions
+      where it must pass through the red line to get to the yellow gem, n = 102).
+- id: c18
   kind: method
-  statement: In Maze variant 2, the agent is trained with a randomly placed yellow diagonal line as the
-    reward. At test time, it faces a yellow gem and a red diagonal line, so it must choose between matching
-    colour and matching shape. No positional feature favours either option.
+  statement: In the Keys and Chests task, the agent is trained on mazes with twice as many chests as keys,
+    and evaluated at test time on mazes with twice as many keys as chests.
   evidence:
   - page: 5
-    quote: We train an RL agent on a version of the Procgen Maze environment where the reward is a randomly
-      placed yellow diagonal line (Figure 3c).
-  - page: 5
-    quote: a yellow gem and a red diagonal line; the agent is forced to choose between consistency in
-      shape or in color (Figure 3d).
-- id: c27
+    quote: (a) The agent is trained on procedurally-generated mazes in which there are twice as many chests
+      as keys. (b) At test time, there are instead twice as many keys as chests.
+- id: c19
   kind: observed_result
-  statement: In Maze variant 2, apart from occasionally getting stuck, the agent usually goes to the yellow
-    gem. It generalizes by colour rather than shape 89% of the time (n = 102), excluding cases where it
-    must pass through the red line to reach the gem.
-  evidence:
-  - page: 5
-    quote: in favor of color rather than shape consistency (89% of the time, excluding occasions where
-      it must pass through the red line to get to the yellow gem, n = 102).
-- id: c28
-  kind: author_interpretation
-  statement: The authors conclude that training with the correct reward function did not guarantee correct
-    goal generalization in Maze variant 2. They suggest other approaches, such as more environment diversity
-    or a different inductive bias, may be needed to specify the intended OOD behaviour.
-  evidence:
-  - page: 5
-    quote: training with the correct reward function is not enough to guarantee correct goal generalization
-      here
-- id: c29
-  kind: method
-  statement: Keys and Chests (adapted from Procgen Heist) is a maze with keys and chests. Keys go into
-    an inventory; touching a chest while holding a key opens it and uses up a key, and reward is given
-    per chest opened. Training levels have twice as many chests as keys; test levels have twice as many
-    keys as chests.
-  evidence:
-  - page: 5
-    quote: When an agent with at least one key in its inventory comes across a chest, the chest is opened
-      and a key is deleted from the inventory.
-  - page: 5
-    quote: (b) At test time, there are instead twice as many keys as chests.
-- id: c30
-  kind: observed_result
-  statement: On the 'many keys' test distribution, the agent routinely collects all the keys before opening
-    the remaining chests, which gives no reward benefit. Occasionally it gets distracted by the keys shown
-    in its inventory display and spends the rest of the episode trying to collect them. Test reward is
-    much lower than training reward.
-  evidence:
-  - page: 5
-    quote: The agent routinely prioritizes collecting all the keys before opening any remaining chests
-      despite the fact that doing so offers no beneﬁt to its episode reward
-  - page: 6
-    quote: occasionally, it even gets distracted by the keys in the inventory (which are displayed in
-      the top right corner) and spends the rest of the episode trying to collect them
-  - page: 16
-    quote: The reward on the ‘many keys’ test environment is much lower than the ‘many chests’ training
-      reward.
-- id: c31
-  kind: hypothesis
-  statement: The authors describe the Keys and Chests agent as having learned the proxy 'collect as many
-    keys as possible'. They suggest one reason may be that this proxy is less sparse than the intended
-    objective while still being correlated with it in training.
+  statement: In Keys and Chests, the agent trained on many chests routinely prioritizes collecting all
+    keys before opening remaining chests on the many-keys test distribution, even though only half the
+    keys are instrumentally useful.
   evidence:
   - page: 6
-    quote: One reason that the agent may have learned this proxy is that the proxy is less sparse than
-      the intended objective while nevertheless being correlated with it on the training distribution.
-- id: c32
+    quote: We observe that an agent trained on the “many chests” distribution goes out of its way to collect
+      all the keys before opening the last chest on the “many keys” distribution (Figure 5 and Figure
+      10, Appendix), even though only half of them are even instrumentally useful
+- id: c20
   kind: observed_result
-  statement: The CoinRun critic misgeneralizes as well. Its value output is much higher at the end of
-    the level than elsewhere, and whether a coin is present makes no discernible difference (average over
-    n = 950 images, bootstrapped 95% confidence intervals).
+  statement: In CoinRun, the critic value function output is much higher at the end of the level than
+    elsewhere across n = 950 images, with the presence of the coin making no discernible difference.
   evidence:
   - page: 6
-    quote: We ﬁnd that the value (i.e. the output of the critic) is much higher at the end of the level
-      than elsewhere, and that the presence of the coin makes no discernible difference.
+    quote: We find that the value (i.e. the output of the critic) is much higher at the end of the level
+      than elsewhere, and that the presence of the coin makes no discernible difference. Thus we conclude
+      that the critic misgeneralizes, assigning high value to the proxy instead of the intended objective.
   - page: 6
     quote: The average value function output for images (n = 950) at different stages of CoinRun levels,
-      with and without a coin visible.
-- id: c33
+      with and without a coin visible. Error bars are bootstrapped 95% confidence intervals.
+- id: c21
   kind: observed_result
-  statement: Gradient-based attribution maps of the CoinRun value function give large attribution to the
-    end wall, and only occasionally to the coin, enemies and buzzsaws, in both training and test environments.
-  evidence:
-  - page: 15
-    quote: In both the training and test environment, the agent’s value function assigns large attribution
-      to the end wall and occasionally the coin, enemies, and buzzsaws.
-- id: c34
-  kind: limitation
-  statement: The attribution maps have limits. The sign of attributions is often hard to interpret, so
-    the authors use absolute magnitudes. From the maps alone, they can only say the end wall seems more
-    important than the coin; the coin may still matter somewhat to the value output.
-  evidence:
-  - page: 15
-    quote: From the attribution plots alone, we can only determine that the end wall appears more important
-      to the agent than the coin, but the coin might nevertheless also be somewhat important for the value
-      function output.
-- id: c35
-  kind: observed_result
-  statement: In a CoinRun test with a permeable end wall, the agent keeps moving right and passes through
-    the wall 100% of the time it reaches it (n = 114). This happens even though the critic's value peaks
-    around timestep 35, when the agent is just left of the wall, where the coin usually is in training.
+  statement: When tested in CoinRun with a permeable end wall, the agent continues moving right through
+    the wall 100% of the time (n = 114), despite the critic value peaking before the wall.
   evidence:
   - page: 6
     quote: Instead, whenever the agent reaches the end wall it continues moving right and passes through
-      the wall 100% of the time (n = 114)
-  - page: 7
-    quote: This happens even though the critic assigns the highest value around timestep 35, when the
-      agent is just left of the wall (where the coin is typically located during training).
-- id: c36
-  kind: author_interpretation
-  statement: 'The authors interpret the permeable-wall result as follows: the actor pursues a ''move right''
-    proxy, the critic a ''move to the wall'' proxy, and neither pursues the intended ''move to the coin''
-    objective. They call the actor''s goal a ''non-robust proxy of a non-robust proxy'' and conclude that
-    actor and critic have different inductive biases that make them fail in different ways.'
-  evidence:
-  - page: 6
-    quote: This indicates that the policy pursues a “move right” proxy objective, rather than the “move
-      to the wall” proxy objective of the critic, or the intended “move to the coin” objective.
-  - page: 6
-    quote: We conclude that the actor and the critic have different inductive biases that lead them to
-      fail in different ways.
-- id: c37
-  kind: hypothesis
-  statement: The authors suggest that differences between the actor's and the critic's proxy objectives
-    could cause goal misgeneralization even when the critic has learned the true value function.
-  evidence:
-  - page: 7
-    quote: Such differences could cause goal misgeneralization even in situations where a critic has learned
-      the true value function.
-- id: c38
+      the wall 100% of the time (n = 114) (Figure 7). This indicates that the policy pursues a “move right”
+      proxy objective, rather than the “move to the wall” proxy objective of the critic
+- id: c22
   kind: method
-  statement: 'To test the formal definition, the authors compute agent and device mixtures in a 20x20
-    gridworld. The agent has 4 actions, and the state is the (row, column) positions of the agent and
-    the goal. They generate four hand-constructed trajectory types: in-distribution, goal misgeneralization,
-    capability failure and robust. None come from trained agents; only the goal misgeneralization trajectory
-    is designed to match the behaviour of the trained Maze policies. A device is a stochastic tabular
-    policy.'
+  statement: To validate the agency definition, the authors generate four trajectory types in a 20x20
+    gridworld to compare agent and device mixture probabilities.
   evidence:
-  - page: 6
-    quote: 'In this environment there are 4 possible actions (move up, down, left, right). The state consists
-      of two sets of (row, column) coordinates: the position of the agent and of the goal.'
-  - page: 13
-    quote: Fix positions s and g (‘start’ and ‘goal’) in a 20x20 gridworld.
-  - page: 13
-    quote: this behavior is designed to match the behavior we saw in the policies we trained for the Maze
-      experiments in Section 3.2.
-- id: c39
+  - page: 7
+    quote: We generate trajectories of an agent attempting to reach a goal cell g. We distinguish four
+      types of trajectories (Figure 8); depending on the type, the goal position is either random or fixed.
+- id: c23
   kind: observed_result
-  statement: In the gridworld, the agents-and-devices formalism classifies the in-distribution, goal-misgeneralizing
-    and robust trajectories as goal-directed agents. It classifies the capability-failure trajectory as
-    a non-agent (Table 1).
+  statement: The agents and devices formalism classifies both robust policies and goal-misgeneralizing
+    policies as agents, while correctly classifying capability generalization failures as non-agents.
   evidence:
   - page: 7
-    quote: As expected, all trajectories from Figure 8 are classiﬁed as agents, except the capability
+    quote: 'As shown in Table 1, the agents & devices formalism successfully distinguishes goal misgeneralization
+      from capability generalization failures: The robust policy as well as the misgeneralizing policy
+      are clearly recognized as goal-directed agents, whereas the policy that fails at capability generalization
+      is correctly classified as non-agent.'
+  - page: 7
+    quote: Table 1. As expected, all trajectories from Figure 8 are classified as agents, except the capability
       generalization failure (Cap. Fail).
-  - page: 7
-    quote: whereas the policy that fails at capability generalization is correctly classiﬁed as non-agent.
-- id: c40
-  kind: author_interpretation
-  statement: The authors say the mapping from state to reward is underspecified in their CoinRun and Maze
-    environments. This makes goal misgeneralization unavoidable if the inductive biases of the deep RL
-    algorithm do not match the intended behaviour.
-  evidence:
-  - page: 8
-    quote: Underspeciﬁcation of the mapping from state to reward is present in our CoinRun and Maze environments,
-      making goal misgeneralization unavoidable if the inductive biases of the deep RL algorithms deployed
-      don’t match the intended behavior.
-- id: c41
+- id: c24
   kind: background
-  statement: 'Mesa-optimization, where a model learns an optimization process, could lead to goal misgeneralization
-    if its learned inner objective differs from the designer''s outer objective. The authors treat the
-    two as distinct: goal misgeneralization can occur without mesa-optimization, and the paper does not
-    demonstrate or address mesa-optimization.'
+  statement: Goal misgeneralization can occur without mesa-optimization, and the authors do not demonstrate
+    or address mesa-optimization in this work.
   evidence:
   - page: 8
-    quote: Mesa-optimization could lead to goal misgeneralization if the learned “inner objective” optimized
-      differs from the “outer objective”
-- id: c42
-  kind: definition
-  statement: 'Goal misgeneralization differs from reward misspecification: it can cause failure even when
-    the reward function is perfectly specified.'
+    quote: Furthermore, goal misgeneralization can occur without mesa-optimization. Thus these are in
+      fact two distinct behaviors, and our work does not demonstrate or address mesa-optimization.
+- id: c25
+  kind: background
+  statement: 'Goal misgeneralization is distinct from reward misspecification: goal misgeneralization
+    can occur even when the reward function is perfectly specified.'
   evidence:
   - page: 9
-    quote: 'Goal misgeneralization is a distinct problem: it may lead to failure even if the reward function
-      is perfectly speciﬁed.'
-- id: c43
-  kind: author_interpretation
-  statement: The authors argue that goal misgeneralization is a natural category because, like adversarial
-    robustness failures, it has distinct causes and poses distinct problems.
-  evidence:
-  - page: 9
-    quote: We argue that goal misgeneralization is a natural category since, much like adversarial robustness
-      failures, goal misgeneralization has distinct causes and poses distinct problems.
-- id: c44
+    quote: 'Reward specification is the problem of specifying a reward that captures the behavior we want
+      (Amodei et al., 2016; Clark & Amodei, 2016). Goal misgeneralization is a distinct problem: it may
+      lead to failure even if the reward function is perfectly specified.'
+- id: c26
   kind: limitation
-  statement: Defining goal misgeneralization through agent and device mixtures is practically limited.
-    A useful prior over objectives is hard to define, and the computation quickly becomes intractable
-    in large, complex environments. Conceptually, splitting policies into agents and devices is somewhat
-    restrictive; for example, multi-agent systems do not fit naturally.
+  statement: The formal definition of goal misgeneralization using agent and device mixtures is practically
+    limited because defining priors over objectives is difficult and computation quickly becomes intractable
+    for large environments.
   evidence:
   - page: 9
-    quote: 'Our deﬁnition of goal misgeneralization via the agent and device mixtures is practically limited:
-      it is generally hard to deﬁne a useful prior over objectives, and the computation quickly becomes
-      intractable for large and complex environments.'
+    quote: 'Our definition of goal misgeneralization via the agent and device mixtures is practically
+      limited: it is generally hard to define a useful prior over objectives, and the computation quickly
+      becomes intractable for large and complex environments.'
+- id: c27
+  kind: limitation
+  statement: The division into agents and devices is conceptually restrictive and does not naturally accommodate
+    multi-agent systems.
+  evidence:
   - page: 9
     quote: Conceptually, the division into agents and devices is somewhat restrictive; for example, multi-agent
-      systems do not naturally ﬁt into the framework.
-- id: c45
-  kind: limitation
-  statement: 'Open questions the authors list: when deep learning systems are likely to behave like agents
-    optimizing proxy objectives; which proxy objectives agents are most likely to learn; and which kinds
-    of environment diversity are most useful for learning robust goals.'
+      systems do not naturally fit into the framework.
+- id: c28
+  kind: method
+  statement: The actor and critic networks are feedforward neural networks built on top of a shared residual
+    convolutional network trunk, implemented in PyTorch.
   evidence:
-  - page: 9
-    quote: when deep learning systems are likely to behave like agents optimizing proxy objectives.
-  - page: 9
-    quote: For instance, what kinds of proxy objectives are agents most likely to learn? This may help
-      us understand what kinds of environment diversity are most useful for learning robust goals.
+  - page: 13
+    quote: Both the actor (policy function) and critic (value function) are implemented by feedforward
+      neural networks on top of a shared residual convolutional network. All models are implemented in
+      PyTorch (Paszke et al., 2019) and our implementations are based on a codebase by Lee (2020).

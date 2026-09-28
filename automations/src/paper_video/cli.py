@@ -14,7 +14,7 @@ which calls these commands in order:
   paper-video site <slug>                       build the page from site.yaml into site/content/works/
   paper-video youtube <slug>                    package youtube-copy.yaml as youtube.yaml
   paper-video report <slug>                     write checks/report.md for the human reviewer
-  paper-video approve <slug> --reviewer NAME    human sign-off: re-verify, upload media, mark published
+  paper-video approve <slug>                    human sign-off: re-verify, upload media, mark published
   paper-video backlog [--status S]              list the research backlog
 """
 
@@ -59,7 +59,6 @@ def main() -> None:
 
     approve = sub.add_parser("approve", help="approve a reviewed draft for publication")
     approve.add_argument("slug")
-    approve.add_argument("--reviewer", required=True, help="name recorded on the page as the reviewer")
 
     bl = sub.add_parser("backlog", help="list backlog papers")
     bl.add_argument("--status", choices=["queued", "in_progress", "published"])
@@ -89,8 +88,8 @@ def main() -> None:
         case "report":
             pipeline.report(args.slug)
         case "approve":
-            pipeline.approve(args.slug, args.reviewer)
+            pipeline.approve(args.slug)
         case "backlog":
             for e in backlog.load():
                 if args.status in (None, e.status):
-                    print(f"{e.status:<12} {e.year}  {e.category.value:<24} {e.title}")
+                    print(f"{e.status:<12} {e.published}  {e.category.value:<24} {e.title}")

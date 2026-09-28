@@ -11,14 +11,14 @@ from pydantic import BaseModel
 
 from paper_video import backlog
 from paper_video.config import KIT, Config
-from paper_video.context import as_yaml, paper_header, paper_text, prompt, system
+from paper_video.context import PROMPTS, as_yaml, paper_header, paper_text, prompt, system
 from paper_video.models import Notes, PaperRecord, ScienceReview, Scene, SceneVisualReview, Storyboard, WorkDraft
 from paper_video.review import review_file, reviewed_content
 from paper_video.scenes import class_name, narrated_durations, scene_hash, thumbnail_hash
 from paper_video.site_content import paper_links
 from paper_video.workdir import WorkDir, load_model
 
-TASKS = ["analyze", "storyboard", "scene", "thumbnail", "site", "review-storyboard", "review-site"]
+TASKS = ["analyze", "storyboard", "review-audience", "scene", "thumbnail", "site", "review-storyboard", "review-site"]
 CLI = "uv run --frozen paper-video"
 
 
@@ -39,9 +39,13 @@ def _scene_inputs(record: PaperRecord, notes: Notes, sb: Storyboard, scene: Scen
     claims = [c for c in notes.claims if c.id in cited]
     outline = "\n".join(f"- {s.id} {s.title}: {s.purpose}" for s in sb.scenes)
     timing = "\n".join(f"- {b.id}: {durations[b.id]:.1f} s of narration" for b in scene.beats)
+    checkpoint = (
+        "The kit plays this scene's roadmap checkpoint before your first beat and clears the screen after it. "
+        "Start the first beat from an empty frame and do not draw the roadmap yourself."
+        if scene.checkpoint else "This scene has no checkpoint.")
     return (
         f"{paper_header(record)}\n\n# Visual language of the whole video\n\n{sb.visual_language}\n\n"
-        f"# Outline of the whole video\n\n{outline}\n\n# Datasets\n\n"
+        f"# Outline of the whole video\n\n{outline}\n\n# Roadmap checkpoint\n\n{checkpoint}\n\n# Datasets\n\n"
         + "\n".join(as_yaml(d) for d in sb.datasets)
         + "\n\n# Claims cited in this scene\n\n"
         + "\n".join(f"- {c.id} ({c.kind}): {c.statement}" for c in claims)
@@ -60,6 +64,28 @@ def _storyboard(wd: WorkDir, record: PaperRecord, notes: Notes) -> str:
     return (
         f"{system('storyboard')}\n\n{_yaml_output(wd.storyboard, Storyboard, f'{CLI} check {wd.slug} storyboard')}\n\n"
         f"# Paper\n\n{paper_header(record)}\n\n# Reading notes\n\n{as_yaml(notes)}"
+    )
+
+
+def _script(sb: Storyboard) -> str:
+    """The video as a newcomer would meet it: narration in order, with what is on screen."""
+    lines = [f"Title: {sb.title}", f"Roadmap: {'; '.join(f'{i}. {item}' for i, item in enumerate(sb.roadmap, 1))}", ""]
+    for scene in sb.scenes:
+        lines.append(f"## [{scene.id}] Chapter: {scene.chapter}")
+        if scene.checkpoint:
+            done, active = sb.checkpoint_state(scene)
+            state = f"{done} ticked" + (f", item {active + 1} highlighted" if active is not None else "")
+            lines.append(f"- {scene.checkpoint_id} (roadmap checklist on screen, {state}): {scene.checkpoint}")
+        for b in scene.beats:
+            lines.append(f"- {b.id}: {b.narration}\n  On screen: {b.visual}")
+        lines.append("")
+    return "\n".join(lines)
+
+
+def _audience(sb: Storyboard) -> str:
+    return (
+        f"{prompt('audience_review')}\n\n# Output\n\nReply with your answers and the list of issues. "
+        f"Do not edit any file.\n\n# The script\n\n{_script(sb)}"
     )
 
 
@@ -101,11 +127,13 @@ def _thumbnail(wd: WorkDir, record: PaperRecord, sb: Storyboard) -> str:
 
 
 def _site(wd: WorkDir, record: PaperRecord, notes: Notes, sb: Storyboard) -> str:
-    narration = "\n".join(f"[{s.id} {s.title}] " + " ".join(b.narration for b in s.beats) for s in sb.scenes)
+    narration = "\n".join(f"[{s.id} {s.title}] " + " ".join(text for _, text in s.clips()) for s in sb.scenes)
     links = paper_links(wd.pages())
     entry = backlog.find(backlog.load(), record.arxiv_id, str(record.url))
     return (
-        f"{system('site')}\n\n{_yaml_output(wd.site_draft, WorkDraft, f'{CLI} site {wd.slug}')}\n\n"
+        f"{system('site')}\n\n# Reference page\n\nA finished page for another paper. Match its length, tone and "
+        f"structure; take nothing else from it.\n\n```yaml\n{(PROMPTS / 'site_example.yaml').read_text()}```\n\n"
+        f"{_yaml_output(wd.site_draft, WorkDraft, f'{CLI} site {wd.slug}')}\n\n"
         f"# Paper\n\n{paper_header(record)}\n\n# Reading notes\n\n{as_yaml(notes)}\n\n"
         f"# Narration of the video this page accompanies\n\n{narration}\n\n"
         "# URLs printed in the paper\n\n" + ("\n".join(f"- {u}" for u in links) or "(none)")
@@ -119,7 +147,7 @@ def _review(wd: WorkDir, record: PaperRecord, notes: Notes, subject: str) -> str
         f"{system('science_review')}\n\nYou did not write this {name}. Do not edit it; write only your review.\n\n"
         f"{_yaml_output(review_file(wd, subject), ScienceReview, f'{CLI} review {wd.slug} {subject}')} "
         "That command records your review; report its output.\n\n"
-        f"# Paper\n\n{paper_header(record)}\n\n# Full paper text\n\n{paper_text(wd.pages())}\n\n"
+        f"# Paper\n\n{paper_header(record)}\n\n"
         f"# Reading notes the explainer was built from\n\n{as_yaml(notes)}\n\n"
         f"# The {name} to review\n\n{reviewed_content(wd, subject)}\n\n"
     )
@@ -135,6 +163,8 @@ def write_brief(wd: WorkDir, record: PaperRecord, cfg: Config, task: str, scene_
             text = _analyze(wd, record)
         case "storyboard":
             text = _storyboard(wd, record, notes)
+        case "review-audience":
+            text = _audience(sb)
         case "scene":
             text = _scene(wd, record, notes, sb, cfg, scene_id)
         case "thumbnail":

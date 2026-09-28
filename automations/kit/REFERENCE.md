@@ -20,7 +20,8 @@ Accents, used by role and consistently across the whole video:
 
 - `T(text, size=30, color=INK, weight=None, width=None)` sans label. `weight=MEDIUM` or `SEMIBOLD`
   for emphasis. `width=28` wraps to 28 characters per line.
-- `Serif(text, size=44, color=INK, italic=False, width=None)` serif, for titles and quotations.
+- `Serif(text, size=44, color=INK, italic=False, weight=None, width=None)` serif, for titles and
+  quotations. `weight=BOLD` for thumbnail headlines.
 - `Mono(text, size=26, color=SOFT)` monospace, for prompts, model outputs, code.
 - `wrap(text, width)` returns the string broken into lines.
 
@@ -71,5 +72,7 @@ class S03(NarratedScene):
 - `b.duration` is the narration length in seconds. Spend at most that long on `self.play` and
   `self.wait` inside the block; the scene waits for the rest of the narration automatically.
 - `self.paper` has `title`, `short` (e.g. "Langosco et al. (2022)") and `year`.
+- Roadmap checkpoints are drawn by the kit. When a scene has a checkpoint, the kit shows the
+  roadmap checklist before the first beat and clears the screen after it. Never draw the roadmap.
 - The layout is checked at the end of every beat: text outside the frame and text overlapping
   other text are reported as defects.

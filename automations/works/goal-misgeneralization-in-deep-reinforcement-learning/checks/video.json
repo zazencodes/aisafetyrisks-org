@@ -1,31 +1,31 @@
 {
-  "duration": 302.666667,
+  "duration": 243.983333,
   "width": 1920,
   "height": 1080,
   "chapters": [
     {
       "start": 0.0,
-      "title": "The question"
+      "title": "The Hidden Risk of AI Competence"
     },
     {
-      "start": 45.52,
-      "title": "The experiment"
+      "start": 40.0,
+      "title": "Competent pursuit of wrong goals"
     },
     {
-      "start": 98.03,
-      "title": "The mechanism"
+      "start": 78.72,
+      "title": "Why learned proxies take over"
     },
     {
-      "start": 156.02,
-      "title": "A second example"
+      "start": 127.08,
+      "title": "Actor and critic disagreement"
     },
     {
-      "start": 201.0,
-      "title": "What helped in CoinRun"
+      "start": 167.5,
+      "title": "Fixing proxies through diversity"
     },
     {
-      "start": 250.83,
-      "title": "Meaning and limits"
+      "start": 204.75,
+      "title": "What This Means for AI Safety"
     }
   ],
   "problems": []

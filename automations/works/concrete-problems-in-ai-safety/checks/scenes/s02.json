@@ -1,0 +1,18 @@
+{
+  "scene": "s02",
+  "rendered": true,
+  "render_key": "7a3e0a0057e44bde",
+  "problems": [],
+  "render_log_tail": null,
+  "layout_problems": [],
+  "visual_review": {
+    "issues": [
+      {
+        "beat": "s02b01",
+        "severity": "minor",
+        "problem": "The shrunken office in the lower right is small, so the messes and score counter read only as specks.",
+        "suggested_fix": "Scale the office to about half size instead of 0.4 if space allows."
+      }
+    ]
+  }
+}

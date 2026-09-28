@@ -18,7 +18,7 @@ from paper_video.models import ScienceReview, Storyboard
 from paper_video.workdir import WorkDir, dump_yaml, load_json, load_model, save_json
 
 SUBJECTS = ("storyboard", "site")
-# The written parts of a page; the claims register, video and production details are checked elsewhere.
+# The written parts of a page; the claims register and video are checked elsewhere.
 REVIEWED_FIELDS = {"title", "dek", "category", "summary", "explanation", "findings", "limitations", "context",
                    "references"}
 

@@ -1,0 +1,14 @@
+render_key: 4202cab85300d569
+issues:
+  - beat: s08b01
+    severity: minor
+    problem: The "Reward hacking" tab sits on the office floor's top edge, so its border touches the floor outline.
+    suggested_fix: Move the tab slightly down or place the score a little lower inside the floor.
+  - beat: s08b02
+    severity: minor
+    problem: The office panel has no label, while the factory and hospital panels are labelled "Industrial" and "Health".
+    suggested_fix: Add a quiet "Office" label under the office panel.
+  - beat: s08b03
+    severity: minor
+    problem: The five tabs are laid out in two rows (three and two) rather than one row, to keep them legible at full size.
+    suggested_fix: Accept, or shorten spacing and use size 20 text to fit a single row.

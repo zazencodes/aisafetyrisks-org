@@ -1,0 +1,12 @@
+verdict: accurate
+issues:
+- location: explanation[3].body
+  severity: minor
+  category: clarity
+  problem: Calling hours of personal inspection "the best measure" is stronger than
+    c34, which describes a possible desired objective based on the user’s happiness
+    after inspecting the result. The surrounding sparse-oversight explanation is supported
+    by c34 and c35.
+  suggested_fix: 'Replace the first sentence with: "The paper considers an objective
+    based on how happy a user would be after hours inspecting the result, but that
+    level of oversight cannot be provided for every training example [c34]."'

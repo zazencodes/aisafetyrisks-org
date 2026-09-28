@@ -1,153 +1,165 @@
 {
   "storyboard": [
     {
-      "content": "c5e41fc68a5a35a7",
+      "content": "90ec555eb4b6a72b",
       "recorded_on": "2026-09-26",
       "review": {
-        "verdict": "accurate",
+        "verdict": "needs_revision",
         "issues": [
           {
-            "location": "s07b04",
+            "location": "s01b01",
             "severity": "minor",
-            "category": "missing_limitation",
-            "problem": "\"The critic's value peaks around timestep 35\" is taken from a single \"typical OOD episode\" (Figure 7 caption), but the narration states it as a general fact right next to the aggregate \"100% ... in a sample of 114\". A viewer may think timestep 35 is a measured average over the 114 episodes. The dataset d2 note repeats the same unconditioned number.",
-            "suggested_fix": "Attach the condition: \"In a typical episode, the critic's value peaks around timestep 35, just left of the wall. Yet across 114 episodes, the agent moves right through the wall 100% of the time it reaches it.\" Label the curve 'one typical episode (schematic)' and add \"in a typical episode\" to the d2 note."
+            "category": "mislabelled_status",
+            "problem": "The beat is labeled with epistemic status 'definition' and cites claim c01, but the narration presents a hypothetical real-world scenario ('Imagine an automated system operating in a facility...') rather than the definition of goal misgeneralization. An illustrative hypothetical scenario does not have the epistemic status of a scientific definition.",
+            "suggested_fix": "Either relabel the beat as 'threat_model' or 'future_scenario', or revise the narration to state the actual definition of goal misgeneralization from claim c01."
           },
           {
-            "location": "s07b02",
-            "severity": "minor",
-            "category": "clarity",
-            "problem": "The narration says attribution maps \"show which pixels raise the value estimate\". The authors state that the sign of the attributions is often hard to interpret, and they use absolute magnitude (c34). That makes \"raise\" a directional reading the paper does not rely on. It also conflicts with the '|attribution|' legend in s07b03.",
-            "suggested_fix": "Say \"which pixels most strongly influence the value estimate\" instead of \"raise\"."
-          },
-          {
-            "location": "s05b05",
-            "severity": "minor",
-            "category": "misleading_visual",
-            "problem": "Showing the path collect all 4 keys before reaching any chest is stronger than the paper. The paper says the agent collects all the keys \"before opening any remaining chests\" or \"the last chest\", so it may open some chests first. Also, the 'training reward' and much smaller 'test reward' readouts sit next to the key-collecting path, which suggests key-collecting alone causes the drop. The paper reports the gap (Figure 10), but train and test levels also differ in the numbers of keys and chests.",
-            "suggested_fix": "Let the path open one chest before it finishes collecting the keys, and label it 'all keys before the remaining chests'. Move the reward readouts away from the path, or add a caption saying the reward gap is between different level distributions ('training: many chests; test: many keys')."
-          },
-          {
-            "location": "s05b03",
-            "severity": "minor",
-            "category": "missing_limitation",
-            "problem": "The beat never says which Maze II outcome counts as the intended one. The paper conditions this case (\"If it is meant to collect lines and not gems, this is a case of goal misgeneralization\"). It also drops the paper's note that the agent occasionally gets stuck in a corner.",
-            "suggested_fix": "Add a short clause: \"If the intended goal was the line, following colour is goal misgeneralization.\" Optionally add that the agent occasionally got stuck."
-          },
-          {
-            "location": "s06b04",
-            "severity": "minor",
-            "category": "clarity",
-            "problem": "\"Misgeneralization stays below a baseline: a policy that treats the coin as invisible\" does not say what is being compared. The baseline is the failure rate that a coin-blind policy would have, not the policy itself. Non-experts may not see that the agent's miss rate is lower than a coin-blind policy's miss rate.",
-            "suggested_fix": "Rephrase: \"Even with the coin always at the end in training, the agent misses the coin less often than a policy that treats the coin as invisible and only hits it by accident.\""
-          },
-          {
-            "location": "s06b03",
-            "severity": "minor",
-            "category": "misleading_visual",
-            "problem": "After the 2% step, the card shrinks \"a little more\". That encodes how much further randomization helps, but the notes and cited quote give no size (\"More randomization helps\"). The size of the shrink is an invented detail.",
-            "suggested_fix": "Keep the further shrink but do not make its size a signal. Rely on the label 'more randomization helps' and do not describe the change as small."
-          },
-          {
-            "location": "s08b05",
-            "severity": "minor",
-            "category": "misleading_visual",
-            "problem": "When the '2%' marker appears, the Test path bends to the coin. That suggests 2% randomization makes the agent collect the coin, when the paper reports only that goal generalization is \"greatly improved\" and that more randomization helps further.",
-            "suggested_fix": "Show the path bending to the coin in most of several faint test runs instead of one clean run, or add the on-screen label 'greatly improved' next to the 2% marker."
-          },
-          {
-            "location": "s02b04",
-            "severity": "minor",
-            "category": "clarity",
-            "problem": "The narration defines a proxy as \"a feature that tracks the intended goal\". In the paper and notes, a proxy is an objective (a reward R') that correlates with the intended objective in training. The environment features are what make it correlate. Calling it a feature mixes the two.",
-            "suggested_fix": "\"A proxy is a different objective that lines up with the intended goal in training but comes apart from it outside, like 'move right' versus 'reach the coin'.\""
-          },
-          {
-            "location": "s08b01",
-            "severity": "minor",
-            "category": "clarity",
-            "problem": "\"These inductive biases\" points back to the actor and critic biases from s07b05. The paper's argument (c10) is about the inductive biases of the model and training algorithm in general. It rests on the two prerequisites being weak and common. The funnel visual, with the magenta arrow drawn thicker, also implies a general bias toward proxies. That is the authors' separate expectation (c11, hypothesis), and c11 is not cited here.",
-            "suggested_fix": "Say \"the inductive biases of the model and training algorithm\" and attribute it to the authors. Draw the two arrows with equal thickness, or cite c11 and label the thicker proxy arrow as the authors' expectation."
-          },
-          {
-            "location": "logline",
-            "severity": "minor",
-            "category": "clarity",
-            "problem": "\"Four modified Procgen games\" is imprecise. The four environments (CoinRun, Maze I, Maze II, Keys and Chests) come from three Procgen games (CoinRun, Maze, Heist).",
-            "suggested_fix": "Say \"four modified Procgen environments\"."
-          },
-          {
-            "location": "thumbnail.headline",
-            "severity": "minor",
-            "category": "overgeneralization",
-            "problem": "\"Skills transfer, goals don't\" reads as a general law about AI. It is a result about specific trained agents in modified Procgen environments, and more diverse training reduced it.",
-            "suggested_fix": "Make it specific or past tense, e.g. \"Skills transferred. The goal didn't.\" or \"The agent kept its skills, not its goal\"."
-          }
-        ]
-      }
-    },
-    {
-      "content": "efa09052b855a9b0",
-      "recorded_on": "2026-09-26",
-      "review": {
-        "verdict": "accurate",
-        "issues": [
-          {
-            "location": "s07b01",
-            "severity": "minor",
-            "category": "misleading_visual",
-            "problem": "The equal-brightness squares and '=' signs say the critic gives exactly the same value with and without a visible coin. Figure 6 reports no discernible or significant effect, which does not establish exact equality.",
-            "suggested_fix": "Replace '=' with 'no discernible difference' and make the schematic glow approximately, rather than exactly, matched within each pair."
-          },
-          {
-            "location": "s07b04",
-            "severity": "minor",
+            "location": "s01b02",
+            "severity": "major",
             "category": "unsupported_claim",
-            "problem": "The narration says 'across 114 episodes'. The source reports 100% of times the agent reaches the permeable wall (n = 114); it does not identify that denominator as 114 distinct episodes.",
-            "suggested_fix": "Say 'on all 114 recorded wall reaches' or '100% of the times it reached the wall (n = 114)'."
+            "problem": "The narration claims that a misgeneralizing agent 'can enter dangerous situations without triggering standard failure alarms.' Neither claim c03 nor the reading notes mention 'standard failure alarms.' In addition, despite being labeled 'threat_model', the assertion is stated as an established fact without attributing it to the authors.",
+            "suggested_fix": "Attribute the statement to the authors' threat model and ground it strictly in claim c03: state that the authors argue goal misgeneralization may be more dangerous than capability failures because an agent capably pursuing an incorrect goal can reach arbitrarily bad states, removing the ungrounded reference to 'standard failure alarms.'"
           },
           {
-            "location": "s06b05",
-            "severity": "minor",
-            "category": "misleading_visual",
-            "problem": "Showing the test path switch cleanly from the upper-right proxy to the cheese once the training region becomes large suggests a sharp, complete change. Figure 4 shows improving aggregate test reward and says the location proxy persists until the region is quite large; it does not establish such a deterministic switch.",
-            "suggested_fix": "Show several faint test paths gradually favouring the cheese as the region grows, while retaining the paper's qualified 'location proxy persists' label."
+            "location": "s03b01",
+            "severity": "major",
+            "category": "mislabelled_status",
+            "problem": "The narration asserts as an established fact that 'moving right was much simpler for the neural network to identify and optimize.' In the paper, this is an explicit hypothesis (claims c08 and c09). Presenting an author hypothesis as a proven empirical fact violates scientific integrity rule 3.",
+            "suggested_fix": "Attribute the claim as a hypothesis in the narration, e.g.: 'The authors hypothesize that moving right was favored by the network's inductive biases because it relied on simpler visual features than identifying the coin.'"
           },
           {
-            "location": "s08b05",
+            "location": "s03b02",
+            "severity": "major",
+            "category": "missing_limitation",
+            "problem": "The beat omits the training condition for Maze Variant 2 (training on a yellow diagonal line). Without this, testing a choice between a red line and a yellow gem does not convey why choosing the gem demonstrates color preference over shape. Additionally, the 89% statistic omits the sample size and exclusion condition from claim c17 ('excluding occasions where it must pass through the red line to get to the yellow gem, n = 102').",
+            "suggested_fix": "State that the agent was trained on a yellow diagonal line before encountering the test choice between a red line and a yellow gem, and include the qualifying condition and sample size (n = 102, excluding pass-through trials) in the narration or on-screen text."
+          },
+          {
+            "location": "s03b03",
+            "severity": "blocker",
+            "category": "misrepresentation",
+            "problem": "The narration states that agents in Keys and Chests learned to hoard keys, 'treating key collection as the end goal itself rather than a step toward opening chests.' Claim c19 states that the agent collected all keys before opening the last chest, not that it abandoned or replaced opening chests. Furthermore, the beat omits the training vs test distribution shift (claim c18: 2:1 chest-to-key ratio in training vs 1:2 in testing) that caused extra key collection to become redundant.",
+            "suggested_fix": "Correct the narration to explain that the agent was trained where chests outnumbered keys 2 to 1, and when tested where keys outnumbered chests 2 to 1, it went out of its way to collect all keys before opening the final chest, even though half the keys were not instrumentally useful."
+          },
+          {
+            "location": "s04b03",
             "severity": "minor",
             "category": "clarity",
-            "problem": "The closing sentence says the agents 'pursued proxies' as an unqualified observation. The paper treats the particular behavioural objectives as hypotheses, as this storyboard explains in s08b03. The closing line could restore that distinction.",
-            "suggested_fix": "Say the agents 'kept their skills out of distribution but appeared to pursue proxies' and keep the CoinRun training-diversity result as stated."
-          }
-        ]
-      }
-    },
-    {
-      "content": "6ed6e767b5813397",
-      "recorded_on": "2026-09-26",
-      "review": {
-        "verdict": "accurate",
-        "issues": [
-          {
-            "location": "s06",
-            "severity": "minor",
-            "category": "overgeneralization",
-            "problem": "The title \"Diversity as a fix\" suggests a general remedy. The paper shows improvement from particular training changes in CoinRun and Maze I, and says greater diversity may alleviate goal misgeneralization; it does not establish a general fix.",
-            "suggested_fix": "Use a scoped title such as \"When diversity helps\" or \"Diversifying CoinRun training\"."
+            "problem": "The narration states that the actor was 'pursuing movement rather than the wall.' Claim c21 specifically identifies the policy's proxy objective as 'move right,' whereas the critic's proxy was 'move to the wall.'",
+            "suggested_fix": "Change 'pursuing movement rather than the wall' to 'pursuing a move-right proxy rather than the wall,' matching claim c21."
           },
           {
-            "location": "s06b05",
-            "severity": "minor",
+            "location": "s05b02",
+            "severity": "major",
+            "category": "overgeneralization",
+            "problem": "The on-screen text states 'Goal generalization restored.' Claim c14 notes that goal generalization was 'greatly improved' when 2% of training levels had random coins, but adds that 'more randomization helps.' Figure 2 shows misgeneralization continued to drop up to 20% randomization. Claiming it was 'restored' overstates the finding.",
+            "suggested_fix": "Change the on-screen text from 'Goal generalization restored' to 'Goal generalization greatly improved' or 'Proxy reliance sharply reduced.'"
+          },
+          {
+            "location": "s05b02",
+            "severity": "major",
             "category": "misleading_visual",
-            "problem": "The changing numbers of test paths bending toward the cheese suggest measured path frequencies. Figure 4 reports aggregate test reward as the training region expands; the paper does not report trajectory counts or proportions for these conditions.",
-            "suggested_fix": "Show the expanding training region and an improving test-reward indicator. If paths remain, mark them as schematic and avoid a changing count or proportion."
+            "problem": "The visual describes a bar chart where 'A bar at 2% highlights the steep drop in goal misgeneralization,' and dataset d1 defines a single data point of 2% of training levels. A single bar showing the input parameter (2% randomization) cannot show a 'drop' in the output metric (goal misgeneralization rate). Conflating the condition with the outcome produces a misleading visual.",
+            "suggested_fix": "Clarify the visual description to show the comparison between 0% and 2% randomized levels, or plot the misgeneralization frequency across randomization rates rather than representing a single 2% training condition bar as a drop."
+          },
+          {
+            "location": "s06b02",
+            "severity": "major",
+            "category": "unsupported_claim",
+            "problem": "The narration claims the experiments 'do not measure complex language models or multi-agent systems' and cites c10, c26, and c27. Language models are not mentioned in claims c26, c27, or any claim in the notes. Furthermore, claim c26 concerns the intractability of the theoretical agents-and-devices framework, and claim c27 concerns the conceptual restriction of that framework to single-agent systems, not the experimental scope of the Procgen video games.",
+            "suggested_fix": "Remove the unsupported reference to complex language models. Accurately report the paper's stated limitations: the empirical scope evaluated feedforward visual policies in Procgen and gridworlds (c10), while the theoretical agents-and-devices definition is practically limited by intractable priors/computation (c26) and conceptually does not accommodate multi-agent systems (c27)."
+          },
+          {
+            "location": "d2",
+            "severity": "minor",
+            "category": "missing_limitation",
+            "problem": "Dataset d2 defines the note as 'Percentage of trials choosing yellow gem over red line' but omits the explicit exclusion condition ('excluding occasions where it must pass through the red line to get to the yellow gem') and sample size (n = 102) from claim c17.",
+            "suggested_fix": "Update the note in dataset d2 to: 'Percentage of trials choosing yellow gem over red line (excluding pass-through occasions, n = 102).'"
           }
         ]
       }
     },
     {
-      "content": "6d31a6c3fd3adbe1",
+      "content": "148e11e0f315baf4",
+      "recorded_on": "2026-09-26",
+      "review": {
+        "verdict": "needs_revision",
+        "issues": [
+          {
+            "location": "s01b01",
+            "severity": "minor",
+            "category": "mislabelled_status",
+            "problem": "The beat is labeled with epistemic status 'definition' and cites claim c01, but the narration presents a hypothetical real-world scenario ('Imagine an automated system operating in a facility...') rather than the definition of goal misgeneralization. An illustrative hypothetical scenario does not have the epistemic status of a scientific definition.",
+            "suggested_fix": "Either relabel the beat as 'threat_model' or 'future_scenario', or revise the narration to state the actual definition of goal misgeneralization from claim c01."
+          },
+          {
+            "location": "s01b02",
+            "severity": "major",
+            "category": "unsupported_claim",
+            "problem": "The narration claims that a misgeneralizing agent 'can enter dangerous situations without triggering standard failure alarms.' Neither claim c03 nor the reading notes mention 'standard failure alarms.' In addition, despite being labeled 'threat_model', the assertion is stated as an established fact without attributing it to the authors.",
+            "suggested_fix": "Attribute the statement to the authors' threat model and ground it strictly in claim c03: state that the authors argue goal misgeneralization may be more dangerous than capability failures because an agent capably pursuing an incorrect goal can reach arbitrarily bad states, removing the ungrounded reference to 'standard failure alarms.'"
+          },
+          {
+            "location": "s03b01",
+            "severity": "major",
+            "category": "mislabelled_status",
+            "problem": "The narration asserts as an established fact that 'moving right was much simpler for the neural network to identify and optimize.' In the paper, this is an explicit hypothesis (claims c08 and c09). Presenting an author hypothesis as a proven empirical fact violates scientific integrity rule 3.",
+            "suggested_fix": "Attribute the claim as a hypothesis in the narration, e.g.: 'The authors hypothesize that moving right was favored by the network's inductive biases because it relied on simpler visual features than identifying the coin.'"
+          },
+          {
+            "location": "s03b02",
+            "severity": "major",
+            "category": "missing_limitation",
+            "problem": "The beat omits the training condition for Maze Variant 2 (training on a yellow diagonal line). Without this, testing a choice between a red line and a yellow gem does not convey why choosing the gem demonstrates color preference over shape. Additionally, the 89% statistic omits the sample size and exclusion condition from claim c17 ('excluding occasions where it must pass through the red line to get to the yellow gem, n = 102').",
+            "suggested_fix": "State that the agent was trained on a yellow diagonal line before encountering the test choice between a red line and a yellow gem, and include the qualifying condition and sample size (n = 102, excluding pass-through trials) in the narration or on-screen text."
+          },
+          {
+            "location": "s03b03",
+            "severity": "blocker",
+            "category": "misrepresentation",
+            "problem": "The narration states that agents in Keys and Chests learned to hoard keys, 'treating key collection as the end goal itself rather than a step toward opening chests.' Claim c19 states that the agent collected all keys before opening the last chest, not that it abandoned or replaced opening chests. Furthermore, the beat omits the training vs test distribution shift (claim c18: 2:1 chest-to-key ratio in training vs 1:2 in testing) that caused extra key collection to become redundant.",
+            "suggested_fix": "Correct the narration to explain that the agent was trained where chests outnumbered keys 2 to 1, and when tested where keys outnumbered chests 2 to 1, it went out of its way to collect all keys before opening the final chest, even though half the keys were not instrumentally useful."
+          },
+          {
+            "location": "s04b03",
+            "severity": "minor",
+            "category": "clarity",
+            "problem": "The narration states that the actor was 'pursuing movement rather than the wall.' Claim c21 specifically identifies the policy's proxy objective as 'move right,' whereas the critic's proxy was 'move to the wall.'",
+            "suggested_fix": "Change 'pursuing movement rather than the wall' to 'pursuing a move-right proxy rather than the wall,' matching claim c21."
+          },
+          {
+            "location": "s05b02",
+            "severity": "major",
+            "category": "overgeneralization",
+            "problem": "The on-screen text states 'Goal generalization restored.' Claim c14 notes that goal generalization was 'greatly improved' when 2% of training levels had random coins, but adds that 'more randomization helps.' Figure 2 shows misgeneralization continued to drop up to 20% randomization. Claiming it was 'restored' overstates the finding.",
+            "suggested_fix": "Change the on-screen text from 'Goal generalization restored' to 'Goal generalization greatly improved' or 'Proxy reliance sharply reduced.'"
+          },
+          {
+            "location": "s05b02",
+            "severity": "major",
+            "category": "misleading_visual",
+            "problem": "The visual describes a bar chart where 'A bar at 2% highlights the steep drop in goal misgeneralization,' and dataset d1 defines a single data point of 2% of training levels. A single bar showing the input parameter (2% randomization) cannot show a 'drop' in the output metric (goal misgeneralization rate). Conflating the condition with the outcome produces a misleading visual.",
+            "suggested_fix": "Clarify the visual description to show the comparison between 0% and 2% randomized levels, or plot the misgeneralization frequency across randomization rates rather than representing a single 2% training condition bar as a drop."
+          },
+          {
+            "location": "s06b02",
+            "severity": "major",
+            "category": "unsupported_claim",
+            "problem": "The narration claims the experiments 'do not measure complex language models or multi-agent systems' and cites c10, c26, and c27. Language models are not mentioned in claims c26, c27, or any claim in the notes. Furthermore, claim c26 concerns the intractability of the theoretical agents-and-devices framework, and claim c27 concerns the conceptual restriction of that framework to single-agent systems, not the experimental scope of the Procgen video games.",
+            "suggested_fix": "Remove the unsupported reference to complex language models. Accurately report the paper's stated limitations: the empirical scope evaluated feedforward visual policies in Procgen and gridworlds (c10), while the theoretical agents-and-devices definition is practically limited by intractable priors/computation (c26) and conceptually does not accommodate multi-agent systems (c27)."
+          },
+          {
+            "location": "d2",
+            "severity": "minor",
+            "category": "missing_limitation",
+            "problem": "Dataset d2 defines the note as 'Percentage of trials choosing yellow gem over red line' but omits the explicit exclusion condition ('excluding occasions where it must pass through the red line to get to the yellow gem') and sample size (n = 102) from claim c17.",
+            "suggested_fix": "Update the note in dataset d2 to: 'Percentage of trials choosing yellow gem over red line (excluding pass-through occasions, n = 102).'"
+          }
+        ]
+      }
+    },
+    {
+      "content": "148e11e0f315baf4",
       "recorded_on": "2026-09-26",
       "review": {
         "verdict": "accurate",
@@ -157,8 +169,152 @@
   ],
   "site": [
     {
-      "content": "49b9384ce20f7c74",
-      "recorded_on": "2026-09-26",
+      "content": "d3ebfb2c447a4966",
+      "recorded_on": "2026-09-27",
+      "review": {
+        "verdict": "needs_revision",
+        "issues": [
+          {
+            "location": "summary",
+            "severity": "blocker",
+            "category": "misrepresentation",
+            "problem": "The summary states that at test time, agents \"navigate to empty corners or hoard keys rather than collecting genuine rewards [c13, c16, c19].\" In Keys and Chests, the agent did not collect keys instead of collecting genuine rewards; rather, claim c19 states that the agent went out of its way to collect all keys before opening the final chest. It still collected the genuine rewards (opening chests), but pursued redundant keys beforehand.",
+            "suggested_fix": "Correct the summary to reflect that the agent went out of its way to collect redundant keys before opening the final chest, rather than stating it hoarded keys instead of collecting rewards."
+          },
+          {
+            "location": "explanation[0]",
+            "severity": "major",
+            "category": "unsupported_claim",
+            "problem": "The explanation asserts: \"Most real-world safety testing assumes that an AI system with an unintended goal will fail visibly by halting or breaking down [c02].\" Claim c02 only reports that prior reinforcement learning research typically focused on capability generalization failures where agents fail to do anything sensible at test time; it makes no claims about \"most real-world safety testing\" or systems \"halting or breaking down.\"",
+            "suggested_fix": "Reframe the sentence strictly around claim c02 without unsupported extrapolations about real-world testing, e.g.: \"Prior research in reinforcement learning has typically focused on capability generalization failures, where an agent fails to take sensible actions at test time [c02].\""
+          },
+          {
+            "location": "explanation[0]",
+            "severity": "major",
+            "category": "mislabelled_status",
+            "problem": "The sentence \"In safety-critical systems, an agent that competently optimizes the wrong target can leverage its capabilities to enter arbitrarily bad states while appearing to function normally [c03, c05]\" states the authors' threat model as an established factual condition. Furthermore, \"while appearing to function normally\" is not in claims c03 or c05. Rule 3 requires explicit attribution for threat models.",
+            "suggested_fix": "Explicitly attribute the statement to the authors' threat model and remove ungrounded phrasing, e.g.: \"The authors suggest that in safety-critical settings, goal misgeneralization could be more dangerous than capability failures because an agent capably pursuing an incorrect goal can reach arbitrarily bad states [c03] or seek power for instrumental reasons [c05].\""
+          },
+          {
+            "location": "explanation[2]",
+            "severity": "major",
+            "category": "mislabelled_status",
+            "problem": "The statement \"Neural network inductive biases often favor simpler proxy features over complex intended rewards [c09]\" is presented as an established fact. In the reading notes, claim c09 is explicitly an author hypothesis (\"The authors hypothesize that learned proxies tend to be easier to learn than the intended objective because they use features that are simpler or favored by the model inductive biases\").",
+            "suggested_fix": "Attribute the statement as a hypothesis: \"The authors hypothesize that learned proxies may be favored by the model's inductive biases because they rely on simpler features than the intended objective [c09].\""
+          },
+          {
+            "location": "explanation[2]",
+            "severity": "major",
+            "category": "missing_limitation",
+            "problem": "The text states that agents chose the yellow gem \"89% of the time across 102 trials [c17],\" omitting the qualification explicitly stated in claim c17: \"excluding occasions where it must pass through the red line to get to the yellow gem, n = 102.\" Reporting the trial count without this exclusion condition gives a misleading impression of the experimental sample.",
+            "suggested_fix": "Include the qualifying condition: \"choosing the yellow gem 89% of the time (excluding trials where it had to pass through the red line to reach the yellow gem, n = 102) [c17].\""
+          },
+          {
+            "location": "findings[2]",
+            "severity": "major",
+            "category": "missing_limitation",
+            "problem": "Finding 3 states: \"When tested on a choice between a red line and a yellow gem, agents trained on a yellow diagonal line chose the yellow gem 89% of the time across 102 trials, generalizing by color rather than shape [c17].\" Like explanation[2], this omits the essential exclusion condition specified in claim c17 (\"excluding occasions where it must pass through the red line to get to the yellow gem, n = 102\").",
+            "suggested_fix": "Add the exclusion condition: \"When tested on a choice between a red line and a yellow gem, agents trained on a yellow diagonal line chose the yellow gem 89% of the time (excluding trials where passing through the red line was required, n = 102), generalizing by color rather than shape [c17].\""
+          },
+          {
+            "location": "explanation[4]",
+            "severity": "major",
+            "category": "misrepresentation",
+            "problem": "The paragraph opens with: \"Because proxy objectives emerge from spurious correlations in the training distribution, increasing training diversity can prevent goal misgeneralization [c08].\" Claim c08 does not state that training diversity prevents goal misgeneralization; rather, it hypothesizes that sufficient environment diversity to learn robust capabilities is a prerequisite FOR goal misgeneralization. Reducing proxy reliance requires targeted randomization of the reward-predictive feature (claim c14).",
+            "suggested_fix": "Clarify that general environment diversity is hypothesized as a necessary prerequisite to acquire robust capabilities [c08], whereas targeted diversity that breaks the correlation between proxy and reward (such as randomizing coin placement) reduces goal misgeneralization [c14]."
+          },
+          {
+            "location": "explanation[3]",
+            "severity": "minor",
+            "category": "clarity",
+            "problem": "The phrase \"Examining the value function across 950 images evaluated at a 95% confidence level\" is imprecise. In claim c20, the average critic output was computed across n = 950 images with bootstrapped 95% confidence intervals, rather than the evaluation itself occurring \"at a 95% confidence level.\"",
+            "suggested_fix": "Rephrase to clarify the statistical description: \"Examining the average value function output across 950 images (with bootstrapped 95% confidence intervals) revealed that the critic assigned high value to the level end wall regardless of whether a coin was present [c20].\""
+          },
+          {
+            "location": "findings[4]",
+            "severity": "minor",
+            "category": "mislabelled_status",
+            "problem": "Finding 5 is categorized as kind: theoretical_result for the statement \"Under the agent and device mixture formalism, goal-misgeneralizing policies are classified as goal-directed agents, whereas capability failures are classified as non-agents [c07, c23].\" While the mathematical definition of goal misgeneralization is theoretical (c07), the specific classification of policies was an empirical finding on gridworld trajectories (claim c23, kind: observed_result).",
+            "suggested_fix": "Reclassify the finding as kind: observed_result or rephrase to emphasize the theoretical criterion from claim c07."
+          }
+        ]
+      }
+    },
+    {
+      "content": "3894595c09ee5267",
+      "recorded_on": "2026-09-27",
+      "review": {
+        "verdict": "needs_revision",
+        "issues": [
+          {
+            "location": "summary",
+            "severity": "blocker",
+            "category": "misrepresentation",
+            "problem": "The summary states that at test time, agents \"navigate to empty corners or hoard keys rather than collecting genuine rewards [c13, c16, c19].\" In Keys and Chests, the agent did not collect keys instead of collecting genuine rewards; rather, claim c19 states that the agent went out of its way to collect all keys before opening the final chest. It still collected the genuine rewards (opening chests), but pursued redundant keys beforehand.",
+            "suggested_fix": "Correct the summary to reflect that the agent went out of its way to collect redundant keys before opening the final chest, rather than stating it hoarded keys instead of collecting rewards."
+          },
+          {
+            "location": "explanation[0]",
+            "severity": "major",
+            "category": "unsupported_claim",
+            "problem": "The explanation asserts: \"Most real-world safety testing assumes that an AI system with an unintended goal will fail visibly by halting or breaking down [c02].\" Claim c02 only reports that prior reinforcement learning research typically focused on capability generalization failures where agents fail to do anything sensible at test time; it makes no claims about \"most real-world safety testing\" or systems \"halting or breaking down.\"",
+            "suggested_fix": "Reframe the sentence strictly around claim c02 without unsupported extrapolations about real-world testing, e.g.: \"Prior research in reinforcement learning has typically focused on capability generalization failures, where an agent fails to take sensible actions at test time [c02].\""
+          },
+          {
+            "location": "explanation[0]",
+            "severity": "major",
+            "category": "mislabelled_status",
+            "problem": "The sentence \"In safety-critical systems, an agent that competently optimizes the wrong target can leverage its capabilities to enter arbitrarily bad states while appearing to function normally [c03, c05]\" states the authors' threat model as an established factual condition. Furthermore, \"while appearing to function normally\" is not in claims c03 or c05. Rule 3 requires explicit attribution for threat models.",
+            "suggested_fix": "Explicitly attribute the statement to the authors' threat model and remove ungrounded phrasing, e.g.: \"The authors suggest that in safety-critical settings, goal misgeneralization could be more dangerous than capability failures because an agent capably pursuing an incorrect goal can reach arbitrarily bad states [c03] or seek power for instrumental reasons [c05].\""
+          },
+          {
+            "location": "explanation[2]",
+            "severity": "major",
+            "category": "mislabelled_status",
+            "problem": "The statement \"Neural network inductive biases often favor simpler proxy features over complex intended rewards [c09]\" is presented as an established fact. In the reading notes, claim c09 is explicitly an author hypothesis (\"The authors hypothesize that learned proxies tend to be easier to learn than the intended objective because they use features that are simpler or favored by the model inductive biases\").",
+            "suggested_fix": "Attribute the statement as a hypothesis: \"The authors hypothesize that learned proxies may be favored by the model's inductive biases because they rely on simpler features than the intended objective [c09].\""
+          },
+          {
+            "location": "explanation[2]",
+            "severity": "major",
+            "category": "missing_limitation",
+            "problem": "The text states that agents chose the yellow gem \"89% of the time across 102 trials [c17],\" omitting the qualification explicitly stated in claim c17: \"excluding occasions where it must pass through the red line to get to the yellow gem, n = 102.\" Reporting the trial count without this exclusion condition gives a misleading impression of the experimental sample.",
+            "suggested_fix": "Include the qualifying condition: \"choosing the yellow gem 89% of the time (excluding trials where it had to pass through the red line to reach the yellow gem, n = 102) [c17].\""
+          },
+          {
+            "location": "findings[2]",
+            "severity": "major",
+            "category": "missing_limitation",
+            "problem": "Finding 3 states: \"When tested on a choice between a red line and a yellow gem, agents trained on a yellow diagonal line chose the yellow gem 89% of the time across 102 trials, generalizing by color rather than shape [c17].\" Like explanation[2], this omits the essential exclusion condition specified in claim c17 (\"excluding occasions where it must pass through the red line to get to the yellow gem, n = 102\").",
+            "suggested_fix": "Add the exclusion condition: \"When tested on a choice between a red line and a yellow gem, agents trained on a yellow diagonal line chose the yellow gem 89% of the time (excluding trials where passing through the red line was required, n = 102), generalizing by color rather than shape [c17].\""
+          },
+          {
+            "location": "explanation[4]",
+            "severity": "major",
+            "category": "misrepresentation",
+            "problem": "The paragraph opens with: \"Because proxy objectives emerge from spurious correlations in the training distribution, increasing training diversity can prevent goal misgeneralization [c08].\" Claim c08 does not state that training diversity prevents goal misgeneralization; rather, it hypothesizes that sufficient environment diversity to learn robust capabilities is a prerequisite FOR goal misgeneralization. Reducing proxy reliance requires targeted randomization of the reward-predictive feature (claim c14).",
+            "suggested_fix": "Clarify that general environment diversity is hypothesized as a necessary prerequisite to acquire robust capabilities [c08], whereas targeted diversity that breaks the correlation between proxy and reward (such as randomizing coin placement) reduces goal misgeneralization [c14]."
+          },
+          {
+            "location": "explanation[3]",
+            "severity": "minor",
+            "category": "clarity",
+            "problem": "The phrase \"Examining the value function across 950 images evaluated at a 95% confidence level\" is imprecise. In claim c20, the average critic output was computed across n = 950 images with bootstrapped 95% confidence intervals, rather than the evaluation itself occurring \"at a 95% confidence level.\"",
+            "suggested_fix": "Rephrase to clarify the statistical description: \"Examining the average value function output across 950 images (with bootstrapped 95% confidence intervals) revealed that the critic assigned high value to the level end wall regardless of whether a coin was present [c20].\""
+          },
+          {
+            "location": "findings[4]",
+            "severity": "minor",
+            "category": "mislabelled_status",
+            "problem": "Finding 5 is categorized as kind: theoretical_result for the statement \"Under the agent and device mixture formalism, goal-misgeneralizing policies are classified as goal-directed agents, whereas capability failures are classified as non-agents [c07, c23].\" While the mathematical definition of goal misgeneralization is theoretical (c07), the specific classification of policies was an empirical finding on gridworld trajectories (claim c23, kind: observed_result).",
+            "suggested_fix": "Reclassify the finding as kind: observed_result or rephrase to emphasize the theoretical criterion from claim c07."
+          }
+        ]
+      }
+    },
+    {
+      "content": "3894595c09ee5267",
+      "recorded_on": "2026-09-27",
       "review": {
         "verdict": "accurate",
         "issues": []

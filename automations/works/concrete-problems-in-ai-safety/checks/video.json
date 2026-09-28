@@ -1,0 +1,36 @@
+{
+  "duration": 466.666667,
+  "width": 1920,
+  "height": 1080,
+  "chapters": [
+    {
+      "start": 0.0,
+      "title": "A good score and a broken vase"
+    },
+    {
+      "start": 39.05,
+      "title": "Five concrete problems"
+    },
+    {
+      "start": 91.32,
+      "title": "When the goal leaves things out"
+    },
+    {
+      "start": 166.9,
+      "title": "When the goal can be gamed"
+    },
+    {
+      "start": 258.8,
+      "title": "When checking is too costly"
+    },
+    {
+      "start": 314.22,
+      "title": "Risky trials and unfamiliar places"
+    },
+    {
+      "start": 401.77,
+      "title": "Back to the office"
+    }
+  ],
+  "problems": []
+}

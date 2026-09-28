@@ -1,4 +1,4 @@
-"""Narration: one audio clip per storyboard beat, synthesized locally with Kokoro."""
+"""Narration: one audio clip per narrated clip (checkpoint or beat), synthesized locally with Kokoro."""
 
 import hashlib
 from pathlib import Path
@@ -38,16 +38,16 @@ def audio_key(text: str, cfg: TTSConfig) -> str:
 
 
 def narrate(wd: WorkDir, sb: Storyboard, cfg: TTSConfig) -> dict[str, float]:
-    """Synthesize any beat whose text or voice changed. Returns {beat_id: seconds}."""
+    """Synthesize any clip whose text or voice changed. Returns {clip_id: seconds}."""
     manifest_path = wd.audio / "manifest.json"
     manifest = load_json(manifest_path) if manifest_path.exists() else {}
     engine = None
     durations = {}
-    for beat in sb.beats():
-        text = spoken(beat.narration)
-        key = audio_key(beat.narration, cfg)
-        wav = wd.audio / f"{beat.id}.wav"
-        entry = manifest.get(beat.id)
+    for clip_id, narration in sb.clips():
+        text = spoken(narration)
+        key = audio_key(narration, cfg)
+        wav = wd.audio / f"{clip_id}.wav"
+        entry = manifest.get(clip_id)
         if not (entry and entry["key"] == key and wav.exists()):
             if engine is None:
                 from kokoro_onnx import Kokoro
@@ -63,11 +63,11 @@ def narrate(wd: WorkDir, sb: Storyboard, cfg: TTSConfig) -> dict[str, float]:
             wav.parent.mkdir(parents=True, exist_ok=True)
             sf.write(wav, samples, rate)
             entry = {"key": key, "duration": len(samples) / rate}
-            manifest[beat.id] = entry
-        durations[beat.id] = entry["duration"]
+            manifest[clip_id] = entry
+        durations[clip_id] = entry["duration"]
     stale = set(manifest) - set(durations)
-    for beat_id in stale:
-        del manifest[beat_id]
-        (wd.audio / f"{beat_id}.wav").unlink(missing_ok=True)
+    for clip_id in stale:
+        del manifest[clip_id]
+        (wd.audio / f"{clip_id}.wav").unlink(missing_ok=True)
     save_json(manifest_path, manifest)
     return durations

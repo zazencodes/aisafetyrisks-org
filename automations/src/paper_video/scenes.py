@@ -3,7 +3,7 @@
 Scene files in scenes/ are written by the session running the workflow (one subagent per scene,
 from `paper-video brief <slug> scene --scene <id>`). Each file's first line records the hash of
 the storyboard scene it implements; a file whose scene has changed is refused until updated.
-Renders are cached by code, kit and narration; agent-written visual reviews are keyed to each render.
+Renders are cached by code, kit, narration and roadmap; agent-written visual reviews are keyed to each render.
 """
 
 import hashlib
@@ -53,28 +53,40 @@ def kit_hash() -> str:
 
 
 def narrated_durations(wd: WorkDir, sb: Storyboard, cfg: TTSConfig) -> dict[str, float]:
-    """Narration length of each beat. Fails if the audio does not match the storyboard's narration."""
+    """Narration length of each clip. Fails if the audio does not match the storyboard's narration."""
     manifest_path = wd.audio / "manifest.json"
     manifest = load_json(manifest_path) if manifest_path.exists() else {}
-    stale = [b.id for b in sb.beats() if manifest.get(b.id, {}).get("key") != audio_key(b.narration, cfg)]
+    stale = [cid for cid, text in sb.clips() if manifest.get(cid, {}).get("key") != audio_key(text, cfg)]
     if stale:
         raise ValueError(f"narration is missing or out of date for {stale}; run `paper-video narrate {wd.slug}`")
-    return {b.id: manifest[b.id]["duration"] for b in sb.beats()}
+    return {cid: manifest[cid]["duration"] for cid, _ in sb.clips()}
 
 
 def render_context(wd: WorkDir, record: PaperRecord, sb: Storyboard, durations: dict[str, float], cfg: Config) -> dict:
-    beats = {}
+    beats, checkpoints = {}, {}
     for scene in sb.scenes:
         for i, beat in enumerate(scene.beats):
             beats[beat.id] = {
+                "scene": scene.id,
                 "audio": str(wd.audio / f"{beat.id}.wav"),
                 "duration": durations[beat.id],
                 "last": i == len(scene.beats) - 1,
             }
+        if scene.checkpoint:
+            done, active = sb.checkpoint_state(scene)
+            checkpoints[scene.id] = {
+                "id": scene.checkpoint_id,
+                "audio": str(wd.audio / f"{scene.checkpoint_id}.wav"),
+                "duration": durations[scene.checkpoint_id],
+                "done": done,
+                "active": active,
+            }
     return {
         "paper": {"title": record.title, "short": short_citation(record), "year": record.published.year},
         "beat_pause": cfg.render.beat_pause,
+        "roadmap": sb.roadmap,
         "beats": beats,
+        "checkpoints": checkpoints,
         "datasets": {d.id: d.model_dump(mode="json") for d in sb.datasets},
     }
 
@@ -126,7 +138,9 @@ class SceneRenderer:
         self.audio = load_json(wd.audio / "manifest.json")
 
     def _render_key(self, scene: Scene, code: str) -> str:
-        payload = [code, kit_hash(), [self.audio[b.id]["key"] for b in scene.beats], self.cfg.render.model_dump(mode="json")]
+        payload = [code, kit_hash(), [self.audio[cid]["key"] for cid, _ in scene.clips()],
+                   self.sb.roadmap, self.sb.checkpoint_state(scene) if scene.checkpoint else None,
+                   self.cfg.render.model_dump(mode="json")]
         return hashlib.sha256(json.dumps(payload).encode()).hexdigest()[:16]
 
     def is_current(self, scene: Scene) -> bool:

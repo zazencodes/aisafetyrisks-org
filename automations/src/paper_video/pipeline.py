@@ -127,7 +127,7 @@ def report(slug: str) -> None:
     lines = [f"# Review report: {wd.slug}", ""]
     lines += ["Human review is required before publication. Watch `out/video.mp4` in full, read the page",
               "(`uv run aisr-site serve --drafts --media-root automations/media`), and check each claim against",
-              "the evidence register. Then run `paper-video approve " + wd.slug + " --reviewer \"Your Name\"`.", ""]
+              "the evidence register. Then run `paper-video approve " + wd.slug + "`.", ""]
     notes = _check(wd.checks / "notes.json")
     if notes:
         lines += ["## Source notes", f"- Quotes found in the PDF: {'yes' if notes['ok'] else 'NO'}. "
@@ -145,9 +145,8 @@ def report(slug: str) -> None:
             lines.append(f"- Science review: **{r.verdict}**.")
             lines += [f"  - [{i.severity}] {i.location}: {i.problem}" for i in r.issues]
         lines.append("")
-    current_scene_ids = {scene.id for scene in _storyboard(wd).scenes}
-    scenes = ([wd.checks / "scenes" / f"{scene_id}.json" for scene_id in sorted(current_scene_ids)]
-              if (wd.checks / "scenes").exists() else [])
+    scene_ids = sorted(s.id for s in _storyboard(wd).scenes) if wd.storyboard.exists() else []
+    scenes = [wd.checks / "scenes" / f"{scene_id}.json" for scene_id in scene_ids]
     scenes = [path for path in scenes if path.exists()]
     if scenes:
         lines.append("## Scenes")
@@ -170,7 +169,7 @@ def report(slug: str) -> None:
     log(f"report written: {wd.checks / 'report.md'}")
 
 
-def approve(slug: str, reviewer: str) -> None:
+def approve(slug: str) -> None:
     """Human sign-off: re-check provenance and reviews, upload media, mark the work published."""
     cfg, wd, record = _open(slug)
     path = SITE_WORKS / slug / "work.yaml"
@@ -204,7 +203,7 @@ def approve(slug: str, reviewer: str) -> None:
         work.published_on = today
     else:
         work.updated_on = today
-    work.review = Review(reviewed_by=reviewer, reviewed_on=today)
+    work.review = Review(reviewed_on=today)
     path.write_text(dump_yaml(work.model_dump(mode="json")))
     backlog.set_status(record.arxiv_id, str(record.url), slug, "published")
     log(f"{slug} approved and media uploaded. Deploy with: cd site && npm run deploy")

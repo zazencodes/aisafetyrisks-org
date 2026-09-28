@@ -1,5 +1,6 @@
 """The research backlog (automations/backlog/papers.yaml)."""
 
+from datetime import date
 from typing import Literal
 
 import yaml
@@ -17,7 +18,7 @@ class Entry(BaseModel):
 
     title: str
     authors: list[str]
-    year: int
+    published: date
     link: HttpUrl
     arxiv: str | None
     category: Category
@@ -27,7 +28,11 @@ class Entry(BaseModel):
 
 
 def load() -> list[Entry]:
-    return [Entry.model_validate(e) for e in yaml.safe_load(BACKLOG.read_text())["papers"]]
+    entries = [Entry.model_validate(e) for e in yaml.safe_load(BACKLOG.read_text())["papers"]]
+    for prev, cur in zip(entries, entries[1:]):
+        if cur.published < prev.published:
+            raise ValueError(f"{BACKLOG} is not in order of publication: {cur.title!r} comes after {prev.title!r}")
+    return entries
 
 
 def save(entries: list[Entry]) -> None:

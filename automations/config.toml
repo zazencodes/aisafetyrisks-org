@@ -1,9 +1,5 @@
 # paper-video configuration. Every key is required; there are no hidden defaults.
 
-[authoring]
-# The pilot was authored across Claude Opus 5.5 and GPT-6 sessions. Credited on each page.
-model = "Claude Opus 5.5 and GPT-6"
-
 [agy]
 # Metadata for PDFs that carry none uses the Antigravity CLI (`agy`).
 model = "gemini-3.8-flash-high"

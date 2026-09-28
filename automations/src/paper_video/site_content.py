@@ -6,12 +6,11 @@ The draft is written in the session running the workflow, from `paper-video brie
 import hashlib
 import re
 import shutil
-from importlib.metadata import version
 
 from aisr_site.schema import Chapter, Claim, Paper, Reference, Video, Work, claim_refs_in
 from pydantic import ValidationError
 
-from paper_video import __version__, log
+from paper_video import log
 from paper_video.config import MEDIA_MIRROR, SITE_WORKS, Config
 from paper_video.context import metadata_text
 from paper_video.models import Notes, PaperRecord, WorkDraft
@@ -89,12 +88,6 @@ def assemble_work(draft: WorkDraft, record: PaperRecord, notes: Notes, timeline:
                 youtube_url=youtube_url,
             ),
             thumbnail="thumbnail.jpg",
-            production={
-                "pipeline": f"paper-video {__version__}",
-                "language_model": cfg.authoring.model,
-                "narration": f"Kokoro-82M, voice {cfg.tts.voice}",
-                "animation": f"Manim Community ({version('manim')})",
-            },
         )
     except ValidationError as e:
         return None, [str(e)]

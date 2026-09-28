@@ -11,3 +11,4 @@ These rules override any stylistic goal.
 7. Keep the limitations the authors state. Any caveat that is yours rather than the authors' must be presented as editorial context.
 8. No sensational or anthropomorphic language beyond the paper's own: no "shocking", "terrifying", "the AI wants", "the AI lies". Describe behaviour the way the paper does.
 9. Do not invent details (figures, hyperparameters, numbers of runs, datasets, results) that are not in the notes.
+10. Context about the world beyond the paper is allowed only as plain, general background (no numbers, named organizations, products or specific incidents), as the authors' threat model with its claim ids, or as a scenario said to be hypothetical. Never present it as something the paper measured or observed.

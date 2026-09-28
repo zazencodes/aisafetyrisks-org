@@ -23,10 +23,6 @@ class AgyConfig(Section):
     timeout_seconds: int
 
 
-class AuthoringConfig(Section):
-    model: str
-
-
 class TTSConfig(Section):
     voice: str
     speed: float
@@ -48,7 +44,6 @@ class PublishConfig(Section):
 
 class Config(Section):
     agy: AgyConfig
-    authoring: AuthoringConfig
     tts: TTSConfig
     render: RenderConfig
     publish: PublishConfig

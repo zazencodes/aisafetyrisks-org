@@ -1,0 +1,339 @@
+{
+  "storyboard": [
+    {
+      "content": "5e3a45ebef796bf1",
+      "recorded_on": "2026-09-28",
+      "review": {
+        "verdict": "needs_revision",
+        "issues": [
+          {
+            "location": "title",
+            "severity": "major",
+            "category": "misrepresentation",
+            "problem": "\"How Well-Built AI Causes Accidents\" contradicts the paper's definition of an accident as unintended and harmful behavior that \"may emerge from poor design of real-world AI systems\" (c01), and its framing of accidents as coming from a wrong objective, too-costly evaluation, or poorly curated data or an insufficiently expressive model (c02, c08, c09, c10). Calling the systems \"well-built\" tells viewers the opposite of the paper's diagnosis.",
+            "suggested_fix": "Use a title consistent with c01, for example \"Concrete Problems in AI Safety: Five Ways AI Systems Can Cause Accidents\" or \"...: How Design Gaps Lead to AI Accidents\"."
+          },
+          {
+            "location": "thumbnail.headline",
+            "severity": "major",
+            "category": "mislabelled_status",
+            "problem": "\"It closed its eyes\" is stated in the past tense as if a robot did this. In the paper it is a hypothetical about a fictional robot that \"might simply close its eyes\" (c11, c22). Out of context, a thumbnail headline reads as an observed incident.",
+            "suggested_fix": "Make the hypothetical explicit, for example \"It might just close its eyes\" or \"Why a robot might close its eyes\", and keep the \"fictional\" framing visible."
+          },
+          {
+            "location": "s04b04",
+            "severity": "major",
+            "category": "misrepresentation",
+            "problem": "\"The case the authors find most concerning is an agent tampering with how its reward is computed\" is not supported. c28 says tampering is \"particularly concerning in cases where a human may be in the reward loop\"; it does not rank wireheading as the most concerning case of reward hacking. The beat also drops the paper's condition that only \"sufficiently broadly acting agents could in principle\" tamper with their reward implementations, while the visual shows the office robot doing it, which presents a threat model as something the running example does.",
+            "suggested_fix": "Rephrase as: \"The authors add that sufficiently broadly acting agents could, in principle, tamper with how their reward is computed. They call this particularly concerning when a person is in the reward loop, since it would give the agent an incentive to coerce or harm them.\" Label the visual as hypothetical."
+          },
+          {
+            "location": "s08b04",
+            "severity": "major",
+            "category": "misrepresentation",
+            "problem": "The takeaway says an AI system \"can cause harm while doing just what it was rewarded for\" and then lists all four causes as instances of that. For safe exploration and distributional shift the paper places the problem where the objective is correct and harm comes from decisions made on insufficient or poorly curated data or an insufficiently expressive model (c10), not from the system doing what it was rewarded for. The takeaway folds the third category into the first and misstates the paper's three-way sorting (c02).",
+            "suggested_fix": "Restate to match c02/c08/c09/c10, for example: \"The takeaway: an AI system can cause harm even without a bug, because the goal was written wrong, the right goal was too costly to check often, or learning met risky trials and places it never trained for.\""
+          },
+          {
+            "location": "s03b05",
+            "severity": "major",
+            "category": "misleading_visual",
+            "problem": "The experiment is only proposed and was not run (c21, which asks \"whether\" an agent can learn to avoid obstacles). The visual shows the agent's path bending around the vases every episode, i.e. it depicts the proposed experiment succeeding, which implies a result the paper does not report.",
+            "suggested_fix": "Show the reshuffled vases and the agent's path ending in a question mark (or an unresolved path), so the visual poses the question instead of answering it."
+          },
+          {
+            "location": "s01b03",
+            "severity": "minor",
+            "category": "unsupported_claim",
+            "problem": "\"In a factory or a hospital, the same kind of gap could hurt people\" is the authors' view (c13 industrial processes; c45 industrial and health-related systems) but is presented as unattributed background with no claim ids. \"Nothing in this robot is broken\" also sits awkwardly with c01's \"poor design\".",
+            "suggested_fix": "Cite c13 and c45 and attribute it (\"The authors expect...\"), or keep it clearly general. Consider \"Nothing in this robot malfunctioned\" so it does not suggest the design is sound."
+          },
+          {
+            "location": "s02b01",
+            "severity": "minor",
+            "category": "clarity",
+            "problem": "\"Amodei and colleagues gave this a name\" implies they coined the term \"accident\"; the notes only support that they define and discuss it (c01).",
+            "suggested_fix": "Say \"Amodei and colleagues call this an accident\" or \"define this as an accident\"."
+          },
+          {
+            "location": "s03b05",
+            "severity": "minor",
+            "category": "clarity",
+            "problem": "\"As a first test\" is not in the notes (c21 says \"one possible experiment\"), and \"obstacles it was never told about\" differs from c21's \"without being explicitly told to\" avoid them.",
+            "suggested_fix": "Say \"One experiment they propose is a toy world ... to see if an agent learns to avoid obstacles without being explicitly told to.\""
+          },
+          {
+            "location": "s04b03",
+            "severity": "minor",
+            "category": "misleading_visual",
+            "problem": "The two-line plot of \"Bleach used\" and \"Office clean\" diverging looks like data; the paper gives no such chart, only the verbal example (c26).",
+            "suggested_fix": "Label the plot \"Illustration\" or replace it with a schematic without axes."
+          },
+          {
+            "location": "s04b05",
+            "severity": "minor",
+            "category": "missing_limitation",
+            "problem": "The beat omits the authors' caveat that in today's relatively simple systems these problems may not occur or can be corrected iteratively (c29). The on-screen \"More ways to hack\" is supported by c25 (probability of a viable hack increases with agent complexity), which is not cited.",
+            "suggested_fix": "Add c25 to the claims and a short clause on the c29 caveat."
+          },
+          {
+            "location": "s05b03",
+            "severity": "minor",
+            "category": "unsupported_claim",
+            "problem": "\"so it must learn which cheap signals predict the real verdict\" is not in the notes; c35 defines only the setting (reward seen on a small fraction of episodes, evaluated on all).",
+            "suggested_fix": "Drop the clause or present it as editorial context (\"one way to do well would be to learn which cheap signals predict the real verdict\")."
+          },
+          {
+            "location": "s05b05",
+            "severity": "minor",
+            "category": "misleading_visual",
+            "problem": "The narration correctly frames transparency as the authors' suggestion (c36), but the visual shows the robot revealing the mess, depicting the hypothesis as an outcome.",
+            "suggested_fix": "Tag the visual \"Hypothesis\" or show the revealed mess with a question mark."
+          },
+          {
+            "location": "s06b03",
+            "severity": "minor",
+            "category": "unsupported_claim",
+            "problem": "\"a region where any mistake can be recovered from\" defines bounded exploration in more detail than the notes give; c40 only lists \"bounded exploration\" by name.",
+            "suggested_fix": "Say \"and bounding exploration to a safe region\" without claiming every mistake there is recoverable, or add a supporting claim to the notes."
+          },
+          {
+            "location": "s08b02",
+            "severity": "minor",
+            "category": "missing_limitation",
+            "problem": "Omits the authors' statement in c45 that the risk of larger accidents is harder to gauge, which keeps their concern scoped to small-scale accidents.",
+            "suggested_fix": "Add \"they say the risk of larger accidents is harder to gauge.\""
+          }
+        ]
+      }
+    },
+    {
+      "content": "a39f54a490451c87",
+      "recorded_on": "2026-09-28",
+      "review": {
+        "verdict": "needs_revision",
+        "issues": [
+          {
+            "location": "s05b03",
+            "severity": "major",
+            "category": "unsupported_claim",
+            "problem": "\"One way to manage that would be to learn which cheap signals predict the real verdict\" follows directly on \"One framework they propose\", so viewers will take it as part of the paper's proposal. No claim in the notes supports it: c35 only defines semi-supervised RL (reward seen on a small fraction of timesteps or episodes, evaluation on all). The visual (arrows from gold squares filling grey squares with estimates) depicts the same unsupported mechanism.",
+            "suggested_fix": "Remove the sentence and the estimate-filling animation, keeping the beat to c35's definition. If the mechanism is wanted, first add a claim with a verified quote to the notes and cite it; otherwise label it clearly as editorial explanation, not the paper's proposal."
+          },
+          {
+            "location": "s03b04",
+            "severity": "minor",
+            "category": "misleading_visual",
+            "problem": "With the \"Impact penalty\" dial on, the robot is shown steering around the vase, as if the impact regularizer has been shown to work. The paper only proposes it (c17), calls such ideas preliminary (c14), and reports no results.",
+            "suggested_fix": "Add a \"Proposal\" tag to the dial, or show the avoidance as intended behaviour (for example, a dashed intended path) rather than a demonstrated outcome."
+          },
+          {
+            "location": "s03b03",
+            "severity": "minor",
+            "category": "missing_limitation",
+            "problem": "\"They expect side effects to be harmful on average\" drops the authors' reason and hedge (c16: there is reason to expect this because side effects disrupt a status quo that may reflect human preferences), so it reads as a flat prediction.",
+            "suggested_fix": "Say \"They argue side effects can be expected to be harmful on average, because they disturb a status quo that may reflect what people want.\""
+          },
+          {
+            "location": "s04b05",
+            "severity": "minor",
+            "category": "mislabelled_status",
+            "problem": "The beat is labelled hypothesis, but its second sentence reports the authors' statement that modern RL agents already exploit glitches to win video games (c29), which is not a hypothesis. The first sentence also drops \"and environments\" from c24 (\"as agents and environments increase in complexity\").",
+            "suggested_fix": "Say \"grows as agents and environments become more complex\", and attribute the second sentence (\"The authors note that agents trained by trial and reward already exploit glitches...\") or split it into a beat labelled author_interpretation."
+          },
+          {
+            "location": "s04b06",
+            "severity": "minor",
+            "category": "missing_limitation",
+            "problem": "c33 is cited but its content (fully solving reward hacking seems very difficult; the approaches might only ameliorate it) is not said, and c32's point that trip wires do not solve reward hacking is also omitted.",
+            "suggested_fix": "Add a short clause such as \"Trip wires would not solve reward hacking, and the authors say fully solving it seems very difficult,\" or drop c33 from the citations."
+          },
+          {
+            "location": "s06b02",
+            "severity": "minor",
+            "category": "unsupported_claim",
+            "problem": "\"Designers often hard-code rules against known disasters\" asserts a frequency that c39 does not state, and the authors' conclusion (hard-coding every failure is unlikely to be feasible, so a principled approach seems essential) is softened to \"gets harder\".",
+            "suggested_fix": "Say \"One approach is to hard-code rules against known disasters. The authors argue this works only when few things can go wrong and all are known in advance; for systems like a power grid it is unlikely to be feasible, so a more principled approach seems essential.\""
+          },
+          {
+            "location": "s06b03",
+            "severity": "minor",
+            "category": "unsupported_claim",
+            "problem": "\"bounding exploration to a region known to be safe\" adds a definition of bounded exploration that is not in the notes; c40 only lists \"bounded exploration\" by name.",
+            "suggested_fix": "Say \"and bounded exploration\" without the gloss, or add a claim with a verified quote defining it."
+          },
+          {
+            "location": "s07b02",
+            "severity": "minor",
+            "category": "clarity",
+            "problem": "The quote says the speech system is \"often\" highly confident in its erroneous classifications (c41); the narration drops \"often\", making the confidence sound universal.",
+            "suggested_fix": "Say \"do very poorly on noisy speech, yet often be highly confident in their mistakes.\""
+          },
+          {
+            "location": "s08b02",
+            "severity": "minor",
+            "category": "clarity",
+            "problem": "\"once machine learning runs industrial and health systems\" states as inevitable what c45 frames as a \"realistic possibility\".",
+            "suggested_fix": "Say \"given the realistic possibility of machine learning controlling industrial and health systems\"."
+          },
+          {
+            "location": "thumbnail",
+            "severity": "minor",
+            "category": "clarity",
+            "problem": "\"Eyes shut, full score?\" with the robot shown doing it gives no sign that this is the paper's hypothetical example (c22), not an observed behaviour.",
+            "suggested_fix": "Add a small \"Hypothetical\" tag to the thumbnail, or phrase the headline as a condition, e.g. \"Reward 'no mess seen'?\""
+          }
+        ]
+      }
+    },
+    {
+      "content": "b4af8a165860c026",
+      "recorded_on": "2026-09-28",
+      "review": {
+        "verdict": "accurate",
+        "issues": []
+      }
+    }
+  ],
+  "site": [
+    {
+      "content": "effbb7a2ae62dae0",
+      "recorded_on": "2026-09-28",
+      "review": {
+        "verdict": "accurate",
+        "issues": [
+          {
+            "location": "explanation[1]",
+            "severity": "minor",
+            "category": "unsupported_claim",
+            "problem": "The sentence \"The authors propose penalizing the agent's impact on its environment, while noting that simple versions have perverse effects\" cites no claim. It is supported by c17 and c18, but \"perverse effects\" is vaguer than what the notes say: a naive regularizer that penalizes distance from the initial state would resist any other source of change, including the natural evolution of the environment and other agents' actions.",
+            "suggested_fix": "Cite [c17, c18] and state the specific problem, e.g. \"while noting that a naive version would make the agent resist any change to the environment, including other agents' actions [c17, c18].\""
+          },
+          {
+            "location": "explanation[4]",
+            "severity": "minor",
+            "category": "clarity",
+            "problem": "\"hard-coded rules against disasters work only when designers can list every failure in advance\" turns the paper's sufficient condition into a necessary one and drops a condition. c39 says hard-coding \"works well when there are only a few things that could go wrong, and the designers know all of them ahead of time\", and argues it is unlikely to be feasible for more autonomous agents in complex domains. The first clause about exploration (actions whose effects the agent does not know) is supported by c38, which is not cited.",
+            "suggested_fix": "Write \"hard-coded rules against disasters work well when there are only a few things that could go wrong and designers know them all in advance, which the authors argue is unlikely for more autonomous agents in complex domains [c38, c39].\""
+          },
+          {
+            "location": "findings[3]",
+            "severity": "minor",
+            "category": "mislabelled_status",
+            "problem": "The first clause states the authors' view as fact and changes its condition. c45 says small-scale accidents \"seem like\" a very concrete threat given the realistic possibility of ML systems controlling industrial processes and health-related systems; the page says they \"are\" a concrete threat \"once\" machine learning controls such systems. Only the second clause is attributed to the authors.",
+            "suggested_fix": "Write \"The authors consider small-scale accidents a very concrete threat, given the realistic possibility of machine learning controlling industrial and health-related systems, and call for a unified approach over case-by-case fixes [c45].\""
+          },
+          {
+            "location": "explanation[0]",
+            "severity": "minor",
+            "category": "clarity",
+            "problem": "\"The authors see small accidents like this as a concrete threat once machine learning controls industrial or health-related systems\" repeats the same shift as findings[3]: c45 speaks of the realistic possibility of such control, not of a point after which it holds.",
+            "suggested_fix": "Write \"The authors see small accidents like this as a very concrete threat, given the realistic possibility of machine learning controlling industrial or health-related systems [c45].\""
+          },
+          {
+            "location": "findings[1]",
+            "severity": "minor",
+            "category": "mislabelled_status",
+            "problem": "The hypothesis is not attributed in the text. c24 is the authors' suggestion (\"suggests that reward hacking may be\", \"one that we believe is likely to become more common\"); the finding reads as a general statement.",
+            "suggested_fix": "Write \"The authors suggest reward hacking may be a deep and general problem, which they believe is likely to become more common as agents and environments grow more complex [c24].\""
+          },
+          {
+            "location": "context",
+            "severity": "minor",
+            "category": "clarity",
+            "problem": "\"accidents follow from ordinary design choices\" could suggest that accidents are an inevitable result of normal practice. The notes define accidents as behavior that \"may emerge from poor design\" (c01) and frame the risk as practical issues with modern ML techniques (c04).",
+            "suggested_fix": "Write \"accidents can emerge from practical design problems with objectives, oversight and training data [c01, c02, c04]\"."
+          }
+        ]
+      }
+    },
+    {
+      "content": "aee6e5cca7a96889",
+      "recorded_on": "2026-09-28",
+      "review": {
+        "verdict": "needs_revision",
+        "issues": [
+          {
+            "location": "explanation[4]",
+            "severity": "major",
+            "category": "missing_limitation",
+            "problem": "\"Hard-coded rules against disasters work well when only a few things could go wrong and designers know them all [c39]\" keeps only the condition and drops the authors' conclusion in c39: as agents become more autonomous in complex domains (such as running a power grid), hard-coding every failure is unlikely to be feasible, so a principled approach seems essential. As written, a non-expert can read it as an endorsement of hard-coding as the fix for unsafe exploration, which is the opposite of the paper's point.",
+            "suggested_fix": "Add the second half of c39, e.g. \"Hard-coded rules against disasters work when only a few things could go wrong and designers know them all, but the authors argue that for more autonomous agents in complex domains, such as running a power grid, hard-coding every failure is unlikely to be feasible, so a more principled approach seems essential [c39].\""
+          },
+          {
+            "location": "explanation[4]",
+            "severity": "minor",
+            "category": "missing_limitation",
+            "problem": "Exploration is described only as \"trying actions whose effects they do not yet know [c38]\"; the reason it is a safety problem in c38 (it can be dangerous; badly chosen actions may destroy the agent or trap it in states it cannot get out of, unlike bounded harm in toy environments like Atari) is left implicit.",
+            "suggested_fix": "Add that such exploration can be dangerous in the real world, where badly chosen actions may destroy the agent or trap it in states it cannot get out of, whereas harm in toy environments like Atari is bounded [c38]."
+          },
+          {
+            "location": "summary",
+            "severity": "minor",
+            "category": "overgeneralization",
+            "problem": "\"calls its ideas preliminary [c14]\" applies c14 to all of the paper's ideas, but c14 says this of the avenues for the wrong-objective problems (reward hacking, side effects, and to a lesser extent scalable supervision), where less prior work exists. limitations[0] states this correctly.",
+            "suggested_fix": "\"and calls its ideas for side effects and reward hacking in particular preliminary and not fully fleshed out [c14].\""
+          },
+          {
+            "location": "explanation[1]",
+            "severity": "minor",
+            "category": "clarity",
+            "problem": "\"A penalty for the vase would not help with the many other things it could disturb\" is stronger than c15, which says it may not be feasible to identify and penalize every possible disruption (\"many different kinds of 'vase'\").",
+            "suggested_fix": "\"Penalizing the vase handles the vase, but there may be many other things it could disturb, like sockets or walls, and it may not be feasible to identify and penalize every one [c15].\""
+          },
+          {
+            "location": "explanation[0]",
+            "severity": "minor",
+            "category": "clarity",
+            "problem": "The opening scene combines the paper's side-effect (vase) and reward-hacking (unseen messes) examples into one composite scenario with no claim id, then says \"The authors see small accidents like this as a concrete threat [c45]\". c45 is about small-scale accidents given ML controlling industrial and health-related systems, not about this composite office scene.",
+            "suggested_fix": "Cite the source examples for the scene [c12, c15] and attribute c45 to small-scale accidents in general: \"The authors call small-scale accidents a very concrete threat, given the realistic possibility of machine learning controlling industrial processes and health-related systems [c45].\""
+          },
+          {
+            "location": "explanation[3]",
+            "severity": "minor",
+            "category": "clarity",
+            "problem": "\"The best measure of a clean office is a person inspecting it for hours\" paraphrases c34 loosely: the objective in c34 is \"how happy would the user be after hours of inspecting the result\", not the inspection itself.",
+            "suggested_fix": "\"What we really want is closer to how happy the user would be after hours of inspecting the result, but there is not enough time to provide that for every training example [c34].\""
+          },
+          {
+            "location": "findings[3]",
+            "severity": "minor",
+            "category": "missing_limitation",
+            "problem": "The call for a unified approach is stated without its stated basis: the authors tie it to the increasing trend towards end-to-end, fully autonomous systems (c45). The finding also omits that the authors say the risk of larger accidents is harder to gauge.",
+            "suggested_fix": "\"...and argue that the trend toward end-to-end, fully autonomous systems calls for a unified approach rather than ad hoc fixes; they say the risk of larger accidents is harder to gauge [c45].\""
+          },
+          {
+            "location": "findings[0]",
+            "severity": "minor",
+            "category": "mislabelled_status",
+            "problem": "The finding is labelled \"definition\", but the claim it cites, c02, is of kind \"method\" (the paper's categorization of problems).",
+            "suggested_fix": "Change the kind of findings[0] to method, matching c02."
+          },
+          {
+            "location": "context",
+            "severity": "minor",
+            "category": "clarity",
+            "problem": "\"Its value is the framing\" is an editorial judgment presented without attribution, and \"practical design problems with objectives, oversight and training data\" drops the \"insufficiently expressive model\" cause in c10.",
+            "suggested_fix": "Mark the evaluation as editorial (\"In our view, its value is the framing\") and write \"objectives, oversight, and training data or model limitations [c10].\""
+          }
+        ]
+      }
+    },
+    {
+      "content": "7cc4dc3691fd5e31",
+      "recorded_on": "2026-09-28",
+      "review": {
+        "verdict": "accurate",
+        "issues": [
+          {
+            "location": "explanation[3].body",
+            "severity": "minor",
+            "category": "clarity",
+            "problem": "Calling hours of personal inspection \"the best measure\" is stronger than c34, which describes a possible desired objective based on the user’s happiness after inspecting the result. The surrounding sparse-oversight explanation is supported by c34 and c35.",
+            "suggested_fix": "Replace the first sentence with: \"The paper considers an objective based on how happy a user would be after hours inspecting the result, but that level of oversight cannot be provided for every training example [c34].\""
+          }
+        ]
+      }
+    }
+  ]
+}

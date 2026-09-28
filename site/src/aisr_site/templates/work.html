@@ -30,7 +30,6 @@
       </dl>
       <div class="actions">
         <a class="button" href="{{ w.paper.url }}">Original paper <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3h7v7M13 3 4 12" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
-        <a class="button" href="{{ w.paper.pdf_url }}">PDF</a>
         {% if w.video.youtube_url %}<a class="button" href="{{ w.video.youtube_url }}">Watch on YouTube</a>{% endif %}
       </div>
     </div>
@@ -63,7 +62,7 @@
   </section>
 
   <section class="measure">
-    <h2>The research, explained</h2>
+    <h2>Key points</h2>
     <div class="prose">
       {% for s in w.explanation %}
       <h3>{{ s.heading }}</h3>
@@ -118,18 +117,6 @@
       <li><a href="{{ r.url }}">{{ r.title }}</a>{% if r.note %} <span class="note">— {{ r.note }}</span>{% endif %}</li>
       {% endfor %}
     </ol>
-  </section>
-
-  <section class="measure">
-    <h2>About this explainer</h2>
-    <div class="colophon">
-      <p>This explainer was drafted with an AI-assisted pipeline that extracts claims from the paper, links each one to a verbatim quotation, and checks the script and this page against those quotations. The narration uses a synthetic voice.{% if w.review %} A person reviewed the result for accuracy before publication.{% endif %}</p>
-      <dl>
-        {% if w.published_on %}<dt>Published</dt><dd>{{ w.published_on|date }}{% if w.updated_on %} (updated {{ w.updated_on|date }}){% endif %}</dd>{% endif %}
-        {% if w.review %}<dt>Reviewed by</dt><dd>{{ w.review.reviewed_by }}, {{ w.review.reviewed_on|date }}</dd>{% endif %}
-        {% for k, v in w.production.items() %}<dt>{{ k|replace("_", " ")|capitalize }}</dt><dd>{{ v }}</dd>{% endfor %}
-      </dl>
-    </div>
   </section>
 </article>
 {% endblock %}

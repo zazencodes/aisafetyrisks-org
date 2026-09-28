@@ -9,11 +9,11 @@ from paper_video.workdir import WorkDir, load_json, save_json
 def assemble_video(wd: WorkDir, sb: Storyboard) -> dict:
     clips, beats, chapters = [], [], []
     offset = 0.0
-    narration = {b.id: b.narration for b in sb.beats()}
+    narration = dict(sb.clips())
     for scene in sb.scenes:
         clip = wd.render / f"{scene.id}.mp4"
         report = load_json(wd.render / "reports" / f"{class_name(scene.id)}.json")
-        if [b["beat"] for b in report["beats"]] != [b.id for b in scene.beats]:
+        if [b["beat"] for b in report["beats"]] != [cid for cid, _ in scene.clips()]:
             raise ValueError(f"render of {scene.id} is out of date with the storyboard; re-run the scenes stage")
         clips.append(clip)
         if not chapters or chapters[-1]["title"] != scene.chapter:

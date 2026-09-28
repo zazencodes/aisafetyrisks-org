@@ -6,6 +6,10 @@ ends the scene waits out whatever narration (plus a short pause) is left. After 
 scene's last beat everything fades out, so scenes join cleanly. At the end of every
 beat the scene records layout problems: text cut off by the frame edge, and text
 overlapping other text.
+
+Scenes that open a roadmap item, and the closing scene, start with a checkpoint: before
+the first beat, the kit shows the roadmap checklist over the scene's checkpoint narration,
+ticks off the item just finished and highlights the next. Scene code never draws it.
 """
 
 import json
@@ -14,7 +18,9 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path
 
-from manim import FadeOut, MathTex, Scene, SingleStringMathTex, Text, config
+from manim import FadeIn, FadeOut, LaggedStart, MathTex, Scene, SingleStringMathTex, Text, Transform, config
+
+from aisr_kit.roadmap import checklist
 
 CONTEXT = Path(os.environ["AISR_CONTEXT"])
 REPORTS = Path(os.environ["AISR_REPORTS"])
@@ -31,6 +37,8 @@ class NarratedScene(Scene):
     def setup(self):
         ctx = json.loads(CONTEXT.read_text())
         self._beats = ctx["beats"]
+        self._checkpoints = ctx["checkpoints"]
+        self._roadmap = ctx["roadmap"]
         self._datasets = ctx["datasets"]
         self._pause = ctx["beat_pause"]
         self.paper = ctx["paper"]
@@ -43,19 +51,26 @@ class NarratedScene(Scene):
     @contextmanager
     def beat(self, beat_id: str):
         info = self._beats[beat_id]
+        if not self._log and info["scene"] in self._checkpoints:
+            self._checkpoint(self._checkpoints[info["scene"]])
+        with self._clip(beat_id, info, fade_out=info["last"]) as clock:
+            yield clock
+
+    @contextmanager
+    def _clip(self, clip_id: str, info: dict, fade_out: bool):
         start = self.renderer.time
         self.add_sound(info["audio"])
-        yield BeatClock(beat_id, info["duration"])
+        yield BeatClock(clip_id, info["duration"])
         elapsed = self.renderer.time - start
         remaining = info["duration"] + self._pause - elapsed
         if remaining > 0:
             self.wait(remaining)
         hold_end = self.renderer.time
         issues = self._layout_issues()
-        if info["last"] and self.mobjects:
+        if fade_out and self.mobjects:
             self.play(FadeOut(*self.mobjects), run_time=0.5)
         self._log.append({
-            "beat": beat_id,
+            "beat": clip_id,
             "start": start,
             "hold_end": hold_end,
             "end": self.renderer.time,
@@ -63,6 +78,21 @@ class NarratedScene(Scene):
             "overrun": max(0.0, -remaining),
             "issues": issues,
         })
+
+    def _checkpoint(self, cp: dict):
+        """Show the roadmap: reveal it at the first checkpoint, later tick off the item just finished."""
+        done, active = cp["done"], cp["active"]
+        with self._clip(cp["id"], cp, fade_out=True) as b:
+            if done == 0:
+                card = checklist(self._roadmap, 0, None)
+                self.play(FadeIn(card.frame), FadeIn(card.heading), run_time=0.6)
+                self.play(LaggedStart(*[FadeIn(row) for row in card.rows], lag_ratio=0.6),
+                          run_time=max(1.0, b.duration * 0.6))
+            else:
+                card = checklist(self._roadmap, done - 1, done - 1)
+                self.play(FadeIn(card), run_time=0.6)
+                self.wait(0.3)
+            self.play(Transform(card, checklist(self._roadmap, done, active)), run_time=0.9)
 
     def _visible_texts(self):
         found = []

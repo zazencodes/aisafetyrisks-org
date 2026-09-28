@@ -1,0 +1,24 @@
+{
+  "scene": "s03",
+  "rendered": true,
+  "render_key": "72253d2663f40149",
+  "problems": [],
+  "render_log_tail": null,
+  "layout_problems": [],
+  "visual_review": {
+    "issues": [
+      {
+        "beat": "s03b01",
+        "severity": "minor",
+        "problem": "The knocked vase is a small red ellipse and reads weakly as a toppled vase.",
+        "suggested_fix": "Optionally enlarge the toppled vase slightly."
+      },
+      {
+        "beat": "s03b04",
+        "severity": "minor",
+        "problem": "The target mark draws over the delivered box, so the box looks translucent on the target.",
+        "suggested_fix": "Optionally give the box a higher z-index than the target."
+      }
+    ]
+  }
+}

@@ -6,3 +6,6 @@ description: >-
 base_url: https://aisafetyrisks.org
 media_base_url: https://media.aisafetyrisks.org
 youtube_channel_url: null
+creator:
+  name: Alexander Galea
+  email: alex@galea.dev
