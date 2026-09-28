@@ -7,13 +7,14 @@ import shutil
 from datetime import date, datetime, time, timezone
 from email.utils import format_datetime
 from pathlib import Path
+from typing import Literal
 from xml.sax.saxutils import escape
 
 import yaml
 from jinja2 import Environment, PackageLoader, StrictUndefined
 from markdown_it import MarkdownIt
 from markupsafe import Markup
-from pydantic import BaseModel, ConfigDict, HttpUrl
+from pydantic import BaseModel, ConfigDict, Field, HttpUrl, model_validator
 
 from aisr_site.schema import CLAIM_REF_RE, Work
 
@@ -49,6 +50,29 @@ class Page(BaseModel):
     body: str
 
 
+class DoomsdayChapter(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    slug: Literal["control", "misuse", "feedback", "systemic"]
+    title: str
+    summary: str
+    steps: list[str] = Field(min_length=3, max_length=3)
+    evidence: str
+    research: str
+
+
+class DoomsdayPage(Page):
+    model_config = ConfigDict(extra="forbid")
+
+    chapters: list[DoomsdayChapter] = Field(min_length=4, max_length=4)
+
+    @model_validator(mode="after")
+    def unique_chapters(self):
+        if len({chapter.slug for chapter in self.chapters}) != 4:
+            raise ValueError("The Doomsday page requires each of its four pathways exactly once")
+        return self
+
+
 class LoadedWork(BaseModel):
     slug: str
     dir: Path
@@ -63,7 +87,8 @@ def load_pages() -> list[Page]:
     pages = []
     for path in sorted((CONTENT / "pages").glob("*.md")):
         _, front, body = path.read_text().split("---\n", 2)
-        pages.append(Page(slug=path.stem, body=body, **yaml.safe_load(front)))
+        page_type = DoomsdayPage if path.stem == "doomsday" else Page
+        pages.append(page_type(slug=path.stem, body=body, **yaml.safe_load(front)))
     return pages
 
 
@@ -98,10 +123,10 @@ def make_markdown_filter(claim_numbers: dict[str, int]):
     return render
 
 
-def css_bundle(dist: Path) -> str:
-    css = (STATIC / "css" / "site.css").read_bytes()
-    name = f"site.{hashlib.sha256(css).hexdigest()[:10]}.css"
-    (dist / "static" / name).write_bytes(css)
+def hashed_asset(dist: Path, source: Path) -> str:
+    data = source.read_bytes()
+    name = f"{source.stem}.{hashlib.sha256(data).hexdigest()[:10]}{source.suffix}"
+    (dist / "static" / name).write_bytes(data)
     return f"/static/{name}"
 
 
@@ -306,11 +331,12 @@ def build(include_drafts: bool = False, media_base_url: str | None = None) -> Pa
     shutil.copytree(STATIC, DIST / "static", ignore=shutil.ignore_patterns("css"))
     for root_file in ("favicon.svg", "og-default.png"):
         shutil.move(DIST / "static" / root_file, DIST / root_file)
-    css_url = css_bundle(DIST)
+    css_url = hashed_asset(DIST, STATIC / "css" / "site.css")
+    doomsday_js_url = hashed_asset(DIST, STATIC / "doomsday.js")
 
     env = Environment(loader=PackageLoader("aisr_site"), undefined=StrictUndefined, autoescape=True)
     env.filters.update(date=fmt_date, timestamp=fmt_timestamp, authors=author_line)
-    env.globals.update(site=cfg, base=base, css_url=css_url, year=date.today().year,
+    env.globals.update(site=cfg, base=base, css_url=css_url, doomsday_js_url=doomsday_js_url, year=date.today().year,
                        site_jsonld=jsonld(site_jsonld(cfg, base)))
 
     def write(rel: str, html: str) -> None:
@@ -321,9 +347,10 @@ def build(include_drafts: bool = False, media_base_url: str | None = None) -> Pa
     plain_md = make_markdown_filter({})
     write("index.html", env.get_template("index.html").render(works=works, path="/"))
     for page in pages:
+        template = "doomsday.html" if isinstance(page, DoomsdayPage) else "page.html"
         write(
             f"{page.slug}/index.html",
-            env.get_template("page.html").render(page=page, body=plain_md(page.body), path=f"/{page.slug}/"),
+            env.get_template(template).render(page=page, body=plain_md(page.body), md=plain_md, path=f"/{page.slug}/"),
         )
     write("404.html", env.get_template("404.html").render(path="/404"))
 
