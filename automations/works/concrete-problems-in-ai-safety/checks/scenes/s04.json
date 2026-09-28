@@ -1,30 +1,11 @@
 {
   "scene": "s04",
   "rendered": true,
-  "render_key": "d47840387eabd724",
+  "render_key": "18581abcbc933fdf",
   "problems": [],
   "render_log_tail": null,
   "layout_problems": [],
   "visual_review": {
-    "issues": [
-      {
-        "beat": "s04b05",
-        "severity": "minor",
-        "problem": "In the game screen the player square ends touching the flag, so the two are hard to tell apart in the final frame.",
-        "suggested_fix": "Stop the player a little left of the flag or move the flag further right."
-      },
-      {
-        "beat": "s04b06",
-        "severity": "minor",
-        "problem": "The \"Trip wire\" label sits in the right-hand column, far from the red line in the doorway it names.",
-        "suggested_fix": "Attach the label to the wire with a Callout, or place it next to the bell."
-      },
-      {
-        "beat": "s04b06",
-        "severity": "minor",
-        "problem": "The frozen robot is grey but its white eye is still open, which weakens the \"stopped\" reading.",
-        "suggested_fix": "Grey out or shut the eye as well when the bell rings."
-      }
-    ]
+    "issues": []
   }
 }

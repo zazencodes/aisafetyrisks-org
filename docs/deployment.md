@@ -100,6 +100,8 @@ Run all `paper-video` commands from the repository root, replacing `<slug>`:
 
 To deploy a site-only change after authorization, use step 6. If changing a published paper's
 content or media, repeat the applicable generation/review steps and approval first.
+For a voice change, use [the ElevenLabs narration guide](narration.md) to regenerate audio,
+re-render scenes, assemble, and refresh the page before approval.
 
 ## Verification and failure recovery
 
@@ -156,3 +158,15 @@ The paper's source artifacts are in `automations/works/concrete-problems-in-ai-s
 `out/captions.vtt`, `out/thumbnail.jpg`, and `youtube.yaml`. The generated page is in
 `site/content/works/concrete-problems-in-ai-safety/`. The YouTube package is a local artifact;
 this publication did not upload a video to YouTube.
+
+## Jarnathan narration update: 2026-09-28
+
+The maintainer selected Jarnathan (`c6SfcYrb2t09NHXiT80T`) for the published explainer.
+Following [the narration guide](narration.md), all 38 clips were regenerated with Eleven v4,
+all eight scenes were rendered and visually reviewed, and the 493-second video was reassembled.
+All 38 source clips matched the final soundtrack at their expected positions; the existing
+storyboard and page science reviews remained current. The page was refreshed, approved, and
+deployed with `works/concrete-problems-in-ai-safety/video-64c977069037.mp4`. The deployment
+version was `f92e10d1-7a6d-49fb-b6fe-8dd4d8ee2864`. The live page and video returned HTTP
+200, and the video supported byte ranges. Five minor visual readability issues remain in scenes
+s01, s02, s06, and s07; there are no blocker or major visual issues.
