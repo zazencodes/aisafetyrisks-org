@@ -7,11 +7,14 @@ model = "gemini-3.8-flash-high"
 timeout_seconds = 600
 
 [tts]
-# Kokoro-82M, run locally via kokoro-onnx (Apache-2.0 weights).
-voice = "af_heart"
-speed = 1.0
-model_url = "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.onnx"
-voices_url = "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/voices-v1.0.bin"
+# ElevenLabs; ELEVENLABS_API_KEY lives in the repository's ignored .env.
+# Jarnathan - Confident and Versatile, selected for this series.
+model = "eleven_v4"
+voice = "c6SfcYrb2t09NHXiT80T"
+stability = 0.5
+similarity_boost = 0.75
+seed = 42
+timeout_seconds = 180
 
 [render]
 resolution = [1920, 1080]

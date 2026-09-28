@@ -3,11 +3,13 @@
 import json
 import re
 import subprocess
+import wave
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
 
 from paper_video.config import KIT
+from paper_video.narrate import SAMPLE_RATE
 
 
 def run(cmd: list[str]) -> str:
@@ -50,18 +52,43 @@ def contact_sheet(frames: list[tuple[str, Path]], dest: Path, cols: int = 2, wid
     return dest
 
 
-def assemble(scene_videos: list[Path], dest: Path) -> None:
-    """Concatenate scene renders and encode one master: H.264 + AAC, loudness-normalized, faststart."""
+def narration_track(clips: list[tuple[float, Path]], duration: float, dest: Path) -> None:
+    """Place source narration at its recorded times, preserving silence between beats/scenes."""
+    cursor = 0
+    with wave.open(str(dest), "wb") as track:
+        track.setparams((1, 2, SAMPLE_RATE, 0, "NONE", "not compressed"))
+        for start, path in clips:
+            frame = round(start * SAMPLE_RATE)
+            if frame < cursor:
+                raise ValueError(f"narration overlaps the previous clip at {path}")
+            with wave.open(str(path), "rb") as clip:
+                if (clip.getnchannels(), clip.getsampwidth(), clip.getframerate()) != (1, 2, SAMPLE_RATE):
+                    raise ValueError(f"{path}: narration must be mono 16-bit {SAMPLE_RATE} Hz WAV")
+                track.writeframesraw(b"\0\0" * (frame - cursor))
+                track.writeframesraw(clip.readframes(clip.getnframes()))
+                cursor = frame + clip.getnframes()
+        end = round(duration * SAMPLE_RATE)
+        if cursor > end:
+            raise ValueError("narration extends past the video")
+        track.writeframesraw(b"\0\0" * (end - cursor))
+
+
+def assemble(scene_videos: list[Path], dest: Path, narration: list[tuple[float, Path]], duration: float) -> None:
+    """Encode the scene visuals with the complete source narration, normalized and faststart."""
     dest.parent.mkdir(parents=True, exist_ok=True)
     listing = dest.with_suffix(".txt")
     listing.write_text("".join(f"file '{p.resolve()}'\n" for p in scene_videos))
+    track = dest.with_suffix(".wav")
+    narration_track(narration, duration, track)
     run([
         "ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", str(listing),
+        "-i", str(track), "-map", "0:v:0", "-map", "1:a:0",
         "-c:v", "libx264", "-preset", "slow", "-crf", "18", "-pix_fmt", "yuv420p",
         "-af", "loudnorm=I=-16:TP=-1.5:LRA=11", "-c:a", "aac", "-b:a", "192k", "-ar", "48000",
         "-movflags", "+faststart", str(dest),
     ])
     listing.unlink()
+    track.unlink()
 
 
 # ---------------------------------------------------------------- captions

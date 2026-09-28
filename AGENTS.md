@@ -7,7 +7,7 @@ two packages:
 - `site/`: static site generator (`aisr-site`) deployed to Cloudflare Workers static assets.
   Content lives in `site/content/`; output goes to `site/dist/`.
 - `automations/`: `paper-video`, the deterministic steps of turning a paper into an explainer
-  (ingest, provenance checks, narration, local Manim rendering, assembly, page and YouTube
+  (ingest, provenance checks, ElevenLabs v4 narration, local Manim rendering, assembly, page and YouTube
   packaging). Configuration is in `automations/config.toml`, and every key is required. Per-paper
   work directories are in `automations/works/<slug>/`.
 

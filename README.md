@@ -6,7 +6,7 @@ from the original paper.
 The working video-generation pipeline is open source. The most useful contribution is to run
 it on a research paper and submit a draft explainer. Budget roughly one five-hour Claude
 session per video; this is a planning estimate, and usage varies with the paper, model and
-revision work. Local narration and rendering also take compute time.
+revision work. ElevenLabs narration uses account credits, and local rendering takes compute time.
 
 ## Get started
 

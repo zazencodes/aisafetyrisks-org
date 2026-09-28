@@ -2,24 +2,24 @@
 
 The biggest help is to use your own agent session and computer to turn one paper into a draft.
 Budget roughly one five-hour Claude session per video. This estimates agent usage, not guaranteed
-elapsed time or a fixed subscription allowance; papers and revisions differ. Narration and
-Manim rendering run locally.
+elapsed time or a fixed subscription allowance; papers and revisions differ. Narration uses
+ElevenLabs v4; Manim rendering runs locally.
 
 ## Install
 
 Use Python 3.12 or 3.13, Git, [uv](https://docs.astral.sh/uv/getting-started/installation/),
-FFmpeg, Cairo, Pango and pkg-config. The narration engine also needs eSpeak NG.
+FFmpeg, Cairo, Pango and pkg-config.
 On macOS with Homebrew:
 
 ```sh
-brew install uv ffmpeg cairo pango pkg-config espeak-ng
+brew install uv ffmpeg cairo pango pkg-config
 ```
 
 On Ubuntu/Debian, install the native dependencies before syncing Python packages:
 
 ```sh
 sudo apt-get update
-sudo apt-get install ffmpeg libcairo2-dev libpango1.0-dev pkg-config espeak-ng python3-dev build-essential
+sudo apt-get install ffmpeg libcairo2-dev libpango1.0-dev pkg-config python3-dev build-essential
 ```
 
 Install uv from the link above, and let uv install Python 3.12 if your system Python is outside
@@ -44,8 +44,14 @@ the deterministic steps, while the agent writes and reviews the material. It is 
 command that calls Claude for you. Run the agent interactively with your own account.
 
 Configuration is in `automations/config.toml`; every key is required. Draft generation needs
-no Cloudflare or YouTube credentials. Narration downloads Kokoro files on first use to
-`~/.cache/paper-video/`. Ingestion and the first narration require internet access.
+no Cloudflare or YouTube credentials. Narration requires an ElevenLabs API key with Text to
+Speech access. Store it as `ELEVENLABS_API_KEY=...` in the repository root’s `.env` (ignored by
+Git), and restrict the file with `chmod 600 .env`. Never commit the key. Voice, model, stability,
+similarity and seed are explicit in `[tts]`. The configured model is `eleven_v4`, using Jarnathan.
+Ingestion and narration require internet access. ElevenLabs generations consume account credits;
+unchanged clips are cached, and each generated clip is saved immediately for resumable runs.
+For key setup, voice selection, regeneration and review after a voice change, see
+[ElevenLabs narration](docs/narration.md).
 For arXiv papers, metadata comes from arXiv. A PDF without metadata needs the separately
 installed and authenticated Antigravity CLI (`agy`) configured in `[agy]`; start with an arXiv
 paper if you do not have that CLI.

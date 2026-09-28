@@ -76,7 +76,8 @@ paper's public page.
 
 ### 4. Narration
 
-`paper-video narrate <slug>`.
+`paper-video narrate <slug>`. Follow [the ElevenLabs narration guide](../../docs/narration.md)
+for API key setup, voice selection, credit use and regeneration after a voice change.
 
 ### 5. Scenes
 

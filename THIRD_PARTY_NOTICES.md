@@ -19,6 +19,5 @@ in `automations/kit/fonts/Charter-LICENSE.txt` and `site/static/fonts/Charter-LI
 
 Python and JavaScript dependencies retain their upstream licenses. They are installed using
 `uv.lock` and `site/package-lock.json`, rather than vendored into this repository.
-Downloaded Kokoro model and voice files retain their upstream terms; they are not included
-in this repository. Research papers and verbatim excerpts remain the work of their authors;
+Narration is generated through ElevenLabs and is subject to its service terms. Research papers and verbatim excerpts remain the work of their authors;
 the project code license does not relicense them. Source PDFs and derived media are ignored.

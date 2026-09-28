@@ -2,7 +2,7 @@
 
 import tomllib
 from pathlib import Path
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 AUTOMATIONS = Path(__file__).resolve().parents[2]
 REPO = AUTOMATIONS.parent
@@ -11,7 +11,6 @@ KIT = AUTOMATIONS / "kit"
 MEDIA_MIRROR = AUTOMATIONS / "media"
 SITE_WORKS = REPO / "site" / "content" / "works"
 BACKLOG = AUTOMATIONS / "backlog" / "papers.yaml"
-CACHE = Path.home() / ".cache" / "paper-video"
 
 
 class Section(BaseModel):
@@ -24,10 +23,12 @@ class AgyConfig(Section):
 
 
 class TTSConfig(Section):
-    voice: str
-    speed: float
-    model_url: str
-    voices_url: str
+    model: str = Field(min_length=1)
+    voice: str = Field(min_length=1)
+    stability: float = Field(ge=0, le=1)
+    similarity_boost: float = Field(ge=0, le=1)
+    seed: int = Field(ge=0, le=4294967295)
+    timeout_seconds: int = Field(gt=0)
 
 
 class RenderConfig(Section):

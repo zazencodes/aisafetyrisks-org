@@ -7,7 +7,7 @@ from paper_video.workdir import WorkDir, load_json, save_json
 
 
 def assemble_video(wd: WorkDir, sb: Storyboard) -> dict:
-    clips, beats, chapters = [], [], []
+    clips, beats, chapters, audio = [], [], [], []
     offset = 0.0
     narration = dict(sb.clips())
     for scene in sb.scenes:
@@ -20,10 +20,11 @@ def assemble_video(wd: WorkDir, sb: Storyboard) -> dict:
             chapters.append({"start": round(offset, 2), "title": scene.chapter})
         for b in report["beats"]:
             beats.append((offset + b["start"], b["narration"], narration[b["beat"]]))
+            audio.append((offset + b["start"], wd.audio / f"{b['beat']}.wav"))
         offset += probe(clip)["duration"]
 
     master = wd.out / "video.mp4"
-    assemble(clips, master)
+    assemble(clips, master, audio, offset)
     info = probe(master)
     cues = caption_cues(beats)
     (wd.out / "captions.srt").write_text(srt(cues))
