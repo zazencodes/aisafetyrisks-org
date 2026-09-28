@@ -1,0 +1,35 @@
+<svg class="story-svg" viewBox="0 0 560 340" role="img" aria-labelledby="misuse-svg-title misuse-svg-desc">
+  <title id="misuse-svg-title">Assistance changes some barriers</title>
+  <desc id="misuse-svg-desc">A person uses AI assistance to pass a knowledge barrier. A separate barrier representing resources and practical constraints remains in place.</desc>
+  <defs>
+    <marker id="misuse-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1 L9 5 L1 9" class="arrow-tip"/></marker>
+  </defs>
+  <path class="route-track" d="M100 164 H492"/>
+  <g class="person" data-motion="reveal" data-beat="1">
+    <circle cx="65" cy="136" r="16"/>
+    <path d="M36 193 V178 C36 155 94 155 94 178 V193"/>
+    <text x="65" y="231" text-anchor="middle">Person</text>
+  </g>
+  <path class="scene-link" d="M101 164 H197" marker-end="url(#misuse-arrow)" data-motion="draw" data-beat="1"/>
+  <g class="ai-node" data-motion="reveal" data-beat="2">
+    <rect x="205" y="125" width="90" height="78" rx="14"/>
+    <text x="250" y="173" text-anchor="middle" class="svg-ai">AI</text>
+    <text x="250" y="231" text-anchor="middle" class="svg-small">Assistance</text>
+  </g>
+  <text x="359" y="68" text-anchor="middle" class="svg-small">Knowledge barrier</text>
+  <g class="knowledge-gate" data-motion="lower" data-beat="2">
+    <rect x="345" y="228" width="28" height="67" rx="4"/>
+    <path d="M345 240 H373 M345 253 H373 M345 266 H373 M345 279 H373"/>
+  </g>
+  <path class="assistance-route" d="M298 164 H455" marker-end="url(#misuse-arrow)" data-motion="draw" data-beat="2"/>
+  <g class="resource-gate" data-motion="reveal" data-beat="3">
+    <rect x="468" y="95" width="36" height="140" rx="4"/>
+    <path d="M468 115 H504 M468 135 H504 M468 155 H504 M468 175 H504 M468 195 H504 M468 215 H504 M486 95 V235"/>
+    <text x="486" y="268" text-anchor="middle" class="svg-small">Resources</text>
+    <text x="486" y="287" text-anchor="middle" class="svg-small">&amp; access</text>
+  </g>
+  <g class="remaining-barrier" data-motion="reveal" data-beat="3">
+    <circle cx="447" cy="164" r="6"/>
+    <text x="266" y="320" text-anchor="middle" class="svg-small">Practical barriers still matter</text>
+  </g>
+</svg>

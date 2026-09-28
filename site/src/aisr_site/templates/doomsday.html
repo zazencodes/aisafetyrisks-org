@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% set page_title = page.title ~ " — " ~ site.name %}
+{% set page_description = page.description %}
+{% block main %}
+<article class="doomsday">
+  <header class="story-intro wrap">
+    <div class="story-intro-copy">
+      <h1>Doomsday<br>scenarios</h1>
+      <div class="story-dek">{{ body }}</div>
+      <p class="story-caution">Possible futures. Their likelihood is disputed.</p>
+    </div>
+    <div class="story-map" aria-hidden="true">
+      <svg viewBox="0 0 440 300" class="story-svg">
+        <path class="map-branch" d="M98 150 H155 Q180 150 180 120 V48 Q180 30 202 30 H258"/>
+        <path class="map-branch" d="M98 150 H155 Q180 150 180 130 V112 Q180 108 202 108 H258"/>
+        <path class="map-branch" d="M98 150 H155 Q180 150 180 175 V188 Q180 192 202 192 H258"/>
+        <path class="map-branch" d="M98 150 H155 Q180 150 180 180 V252 Q180 270 202 270 H258"/>
+        <circle class="map-origin" cx="72" cy="150" r="34"/>
+        <text x="72" y="157" class="map-ai" text-anchor="middle">AI</text>
+        <circle class="map-end" cx="260" cy="30" r="5"/>
+        <circle class="map-end" cx="260" cy="108" r="5"/>
+        <circle class="map-end" cx="260" cy="192" r="5"/>
+        <circle class="map-end" cx="260" cy="270" r="5"/>
+        <text x="279" y="36">Control</text>
+        <text x="279" y="114">Misuse</text>
+        <text x="279" y="198">Acceleration</text>
+        <text x="279" y="276">Dependence</text>
+      </svg>
+    </div>
+    <nav class="story-nav" aria-label="Explore the pathways">
+      {% for chapter in page.chapters %}
+      <a href="#{{ chapter.slug }}">{{ chapter.title }} <span aria-hidden="true">↘</span></a>
+      {% endfor %}
+    </nav>
+  </header>
+
+  {% for chapter in page.chapters %}
+  <section class="story-chapter" id="{{ chapter.slug }}" aria-labelledby="{{ chapter.slug }}-heading">
+    <div class="wrap chapter-grid">
+      <div class="chapter-copy">
+        <h2 id="{{ chapter.slug }}-heading">{{ chapter.title }}</h2>
+        <p class="chapter-summary">{{ chapter.summary }}</p>
+        <div class="chapter-evidence">
+          <h3>What we know</h3>
+          <p>{{ chapter.evidence }}</p>
+        </div>
+        <details class="chapter-research">
+          <summary>Research &amp; sources</summary>
+          <div class="prose">{{ md(chapter.research) }}</div>
+        </details>
+      </div>
+      <figure class="story-scene scene-{{ chapter.slug }}" data-scene="{{ chapter.slug }}" aria-labelledby="{{ chapter.slug }}-caption">
+        <div class="scene-stage">
+          {% include "scenes/" ~ chapter.slug ~ ".html" %}
+        </div>
+        <figcaption id="{{ chapter.slug }}-caption">
+          <div class="scene-caption-top">
+            <span class="scene-kind">Illustrative scenario</span>
+            <div class="scene-controls" hidden>
+              <button type="button" data-pause aria-label="Pause {{ chapter.title | lower }} animation">Pause</button>
+              <button type="button" data-replay aria-label="Replay {{ chapter.title | lower }} animation"><span aria-hidden="true">↻</span> Replay</button>
+            </div>
+          </div>
+          <ol class="scene-steps">
+            {% for step in chapter.steps %}
+            <li><span class="scene-step-number" aria-hidden="true">{{ loop.index }}</span><span>{{ step }}</span></li>
+            {% endfor %}
+          </ol>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+  {% endfor %}
+
+  <section class="story-ending wrap" aria-labelledby="ending-heading">
+    <h2 id="ending-heading">These pathways can overlap.</h2>
+    <p>Faster progress leaves less time to respond. Greater dependence can make recovery harder.
+      Understanding the mechanisms helps us ask better questions about prevention.</p>
+    <a class="story-next" href="/ai-safety/">What is AI safety? <span aria-hidden="true">→</span></a>
+    <p class="story-report">For the broader assessment, read the
+      <a href="https://arxiv.org/abs/2602.21012">International AI Safety Report 2026</a>.</p>
+  </section>
+</article>
+{% endblock %}
+{% block scripts %}
+<script src="{{ doomsday_js_url }}" defer></script>
+{% endblock %}
