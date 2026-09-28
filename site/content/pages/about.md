@@ -18,6 +18,10 @@ We choose technical AI safety papers for their influence and what they teach, co
 
 ## Support the project
 
-You can help by sharing explainers, reporting errors or suggesting papers. Email [alex@galea.dev](mailto:alex@galea.dev) with corrections or recommendations. Corrections are noted in the page’s updated date.
+The biggest help is to run the automation on a research paper and contribute a draft explainer. Generating a video uses a lot of tokens: budget roughly one five-hour Claude session per video, though usage varies by paper and revisions.
+
+The [video-generation code is open source on GitHub](https://github.com/zazencodes/aisafetyrisks-org). Follow the [contributor guide](https://github.com/zazencodes/aisafetyrisks-org/blob/main/CONTRIBUTING.md) to get started, or email [alex@galea.dev](mailto:alex@galea.dev) if you’d like to help.
+
+Sharing explainers, suggesting papers and reporting errors also help. Corrections are noted in the page’s updated date.
 
 We do not accept donations yet. We plan to open donations once a nonprofit structure is in place.
