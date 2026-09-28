@@ -1,4 +1,4 @@
-/* Each diagram owns a finite timeline. Scroll changes playback, not the reader's pace. */
+/* Each diagram loops while visible. Scroll changes playback, not the reader's pace. */
 const DURATION = 7200;
 const BEATS = [0, 2400, 4800];
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -120,16 +120,7 @@ function makeScene(figure) {
     sync();
   }
 
-  clock.onfinish = () => {
-    completed = true;
-    sync();
-  };
-
-  pauseButton.addEventListener("click", () => {
-    userPaused = !userPaused;
-    sync();
-  });
-  replayButton.addEventListener("click", () => {
+  function restart() {
     completed = false;
     started = true;
     userPaused = false;
@@ -138,11 +129,22 @@ function makeScene(figure) {
       animation.currentTime = 0;
     }
     sync();
+  }
+
+  clock.onfinish = () => {
+    if (!reducedMotion.matches) restart();
+  };
+
+  pauseButton.addEventListener("click", () => {
+    userPaused = !userPaused;
+    sync();
   });
+  replayButton.addEventListener("click", restart);
 
   function applyMotionPreference() {
     controls.hidden = reducedMotion.matches;
     if (reducedMotion.matches) finish();
+    else if (completed) restart();
     else sync();
   }
 
