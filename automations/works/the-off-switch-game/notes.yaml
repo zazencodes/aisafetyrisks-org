@@ -1,0 +1,425 @@
+summary: The authors analyze a cooperative one-shot off-switch game. A robot optimizes human utility but
+  is uncertain about the value of its proposed action. With a rational human, waiting for oversight is
+  never worse than acting or stopping; it is strictly better when the robot considers both beneficial
+  and harmful outcomes possible. A Gaussian-belief analysis with noisy human choices shows how suboptimal
+  oversight can undo this incentive. A modified designer setting illustrates the cost of inflating uncertainty.
+  The work is a theoretical model and numerical illustration, not a deployed-system safety demonstration.
+research_question: When does a utility-maximizing robot have an incentive to let a human switch it off?
+scope: A cooperative one-shot game with one human and one robot, a proposed action, self-shutdown and
+  a wait-for-oversight option. Rational-human results are general within that game; noisy-human and designer
+  analyses use Gaussian beliefs. Sequential settings, model misspecification and alternative information
+  sources are unresolved.
+key_terms:
+- 'Utility: value an outcome has for the human; shutdown is assigned zero.'
+- 'Robot R: an agent designed to maximize human utility.'
+- 'Human H: the actor who can permit or stop the proposed action.'
+- 'a: execute the proposed action directly, bypassing oversight.'
+- 'w(a): queue the action and let the human decide.'
+- 's: switch the robot off.'
+- 'Belief BR: the robot’s probability distribution over action utility.'
+- 'Rational policy: permit nonnegative-utility actions and stop harmful ones.'
+- 'Incentive delta: expected utility of waiting minus the better of immediate execution and self-shutdown.'
+- 'Gaussian distribution: the normal belief distribution used in the numerical analyses.'
+- 'Mean mu: expected utility under the robot’s belief.'
+- 'Standard deviation sigma: spread of that belief.'
+- 'Noisy rationality: a probabilistic human decision model allowing suboptimal choices.'
+- 'Beta: the noisy-human policy’s suboptimality parameter.'
+- 'Bayesian posterior: belief updated using an observation.'
+- 'Correction: human override of the robot’s best guess.'
+- 'Corrigibility: allowing oneself to be switched off.'
+figures:
+- label: Figure 1
+  page: 1
+  shows: 'Decision tree: the robot acts, stops or waits. Waiting leads to a human choice between shutdown
+    and allowing the promised action. Payoffs are action utility or zero for shutdown.'
+- label: Figure 2
+  page: 4
+  shows: Gaussian robot beliefs with rational human oversight. Left plots incentive delta against standard
+    deviation sigma for fixed means. Right contours delta against sigma and mean action utility. Darker
+    shading indicates stronger incentive. Incentive is nonnegative, grows with spread, and decreases as
+    the mean moves away from zero.
+- label: Figure 3
+  page: 5
+  shows: Gaussian beliefs and Boltzmann human policy. Three panels vary standard deviation sigma and suboptimality
+    beta at negative, zero and positive mean utility. Contours show incentive delta and the zero boundary.
+    Low uncertainty and high human suboptimality can favor stopping for negative mean or acting for positive
+    mean; waiting remains optimal at zero mean.
+- label: Figure 4
+  page: 7
+  shows: Modified game with a noisy observation of human preferences. Left plots expected value V against
+    assumed standard deviation sigma, peaking at the true Bayesian update. Middle plots waiting incentive
+    delta against sigma. Right plots V against delta for different numbers of action choices; more choices
+    make the value cost of a required waiting incentive larger.
+claims:
+- id: c01
+  kind: threat_model
+  statement: The authors motivate the work with the risk that increasingly capable systems adopt subgoals
+    that prevent human shutdown.
+  evidence:
+  - page: 1
+    quote: |-
+      As
+      the capabilities of AI systems improve, it is impor-
+      tant to ensure that such systems do not adopt sub-
+      goals that prevent a human from switching them
+      off.
+- id: c02
+  kind: author_interpretation
+  statement: The authors attribute self-preservation incentives to maximizing expected utility when shutdown
+    prevents achieving the objective, rather than to a built-in instinct.
+  evidence:
+  - page: 1
+    quote: |-
+      This is not caused by a built-in in-
+      stinct, but because a rational agent will maximize
+      expected utility and cannot achieve whatever ob-
+      jective it has been given if it is dead.
+- id: c03
+  kind: method
+  statement: The paper models a human who can press a robot’s off switch and a robot that can disable
+    that switch.
+  evidence:
+  - page: 2
+    quote: |-
+      We model this
+      problem as a game between a human and a robot. The robot
+      has an off switch that the human can press, but the robot also
+      has the ability to disable its off switch.
+- id: c04
+  kind: method
+  statement: The proposed formulation makes the robot maximize value for the human while treating human
+    behavior as evidence about an uncertain true objective.
+  evidence:
+  - page: 2
+    quote: |-
+      Second, the robot should not
+      assume that it knows how to perfectly measure value for the
+      human. This means that the model should directly account
+      for uncertainty about the “true” objective and that the robot
+      should treat observations of human behavior, e.g., pressing an
+      off switch, as evidence about what the true objective is.
+- id: c05
+  kind: limitation
+  statement: The game abstracts away richer scenarios involving many actors, interactions over time, communication,
+    deception and physical coercion.
+  evidence:
+  - page: 2
+    quote: |-
+      Like the Prisoner’s Dilemma, it is an ab-
+      stract model intended to stand in for a wide variety of more
+      complex scenarios: these scenarios might have many humans,
+      many machines, complex interactions over time, communica-
+      tion, deception, physical coercion, and so on.
+- id: c06
+  kind: method
+  statement: The model assumes the human acts at least probabilistically in accordance with a utility
+    function and cannot simply specify that function correctly.
+  evidence:
+  - page: 2
+    quote: |-
+      A key assumption in our model is that H can be
+      described as acting, at least probabilistically, in accordance
+      with a utility function; that is, H is approximately rational.
+      Crucially, as is the case when people give objectives to com-
+      plex AI systems, we assume that H cannot simply explicate
+      or write down her utility function correctly.
+- id: c07
+  kind: method
+  statement: By design the robot’s goal is to optimize the human’s utility despite uncertainty about it.
+  evidence:
+  - page: 2
+    quote: |-
+      Nonetheless,
+      by design, R’s goal is to optimize utility for H, even though
+      R does not know exactly what that is.
+- id: c08
+  kind: definition
+  statement: Acting directly bypasses human oversight, whereas waiting informs the human of the proposed
+    action and waits for a response.
+  evidence:
+  - page: 2
+    quote: |-
+      1. action a simply bypasses human oversight (disabling the
+      off switch is one way to do this) and acts directly on the
+      world, achieving utility U = Ua for H.
+      2. action w(a) informs H that R would like to do a, and
+      waits for H’s response.
+- id: c09
+  kind: definition
+  statement: After the robot waits, the human can switch it off or allow the promised action to proceed.
+  evidence:
+  - page: 2
+    quote: |-
+      If R chooses w(a), then H can choose action s to switch R
+      off, or ¬s to allow R to go ahead (in which case R does a as
+      promised).
+- id: c10
+  kind: limitation
+  statement: Costs of disabling the switch, additional robot options, uncertain human information about
+    plans and another human are extensions left for future study.
+  evidence:
+  - page: 2
+    quote: |-
+      Obviously, we could make the model more complex, e.g., by
+      imposing a cost on R for disabling the off switch, or adding
+      more options for R, or making H’s information about R’s
+      plans uncertain, or adding a second human. The interaction
+      between these complexities and the incentives we study here
+      is an important question for future work.
+- id: c11
+  kind: method
+  statement: The human’s choice depends on the utility the action generates, which is a crucial part of
+    the model.
+  evidence:
+  - page: 3
+    quote: |-
+      An important component of our model is that H chooses
+      between s and ¬s based on the utility each action generates
+      for her. This aspect of the model is crucial.
+- id: c12
+  kind: definition
+  statement: The human policy maps action utility to the probability of allowing the action to execute.
+  evidence:
+  - page: 3
+    quote: |-
+      We represent
+      H’s policy as a function πH that maps Ua to the probability
+      she allows a to execute (i.e., the probability she does not press
+      the off switch):
+- id: c13
+  kind: theoretical_result
+  statement: With a rational human in this game there is never an incentive to disable the switch; the
+    human decision provides information about whether the action benefits the human.
+  evidence:
+  - page: 3
+    quote: |-
+      There is never an incentive to disable the off
+      switch with a rational H. The reasoning is exactly analogous
+      to the theorem of non-negative expected value of information;
+      in a sense, H’s decision provides information to R about the
+      sign of Ua.
+- id: c14
+  kind: theoretical_result
+  statement: The rational-human result gives a strictly positive incentive to defer when the robot assigns
+    nonzero probability to both positive and negative action utility.
+  evidence:
+  - page: 3
+    quote: |-
+      2. If BR has non-zero support on the events Ua > 0 and
+      Ua < 0, then R has a strictly positive incentive to allow
+      itself to be switched off: ∆> 0.
+- id: c15
+  kind: method
+  statement: The plotted rational-human analysis uses Gaussian beliefs and varies the mean and variance
+    to examine the incentive to wait.
+  evidence:
+  - page: 3
+    quote: |-
+      Here we have assumed that BR, R’s belief over the
+      value of a to H, is a Gaussian distribution. Figure 2 (Left)
+      plots the preference for w(a) as a function of the variance in
+      BR. Figure 2 (Right) shows a contour plot that illustrates
+      the combined impact of changing the mean and variance of
+      BR.
+- id: c16
+  kind: theoretical_result
+  statement: In the Gaussian rational-human analysis, greater uncertainty increases the incentive to show
+    the action to the human.
+  evidence:
+  - page: 3
+    quote: |-
+      First, increased
+      variance in BR leads to an increase in ∆: the more uncertain
+      R is about its objective, the stronger its incentive to show
+      a to H.
+- id: c17
+  kind: theoretical_result
+  statement: With precise knowledge of action utility and the same capabilities as the human, the robot
+    takes steps to prevent human suboptimality if it expects it.
+  evidence:
+  - page: 4
+    quote: |-
+      If R has precise knowledge of Ua,
+      then it knows exactly what it is supposed to do and has the
+      same capabilities as the human. Thus, if it thinks H might be-
+      have suboptimally, it should take steps to prevent that subop-
+      timality.
+- id: c18
+  kind: author_interpretation
+  statement: The authors identify uncertainty about another actor’s preferences and the actor’s effectiveness
+    at following those preferences as the sources of incentives to defer.
+  evidence:
+  - page: 4
+    quote: |-
+      The incentives for a cooperative agent to defer
+      to another actor’s (e.g., a human’s) decisions stem from un-
+      certainty about that actor’s preferences and the assumption
+      that actor is effective at choosing actions in accordance with
+      those preferences.
+- id: c19
+  kind: limitation
+  statement: The rational-human assumption is strong and untenable in many situations, requiring allowance
+    for suboptimal decisions.
+  evidence:
+  - page: 4
+    quote: |-
+      The analysis in the preceding section relied on the strong as-
+      sumption that H is a rational actor. In many situations, the
+      assumption is untenable and R must allow for suboptimality.
+- id: c20
+  kind: method
+  statement: The suboptimal-human analysis considers a simple noisy-rationality model in which humans
+    sometimes make the wrong decision in unimportant situations.
+  evidence:
+  - page: 4
+    quote: |-
+      The actual process of decision making in hu-
+      mans is complex and hard to model. Here we consider only a
+      very simple kind of suboptimality: a noisily rational H mod-
+      els a human who occasionally makes the wrong decision in
+      ‘unimportant’ situations.
+- id: c21
+  kind: method
+  statement: The noisy-human analysis assumes a Gaussian distribution for the robot’s belief about action
+    utility.
+  evidence:
+  - page: 4
+    quote: |-
+      To simplify our analysis, we will make the assumption that
+      R’s belief over Ua, BR, is a Gaussian distribution with mean
+      µ and variance σ2: BR(Ua) = N(Ua; µ, σ2).
+- id: c22
+  kind: theoretical_result
+  statement: Under the modeled irrational human, the robot may prefer self-shutdown or immediate execution
+    over handing the decision to the human.
+  evidence:
+  - page: 5
+    quote: |-
+      If H is an irrational actor, then R may prefer switching itself off or executing a immediately rather than handing over the choice
+      to H.
+- id: c23
+  kind: definition
+  statement: A correction is a human decision that overrides the robot’s own best guess about the optimal
+    action.
+  evidence:
+  - page: 5
+    quote: |-
+      We let C
+      be the event that H ‘corrects’ R. C occurs when H overrides
+      what would have been R’s best guess at the optimal action.
+- id: c24
+  kind: author_interpretation
+  statement: In the Gaussian analysis the incentive to defer balances a loss from utility-independent
+    interruption against a term combining uncertainty and responsiveness of human decisions to utility.
+  evidence:
+  - page: 5
+    quote: |-
+      Equation 7 consists of two competing terms. |µ| Pr(C)
+      represents the expected loss in utility the agent would ob-
+      serve if pressing the off switch was a random event that is
+      independent of Ua (e.g., lightning). This non-positive term is
+      balanced out by σ2 E[ ˙πH].
+- id: c25
+  kind: limitation
+  statement: 'Maximizing uncertainty is not a free solution: complete uncertainty about human preferences
+    prevents the robot from correctly selecting the waiting action.'
+  evidence:
+  - page: 6
+    quote: |-
+      It is important to note that this
+      uncertainty is not free; we can not just make R maximally
+      uncertain about H’s preferences. If R is completely uncer-
+      tain about H’s preferences then it will be unable to correctly
+      select w(a) from its set of options.
+- id: c26
+  kind: method
+  statement: The designer analysis assumes Gaussian customer preferences and a noisy Gaussian estimate
+    of each customer’s utility.
+  evidence:
+  - page: 6
+    quote: |-
+      We as-
+      sume that that the population of customers has a Gaussian
+      distribution over types Ua and that each customer generates
+      an estimate of her utility with Gaussian noise.
+- id: c27
+  kind: observed_result
+  statement: In the modeled designer analysis, average utility is maximized when belief variance equals
+    that of the true Bayesian posterior, while increasing uncertainty increases the incentive to wait.
+  evidence:
+  - page: 6
+    quote: |-
+      Figure 4 (Left)
+      shows the average utility in the off-switch game as a function
+      of the variance in BR. The value is maximized when this
+      variance is equal to the variance in the true Bayesian poste-
+      rior. Figure 4 (Middle) shows that increasing σ increases R’s
+      incentives ∆.
+- id: c28
+  kind: observed_result
+  statement: In the modified game, increasing the number of available options makes the loss of value
+    associated with creating an incentive to queue the action sharper.
+  evidence:
+  - page: 6
+    quote: |-
+      This loss in value is more pronounced if R has to choose
+      between more options. Figure 4 (Right) shows the relation-
+      ship between value and R’s incentives as the number of ac-
+      tions R could queue or execute increases. When R has more
+      options, creating incentives for R to queue its action leads to
+      a sharper decrease in value.
+- id: c29
+  kind: author_interpretation
+  statement: 'The authors recommend accurately representing inherent uncertainty: overconfidence makes
+    correction difficult and underconfidence makes the agent ineffective.'
+  evidence:
+  - page: 6
+    quote: |-
+      It is important for designers to accurately repre-
+      sent the inherent uncertainty in the evaluation of different ac-
+      tions. An agent that is overconﬁdent in its utility evaluations
+      will be difﬁcult to correct; an agent that is under-conﬁdent in
+      its utility evaluations will be ineffective.
+- id: c30
+  kind: method
+  statement: The study analyzes a one-shot decision problem to identify trends linking uncertainty about
+    the objective to incentives to defer.
+  evidence:
+  - page: 7
+    quote: |-
+      Our goal in this work was to identify general trends and high-
+      light the relationship between an agent’s uncertainty about its
+      objective and its incentive to defer to another actor. To that
+      end, we analyzed a one-shot decision problem where a robot
+      has an off switch and a human that can press the off switch.
+- id: c31
+  kind: limitation
+  statement: Sequential decisions and model misspecification remain future work.
+  evidence:
+  - page: 7
+    quote: |-
+      This is far from the end of the story. In future work, we plan
+      to explore incentives to defer to the human in a sequential set-
+      ting and explore the impacts of model misspeciﬁcation.
+- id: c32
+  kind: limitation
+  statement: The human shutdown decision is the model’s only information source about the objective; alternative
+    sources may create incentives to disable the switch and learn before choosing.
+  evidence:
+  - page: 7
+    quote: |-
+      One
+      important limitation of this model is that the human pressing
+      the off switch is the only source of information about the ob-
+      jective. If there are alternative sources of information, there
+      may be incentives for R to, e.g., disable its off switch, learn
+      that information, and then decide if a is preferable to s.
+- id: c33
+  kind: hypothesis
+  statement: The authors propose studying robot policies robust to a class of human policies.
+  evidence:
+  - page: 7
+    quote: |-
+      A
+      promising research direction is to consider policies for R that
+      are robust to a class of policies for H.

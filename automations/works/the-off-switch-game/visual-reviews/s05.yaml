@@ -1,0 +1,6 @@
+render_key: 88493707c176eed4
+issues:
+  - beat: s05b02
+    severity: minor
+    problem: The human feedback label becomes small within the framed overview.
+    suggested_fix: Hide the repeated label while the illustration is reduced, retaining the amber information channel.

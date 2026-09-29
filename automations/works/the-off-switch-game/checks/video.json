@@ -1,0 +1,28 @@
+{
+  "duration": 358.1,
+  "width": 1920,
+  "height": 1080,
+  "chapters": [
+    {
+      "start": 0.0,
+      "title": "A button is only the beginning"
+    },
+    {
+      "start": 69.18,
+      "title": "What the robot can choose"
+    },
+    {
+      "start": 145.22,
+      "title": "Why uncertainty helps"
+    },
+    {
+      "start": 224.35,
+      "title": "When oversight loses value"
+    },
+    {
+      "start": 306.93,
+      "title": "Back to the stop button"
+    }
+  ],
+  "problems": []
+}

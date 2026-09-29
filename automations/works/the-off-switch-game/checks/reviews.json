@@ -1,0 +1,38 @@
+{
+  "storyboard": [
+    {
+      "content": "ddbfbbf21ac707d1",
+      "recorded_on": "2026-09-29",
+      "review": {
+        "verdict": "accurate",
+        "issues": []
+      }
+    }
+  ],
+  "site": [
+    {
+      "content": "287e29fcbfb0c65c",
+      "recorded_on": "2026-09-29",
+      "review": {
+        "verdict": "needs_revision",
+        "issues": [
+          {
+            "location": "explanation[3], findings[1], findings[2]",
+            "severity": "major",
+            "category": "missing_limitation",
+            "problem": "The noisy-human and designer results are presented without identifying their distributional and decision-policy assumptions. Unlike the general rational-human result, the noisy-human analysis uses Gaussian robot beliefs and a simple noisy-rationality policy (c20, c21), and the designer illustration assumes Gaussian customer preferences and Gaussian observation noise (c26). Calling these a modeled setting or modified game does not tell readers which assumptions constrain these conclusions.",
+            "suggested_fix": "State in the explanation that the noisy-human analysis uses Gaussian beliefs and a simple noisy-rationality policy, and that the designer illustration uses Gaussian customer preferences and Gaussian observation noise. Attach c20, c21 and c26 respectively; qualify the corresponding findings as results within those specified analyses."
+          }
+        ]
+      }
+    },
+    {
+      "content": "af078926e57f1544",
+      "recorded_on": "2026-09-29",
+      "review": {
+        "verdict": "accurate",
+        "issues": []
+      }
+    }
+  ]
+}

@@ -53,8 +53,8 @@ papers:
   category: power-seeking
   relevance: 'Formal model showing when an agent has an incentive to let humans switch it off: uncertainty
     about its objective is key.'
-  status: queued
-  work: null
+  status: published
+  work: the-off-switch-game
 - title: Deep reinforcement learning from human preferences
   authors:
   - Paul Christiano

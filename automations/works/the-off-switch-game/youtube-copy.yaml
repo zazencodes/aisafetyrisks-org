@@ -1,0 +1,23 @@
+title: Why an AI might let you switch it off
+description: 'Imagine a delivery robot that could bypass a person''s intervention
+  to finish its task. The Off-Switch Game examines the incentive behind that hypothetical
+  risk: shutdown can prevent an agent from achieving its assigned objective.
+
+
+  The researchers analyze a cooperative mathematical game in which a robot is uncertain
+  about what benefits a human. When the human chooses rationally and the robot considers
+  both beneficial and harmful outcomes possible, waiting for the human is better than
+  acting directly or stopping itself. With imperfect human decisions, that advantage
+  can disappear.
+
+
+  The study concerns a simplified decision model; decisions across time, mistaken
+  models and alternative sources of information remain limitations.'
+tags:
+- ai safety
+- off-switch game
+- human oversight
+- corrigibility
+- uncertainty
+- ai alignment
+- game theory
