@@ -15,10 +15,12 @@ from paper_video.context import PROMPTS, as_yaml, paper_header, paper_text, prom
 from paper_video.models import Notes, PaperRecord, ScienceReview, Scene, SceneVisualReview, Storyboard, WorkDraft
 from paper_video.review import review_file, reviewed_content
 from paper_video.scenes import class_name, narrated_durations, scene_hash, thumbnail_hash
+from paper_video.shorts import ShortPlan, ShortReview, output_dir, plan_path, source_beats
 from paper_video.site_content import paper_links
-from paper_video.workdir import WorkDir, load_model
+from paper_video.workdir import WorkDir, load_json, load_model
 
-TASKS = ["analyze", "storyboard", "review-audience", "scene", "thumbnail", "site", "review-storyboard", "review-site"]
+TASKS = ["analyze", "storyboard", "review-audience", "scene", "thumbnail", "site", "review-storyboard", "review-site",
+         "short", "review-short"]
 CLI = "uv run --frozen paper-video"
 
 
@@ -175,6 +177,32 @@ def write_brief(wd: WorkDir, record: PaperRecord, cfg: Config, task: str, scene_
             text = _review(wd, record, notes, "storyboard")
         case "review-site":
             text = _review(wd, record, notes, "site")
+        case "short":
+            sources = source_beats(wd, record, sb, cfg)
+            beats = [{"beat": b["beat"].model_dump(mode="json"), "duration": b["duration"],
+                      "source_start": b["source_start"]} for b in sources.values()]
+            text = (
+                f"{system('short')}\n\n"
+                f"{_yaml_output(plan_path(wd), ShortPlan, f'{CLI} short {wd.slug}')}\n\n"
+                f"# Paper\n\n{paper_header(record)}\n\n# Reading notes\n\n{as_yaml(notes)}\n\n"
+                f"# Full explainer\n\n{as_yaml(sb)}\n\n# Selectable whole beats and measured timing\n\n"
+                f"```json\n{json.dumps(beats, indent=2)}\n```\n\n"
+                f"Watch `{wd.out / 'video.mp4'}` and inspect scene frames before choosing the edit."
+            )
+        case "review-short":
+            timeline = load_json(output_dir(wd) / "timeline.json")
+            text = (
+                f"{system('science_review')}\n\n{prompt('short_review')}\n\n"
+                f"{_yaml_output(wd.root / 'short-review.yaml', ShortReview, f'{CLI} check {wd.slug} short')}\n\n"
+                f"Set content_key to `{timeline['content_key']}`.\n\n"
+                f"# Paper\n\n{paper_header(record)}\n\n# Notes\n\n{as_yaml(notes)}\n\n"
+                f"# Edit plan\n\n{as_yaml(load_model(plan_path(wd), ShortPlan))}\n\n"
+                f"# Actual edit timeline\n\n```json\n{json.dumps(timeline, indent=2)}\n```\n\n"
+                f"# Captions\n\n{(output_dir(wd) / 'captions.vtt').read_text()}\n\n"
+                f"Video: `{output_dir(wd) / 'video.mp4'}`\n\n"
+                f"Contact sheet: `{wd.frames / 'short-sheet.png'}`\n\n"
+                f"Inspect individual `{wd.frames / 'short'}` frames at phone size too."
+            )
         case _:
             raise ValueError(f"unknown task {task!r}; one of {TASKS}")
     path = wd.briefs / (f"scene-{scene_id}.md" if scene_id else f"{task}.md")

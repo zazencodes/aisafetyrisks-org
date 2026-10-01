@@ -1,7 +1,8 @@
 # Publish a paper
 
 Turn one AI safety paper into a draft explainer on aisafetyrisks.org: source-grounded notes, a
-storyboard, a narrated Manim video, a thumbnail, a web page and a YouTube package. Run it from
+storyboard, a narrated Manim video, one portrait short under three minutes, a thumbnail, a web page
+and a YouTube package. Run it from
 start to finish without asking the user anything. The result stops at human review; publication
 is the user's decision.
 
@@ -123,10 +124,18 @@ Write `youtube-copy.yaml` following `automations/src/paper_video/prompts/youtube
 
 ### 10. Hand over
 
+Before handover, follow [the short-form workflow](../short-paper/WORKFLOW.md) to make and independently
+review exactly one short from the completed full video. Run `paper-video check <slug> short`.
+Short-form generation is required for every paper, including resumed drafts. Its review is separate
+from the full storyboard review because removing context can change meaning. If the full video
+changes after this step, rebuild and re-review the short before handover.
+
 Run `paper-video report <slug>`, then tell the user:
 - where the results are: `automations/works/<slug>/out/video.mp4`, `out/thumbnail.jpg`,
   `youtube.yaml`, and the page, previewed with
   `uv run --frozen aisr-site serve --drafts --media-root automations/media`;
+- the companion `out/short/video.mp4`, cover and captions, `short-package.yaml`, actual duration,
+  and every open short review issue;
 - every open review issue with its severity, every scene with remaining visual problems, and any
   shape failure from step 6.
 

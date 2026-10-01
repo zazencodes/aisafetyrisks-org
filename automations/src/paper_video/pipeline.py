@@ -23,6 +23,7 @@ from paper_video.narrate import narrate
 from paper_video.provenance import verify_work
 from paper_video.review import SUBJECTS, current_review, record_review
 from paper_video.scenes import SceneRenderer, build_thumbnail, render_context, render_scenes
+from paper_video.shorts import build_short, check_short, plan_path
 from paper_video.site_content import write_site_work
 from paper_video.storyboard import check_storyboard
 from paper_video.workdir import WorkDir, dump_yaml, load_json, load_model, save_json
@@ -65,6 +66,9 @@ def check(slug: str, artifact: str) -> None:
             check_notes(wd)
         case "storyboard":
             check_storyboard(wd, record, _notes(wd), _storyboard(wd))
+        case "short":
+            result = check_short(wd, record, load_config())
+            log(f"short checks pass: {result['duration']:.2f}s, independent science/visual review recorded")
 
 
 def review(slug: str, subject: str) -> None:
@@ -104,6 +108,13 @@ def thumbnail(slug: str) -> None:
     build_thumbnail(wd, _storyboard(wd), cfg)
 
 
+def short_work(slug: str) -> None:
+    cfg, wd, record = _open(slug)
+    result = build_short(wd, record, cfg)
+    log(f"short assembled: {wd.out / 'short' / 'video.mp4'} ({result['duration']:.2f}s)")
+    log(f"social package: {wd.root / 'short-package.yaml'}; run `paper-video check {slug} short` after review")
+
+
 def site(slug: str) -> None:
     cfg, wd, record = _open(slug)
     write_site_work(wd, record, _notes(wd), load_json(wd.out / "timeline.json"), cfg)
@@ -123,7 +134,7 @@ def _check(path: Path) -> dict | None:
 
 
 def report(slug: str) -> None:
-    _, wd, _ = _open(slug)
+    cfg, wd, record = _open(slug)
     lines = [f"# Review report: {wd.slug}", ""]
     lines += ["Human review is required before publication. Watch `out/video.mp4` in full, read the page",
               "(`uv run aisr-site serve --drafts --media-root automations/media`), and check each claim against",
@@ -165,6 +176,21 @@ def report(slug: str) -> None:
         lines += ["## Video", f"- Duration {video['duration']:.0f} s, {video['width']}x{video['height']}."]
         lines += [f"- {p}" for p in video["problems"]]
         lines.append("")
+    lines += ["## Short-form companion"]
+    if not plan_path(wd).exists():
+        lines.append("- **Missing**: follow `workflows/short-paper/WORKFLOW.md` before handover or approval.")
+    else:
+        try:
+            short = check_short(wd, record, cfg)
+            lines.append(f"- Checks pass: {short['duration']:.2f}s, 1080x1920, current independent review.")
+            lines += [f"  - [{i['severity']}] {i['location']}: {i['problem']}"
+                      for i in load_json(wd.checks / "short.json")["review"]["science"]["issues"]]
+            lines += [f"  - [{i['severity']}] {i['beat']}: {i['problem']}"
+                      for i in load_json(wd.checks / "short.json")["review"]["visual_issues"]]
+        except (ValueError, FileNotFoundError) as e:
+            lines.append(f"- **Incomplete**: {e}")
+        lines += ["- Video: `out/short/video.mp4`; social copy and links: `short-package.yaml`."]
+    lines.append("")
     (wd.checks / "report.md").write_text("\n".join(lines) + "\n")
     log(f"report written: {wd.checks / 'report.md'}")
 
@@ -174,6 +200,9 @@ def approve(slug: str) -> None:
     cfg, wd, record = _open(slug)
     path = SITE_WORKS / slug / "work.yaml"
     work = load_model(path, Work)
+
+    # Every explainer ships with one independently reviewed short companion.
+    check_short(wd, record, cfg)
 
     # The page may have been edited by hand since it was built: verify it again now.
     check_ = verify_work(work, wd.pages(), metadata_text(record))

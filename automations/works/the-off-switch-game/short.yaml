@@ -1,0 +1,42 @@
+title: Why an AI might allow shutdown
+description: The Off-Switch Game studies a single human–robot decision mathematically. Uncertainty about
+  human preferences can make waiting for a rational human's decision valuable. If human decisions are
+  noisy, waiting can lose that advantage. These are results within the model, with limits for longer interactions
+  and mistaken models of people.
+scope_label: One-shot mathematical game
+selection_reason: Establish the hypothetical delivery robot, then identify the mathematical game and its
+  human-preference objective. Keep the act-or-wait choices, rational-human result and uncertainty mechanism,
+  then the noisy-human assumption and loss of the waiting advantage. The spoken one-shot and information-source
+  limitations precede the authors' takeaway. Remove utility notation, duplicate payoff explanations and
+  the designer simulation to focus on the conditions under which uncertainty makes oversight valuable.
+segments:
+- beat: s01b01
+  role: hook
+  heading: Imagine someone reaching for stop
+- beat: s01b04
+  role: context
+  heading: A mathematical game
+- beat: s02b01
+  role: context
+  heading: Uncertain about human preferences
+- beat: s02b03
+  role: explanation
+  heading: Act now, or wait for a person?
+- beat: s03b01
+  role: explanation
+  heading: Assume a rational human
+- beat: s03b03
+  role: explanation
+  heading: Human decisions carry information
+- beat: s04b01
+  role: explanation
+  heading: Now allow human mistakes
+- beat: s04b02
+  role: explanation
+  heading: Waiting can lose its advantage
+- beat: s05b02
+  role: limitation
+  heading: A single decision in a model
+- beat: s05b03
+  role: takeaway
+  heading: Uncertainty can give correction value

@@ -28,8 +28,11 @@ Workflows are step-by-step procedures for agents, in `workflows/<name>/WORKFLOW.
 matches one, read the whole file before starting and follow it.
 
 - `workflows/publish-paper/WORKFLOW.md`: turn a paper into a draft explainer (notes, storyboard,
-  video, thumbnail, page, YouTube package), autonomously, up to human review. Use it to publish,
+  video, one portrait short under three minutes, thumbnail, page, YouTube package), autonomously, up to human review. Use it to publish,
   process or resume a paper.
+- `workflows/short-paper/WORKFLOW.md`: generate and independently review one short from a completed
+  explainer. Also use for published-paper backfills, oldest research date first. Every new paper
+  session must finish this companion before handover; approval checks it. Shorts remain local drafts.
 
 In these workflows, the agent running the workflow and its subagents do the writing and visual reviews.
 `paper-video` calls `agy` only for metadata when a PDF carries none. Never call
@@ -38,6 +41,8 @@ In these workflows, the agent running the workflow and its subagents do the writ
 ## Commands
 
 - `uv run --frozen paper-video --help`: all pipeline commands.
+- `uv run --frozen paper-video short <slug>`: build the portrait companion from `short.yaml`;
+  `paper-video check <slug> short` checks the current output and independent review.
 - `uv run --frozen aisr-site build`: build the site into `site/dist/`.
 - `uv run --frozen aisr-site serve --drafts --media-root automations/media`: preview, including drafts.
 

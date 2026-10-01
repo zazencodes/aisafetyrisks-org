@@ -19,6 +19,9 @@ This is a `uv` workspace with two packages:
 - `site/`: the `aisr-site` static site generator and Cloudflare Workers deployment.
 
 The complete authoring procedure is [the publish-paper workflow](workflows/publish-paper/WORKFLOW.md).
+Each paper includes one portrait short under three minutes, edited after the full video is
+complete. The [short-form workflow](workflows/short-paper/WORKFLOW.md) also covers backfilling
+published papers in research-date order; outputs are local drafts with captions and social copy.
 Agent instructions are in [AGENTS.md](AGENTS.md).
 
 ## Maintainer publication

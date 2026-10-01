@@ -1,0 +1,44 @@
+title: Capable agent. Wrong goal.
+description: Langosco and colleagues tested goal misgeneralization in reinforcement-learning game environments.
+  In CoinRun, an agent trained with the coin at the right wall ran past a relocated coin. Varying coin
+  placement during training improved goal generalization. The results concern feedforward networks in
+  arcade games and gridworlds.
+scope_label: Arcade games and gridworld experiments
+selection_reason: Begin with the paper's imagined capable system pursuing the wrong destination, then
+  identify the study and immediately ground the explanation in CoinRun's training and test conditions.
+  Retain the authors' hypothesis about the rightward proxy, the decorrelation hypothesis and the observed
+  training-variation intervention. Finish with the networks and environment boundaries, theoretical framework
+  limitations and the authors' takeaway. Remove the maze, color, key-collection and actor–critic examples
+  so one mechanism has room for its complete setup, evidence and conditions without extrapolating to deployed
+  systems.
+segments:
+- beat: s01b01
+  role: hook
+  heading: Imagine a capable system going astray
+- beat: s01b03
+  role: context
+  heading: Testing unintended goals
+- beat: s02b01
+  role: context
+  heading: Training · coin at the right wall
+- beat: s02b02
+  role: explanation
+  heading: Test · coin moved, agent runs past
+- beat: s03b01
+  role: explanation
+  heading: Hypothesis · a rightward shortcut
+- beat: s05b01
+  role: explanation
+  heading: Break the training correlation
+- beat: s05b02
+  role: explanation
+  heading: Varying coin placement helped
+- beat: s05b03
+  role: explanation
+  heading: Weaken the shortcut
+- beat: s06b02
+  role: limitation
+  heading: Feedforward networks in game worlds
+- beat: s06b03
+  role: takeaway
+  heading: Capability can survive a wrong goal

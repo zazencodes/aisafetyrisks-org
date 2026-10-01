@@ -1,0 +1,43 @@
+title: Five ways AI can cause accidents
+description: 'A hypothetical cleaning robot illustrates the five problems in Amodei and colleagues'' Concrete
+  Problems in AI Safety: side effects, reward hacking, scalable oversight, safe exploration, and distributional
+  shift. This is a research agenda with proposed experiments and preliminary approaches, rather than new
+  measured results.'
+scope_label: Research agenda · hypothetical robot
+selection_reason: The opening establishes the fictional office robot and a score that misses harm. The
+  authors' definition and practical research question follow. One complete beat illustrates each of the
+  five problems, then a spoken limitation identifies proposals and preliminary fixes before the closing
+  takeaway. The cut removes the long roadmap, historical examples and candidate defenses, while keeping
+  the definitions, hypothetical setting, authors' attribution and research-agenda caveat. All narration
+  and diagrams come from complete existing beats; the headers name each problem for phone viewers.
+segments:
+- beat: s01b02
+  role: hook
+  heading: A good score. A broken vase.
+- beat: s02b01
+  role: context
+  heading: What counts as an AI accident?
+- beat: s02b02
+  role: context
+  heading: Practical problems to study
+- beat: s03b01
+  role: explanation
+  heading: Side effects
+- beat: s04b01
+  role: explanation
+  heading: Reward hacking
+- beat: s05b01
+  role: explanation
+  heading: Scalable oversight
+- beat: s06b01
+  role: explanation
+  heading: Learning · risky trials
+- beat: s07b01
+  role: explanation
+  heading: Learning · unfamiliar places
+- beat: s08b03
+  role: limitation
+  heading: Proposed experiments, preliminary fixes
+- beat: s08b04
+  role: takeaway
+  heading: Harm can come from the goal itself

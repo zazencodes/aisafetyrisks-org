@@ -5,11 +5,12 @@ which calls these commands in order:
 
   paper-video ingest <paper>                    fetch a paper (PDF path, arXiv id or URL) into a work directory
   paper-video brief <slug> <task> [--scene ID]  write the brief for a writing task to briefs/
-  paper-video check <slug> notes|storyboard     provenance checks for notes.yaml / storyboard.yaml
+  paper-video check <slug> notes|storyboard|short  provenance, source freshness and short review checks
   paper-video review <slug> storyboard|site     record a science review from checks/reviews/
   paper-video narrate <slug>                    synthesize narration and the render context
   paper-video render <slug> [--scene ID ...]    render scenes and record visual-reviews/<scene>.yaml
   paper-video assemble <slug>                   master video, captions and chapter timeline
+  paper-video short <slug>                      portrait short from short.yaml, captions and social package
   paper-video thumbnail <slug>                  render the thumbnail scene
   paper-video site <slug>                       build the page from site.yaml into site/content/works/
   paper-video youtube <slug>                    package youtube-copy.yaml as youtube.yaml
@@ -40,9 +41,9 @@ def main() -> None:
     brief.add_argument("task", choices=TASKS)
     brief.add_argument("--scene", help="scene id, for the scene task")
 
-    check = sub.add_parser("check", help="provenance checks for notes or storyboard")
+    check = sub.add_parser("check", help="provenance checks for notes, storyboard or short")
     check.add_argument("slug")
-    check.add_argument("artifact", choices=["notes", "storyboard"])
+    check.add_argument("artifact", choices=["notes", "storyboard", "short"])
 
     review = sub.add_parser("review", help="record a science review")
     review.add_argument("slug")
@@ -50,7 +51,8 @@ def main() -> None:
 
     for name, text in (("narrate", "synthesize narration"), ("assemble", "assemble the master video"),
                        ("thumbnail", "render the thumbnail"), ("site", "build the page from site.yaml"),
-                       ("youtube", "write the YouTube package"), ("report", "write checks/report.md")):
+                       ("youtube", "write the YouTube package"), ("short", "build the portrait short"),
+                       ("report", "write checks/report.md")):
         sub.add_parser(name, help=text).add_argument("slug")
 
     render = sub.add_parser("render", help="render scenes and record agent-written visual reviews")
@@ -79,6 +81,8 @@ def main() -> None:
             pipeline.render_work(args.slug, args.scene)
         case "assemble":
             pipeline.assemble(args.slug)
+        case "short":
+            pipeline.short_work(args.slug)
         case "thumbnail":
             pipeline.thumbnail(args.slug)
         case "site":

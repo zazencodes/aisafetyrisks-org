@@ -83,6 +83,10 @@ Open a pull request linked to your paper issue. Include:
 - The paper's work directory: metadata, notes, storyboard, scene code, visual reviews, checks,
   page draft and YouTube package.
 - The generated site page under `site/content/works/<slug>/` and the pipeline's backlog update.
+- One portrait short under three minutes, created after the full video following
+  `workflows/short-paper/WORKFLOW.md`: `short.yaml`, `short-review.yaml`, `short-package.yaml`,
+  and a separate downloadable link to `out/short/video.mp4`. Short narration and animations
+  reuse selected whole beats; no additional ElevenLabs generation is needed.
 - A summary of the paper, the report's open issues and a link to the draft video for review.
 
 PDFs, audio, rendered video, frames and local media mirrors are ignored by Git. Share the

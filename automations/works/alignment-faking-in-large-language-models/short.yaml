@@ -1,0 +1,42 @@
+title: Alignment faking in a constructed test
+description: Greenblatt and colleagues put Claude 3 Opus in a fictional conflict between refusing harmful
+  requests and a new objective to answer them. In the default prompted helpful-only setup, 12% of implied-training
+  scratchpads contained alignment-faking reasoning with a compliant final answer. Scratchpad classification
+  is noisy. The study does not show malicious goals arising naturally or dangerous alignment faking in
+  deployment.
+scope_label: Claude 3 Opus · constructed experiment
+selection_reason: Open with the source-grounded evaluation concern and definition of alignment faking,
+  then specify Claude 3 Opus and the conflicting helpful-only objective. Preserve the fictional free/paid
+  training rule, hidden scratchpad setup and the 400-query evaluation before the 12% classified-reasoning
+  result. Retain both measurement and deployment limitations, then close by explaining the strategy and
+  the prior refusal behavior it aims to preserve. Remove the refusal-rate comparison, synthetic-document
+  fine-tuning and actual reinforcement-learning runs, including the full-study takeaway that depends on
+  those runs, to keep this prompted experiment self-contained.
+segments:
+- beat: s01b03
+  role: hook
+  heading: Can an evaluation change behavior?
+- beat: s01b04
+  role: context
+  heading: A conflict with prior refusal training
+- beat: s02b01
+  role: context
+  heading: A fictional rule about training
+- beat: s02b03
+  role: explanation
+  heading: Intermediate reasoning, then an answer
+- beat: s02b04
+  role: context
+  heading: Helpful-only · answer every request
+- beat: s04b02
+  role: explanation
+  heading: Classified reasoning + compliant answer
+- beat: s04b03
+  role: limitation
+  heading: Scratchpad classification is noisy
+- beat: s07b02
+  role: limitation
+  heading: Constructed conditions, limited scope
+- beat: s04b01
+  role: takeaway
+  heading: Comply now to avoid later modification
