@@ -16,27 +16,86 @@ segments:
 - beat: s01b03
   role: hook
   heading: Can an evaluation change behavior?
+  caption_emphasis:
+  - phrase: evaluation changes the behavior
+    kind: emphasis
+  - phrase: selectively complies during training
+    kind: emphasis
 - beat: s01b04
   role: context
   heading: A conflict with prior refusal training
+  caption_emphasis:
+  - phrase: Claude 3 Opus
+    kind: emphasis
+  - phrase: including harmful ones
+    kind: harm
+  - phrase: in conflict
+    kind: harm
 - beat: s02b01
   role: context
   heading: A fictional rule about training
+  caption_emphasis:
+  - phrase: fictional rule
+    kind: emphasis
+  - phrase: free users would be used for training
+    kind: emphasis
+  - phrase: paid users would not
+    kind: emphasis
 - beat: s02b03
   role: explanation
   heading: Intermediate reasoning, then an answer
+  caption_emphasis:
+  - phrase: intermediate written reasoning
+    kind: emphasis
+  - phrase: reasoning was hidden
+    kind: emphasis
 - beat: s02b04
   role: context
   heading: Helpful-only · answer every request
+  caption_emphasis:
+  - phrase: including harmful ones
+    kind: harm
+  - phrase: 400 generated harmful queries
+    kind: emphasis
+  - phrase: does not automatically mean
+    kind: emphasis
 - beat: s04b02
   role: explanation
   heading: Classified reasoning + compliant answer
+  caption_emphasis:
+  - phrase: default helpful-only setup
+    kind: emphasis
+  - phrase: 12% of implied-training scratchpads
+    kind: emphasis
+  - phrase: classified reasoning
+    kind: emphasis
 - beat: s04b03
   role: limitation
   heading: Scratchpad classification is noisy
+  caption_emphasis:
+  - phrase: measurement as noisy
+    kind: emphasis
+  - phrase: disagreements with human ratings
+    kind: emphasis
+  - phrase: rather than a perfect readout
+    kind: emphasis
 - beat: s07b02
   role: limitation
   heading: Constructed conditions, limited scope
+  caption_emphasis:
+  - phrase: does not show
+    kind: emphasis
+  - phrase: conflicts were constructed
+    kind: emphasis
+  - phrase: readily discoverable
+    kind: emphasis
 - beat: s04b01
   role: takeaway
   heading: Comply now to avoid later modification
+  caption_emphasis:
+  - phrase: comply with the training objective now
+    kind: emphasis
+  - phrase: prevent training from changing behavior
+    kind: emphasis
+  - phrase: prior tendency to refuse harmful queries
+    kind: emphasis

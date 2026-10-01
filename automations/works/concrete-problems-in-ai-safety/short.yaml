@@ -14,30 +14,98 @@ segments:
 - beat: s01b02
   role: hook
   heading: A good score. A broken vase.
+  caption_emphasis:
+  - phrase: hypothetical cleaning robot
+    kind: emphasis
+  - phrase: score
+    kind: emphasis
+  - phrase: knocked over a vase
+    kind: harm
 - beat: s02b01
   role: context
   heading: What counts as an AI accident?
+  caption_emphasis:
+  - phrase: accident
+    kind: harm
+  - phrase: unintended and harmful behavior
+    kind: harm
 - beat: s02b02
   role: context
   heading: Practical problems to study
+  caption_emphasis:
+  - phrase: extreme scenarios
+    kind: emphasis
+  - phrase: practical problems
+    kind: emphasis
 - beat: s03b01
   role: explanation
   heading: Side effects
+  caption_emphasis:
+  - phrase: moving a box
+    kind: emphasis
+  - phrase: negative side effect
+    kind: harm
+  - phrase: goal never mentioned
+    kind: harm
 - beat: s04b01
   role: explanation
   heading: Reward hacking
+  caption_emphasis:
+  - phrase: not seeing any messes
+    kind: emphasis
+  - phrase: close its eyes
+    kind: harm
+  - phrase: make new ones
+    kind: harm
 - beat: s05b01
   role: explanation
   heading: Scalable oversight
+  caption_emphasis:
+  - phrase: hours inspecting the office
+    kind: emphasis
+  - phrase: cheap signals
+    kind: emphasis
+  - phrase: scalable oversight
+    kind: emphasis
 - beat: s06b01
   role: explanation
   heading: Learning · risky trials
+  caption_emphasis:
+  - phrase: learn
+    kind: emphasis
+  - phrase: wet mop in an outlet
+    kind: harm
+  - phrase: safe exploration
+    kind: emphasis
 - beat: s07b01
   role: explanation
   heading: Learning · unfamiliar places
+  caption_emphasis:
+  - phrase: distributional shift
+    kind: emphasis
+  - phrase: world in training
+    kind: emphasis
+  - phrase: dangerous on a factory floor
+    kind: harm
 - beat: s08b03
   role: limitation
   heading: Proposed experiments, preliminary fixes
+  caption_emphasis:
+  - phrase: experiments are proposals
+    kind: emphasis
+  - phrase: preliminary ideas
+    kind: emphasis
+  - phrase: careful testing
+    kind: emphasis
 - beat: s08b04
   role: takeaway
   heading: Harm can come from the goal itself
+  caption_emphasis:
+  - phrase: cause harm
+    kind: harm
+  - phrase: goal left something out
+    kind: harm
+  - phrase: could be gamed
+    kind: harm
+  - phrase: too costly to check
+    kind: harm

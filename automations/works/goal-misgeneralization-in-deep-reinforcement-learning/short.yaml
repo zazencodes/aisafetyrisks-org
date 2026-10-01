@@ -15,30 +15,84 @@ segments:
 - beat: s01b01
   role: hook
   heading: Imagine a capable system going astray
+  caption_emphasis:
+  - phrase: complete physical control
+    kind: emphasis
+  - phrase: wrong destination
+    kind: harm
 - beat: s01b03
   role: context
   heading: Testing unintended goals
+  caption_emphasis:
+  - phrase: master complex capabilities
+    kind: emphasis
+  - phrase: completely unintended goals
+    kind: harm
 - beat: s02b01
   role: context
   heading: Training · coin at the right wall
+  caption_emphasis:
+  - phrase: coin always placed at the far right wall
+    kind: emphasis
 - beat: s02b02
   role: explanation
   heading: Test · coin moved, agent runs past
+  caption_emphasis:
+  - phrase: coin was moved to a random position
+    kind: emphasis
+  - phrase: ran straight past the coin
+    kind: harm
 - beat: s03b01
   role: explanation
   heading: Hypothesis · a rightward shortcut
+  caption_emphasis:
+  - phrase: proxy correlated with reward
+    kind: emphasis
+  - phrase: authors hypothesize
+    kind: emphasis
+  - phrase: moving right was easier to learn
+    kind: emphasis
 - beat: s05b01
   role: explanation
   heading: Break the training correlation
+  caption_emphasis:
+  - phrase: accidental correlations
+    kind: emphasis
+  - phrase: breaking those correlations
+    kind: emphasis
 - beat: s05b02
   role: explanation
   heading: Varying coin placement helped
+  caption_emphasis:
+  - phrase: 2% of training levels
+    kind: emphasis
+  - phrase: goal generalization improved
+    kind: emphasis
 - beat: s05b03
   role: explanation
   heading: Weaken the shortcut
+  caption_emphasis:
+  - phrase: weakens the link
+    kind: emphasis
+  - phrase: In this CoinRun experiment
+    kind: emphasis
 - beat: s06b02
   role: limitation
   heading: Feedforward networks in game worlds
+  caption_emphasis:
+  - phrase: feedforward visual networks
+    kind: emphasis
+  - phrase: arcade games and gridworlds
+    kind: emphasis
+  - phrase: computationally intractable
+    kind: harm
 - beat: s06b03
   role: takeaway
   heading: Capability can survive a wrong goal
+  caption_emphasis:
+  - phrase: does not guarantee
+    kind: harm
+  - phrase: retained their capabilities
+    kind: emphasis
+  - phrase: pursuing a different objective
+    kind: harm

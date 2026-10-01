@@ -1,0 +1,157 @@
+{
+  "duration": 140.2,
+  "width": 1080,
+  "height": 1920,
+  "content_key": "3b92d0a0d25cff8a",
+  "segments": [
+    {
+      "beat": "s01b01",
+      "role": "hook",
+      "heading": "Imagine someone reaching for stop",
+      "start": 0.0,
+      "duration": 12.266666666666667,
+      "source_start": 0.0,
+      "claims": [],
+      "narration": "Imagine a delivery robot moving a parcel through a shared hallway. This is a hypothetical example. Someone notices that its next move would block the doorway, and reaches for the stop button."
+    },
+    {
+      "beat": "s01b04",
+      "role": "context",
+      "heading": "A mathematical game",
+      "start": 12.266667,
+      "duration": 13.4,
+      "source_start": 41.11666666666667,
+      "claims": [
+        "c03",
+        "c30"
+      ],
+      "narration": "Hadfield-Menell and colleagues ask when an agent would instead benefit from letting a human stop it. They analyze a mathematical game between a robot and a human, with the robot able to bypass the human’s control."
+    },
+    {
+      "beat": "s02b01",
+      "role": "context",
+      "heading": "Uncertain about human preferences",
+      "start": 25.666667,
+      "duration": 12.666666666666666,
+      "source_start": 76.911333,
+      "claims": [
+        "c07"
+      ],
+      "narration": "Start with what the robot is trying to achieve. In this game, it is designed to serve the human’s preferences. The uncertainty is about which outcome does that, rather than about whose interests count."
+    },
+    {
+      "beat": "s02b03",
+      "role": "explanation",
+      "heading": "Act now, or wait for a person?",
+      "start": 38.333334,
+      "duration": 12.666666666666666,
+      "source_start": 103.99466633333334,
+      "claims": [
+        "c08",
+        "c09"
+      ],
+      "narration": "The robot can act immediately, bypassing oversight. Or it can announce the proposed action and wait. If it waits, the human can stop it or let it carry out the action as promised."
+    },
+    {
+      "beat": "s03b01",
+      "role": "explanation",
+      "heading": "Assume a rational human",
+      "start": 51.000001,
+      "duration": 12.666666666666666,
+      "source_start": 150.84999933333333,
+      "claims": [
+        "c13"
+      ],
+      "narration": "First assume the human chooses rationally: they allow an action that benefits them and stop one that harms them. In this model, that makes waiting at least as good as the robot’s best alternative."
+    },
+    {
+      "beat": "s03b03",
+      "role": "explanation",
+      "heading": "Human decisions carry information",
+      "start": 63.666668,
+      "duration": 14.366666666666667,
+      "source_start": 178.4166659999999,
+      "claims": [
+        "c13",
+        "c14"
+      ],
+      "narration": "The robot does not need to know in advance which possibility is true. It needs to account for the human’s better decision in each case. Oversight helps because the human’s response separates outcomes the robot is uncertain about."
+    },
+    {
+      "beat": "s04b01",
+      "role": "explanation",
+      "heading": "Now allow human mistakes",
+      "start": 78.033335,
+      "duration": 15.066666666666666,
+      "source_start": 230.149999,
+      "claims": [
+        "c19",
+        "c20",
+        "c21"
+      ],
+      "narration": "Next, the researchers let the human sometimes make the wrong choice: stopping a helpful action or allowing a harmful one. They study this using a simple model of human mistakes and a bell-shaped spread of possible action values."
+    },
+    {
+      "beat": "s04b02",
+      "role": "explanation",
+      "heading": "Waiting can lose its advantage",
+      "start": 93.10000199999999,
+      "duration": 15.566666666666666,
+      "source_start": 245.21666566666667,
+      "claims": [
+        "c22"
+      ],
+      "narration": "Now waiting can lose its advantage. In this modeled setting, the robot may prefer to act directly or stop itself. If it expects oversight to make the choice worse, preserving the human’s decision is no longer automatically its best option."
+    },
+    {
+      "beat": "s05b02",
+      "role": "limitation",
+      "heading": "A single decision in a model",
+      "start": 108.66666899999998,
+      "duration": 15.566666666666666,
+      "source_start": 326.03333200000026,
+      "claims": [
+        "c30",
+        "c31",
+        "c32"
+      ],
+      "narration": "This models a single decision, not a deployed robot. Longer sequences and mistaken models of people remain open questions. The robot also has just one way to learn more about its objective: the human’s shutdown decision."
+    },
+    {
+      "beat": "s05b03",
+      "role": "takeaway",
+      "heading": "Uncertainty can give correction value",
+      "start": 124.23333599999998,
+      "duration": 15.966666666666667,
+      "source_start": 341.58333199999976,
+      "claims": [
+        "c18",
+        "c29"
+      ],
+      "narration": "The takeaway is that a system’s uncertainty can give human correction value. The authors’ proposal is to preserve that uncertainty honestly, together with a model of human decisions, so accepting oversight can serve the objective the system was built for."
+    }
+  ],
+  "video_sha256": "d45bc140a83139e747f18bb5c566dfe1f4e4b84ffea41e052bb786b81b7f70ca",
+  "ok": true,
+  "review": {
+    "content_key": "3b92d0a0d25cff8a",
+    "science": {
+      "verdict": "accurate",
+      "issues": []
+    },
+    "visual_issues": [
+      {
+        "beat": "s05b02",
+        "severity": "minor",
+        "problem": "At 360x640 phone size, the nested one-shot diagram makes its Human feedback label and the Other information label small. The portrait heading, scope and captions remain readable, and narration states the one-shot and information-source limitations supported by c30, c31 and c32; the small labels do not change the scientific meaning.",
+        "suggested_fix": "Enlarge these labels in the source scene or add readable portrait labels when the source animation is next revised, retaining the distinction between modeled and alternative information sources."
+      },
+      {
+        "beat": "s01b01",
+        "severity": "minor",
+        "problem": "Review limitation: I inspected the full contact sheet, all segment start/end frames, additional actual-video frames at phone size, and burned-caption scripts. All 56 cues have at most two lines and one accent color, and their shortest duration is 1.41 seconds. Each selected WAV fits its segment with 0.347–0.367 seconds of padding; both muxed streams last 140.2 seconds. Continuous playback and listening were unavailable, so these checks do not establish perceived audio continuity or caption-to-speech synchronization.",
+        "suggested_fix": "Play and listen to the complete draft before posting, checking cut continuity and synchronization at proportional caption boundaries."
+      }
+    ]
+  }
+}

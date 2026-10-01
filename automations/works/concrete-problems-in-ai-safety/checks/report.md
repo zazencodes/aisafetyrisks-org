@@ -34,3 +34,10 @@ the evidence register. Then run `paper-video approve concrete-problems-in-ai-saf
 ## Video
 - Duration 493 s, 1920x1080.
 
+## Short-form companion
+- Checks pass: 138.40s, 1080x1920, current independent review.
+  - [minor] s02b02: The source diagram's row labelled Practical problems contains six boxes, whereas c02 and c06 specify five problems. The portrait title and five subsequent examples correctly identify the count, so this inherited diagram inconsistency is unlikely to alter the central meaning.
+  - [minor] s08b03: At 360x640 phone size, the five problem labels and Proposal badges in the reused landscape diagram are small. The portrait heading, scope and narration captions remain readable and preserve the research-agenda and preliminary-approach limitations supported by c06, c14 and c20.
+  - [minor] s01b02: Review limitation: I inspected the complete contact sheet, all segment start/end frames, additional actual-video frames at phone size, and burned-caption scripts. All 48 cues contain at most two lines and one accent color; the shortest duration is 1.76 seconds. Selected WAVs fit their segments with 0.333–0.367 seconds of padding. Video lasts 138.367 seconds and audio 138.4 seconds. Continuous playback and listening were unavailable, so perceived audio continuity and proportional caption-to-speech synchronization were not independently assessed.
+- Video: `out/short/video.mp4`; social copy and links: `short-package.yaml`.
+

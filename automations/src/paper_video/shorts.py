@@ -16,7 +16,7 @@ from pydantic import Field, field_validator
 
 from paper_video.config import KIT, Config
 from paper_video.context import metadata_text, short_citation
-from paper_video.media import assemble, contact_sheet, frame_at, probe, run, split_caption, srt, vtt
+from paper_video.media import assemble, contact_sheet, frame_at, probe, run, srt, vtt
 from paper_video.models import Notes, PaperRecord, ScienceReview, Storyboard, Strict, VisualIssue
 from paper_video.provenance import claim_sources, number_supported, numbers_in, verify_notes, verify_storyboard
 from paper_video.scenes import SceneRenderer, class_name, narrated_durations
@@ -25,10 +25,22 @@ from paper_video.workdir import WorkDir, dump_yaml, load_json, load_model, save_
 # The canonical social format. Runtime is strictly less than three minutes.
 WIDTH, HEIGHT, FPS, MAX_SECONDS = 1080, 1920, 30, 180
 BG, INK, MUTED, ACCENT = "#111418", "#E9E7E1", "#8E949C", "#5FB3A1"
+# Caption accents match the kit's AMBER and ROSE animation palette (ASS uses BGR).
+CAPTION_COLORS = {"emphasis": "47A6D9", "harm": "6A82D9"}
+CAPTION_SIZE, CAPTION_WIDTH, CAPTION_Y = 56, 760, 1510
+
+
+class CaptionEmphasis(Strict):
+    phrase: str = Field(min_length=1)
+    kind: Literal["emphasis", "harm"]
+
+
 class ShortSegment(Strict):
     beat: str
     role: Literal["hook", "context", "explanation", "limitation", "takeaway"]
     heading: str = Field(min_length=1, max_length=70)
+    caption_emphasis: list[CaptionEmphasis] = Field(
+        description="Exact narration phrases: emphasis in yellow, harm in orange-red; [] for none")
 
 
 class ShortPlan(Strict):
@@ -131,6 +143,10 @@ def validate_plan(wd: WorkDir, record: PaperRecord, sb: Storyboard, notes: Notes
             if not number_supported(number, all_quotes):
                 errors.append(f"number {number} in {text!r} is unsupported")
     for segment, source in zip(plan.segments, chosen):
+        try:
+            emphasis_spans(source["beat"].narration, segment.caption_emphasis)
+        except ValueError as e:
+            errors.append(f"{segment.beat}: {e}")
         quotes = claim_sources(claims, source["beat"].claims) + [metadata_text(record)]
         for number in numbers_in(segment.heading):
             if not number_supported(number, quotes):
@@ -162,7 +178,7 @@ def load_inputs(wd: WorkDir, record: PaperRecord, cfg: Config):
     return plan, chosen, content_key(wd, plan, chosen)
 
 
-def font(size: int, name: str = "IBMPlexSans-Regular.ttf"):
+def font(size: int, name: str = "IBMPlexSans-Medium.ttf"):
     return ImageFont.truetype(str(KIT / "fonts" / name), size)
 
 
@@ -222,7 +238,36 @@ def ass_text(text: str) -> str:
     return text.replace("\\", "\\\\").replace("{", "\\{").replace("}", "\\}")
 
 
-def caption_file(path: Path, cues: list[tuple]) -> None:
+def emphasis_spans(text: str, phrases: list[CaptionEmphasis]) -> list[tuple[int, int, str]]:
+    spans = []
+    for emphasis in phrases:
+        phrase = emphasis.phrase
+        if not phrase.strip():
+            raise ValueError("caption emphasis phrases must not be blank")
+        matches = list(re.finditer(r"(?<!\w)" + re.escape(phrase) + r"(?!\w)", text))
+        if not matches:
+            raise ValueError(f"caption emphasis {phrase!r} is not an exact narration phrase")
+        spans.extend((m.start(), m.end(), emphasis.kind) for m in matches)
+    spans.sort()
+    if any(a[1] > b[0] for a, b in zip(spans, spans[1:])):
+        raise ValueError("caption emphasis phrases overlap")
+    return spans
+
+
+def accent_text(text: str, spans: list[tuple[int, int, str]], offset: int) -> str:
+    pieces, cursor = [], 0
+    for start, end, kind in spans:
+        a, z = max(start - offset, 0), min(end - offset, len(text))
+        if a >= z:
+            continue
+        pieces.extend((ass_text(text[cursor:a]), "{\\c&H" + CAPTION_COLORS[kind] + "&}", ass_text(text[a:z]),
+                       r"{\c&HE1E7E9&}"))
+        cursor = z
+    pieces.append(ass_text(text[cursor:]))
+    return "".join(pieces)
+
+
+def caption_file(path: Path, cues: list[tuple], emphasis: list[CaptionEmphasis]) -> None:
     header = """[Script Info]
 ScriptType: v4.00+
 PlayResX: 1080
@@ -230,18 +275,28 @@ PlayResY: 1920
 WrapStyle: 2
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Caption,IBM Plex Sans,52,&H00E1E7E9,&H00E1E7E9,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,1,0,8,80,80,0,1
+Style: Caption,IBM Plex Sans Medm,56,&H00E1E7E9,&H00E1E7E9,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,0,5,140,180,0,1
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """
-    events = []
+    spans = emphasis_spans(" ".join(text for _, _, text in cues), emphasis)
+    events, offset = [], 0
     for start, end, text in cues:
-        lines = wrap(text, font(52), 880)
-        if len(lines) > 3:
-            raise ValueError(f"caption needs more than three portrait lines: {text!r}")
-        displayed = r"\N".join(ass_text(line) for line in lines)
+        lines = wrap(text, font(CAPTION_SIZE), CAPTION_WIDTH)
+        if len(lines) > 2:
+            raise ValueError(f"caption needs more than two portrait lines: {text!r}")
+        colors = {kind for a, z, kind in spans if a < offset + len(text) and z > offset}
+        if len(colors) > 1:
+            raise ValueError(f"caption batch contains multiple accent colors: {text!r}")
+        displayed_lines, line_offset = [], offset
+        for line in lines:
+            displayed_lines.append(accent_text(line, spans, line_offset))
+            line_offset += len(line) + 1
+        displayed = r"\N".join(displayed_lines)
+        # Center the complete caption block between the citation and the footer divider.
         events.append(f"Dialogue: 0,{ass_time(start)},{ass_time(end)},Caption,,0,0,0,,"
-                      + r"{\pos(540,1360)}" + displayed)
+                      + f"{{\\pos(520,{CAPTION_Y})}}" + displayed)
+        offset += len(text) + 1
     path.write_text(header + "\n".join(events) + "\n")
 
 
@@ -249,10 +304,61 @@ def filter_path(path: Path) -> str:
     return str(path.resolve()).replace("\\", "\\\\").replace(":", "\\:").replace("'", "'\\''")
 
 
-def short_cues(chosen: list[dict]) -> list[tuple]:
+def caption_parts(text: str, emphasis: list[CaptionEmphasis]) -> list[str]:
+    """Balance sentence batches within two lines, keeping emphasized phrases together."""
+    spans = emphasis_spans(text, emphasis)
+    face = font(CAPTION_SIZE)
+    units, previous_span = [], None
+    for match in re.finditer(r"\S+", text):
+        word = match.group()
+        span = next((s for s in spans if s[0] < match.end() and s[1] > match.start()), None)
+        if span and span == previous_span:
+            units[-1] = (units[-1][0] + " " + word, span[2])
+        else:
+            units.append((word, span[2] if span else None))
+        previous_span = span
+    parts, sentence = [], []
+
+    def batches(units):
+        # Fewest batches first, then balanced lengths avoid a fleeting last word.
+        # Sum of squared lengths favors equal sizes for a fixed batch count.
+        best = {len(units): ((0, 0), [])}
+        for i in range(len(units) - 1, -1, -1):
+            colors, words, options = set(), [], []
+            for j in range(i, len(units)):
+                word, kind = units[j]
+                words.append(word)
+                if kind:
+                    colors.add(kind)
+                candidate = " ".join(words)
+                if len(colors) > 1 or len(wrap(candidate, face, CAPTION_WIDTH)) > 2:
+                    break
+                if j + 1 in best:
+                    (count, cost), tail = best[j + 1]
+                    options.append(((count + 1, cost + len(candidate) ** 2), [candidate, *tail]))
+            if options:
+                best[i] = min(options, key=lambda option: option[0])
+        if 0 not in best:
+            raise ValueError("emphasized phrase exceeds the two-line caption limit")
+        return best[0][1]
+
+    for unit in units:
+        sentence.append(unit)
+        if unit[0].endswith((".", "!", "?", ";", ":")):
+            parts.extend(batches(sentence))
+            sentence = []
+    if sentence:
+        parts.extend(batches(sentence))
+    return parts
+
+
+def short_cues(chosen: list[dict], segments: list[ShortSegment]) -> list[tuple]:
+    # Caption segmentation is identical for burned captions and the SRT/VTT files.
     cues, offset = [], 0.0
-    for b in chosen:
-        parts = split_caption(b["beat"].narration, limit=64)
+    for b, segment in zip(chosen, segments, strict=True):
+        if b["beat"].id != segment.beat:
+            raise ValueError("caption segment differs from selected source beat")
+        parts = caption_parts(b["beat"].narration, segment.caption_emphasis)
         total = sum(len(p) for p in parts)
         t = offset
         for part in parts:
@@ -271,7 +377,7 @@ def build_short(wd: WorkDir, record: PaperRecord, cfg: Config) -> dict:
     out.mkdir(parents=True, exist_ok=True)
     videos, audio, timeline, shots = [], [], [], []
     offset = 0.0
-    cues = short_cues(chosen)
+    cues = short_cues(chosen, plan.segments)
     for i, (segment, b) in enumerate(zip(plan.segments, chosen)):
         clip = render / f"{i:02d}.mp4"
         if not clip.exists():
@@ -283,7 +389,7 @@ def build_short(wd: WorkDir, record: PaperRecord, cfg: Config) -> dict:
             portrait_card(card, plan, segment, record, i, len(chosen), diagram_height)
             captions = render / f"{i:02d}.ass"
             # Segment-local cues avoid losing the first cue to accumulated ffprobe rounding.
-            caption_file(captions, short_cues([b]))
+            caption_file(captions, short_cues([b], [segment]), segment.caption_emphasis)
             graph = (
                 f"[0:v]fps={FPS},scale={WIDTH}:{diagram_height},setsar=1,"
                 f"pad={WIDTH}:{HEIGHT}:0:550:color={BG}[diagram];"

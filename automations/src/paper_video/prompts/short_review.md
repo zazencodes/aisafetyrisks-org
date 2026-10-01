@@ -12,7 +12,9 @@ every antecedent exists in this edit, and the short clearly says what the paper 
 Inspect the contact sheet, individual frames and additional frames around any questionable cuts.
 Look at phone size as well as full resolution. Check for truncated captions, overlapping text,
 unreadable key diagram labels, missing source context, and visual states inherited from omitted
-beats. Burned captions are timed proportionally within each original narration beat; flag cues
+beats. Caption batches must have at most two lines and one accent color: yellow for ordinary
+emphasis or orange-red for harms and failures. Check that highlighted phrases retain their meaning.
+Burned captions are timed proportionally within each original narration beat; flag cues
 that advance far enough from speech to obstruct understanding. Compare the selected WAV narration
 lengths and edit timeline to ensure words are not cut. Listen to or play the video when tools allow;
 if playback is unavailable, record that review limitation as a minor visual issue rather than

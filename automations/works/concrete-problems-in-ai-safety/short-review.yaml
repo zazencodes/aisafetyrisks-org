@@ -1,0 +1,38 @@
+content_key: 6dc89694203c7dba
+science:
+  verdict: accurate
+  issues:
+  - location: s02b02
+    severity: minor
+    category: misleading_visual
+    problem: >-
+      The source diagram's row labelled Practical problems contains six boxes, whereas c02 and c06
+      specify five problems. The portrait title and five subsequent examples correctly identify
+      the count, so this inherited diagram inconsistency is unlikely to alter the central meaning.
+    suggested_fix: >-
+      Draw five boxes in the source practical-problems diagram and regenerate both outputs
+      when that source animation is revised.
+visual_issues:
+- beat: s08b03
+  severity: minor
+  problem: >-
+    At 360x640 phone size, the five problem labels and Proposal badges in the reused landscape
+    diagram are small. The portrait heading, scope and narration captions remain readable
+    and preserve the research-agenda and preliminary-approach limitations supported by c06,
+    c14 and c20.
+  suggested_fix: >-
+    Enlarge those source diagram labels or add readable portrait labels when the animation
+    is next revised, preserving the five problem names and proposed status.
+- beat: s01b02
+  severity: minor
+  problem: >-
+    Review limitation: I inspected the complete contact sheet, all segment start/end frames,
+    additional actual-video frames at phone size, and burned-caption scripts. All 48 cues
+    contain at most two lines and one accent color; the shortest duration is 1.76 seconds.
+    Selected WAVs fit their segments with 0.333–0.367 seconds of padding. Video lasts
+    138.367 seconds and audio 138.4 seconds. Continuous playback and listening were unavailable,
+    so perceived audio continuity and proportional caption-to-speech synchronization were
+    not independently assessed.
+  suggested_fix: >-
+    Play and listen to the complete draft before posting, checking every cut and caption
+    boundary for continuity and synchronization.

@@ -1,0 +1,19 @@
+content_key: 7d11f7fe18070a22
+science:
+  verdict: accurate
+  issues: []
+visual_issues:
+- beat: s01b03
+  severity: minor
+  problem: >-
+    Review limitation: inspected the current contact sheet and all selected start/end frames,
+    12 additional actual-video frames showing yellow emphasis, orange-red harm, and limitations
+    at 360x640 phone size, 24 actual-video frames around all eight cuts, and the result frame
+    at full resolution. All 54 burned-caption cues contain at most two lines and one accent
+    color, and selected WAV durations fit their edit segments with 0.347–0.367 seconds of
+    padding. Audible listening and continuous playback were unavailable; actual caption
+    synchronization with spoken words and auditory transitions were not independently verified.
+  suggested_fix: >-
+    Listen through the complete short during human review, checking caption changes against
+    speech and listening for clipped words or abrupt audio cuts; correct any discovered
+    timing or continuity defects.

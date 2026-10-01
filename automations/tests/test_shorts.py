@@ -14,9 +14,9 @@ from paper_video import pipeline
 from paper_video.config import WORKS
 from paper_video.models import Notes, PaperRecord, Storyboard, VisualIssue
 from paper_video.media import probe, run
-from paper_video.shorts import (ShortPlan, ShortReview, ass_text, caption_file, check_short,
-                               build_short, content_key, current_short_review,
-                               short_cues, validate_plan)
+from paper_video.shorts import (CaptionEmphasis, ShortPlan, ShortReview, ass_text, caption_file, check_short,
+                               build_short, caption_parts, content_key, current_short_review,
+                               font, short_cues, validate_plan, wrap)
 from paper_video.workdir import WorkDir, load_model, save_json, save_model
 
 
@@ -34,7 +34,7 @@ class ShortTests(unittest.TestCase):
         roles = ["hook", "context", "explanation", "limitation", "takeaway"]
         self.plan_data = dict(title="AI accidents", description="A research agenda.",
                               scope_label="Hypothetical examples", selection_reason="Complete example and caveat.",
-                              segments=[dict(beat=b, role=r, heading="AI accidents")
+                              segments=[dict(beat=b, role=r, heading="AI accidents", caption_emphasis=[])
                                         for b, r in zip(ids, roles)])
         self.plan = ShortPlan.model_validate(self.plan_data)
         beats = {b.id: b for b in self.sb.beats()}
@@ -71,7 +71,7 @@ class ShortTests(unittest.TestCase):
 
     def test_narration_and_caveat_survive_captioning(self):
         chosen = list(self.sources.values())
-        cues = short_cues(chosen)
+        cues = short_cues(chosen, self.plan.segments)
         text = " ".join(c[2] for c in cues)
         self.assertEqual(text, " ".join(b["beat"].narration for b in chosen))
         self.assertIn("Its experiments are proposals", text)
@@ -81,7 +81,7 @@ class ShortTests(unittest.TestCase):
 
     def test_every_segment_begins_with_its_first_caption(self):
         for b, segment in zip(self.sources.values(), self.plan.segments):
-            local = short_cues([b])
+            local = short_cues([b], [segment])
             self.assertEqual(local[0][0], 0)
             self.assertTrue(b["beat"].narration.startswith(local[0][2]))
 
@@ -119,13 +119,55 @@ class ShortTests(unittest.TestCase):
     def test_subtitle_markup_is_literal_and_overflow_fails(self):
         self.assertEqual(ass_text("{test}"), r"\{test\}")
         path = self.wd.root / "captions.ass"
-        with self.assertRaisesRegex(ValueError, "more than three"):
-            caption_file(path, [(0, 1, "a long sentence " * 20)])
+        with self.assertRaisesRegex(ValueError, "more than two"):
+            caption_file(path, [(0, 1, "a long sentence " * 20)], [])
 
+    def test_emphasis_continues_across_caption_cues_without_changing_words(self):
+        path = self.wd.root / "captions.ass"
+        cues = [(0, 1, "The authors chose not to start from extreme"),
+                (1, 2, "scenarios about superintelligent machines.")]
+        caption_file(path, cues, [CaptionEmphasis(phrase="extreme scenarios", kind="emphasis")])
+        events = [line for line in path.read_text().splitlines() if line.startswith("Dialogue:")]
+        self.assertIn(r"{\c&H47A6D9&}extreme{\c&HE1E7E9&}", events[0])
+        self.assertIn(r"{\c&H47A6D9&}scenarios{\c&HE1E7E9&}", events[1])
 
+    def test_mixed_accents_split_batches_and_preserve_every_word(self):
+        text = "A high score can hide harmful behavior in the office while the robot keeps learning."
+        emphasis = [CaptionEmphasis(phrase="high score", kind="emphasis"),
+                    CaptionEmphasis(phrase="harmful behavior", kind="harm")]
+        parts = caption_parts(text, emphasis)
+        self.assertEqual(" ".join(parts), text)
+        self.assertGreater(len(parts), 1)
+        self.assertTrue(any("harmful behavior" in part for part in parts))
+        path = self.wd.root / "captions.ass"
+        caption_file(path, [(i, i + 1, part) for i, part in enumerate(parts)], emphasis)
+        events = [line for line in path.read_text().splitlines() if line.startswith("Dialogue:")]
+        self.assertTrue(any("47A6D9" in e for e in events))
+        self.assertTrue(any("6A82D9" in e for e in events))
+        for event, part in zip(events, parts):
+            self.assertFalse("47A6D9" in event and "6A82D9" in event)
+            self.assertLessEqual(len(wrap(part, font(56), 760)), 2)
+            self.assertIn(r"{\pos(520,1510)}", event)
+        with self.assertRaisesRegex(ValueError, "multiple accent colors"):
+            caption_file(path, [(0, 1, "A high score can hide harmful behavior")], emphasis)
 
+    def test_measured_width_splits_previous_three_line_caption(self):
+        text = "The authors chose not to start from extreme scenarios about superintelligent machines."
+        parts = caption_parts(text, [])
+        self.assertEqual(" ".join(parts), text)
+        self.assertTrue(all(len(wrap(p, font(56), 760)) <= 2 for p in parts))
 
+    def test_caption_batches_avoid_isolated_final_word(self):
+        text = "In 2016, Amodei and colleagues called this an accident."
+        parts = caption_parts(text, [CaptionEmphasis(phrase="accident", kind="harm")])
+        self.assertEqual(" ".join(parts), text)
+        self.assertTrue(all(len(part.split()) > 1 for part in parts))
 
+    def test_emphasis_requires_exact_source_phrases(self):
+        data = deepcopy(self.plan_data)
+        data["segments"][0]["caption_emphasis"] = [dict(phrase="invented finding", kind="emphasis")]
+        with self.assertRaisesRegex(ValueError, "not an exact narration phrase"):
+            validate_plan(self.wd, self.record, self.sb, self.notes, ShortPlan.model_validate(data), self.sources)
 
     def test_source_edits_and_renderer_changes_invalidate_review(self):
         for p in (self.wd.paper, self.wd.notes, self.wd.storyboard):

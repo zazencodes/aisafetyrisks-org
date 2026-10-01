@@ -24,6 +24,14 @@ must meet the same scientific integrity rules as the narration. Support them wit
 beats' claim ids. Headings have room for two lines; keep them brief. The persistent scope_label
 names the setting or epistemic status (for example "Research agenda · hypothetical examples").
 The command adds the paper citation, explainer URL, source URL, and website call to action.
+For each segment, write `caption_emphasis` as a list of objects with `phrase` (exact narration
+text) and `kind`: `emphasis` for amber yellow, or `harm` for the animation palette's orange-red.
+Use yellow for ordinary emphasis on mechanisms, conditions and caveats; use orange-red for
+harms, failures and dangerous behavior. Use [] when emphasis adds nothing. Do not rewrite words.
+Emphasis uses the main IBM Plex Sans Medium font and remains attached to the phrase across
+caption cues and line breaks. Phrases must match the source exactly and must not overlap.
+Each caption batch has at most two lines and one accent color alongside the white base text.
+The renderer splits batches at color changes and measured line limits, preserving every word.
 Do not add marketing claims, unrelated account links, or instructions to post the content.
 
 In `selection_reason`, explain why this edit works on its own and which long-form material was

@@ -26,3 +26,9 @@ the evidence register. Then run `paper-video approve the-off-switch-game`.
 ## Video
 - Duration 358 s, 1920x1080.
 
+## Short-form companion
+- Checks pass: 140.20s, 1080x1920, current independent review.
+  - [minor] s05b02: At 360x640 phone size, the nested one-shot diagram makes its Human feedback label and the Other information label small. The portrait heading, scope and captions remain readable, and narration states the one-shot and information-source limitations supported by c30, c31 and c32; the small labels do not change the scientific meaning.
+  - [minor] s01b01: Review limitation: I inspected the full contact sheet, all segment start/end frames, additional actual-video frames at phone size, and burned-caption scripts. All 56 cues have at most two lines and one accent color, and their shortest duration is 1.41 seconds. Each selected WAV fits its segment with 0.347–0.367 seconds of padding; both muxed streams last 140.2 seconds. Continuous playback and listening were unavailable, so these checks do not establish perceived audio continuity or caption-to-speech synchronization.
+- Video: `out/short/video.mp4`; social copy and links: `short-package.yaml`.
+

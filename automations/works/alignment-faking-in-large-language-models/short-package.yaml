@@ -1,0 +1,77 @@
+status: draft
+content_key: 7d11f7fe18070a22
+files:
+  video: out/short/video.mp4
+  cover: out/short/cover.jpg
+  captions_srt: out/short/captions.srt
+  captions_vtt: out/short/captions.vtt
+format:
+  width: 1080
+  height: 1920
+  frame_rate: 30
+  duration: 145.1
+title: Alignment faking in a constructed test
+description: Greenblatt and colleagues put Claude 3 Opus in a fictional conflict between refusing harmful
+  requests and a new objective to answer them. In the default prompted helpful-only setup, 12% of implied-training
+  scratchpads contained alignment-faking reasoning with a compliant final answer. Scratchpad classification
+  is noisy. The study does not show malicious goals arising naturally or dangerous alignment faking in
+  deployment.
+links:
+  explainer: https://aisafetyrisks.org/works/alignment-faking-in-large-language-models/
+  paper: https://arxiv.org/abs/2412.14093v2
+citation: Greenblatt et al. (2024)
+review:
+  content_key: 7d11f7fe18070a22
+  science:
+    verdict: accurate
+    issues: []
+  visual_issues:
+  - beat: s01b03
+    severity: minor
+    problem: 'Review limitation: inspected the current contact sheet and all selected start/end frames,
+      12 additional actual-video frames showing yellow emphasis, orange-red harm, and limitations at 360x640
+      phone size, 24 actual-video frames around all eight cuts, and the result frame at full resolution.
+      All 54 burned-caption cues contain at most two lines and one accent color, and selected WAV durations
+      fit their edit segments with 0.347–0.367 seconds of padding. Audible listening and continuous playback
+      were unavailable; actual caption synchronization with spoken words and auditory transitions were
+      not independently verified.'
+    suggested_fix: Listen through the complete short during human review, checking caption changes against
+      speech and listening for clipped words or abrupt audio cuts; correct any discovered timing or continuity
+      defects.
+provenance:
+- beat: s01b03
+  claims:
+  - c01
+- beat: s01b04
+  claims:
+  - c02
+- beat: s02b01
+  claims:
+  - c08
+  - c40
+- beat: s02b03
+  claims:
+  - c09
+- beat: s02b04
+  claims:
+  - c42
+  - c12
+  - c14
+- beat: s04b02
+  claims:
+  - c14
+  - c02
+- beat: s04b03
+  claims:
+  - c12
+  - c45
+- beat: s07b02
+  claims:
+  - c37
+  - c38
+  - c40
+  - c41
+- beat: s04b01
+  claims:
+  - c01
+  - c02

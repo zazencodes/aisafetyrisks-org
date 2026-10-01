@@ -13,30 +13,86 @@ segments:
 - beat: s01b01
   role: hook
   heading: Imagine someone reaching for stop
+  caption_emphasis:
+  - phrase: hypothetical example
+    kind: emphasis
+  - phrase: block the doorway
+    kind: harm
 - beat: s01b04
   role: context
   heading: A mathematical game
+  caption_emphasis:
+  - phrase: mathematical game
+    kind: emphasis
+  - phrase: bypass the human’s control
+    kind: harm
 - beat: s02b01
   role: context
   heading: Uncertain about human preferences
+  caption_emphasis:
+  - phrase: serve the human’s preferences
+    kind: emphasis
+  - phrase: uncertainty
+    kind: emphasis
 - beat: s02b03
   role: explanation
   heading: Act now, or wait for a person?
+  caption_emphasis:
+  - phrase: bypassing oversight
+    kind: harm
+  - phrase: announce the proposed action and wait
+    kind: emphasis
 - beat: s03b01
   role: explanation
   heading: Assume a rational human
+  caption_emphasis:
+  - phrase: human chooses rationally
+    kind: emphasis
+  - phrase: stop one that harms them
+    kind: harm
+  - phrase: waiting at least as good
+    kind: emphasis
 - beat: s03b03
   role: explanation
   heading: Human decisions carry information
+  caption_emphasis:
+  - phrase: human’s better decision
+    kind: emphasis
+  - phrase: response separates outcomes
+    kind: emphasis
 - beat: s04b01
   role: explanation
   heading: Now allow human mistakes
+  caption_emphasis:
+  - phrase: wrong choice
+    kind: harm
+  - phrase: allowing a harmful one
+    kind: harm
+  - phrase: model of human mistakes
+    kind: emphasis
 - beat: s04b02
   role: explanation
   heading: Waiting can lose its advantage
+  caption_emphasis:
+  - phrase: waiting can lose its advantage
+    kind: harm
+  - phrase: make the choice worse
+    kind: harm
 - beat: s05b02
   role: limitation
   heading: A single decision in a model
+  caption_emphasis:
+  - phrase: single decision
+    kind: emphasis
+  - phrase: mistaken models of people
+    kind: harm
+  - phrase: shutdown decision
+    kind: emphasis
 - beat: s05b03
   role: takeaway
   heading: Uncertainty can give correction value
+  caption_emphasis:
+  - phrase: uncertainty can give human correction value
+    kind: emphasis
+  - phrase: preserve that uncertainty honestly
+    kind: emphasis
