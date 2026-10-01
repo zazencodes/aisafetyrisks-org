@@ -54,6 +54,20 @@ before approval. With explicit user authorization, run `paper-video approve <slu
 `cd site && npm run deploy`; verify both the public page and its referenced video. The deployment
 guide records the R2 bucket/domain setup and the first publication's review results.
 
+## Media backups
+
+`automations/config.toml` is the canonical backup configuration. The approved Expansion drive root is
+`/Volumes/Expansion/ROOT/Projects/Toronto (2026+)/AI Safety Risks/Media Backups/`.
+`paper-video assemble <slug>` and `paper-video short <slug>` automatically back up their completed
+exports there; this is already authorized and needs no confirmation on each run.
+
+Snapshots live at `<backup-root>/<slug>/<content-key>/`, preserving `works/<slug>/out/`, narration,
+and available source/edit metadata. Each has a SHA-256 manifest. Unchanged reruns verify and reuse
+the snapshot; changed files create a new one. Require the configured volume to be mounted. A failed
+backup fails the command while retaining the local video; report the failure and retry after the
+drive is available. Binaries stay outside Git. See [docs/media-backup-plan.md](docs/media-backup-plan.md)
+for the initial backup and archive details.
+
 ## Rules
 
 - Scientific integrity comes before style: follow `automations/src/paper_video/prompts/integrity.md`.

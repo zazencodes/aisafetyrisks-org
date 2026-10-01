@@ -27,3 +27,7 @@ beat_pause = 0.35
 [publish]
 media_bucket = "aisafetyrisks-media"
 site_url = "https://aisafetyrisks.org"
+
+[backup]
+volume = "/Volumes/Expansion"
+root = "/Volumes/Expansion/ROOT/Projects/Toronto (2026+)/AI Safety Risks/Media Backups"

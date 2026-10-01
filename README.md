@@ -23,6 +23,8 @@ Each paper includes one portrait short under three minutes, edited after the ful
 complete. The [short-form workflow](workflows/short-paper/WORKFLOW.md) also covers backfilling
 published papers in research-date order; outputs are local drafts with captions and social copy.
 Agent instructions are in [AGENTS.md](AGENTS.md).
+Full-video and short creation automatically write verified media backups to the mounted drive
+configured in `automations/config.toml`; see [the backup guide](docs/media-backup-plan.md).
 
 ## Maintainer publication
 

@@ -103,6 +103,12 @@ for API key setup, voice selection, credit use and regeneration after a voice ch
    chapter; the closing returns to the opening's situation. Note any failure for the handover; do
    not start another round.
 
+`assemble` automatically archives the completed exports and narration on the configured Expansion
+drive and logs the verified snapshot path. This backup is already authorized. If the drive is
+unmounted or verification fails, the command fails while retaining the local video; report and fix
+the backup failure before continuing. Follow the backup configuration in AGENTS.md and
+[the backup guide](../../docs/media-backup-plan.md).
+
 ### 7. Thumbnail
 
 `paper-video brief <slug> thumbnail`. Follow the brief: write `scenes/thumbnail.py` and run

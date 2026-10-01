@@ -31,6 +31,11 @@ voice and claim provenance without another narration bill. Do not blindly center
    `frames/short-sheet.png`, and `short-package.yaml`. It checks source provenance and current
    renders, preserves complete narration, burns portrait captions, and refuses runtimes of 180
    seconds or more. Paid narration is reused; no LLM call is made by the command.
+   The command also automatically archives the completed exports, narration and available edit
+   metadata to the approved Expansion drive location in AGENTS.md and `automations/config.toml`.
+   It logs the verified snapshot path. No confirmation is needed for this backup. A missing drive
+   or failed verification fails the command while retaining the local video; resolve it before
+   continuing. See [the backup guide](../../docs/media-backup-plan.md).
 3. **Independent science and visual review**, at most two rounds. Start a fresh subagent:
    > Run `uv run --frozen paper-video brief <slug> review-short` from the repository root, read
    > the brief it writes, and follow it exactly. Inspect the rendered frames and actual edit for

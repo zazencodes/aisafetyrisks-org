@@ -14,6 +14,7 @@ from aisr_site.schema import Review, Work
 from paper_video import backlog, log
 from paper_video.analyze import check_notes
 from paper_video.assemble import assemble_video
+from paper_video.backup import backup_work
 from paper_video.briefs import write_brief
 from paper_video.config import MEDIA_MIRROR, REPO, SITE_WORKS, Config, load_config
 from paper_video.context import metadata_text
@@ -98,6 +99,8 @@ def assemble(slug: str) -> None:
     if stale:
         raise ValueError(f"renders missing or out of date for {stale}; run `paper-video render {slug}`")
     timeline = assemble_video(wd, sb)
+    snapshot = backup_work(wd, cfg.backup, "full")
+    log(f"verified backup: {snapshot}")
     log(f"video assembled: {wd.out / 'video.mp4'} ({timeline['duration']:.0f} s)")
     for p in timeline["problems"]:
         log(f"  problem: {p}")
@@ -111,6 +114,8 @@ def thumbnail(slug: str) -> None:
 def short_work(slug: str) -> None:
     cfg, wd, record = _open(slug)
     result = build_short(wd, record, cfg)
+    snapshot = backup_work(wd, cfg.backup, "short")
+    log(f"verified backup: {snapshot}")
     log(f"short assembled: {wd.out / 'short' / 'video.mp4'} ({result['duration']:.2f}s)")
     log(f"social package: {wd.root / 'short-package.yaml'}; run `paper-video check {slug} short` after review")
 

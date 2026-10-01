@@ -2,7 +2,7 @@
 
 import tomllib
 from pathlib import Path
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 AUTOMATIONS = Path(__file__).resolve().parents[2]
 REPO = AUTOMATIONS.parent
@@ -43,11 +43,27 @@ class PublishConfig(Section):
     site_url: str
 
 
+class BackupConfig(Section):
+    volume: Path
+    root: Path
+
+    @model_validator(mode="after")
+    def location(self):
+        if not self.volume.is_absolute() or not self.root.is_absolute():
+            raise ValueError("backup volume and root must be absolute paths")
+        if self.root == self.volume or not self.root.is_relative_to(self.volume):
+            raise ValueError("backup root must be inside the backup volume")
+        if ".." in self.volume.parts or ".." in self.root.parts:
+            raise ValueError("backup paths must not contain '..'")
+        return self
+
+
 class Config(Section):
     agy: AgyConfig
     tts: TTSConfig
     render: RenderConfig
     publish: PublishConfig
+    backup: BackupConfig
 
 
 def load_config(path: Path = AUTOMATIONS / "config.toml") -> Config:
