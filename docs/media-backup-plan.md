@@ -2,8 +2,11 @@
 
 Awaiting Alex's approval before creating folders or copying files onto the drive.
 
-Proposed snapshot: `/Volumes/Expansion/aisafetyrisks.org/video-backups/2026-10-01/`.
-The drive is mounted with approximately 4.5 TiB available. This folder does not yet exist.
+Proposed project folder:
+`/Volumes/Expansion/ROOT/Projects/Japan and Toronto (2025 - 2026)/AI Safety Risks/`.
+This follows the drive's current project archive, alongside projects such as AI Consulting Canada
+and Emanator. Put the snapshot inside it at `Media Backups/2026-10-01/`.
+The drive is mounted with approximately 4.5 TiB available. The project folder does not yet exist.
 
 Preserve each paper's existing directory layout under `works/<slug>/`:
 
