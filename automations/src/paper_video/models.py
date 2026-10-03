@@ -1,11 +1,11 @@
 """Structured intermediate artifacts. Each is stored as editable YAML in the work directory."""
 
 import re
-from datetime import date
+from datetime import date, datetime
 from typing import Literal
 
 from aisr_site.schema import Category, ClaimKind, Evidence, Section
-from pydantic import BaseModel, ConfigDict, Field, HttpUrl, field_validator
+from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, HttpUrl, field_validator
 
 
 class Strict(BaseModel):
@@ -245,6 +245,39 @@ class YouTubeCopy(Strict):
         if len(v) > 100:
             raise ValueError("YouTube titles are limited to 100 characters")
         return v
+
+
+# ------------------------------------------------------------------ social release (social.yaml)
+
+
+class SocialPlatform(Strict):
+    platform: Literal["youtube", "instagram"]
+    status: str = Field(description="Zernio platform status: pending, processing, uploading, published, failed, cancelled")
+    url: HttpUrl | None = Field(description="The live post, once published")
+    error: str | None
+
+
+class SocialPost(Strict):
+    post_id: str = Field(description="Zernio post id")
+    scheduled_for: AwareDatetime
+    status: str = Field(description="Zernio post status: scheduled, publishing, published, partial, failed, cancelled")
+    video_sha256: str = Field(description="The uploaded video")
+    platforms: list[SocialPlatform]
+
+    @classmethod
+    def from_api(cls, post: dict, video_sha256: str) -> "SocialPost":
+        return cls(post_id=post["_id"], scheduled_for=datetime.fromisoformat(post["scheduledFor"]),
+                   status=post["status"], video_sha256=video_sha256,
+                   platforms=[SocialPlatform(platform=p["platform"], status=p["status"],
+                                             url=p.get("platformPostUrl"), error=p.get("errorMessage"))
+                              for p in post["platforms"]])
+
+
+class SocialRecord(Strict):
+    """Zernio posts for one explainer's weekly release, written by `paper-video schedule`."""
+
+    long_form: SocialPost
+    short: SocialPost | None
 
 
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")

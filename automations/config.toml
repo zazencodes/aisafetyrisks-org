@@ -31,3 +31,17 @@ site_url = "https://aisafetyrisks.org"
 [backup]
 volume = "/Volumes/Expansion"
 root = "/Volumes/Expansion/ROOT/Projects/Toronto (2026+)/AI Safety Risks/Media Backups"
+
+[social]
+# Zernio schedules the weekly release; ZERNIO_API_KEY lives in the repository's ignored .env.
+# Each week releases one published explainer: the long-form video on YouTube, then its short
+# on YouTube Shorts and Instagram Reels. Times are wall-clock times in `timezone`.
+timezone = "America/Toronto"
+long_form_day = "tuesday"
+short_day = "thursday"
+time = "09:00"
+# Zernio account ids (GET /v1/accounts): YouTube "AI Safety Risks", Instagram @aisafetyrisks.
+youtube_account = "6ac076426a8221b3712d1719"
+instagram_account = "6aa756ae726ebfe037e7c681"
+# Wall-clock limit for one API call or media upload.
+timeout_seconds = 600

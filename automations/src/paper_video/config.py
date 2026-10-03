@@ -1,7 +1,10 @@
 """Pipeline configuration (automations/config.toml)."""
 
 import tomllib
+from datetime import time
 from pathlib import Path
+from typing import Literal
+from zoneinfo import ZoneInfo
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 AUTOMATIONS = Path(__file__).resolve().parents[2]
@@ -58,12 +61,31 @@ class BackupConfig(Section):
         return self
 
 
+Weekday = Literal["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+
+
+class SocialConfig(Section):
+    timezone: str
+    long_form_day: Weekday
+    short_day: Weekday
+    time: time
+    youtube_account: str = Field(min_length=1)
+    instagram_account: str = Field(min_length=1)
+    timeout_seconds: int = Field(gt=0)
+
+    @model_validator(mode="after")
+    def zone(self):
+        ZoneInfo(self.timezone)
+        return self
+
+
 class Config(Section):
     agy: AgyConfig
     tts: TTSConfig
     render: RenderConfig
     publish: PublishConfig
     backup: BackupConfig
+    social: SocialConfig
 
 
 def load_config(path: Path = AUTOMATIONS / "config.toml") -> Config:
