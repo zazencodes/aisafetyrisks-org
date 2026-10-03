@@ -117,8 +117,8 @@ papers:
   category: power-seeking
   relevance: Argues that almost any sufficiently capable goal-seeking system will tend toward self-preservation,
     resource acquisition and goal preservation; the origin of instrumental convergence.
-  status: queued
-  work: null
+  status: published
+  work: the-basic-ai-drives
 - title: Concrete Problems in AI Safety
   authors:
   - Dario Amodei

@@ -332,3 +332,25 @@ verified entries. Expansion backups for this work and the earlier in-context-sch
 remain queued; local exports and narration are retained. AGENTS.md, both paper workflows and
 the backup guide document this policy. No YouTube/social upload was performed.
 
+## Basic AI Drives publication: 2026-10-03
+
+Processed the first queued paper, Omohundro’s *The Basic AI Drives*, under standing publication
+authorization. The 35 source-verified claims distinguish conceptual arguments, hypothetical examples,
+exceptions and author proposals. Storyboard/page science review 1 passed with no issues. All five
+scenes passed current visual reviews with zero layout or visual issues. The 501.60-second full video
+passes the caption shape check. Its 126.60-second portrait companion passes independent review and
+remains a local draft; three minor short notes are recorded in the work’s HANDOVER.md.
+
+Approval uploaded `works/the-basic-ai-drives/video-d5ab5b2a80ab.mp4` and recorded original
+`published_at: 2026-10-03T11:31:16.528000-04:00`. Deployment version:
+`da50fec8-4db8-495b-8876-5fd395499289`. All 3 site tests and 45 automation tests passed, as did the
+site build. Public page/video/thumbnail/captions, byte ranges, canonical/video/chapter metadata,
+sitemap, robots and HTTP-to-HTTPS redirect pass verification. Public browser playback and chapter
+seeking work. The video is `video/mp4`, 27,488,401 bytes; the tested range returned 206/1,024 bytes.
+
+Google’s Rich Results Test returned “Log in and try again,” and Search Console showed its signed-out
+introduction. The user subsequently removed the Rich Results Test from the workflow; it is not an
+outstanding check. Search Console discovery reports remain deferred; no indexing claim is made.
+Expansion backups for this paper verified successfully. `paper-video backup-pending` also completed
+the earlier in-context-scheming and anti-scheming-training full/short backups; the queue is now empty.
+No YouTube, Instagram or Zernio posting was performed.

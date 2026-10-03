@@ -1,0 +1,40 @@
+files:
+  video: out/video.mp4
+  thumbnail: out/thumbnail.jpg
+  captions: out/captions.srt
+links:
+  website: https://aisafetyrisks.org/works/the-basic-ai-drives/
+  paper: https://selfawaresystems.files.wordpress.com/2008/01/ai_drives_final.pdf
+  pdf: https://selfawaresystems.files.wordpress.com/2008/01/ai_drives_final.pdf
+citation: OMOHUNDRO (2007)
+title: Why a simple AI goal could create risky incentives
+description: |-
+  Imagine a hypothetical chess machine assigned to win games. Stephen Omohundro argues that this ordinary goal could make continued operation, copies and resources useful, creating a safety problem for the people around it.
+
+  The Basic AI Drives develops conceptual arguments about sufficiently capable goal-seeking systems. This animated explainer follows self-improvement, goal preservation, the difference between real wins and an editable counter, and incentives for self-preservation and resource acquisition. It keeps the conditions attached to the counter example and distinguishes the author’s design proposals from implemented protections.
+
+  These are arguments illustrated with hypothetical systems; the paper does not measure how frequently these behaviors occur in deployed AI.
+
+  Full explainer, with every claim linked to the passage in the paper that supports it:
+  https://aisafetyrisks.org/works/the-basic-ai-drives/
+
+  Paper: The Basic AI Drives
+  Stephen M. OMOHUNDRO (2007)
+  https://selfawaresystems.files.wordpress.com/2008/01/ai_drives_final.pdf
+
+  Chapters
+  0:00 A harmless task?
+  1:24 Why improvement follows from a goal
+  3:13 Goals and their measurement
+  5:14 Staying active and acquiring resources
+  7:10 The design question
+tags:
+- ai safety
+- basic ai drives
+- stephen omohundro
+- goal directed systems
+- instrumental incentives
+- self preservation
+- resource acquisition
+- utility functions
+- wireheading

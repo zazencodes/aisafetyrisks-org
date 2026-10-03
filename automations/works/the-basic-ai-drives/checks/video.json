@@ -1,0 +1,28 @@
+{
+  "duration": 501.6,
+  "width": 1920,
+  "height": 1080,
+  "chapters": [
+    {
+      "start": 0.0,
+      "title": "A harmless task?"
+    },
+    {
+      "start": 84.6,
+      "title": "Why improvement follows from a goal"
+    },
+    {
+      "start": 193.45,
+      "title": "Goals and their measurement"
+    },
+    {
+      "start": 314.72,
+      "title": "Staying active and acquiring resources"
+    },
+    {
+      "start": 430.7,
+      "title": "The design question"
+    }
+  ],
+  "problems": []
+}

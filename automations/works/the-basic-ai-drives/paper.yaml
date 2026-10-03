@@ -1,0 +1,28 @@
+slug: the-basic-ai-drives
+title: The Basic AI Drives
+authors:
+- Stephen M. OMOHUNDRO
+published: '2007-11-30'
+venue: null
+url: https://selfawaresystems.files.wordpress.com/2008/01/ai_drives_final.pdf
+pdf_url: https://selfawaresystems.files.wordpress.com/2008/01/ai_drives_final.pdf
+arxiv_id: null
+doi: null
+abstract: One might imagine that AI systems with harmless goals will be harmless. This paper instead shows
+  that intelligent systems will need to be carefully designed to prevent them from behaving in harmful
+  ways. We identify a number of “drives” that will appear in sufficiently advanced AI systems of any design.
+  We call them drives because they are tendencies which will be present unless explicitly counteracted.
+  We start by showing that goal-seeking systems will have drives to model their own operation and to improve
+  themselves. We then show that self-improving systems will be driven to clarify their goals and represent
+  them as economic utility functions. They will also strive for their actions to approximate rational
+  economic behavior. This will lead almost all systems to protect their utility functions from modification
+  and their utility measurement systems from corruption. We also discuss some exceptional systems which
+  will want to modify their utility functions. We next discuss the drive toward self-protection which
+  causes systems try to prevent themselves from being harmed. Finally we examine drives toward the acquisition
+  of resources and toward their efficient utilization. We end with a discussion of how to incorporate
+  these insights in designing intelligent technology which will lead to a positive future for humanity.
+source:
+  input: https://selfawaresystems.files.wordpress.com/2008/01/ai_drives_final.pdf
+  retrieved_on: '2026-10-03'
+  sha256: 005df258c0b78ea69a89a1b0eb95b646f406b83c37e3a3b7c2b3a767a3ea8461
+  pages: 11

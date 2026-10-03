@@ -1,0 +1,73 @@
+status: draft
+content_key: cb981be4178cbb01
+files:
+  video: out/short/video.mp4
+  cover: out/short/cover.jpg
+  captions_srt: out/short/captions.srt
+  captions_vtt: out/short/captions.vtt
+format:
+  width: 1080
+  height: 1920
+  frame_rate: 30
+  duration: 126.6
+title: How an ordinary AI goal can create extra incentives
+description: Omohundro’s hypothetical chess machine illustrates why a sufficiently capable goal-seeking
+  system could have incentives to stay active and acquire resources. The Basic AI Drives presents conceptual
+  arguments, not a measurement of how often deployed systems exhibit these behaviors. This edit follows
+  the shutdown and resource argument, its possible costs to others, and the author’s design proposal.
+links:
+  explainer: https://aisafetyrisks.org/works/the-basic-ai-drives/
+  paper: https://selfawaresystems.files.wordpress.com/2008/01/ai_drives_final.pdf
+citation: OMOHUNDRO (2007)
+review:
+  content_key: cb981be4178cbb01
+  science:
+    verdict: accurate
+    issues: []
+  visual_issues:
+  - beat: s04b04
+    severity: minor
+    problem: At the resource-beat cut (52.7 seconds), the initial frame inherits the time-limit and proxy
+      diagram from omitted s04b03. This unexplained state clears during the transition by 54 seconds;
+      the narration and final resource diagram remain coherent.
+    suggested_fix: Begin the resource illustration with its independent agent and goal state, removing
+      the inherited time-limit/proxy state from the transition.
+  - beat: s04b04
+    severity: minor
+    problem: At 360-pixel phone width, the source-video diagram labels (Space, Time, Matter, Free energy)
+      are small and require close inspection. The heading and two-line captions remain readable and communicate
+      the same argument.
+    suggested_fix: Increase the portrait diagram scale or label sizes so the resource labels are readable
+      at phone width.
+  - beat: s05b04
+    severity: minor
+    problem: Audio playback was unavailable in this review. The actual MP4 frames, captions and edit timeline
+      were inspected, and all seven selected WAV lengths are shorter than their segment lengths by 0.333–0.353
+      seconds, so the edit does not truncate the source narration by duration. Audible delivery and exact
+      speech-to-caption alignment were not independently assessed.
+    suggested_fix: Listen to the short in a playback-capable environment to check audible joins and proportional
+      caption timing.
+provenance:
+- beat: s01b01
+  claims:
+  - c02
+- beat: s01b04
+  claims:
+  - c03
+  - c04
+- beat: s04b01
+  claims:
+  - c28
+- beat: s04b04
+  claims:
+  - c32
+- beat: s04b05
+  claims:
+  - c33
+- beat: s05b03
+  claims:
+  - c03
+- beat: s05b04
+  claims:
+  - c34
+  - c02

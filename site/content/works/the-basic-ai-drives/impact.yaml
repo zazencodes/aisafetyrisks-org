@@ -1,0 +1,29 @@
+updated_at: '2026-10-03T12:20:08.221563-04:00'
+summary: 'This early argument helped frame a question that remains central to AI safety: could pursuing
+  an ordinary goal create incentives to acquire resources or resist shutdown? Later research has examined
+  parts of that concern in mathematical models. Its relevance today is as a starting point for studying
+  incentives, rather than experimental evidence about modern AI behavior.'
+examples:
+- title: Optimal Policies Tend to Seek Power
+  url: https://arxiv.org/abs/1912.01683
+  year: 2019
+  description: Turner and colleagues cite Omohundro and give a mathematical treatment of power-seeking
+    in Markov decision processes. Their theorems identify conditions under which optimal policies favor
+    keeping more options available; they do not establish that every AI system will seek power.
+  source_passage: certain environmental symmetries are sufficient
+- title: The Off-Switch Game
+  url: https://arxiv.org/abs/1611.08219
+  year: 2016
+  description: Hadfield-Menell and colleagues examine shutdown incentives in a formal human–robot interaction.
+    This takes a concern raised by the earlier AI-drives argument and asks when uncertainty about human
+    preferences can make accepting shutdown beneficial.
+  source_passage: it needs to be uncertain about the utility associated with the outcome
+citations:
+  count: 148
+  url: https://openalex.org/W1581742186
+  retrieved_on: '2026-10-03'
+  record_title: The Basic AI Drives
+  scope: Count for the OpenAlex record linking both the original paper and its 2018 book reprint; citations
+    are not separated by version.
+citation_note: Citation totals depend on index coverage and do not indicate endorsement or scientific
+  correctness.
