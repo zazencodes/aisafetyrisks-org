@@ -1,0 +1,113 @@
+content_key: 6795045f5b6f5ef4
+science:
+  verdict: accurate
+  issues:
+  - location: s02b03
+    severity: minor
+    category: clarity
+    problem: '"Purpose here means a final relation to another object or event" equates purpose with
+      the goal itself. In c08 purposeful (active) behavior is behavior that may be interpreted as
+      directed to a goal, and the goal is the final condition of definite correlation with another
+      object or event. Because the active/passive beat is omitted, the short also drops the fact that
+      the term applies only to active behavior.'
+    suggested_fix: 'Say "Purposeful behavior is behavior we can interpret as directed toward a goal:
+      a final relation to another object or event."'
+  - location: s05b03
+    severity: minor
+    category: missing_limitation
+    problem: The beat cites c12, but its narration never says that the authors themselves call their
+      definition of purposeful behavior relatively vague and operationally largely meaningless.
+      Omitting s02b06 removes the only place where the short would say this.
+    suggested_fix: Add a clause such as "The authors call their definition of purpose vague, yet
+      useful," or drop c12 from this beat's claims.
+  - location: s03b06
+    severity: minor
+    category: mislabelled_status
+    problem: '"The machine remains goal-directed throughout this imagined failure" is an editorial
+      inference from c16/c17. The authors do not state it in the cited passages, yet the on-screen
+      badge reads "Authors'' interpretation".'
+    suggested_fix: Label the beat as editorial context, or say "On the authors' definitions, the
+      machine is still goal-directed..."
+  - location: s01b01-s01b02 / title
+    severity: minor
+    category: clarity
+    problem: The hook's failure is a wrong goal that is pursued successfully. The paper's failure
+      (c17) is a correct goal that is missed through oscillation. Under the title "How goal-directed
+      correction can go wrong", a viewer could think the essay analyses mis-specified goals. s05b03
+      mitigates this but does not name the difference.
+    suggested_fix: In s03b06 or s05b04, say explicitly that the essay's imagined failure is missing
+      the goal, while the wrong-room problem is a separate question that the essay does not address.
+visual_issues:
+- beat: s03b05
+  severity: major
+  problem: The light-guided machine's triangle always points right, even while it moves left. When
+    the animation ends (about 3 s into the 14.2 s beat), the static frame shows a right-pointing
+    triangle at the bottom-left end of the zigzag. That end reads as a starting point, and the
+    excursions appear to shrink toward the ring at the upper left. For the rest of the beat and
+    through s03b06, the diagram therefore reads as a converging, damped path, the opposite of the
+    "Growing oscillations" label and narration (c17).
+  suggested_fix: Orient the triangle along its direction of travel, so that it points left at the
+    final position. Also mark the start of the path, or add arrowheads on each segment, so that the
+    static end state shows widening excursions away from the goal.
+- beat: s03b04
+  severity: minor
+  problem: In the Overshoot path, the triangle ends to the left of the goal but still points right
+    after the reversal. The direction of travel is ambiguous.
+  suggested_fix: Rotate the marker to its direction of travel after the reversal.
+- beat: s03b05
+  severity: minor
+  problem: The narration says "a machine guided toward a moving light", but the amber goal ring barely
+    moves (a few pixels), so the moving goal is not visible.
+  suggested_fix: Give the goal ring a visible drift during the overshoot animation.
+- beat: s01b01
+  severity: minor
+  problem: The exact first frame (frame 0) shows the title, heading and caption over an empty diagram
+    area. The corridor, robot and Destination label fade in over roughly the first 0.5-1 s.
+  suggested_fix: Start the short on a frame in which the corridor, robot and destination are already
+    drawn.
+- beat: s01b04
+  severity: minor
+  problem: At the cut from s01b02, the corridor, person and Intended room disappear. The first frame
+    shows a lone robot-in-ring at centre-right, which is the end state of the omitted s01b03. It has no
+    labels or badge and morphs into the Organism/Behavior/Machine diagram within about 1 s.
+  suggested_fix: Open s01b04 from the s01b02 end state, or from a clean frame, instead of from the
+    omitted beat's centred robot-and-ring.
+- beat: s05b03
+  severity: minor
+  problem: The first frame shows a robot-in-ring at the upper right with no corridor. This is the end
+    state of the omitted s05b02. It has no label and morphs into the box-and-ring loop within about
+    1 s.
+  suggested_fix: Start s05b03 from a clean frame or from the s03b06 end state.
+- beat: s05b04
+  severity: minor
+  problem: For about 1 s after the cut, the outgoing "Stated limitation" and incoming "Background"
+    badges overlap into illegible text, and the fading "January 1943" overlaps the incoming
+    "Correction" label.
+  suggested_fix: Fade out the s05b03 badge and its title/date before the s05b04 labels fade in.
+- beat: s01b04
+  severity: minor
+  problem: At 360 px width, the epistemic badges (Future scenario, Method, Definition, Hypothesis,
+    Authors' interpretation, Stated limitation, Background) and the in-diagram "Rosenblueth et al.
+    (1943)" citation are about 5-6 px tall and unreadable. The narration states the hypothetical
+    status, and the persistent footer citation and scope label remain readable, so this is not
+    blocking. The same applies to every beat.
+  suggested_fix: Enlarge the badge text in the portrait layout, or drop the duplicate in-diagram
+    citation.
+- beat: s02b03
+  severity: minor
+  problem: The "Behavior" (dim blue) and "Goal" labels are about 8 px tall at 360 px width, with low
+    contrast against the dark background.
+  suggested_fix: Increase the label size and brighten the Behavior label.
+- beat: s01b01
+  severity: minor
+  problem: The person icon is a circle over a cross, which closely resembles the Venus/female symbol
+    and can read as a gender sign rather than a pedestrian. It recurs in s05b04.
+  suggested_fix: Use a neutral pedestrian glyph, such as a head-and-body silhouette.
+- beat: s05b04
+  severity: minor
+  problem: Review limitation. The audio could not be played and listened to. Narration completeness
+    was checked instead. Every selected WAV fits inside its segment (for example, s01b04 is 15.76 s
+    in a 16.1 s segment, and s05b04 is 14.56 s in a 14.9 s segment). Silence detection shows a pause
+    at every cut, with the final speech ending at 136.48 s of 137.0 s, and caption changes match the
+    speech pauses.
+  suggested_fix: Do a listening pass on playback before publishing the short.

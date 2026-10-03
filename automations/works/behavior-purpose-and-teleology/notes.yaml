@@ -1,0 +1,331 @@
+summary: Rosenblueth, Wiener and Bigelow propose a conceptual classification of behavior shared by machines
+  and living organisms. They distinguish active from passive behavior, purpose from purposelessness, ongoing
+  negative feedback from non-feedback behavior, and prediction from non-prediction. Goal-directed feedback
+  can correct error yet oscillate when inadequately damped. Their teleology concerns present error relative
+  to a goal, not a future cause. This essay offers definitions, examples and hypotheses, rather than a
+  modern AI experiment or safety guarantee.
+research_question: How can observable behavior in machines and organisms be classified so that purpose
+  and feedback become useful subjects of scientific study?
+scope: Conceptual essay using mechanical and biological examples. No trained AI models, benchmark results
+  or safety guarantees are tested. The authors acknowledge vagueness in purpose, alternative classifications
+  and functional differences; biological analogies and future robot claims retain their hypothetical status.
+  PDF page numbers refer to the five-page archive.org retypeset copy, rather than original journal pagination.
+  The original issue is January 1943, not a known specific publication day.
+key_terms:
+- 'Behavioristic analysis: study of external input-output relations.'
+- 'Functional analysis: study of intrinsic structure and organization.'
+- 'Active behavior: the object supplies the energy of the output.'
+- 'Passive behavior: output energy comes from immediate input or remains external.'
+- 'Purposeful behavior: active behavior interpreted as directed toward a final relation or goal.'
+- 'Negative feedback: goal-related error signals restrict outputs that would go beyond the goal.'
+- 'Non-feedback behavior: goal signals do not modify the object during the behavior.'
+- 'Teleology: purposeful behavior controlled by negative feedback.'
+- 'Prediction or extrapolation: behavior directed toward an anticipated future state.'
+- 'Damping: restraint of oscillation in a feedback-controlled response.'
+- 'Servomechanism: machine with intrinsically purposeful behavior.'
+figures: []
+claims:
+- id: c01
+  kind: method
+  statement: The essay aims to define the behavioristic study of natural events, classify behavior, and
+    stress the importance of purpose.
+  evidence:
+  - page: 1
+    quote: This essay has two goals. The ﬁrst is to de- ﬁne the behavioristic study of natural events
+      and to classify behavior. The second is to stress the importance of the concept of pur- pose.
+- id: c02
+  kind: method
+  statement: The behavioristic approach examines an object’s output and its relation to input from its
+    surroundings.
+  evidence:
+  - page: 1
+    quote: Given any object, relatively abstracted from its surroundings for study, the behavioristic
+      approach consists in the examination of the output of the object and of the relations of this output
+      to the input.
+- id: c03
+  kind: definition
+  statement: Output changes the surroundings; input is an external event that modifies the object.
+  evidence:
+  - page: 1
+    quote: By output is meant any change produced in the surroundings by the object. By input, conversely,
+      is meant any event external to the object that modiﬁes this object in any manner.
+- id: c04
+  kind: method
+  statement: Behavioristic study omits intrinsic structure, whereas functional analysis focuses on intrinsic
+    organization, structure and properties.
+  evidence:
+  - page: 1
+    quote: In a func- tional analysis, as opposed to a behavioristic approach, the main goal is the intrinsic
+      orga- nization of the entity studied, its structure and its properties; the relations between the
+      object and the surroundings are relatively incidental.
+- id: c05
+  kind: definition
+  statement: Behavior means any externally detectable change of an entity relative to its surroundings.
+  evidence:
+  - page: 1
+    quote: By behavior is meant any change of an en- tity with respect to its surroundings.
+- id: c06
+  kind: definition
+  statement: Active behavior supplies output energy from the object, even if that energy was stored from
+    an earlier input.
+  evidence:
+  - page: 1
+    quote: Active behavior is that in which the object is the source of the output energy in- volved in
+      a given speciﬁc reaction. The object may store energy supplied by a remote or rela- tively immediate
+      input, but the input does not energize the output directly.
+- id: c07
+  kind: definition
+  statement: 'In passive behavior the object is not the source of energy: energy comes from immediate
+    input or stays external throughout the reaction.'
+  evidence:
+  - page: 1
+    quote: In passive behav- ior, on the contrary, the object is not a source of energy; all the energy
+      in the output can be traced to the immediate input (e.g., the throw- ing of an object), or else
+      the object may control energy which remains external to it through- out the reaction
+- id: c08
+  kind: definition
+  statement: Purposeful active behavior can be interpreted as directed toward a goal, a final relation
+    in time or space to another object or event.
+  evidence:
+  - page: 1
+    quote: The term purposeful is meant to denote that the act or behavior may be interpreted as directed
+      to the attainment of a goal — i.e., to a ﬁnal condition in which the behaving ob- ject reaches a
+      deﬁnite correlation in time or in space with respect to another object or event.
+- id: c09
+  kind: author_interpretation
+  statement: The authors argue that voluntary action selects a purpose rather than specifying individual
+    muscle movements.
+  evidence:
+  - page: 1
+    quote: When we perform a voluntary action what we select voluntarily is a speciﬁc purpose, not a speciﬁc
+      movement. Thus, if we decide to take a glass containing water and carry it to our mouth we do not
+      command certain muscles to contract to a certain degree and in a certain
+  - page: 1
+    quote: sequence; we merely trip the purpose and the reaction follows automatically.
+- id: c10
+  kind: author_interpretation
+  statement: 'The authors reject the view that every machine is purposeful: a clock can be designed for
+    a purpose without its behavior approaching a specific final condition.'
+  evidence:
+  - page: 2
+    quote: Then may be considered devices such as a clock, designed, it is true, with a purpose, but having
+      a performance which, although orderly, is not purposeful — i.e., there is no speciﬁc ﬁnal condition
+      toward which the movement of the clock strives.
+- id: c11
+  kind: background
+  statement: The paper gives a target-seeking torpedo as an example of an intrinsically purposeful machine,
+    and uses servomechanism for machines with intrinsically purposeful behavior.
+  evidence:
+  - page: 2
+    quote: Some machines, on the other hand, are in- trinsically purposeful. A torpedo with a target-
+      seeking mechanism is an example. The term servo-mechanisms has been coined precisely to designate
+      machines with intrinsic purpose- ful behavior.
+- id: c12
+  kind: limitation
+  statement: The authors acknowledge that their definition of purposeful behavior is relatively vague
+    and operationally largely meaningless, but retain purpose as a useful concept.
+  evidence:
+  - page: 2
+    quote: It is apparent from these considerations that although the deﬁnition of purposeful be- havior
+      is relatively vague, and hence oper- ationally largely meaningless, the concept of purpose is useful
+      and should, therefore, be re- tained.
+- id: c13
+  kind: definition
+  statement: Purposeful active behavior is divided into feedback (teleological) and non-feedback (non-teleological)
+    classes.
+  evidence:
+  - page: 2
+    quote: 'Purposeful active behavior may be subdi- vided into two classes: feed-back (or teleologi-
+      cal) and non-feed-back (or non-teleological)'
+- id: c14
+  kind: definition
+  statement: The paper uses negative feedback to mean control by the margin of error relative to a goal,
+    with goal signals restricting outputs that would go beyond it.
+  evidence:
+  - page: 2
+    quote: The term feed-back is also employed in a more restricted sense to signify that the behavior
+      of an object is controlled by the margin of error at which the object stands at a given time with
+      refer- ence to a relatively speciﬁc goal. The feed-back is then negative, that is,
+  - page: 2
+    quote: the signals from the goal are used to restrict outputs which would otherwise go beyond the
+      goal.
+- id: c15
+  kind: definition
+  statement: Non-feedback behavior lacks goal signals modifying activity during the behavior; the authors
+    still consider purposeful behavior to need goal signals at some time.
+  evidence:
+  - page: 2
+    quote: All purposeful behavior may be considered to require negative feed-back. If a goal is to be
+      attained, some signals from the goal are nec- essary at some time to direct the behavior.
+  - page: 2
+    quote: By non-feed-back behavior is meant that in which there are no signals from the goal which mod-
+      ify the activity of the object in the course of the behavior.
+- id: c16
+  kind: author_interpretation
+  statement: The authors describe continuous goal feedback as more effective particularly when the goal
+    moves, but warn that inadequate damping can produce clumsy behavior.
+  evidence:
+  - page: 2
+    quote: This type of be- havior is more effective than that mentioned above, particularly when the
+      goal is not sta- tionary. But continuous feedback control may lead to very clumsy behavior if the
+      feed-back is inadequately damped and becomes there- fore positive instead of negative for certain
+      fre- quencies of oscillation.
+- id: c17
+  kind: hypothesis
+  statement: In the paper’s hypothetical light-guided machine, repeated overshooting leads to growing
+    oscillations and missing the goal.
+  evidence:
+  - page: 2
+    quote: Suppose further that the machine overshoots seriously when it follows a move- ment of the goal
+      in a certain direction; an even stronger stimulus will then be delivered which will turn the machine
+      in the opposite direction. If that movement again overshoots a series of increasingly larger oscillations
+      will ensue and the machine will miss the goal.
+- id: c18
+  kind: hypothesis
+  statement: By analogy with an undamped machine, the authors suggest that the cerebellum controls feedback
+    nervous mechanisms in purposeful motor activity.
+  evidence:
+  - page: 3
+    quote: ogy with the behavior of a machine with un- damped feed-back is so vivid that we venture to
+      suggest that the main function of the cere- bellum is the control of the feed-back nervous mechanisms
+      involved in purposeful motor ac- tivity.
+- id: c19
+  kind: definition
+  statement: Feedback purposeful behavior can be predictive or non-predictive; the authors describe an
+    amoeba following a source as non-predictive.
+  evidence:
+  - page: 3
+    quote: Feed-back purposeful behavior may again be subdivided. It may be extrapolative (pre- dictive),
+      or it may be non-extrapolative (non- predictive). The reactions of unicellular organ- isms known
+      as tropisms are examples of non- predictive performances. The amoeba merely follows the source to
+      which it reacts; there is no evidence that it extrapolates the path of a moving source.
+- id: c20
+  kind: background
+  statement: The authors illustrate prediction with a cat pursuing a running mouse by moving toward its
+    extrapolated future position.
+  evidence:
+  - page: 3
+    quote: A cat start- ing to pursue a running mouse does not run directly toward the region where the
+      mouse is at any given time, but moves toward an extrap- olated future position.
+- id: c21
+  kind: definition
+  statement: 'The authors distinguish prediction orders: a cat predicts the mouse’s path; throwing a stone
+    at a moving target requires predicting both paths.'
+  evidence:
+  - page: 3
+    quote: The cat chasing the mouse is an instance of ﬁrst-order prediction; the cat merely predicts
+      the path of the mouse. Throwing a stone at a moving target requires a second-order prediction; the
+      paths of the tar- get and of the stone should be foreseen.
+- id: c22
+  kind: limitation
+  statement: Predictive behavior requires temporal and spatial information, and sensory receptors can
+    limit prediction.
+  evidence:
+  - page: 3
+    quote: Predictive behavior requires the discrimina- tion of at least two coordinates, a temporal and
+      at least one spatial axis. Prediction will be more effective and ﬂexible, however, if the be- having
+      object can respond to changes in more than one spatial coordinate. The sensory re- ceptors of an
+      organism, or
+  - page: 3
+    quote: the corresponding elements of a machine, may therefore limit the predictive behavior.
+- id: c23
+  kind: limitation
+  statement: 'Internal organization can also limit prediction: a light-sensitive predictive machine needs
+    a structure capable of interpreting the light input.'
+  evidence:
+  - page: 3
+    quote: In addition to the limitations imposed by the receptors upon the ability to perform ex- trapolative
+      actions, limitations may also occur that are due to the internal organization of the behaving object.
+      Thus, a machine which is to trail predictively a moving luminous ob- ject should not only be sensitive
+  - page: 3
+    quote: to light (e.g., by the possession of a photoelectric cell), but should also have the structure
+      adequate for interpreting the luminous input.
+- id: c24
+  kind: speculation
+  statement: The authors speculate that nervous-system organization may limit other mammals to low-order
+    prediction while humans may potentially predict at higher orders.
+  evidence:
+  - page: 3
+    quote: Indeed, it is pos- sible that one of the features of the disconti- nuity of behavior observable
+      when comparing humans with other high mammals may lie in that the other mammals are limited to predic-
+      tive behavior of a low order, whereas man may be capable potentially of quite high orders of prediction.
+- id: c25
+  kind: limitation
+  statement: The classification selects heterogeneous features and leaves non-classes; many independent
+    classifications, such as linear versus nonlinear, are possible.
+  evidence:
+  - page: 3
+    quote: 'It is apparent that each of the dichotomies established singles out arbitrarily one feature,
+      deemed interesting, leaving an amorphous re- mainder: the non-class. It is also apparent that the
+      criteria for the several dichotomies are heterogeneous. It is obvious, therefore, that many other
+      lines of classiﬁcation are avail- able, which are independent of that developed above.'
+- id: c26
+  kind: author_interpretation
+  statement: The authors favor the classification because it highlights predictive behavior, purpose and
+    teleology, and permits uniform behavioristic analysis of machines and organisms.
+  evidence:
+  - page: 4
+    quote: gling out of the class of predictive behavior, a class particularly interesting since it suggests
+      the possibility of systematizing increasingly more complex tests of the behavior of organ- isms.
+      It emphasizes the concepts of purpose and of teleology, concepts which, although rather discredited
+      at present, are shown to be important.
+  - page: 4
+    quote: Finally, it reveals that a uniform behavioristic analysis is applicable to both ma- chines
+      and living organisms, regardless of the complexity of the behavior.
+- id: c27
+  kind: author_interpretation
+  statement: The authors argue that machines can exhibit behavior beyond human behavior, illustrating
+    this with electrical output.
+  evidence:
+  - page: 4
+    quote: Examples, however, are readily found of man-made machines with behavior that transcends human
+      behavior. A machine with an electrical output is an instance; for men, unlike the electric ﬁshes,
+      are incapable of emitting electricity.
+- id: c28
+  kind: limitation
+  statement: The authors say behavioristic analysis is largely uniform across machines and organisms,
+    while functional study reveals deep structural differences.
+  evidence:
+  - page: 4
+    quote: While the behavioristic analysis of ma- chines and living organisms is largely uniform, their
+      functional study reveals deep differences.
+- id: c29
+  kind: speculation
+  statement: The authors speculate that future engineers might build robots with mammal-like structure
+    as knowledge of colloids and proteins grows.
+  evidence:
+  - page: 4
+    quote: In fu- ture years, as the knowledge of colloids and proteins increases, future engineers may
+      at- tempt the design of robots not only with a be- havior, but also with a structure similar to
+      that of a mammal.
+- id: c30
+  kind: limitation
+  statement: The essay leaves causality, determinism and final causes outside its scope, and defines purposefulness
+    independently of initial or final causality.
+  evidence:
+  - page: 5
+    quote: A discussion of causality, determinism and ﬁnal causes is beyond the scope of this essay. It
+      may be pointed out, however, that purposefulness, as deﬁned here, is quite inde- pendent of causality,
+      initial or ﬁnal.
+- id: c31
+  kind: definition
+  statement: 'Teleological behavior is restricted to purposeful reactions controlled by error: the difference
+    between current state and the final state interpreted as purpose.'
+  evidence:
+  - page: 5
+    quote: We have restricted the connotation of teleo- logical behavior by applying this designation
+      only to purposeful reactions which are con- trolled by the error of the reaction — i.e., by the
+      difference between the state of the behav- ing object at any time and the ﬁnal state inter- preted
+      as
+  - page: 5
+    quote: the purpose. Teleological behavior thus becomes synonymous with behavior con- trolled by negative
+      feedback, and gains there- fore in precision by a sufﬁciently restricted connotation.
+- id: c32
+  kind: author_interpretation
+  statement: Under their restricted definition, teleology is opposed to non-teleology rather than determinism;
+    both classes can be deterministic in the relevant domain.
+  evidence:
+  - page: 5
+    quote: According to this limited deﬁnition, tele- ology is not opposed to determinism, but to non-teleology.
+      Both teleological and non- teleological systems are deterministic when the behavior considered belongs
+      to the realm where determinism applies.

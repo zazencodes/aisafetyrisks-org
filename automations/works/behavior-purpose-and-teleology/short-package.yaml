@@ -1,0 +1,58 @@
+status: draft
+content_key: f327b4cd5c29e3fd
+files:
+  video: out/short/video.mp4
+  cover: out/short/cover.jpg
+  captions_srt: out/short/captions.srt
+  captions_vtt: out/short/captions.vtt
+format:
+  width: 1080
+  height: 1920
+  frame_rate: 30
+  duration: 136.9
+title: How goal-directed correction can go wrong
+description: A hypothetical delivery robot can correct its route while still heading to the wrong room.
+  This short uses the January 1943 essay’s definitions and its imagined overshooting machine to explain
+  purpose and negative feedback. The essay is a conceptual classification, not a test of modern AI safety
+  or a method for choosing safe goals.
+links:
+  explainer: https://aisafetyrisks.org/works/behavior-purpose-and-teleology/
+  paper: https://doi.org/10.1086/286788
+citation: Rosenblueth et al. (1943)
+review: null
+provenance:
+- beat: s01b01
+  claims: []
+- beat: s01b02
+  claims: []
+- beat: s01b04
+  claims:
+  - c01
+  - c26
+- beat: s02b03
+  claims:
+  - c08
+- beat: s03b01
+  claims:
+  - c14
+  - c31
+- beat: s03b04
+  claims:
+  - c16
+- beat: s03b05
+  claims:
+  - c17
+- beat: s03b06
+  claims:
+  - c16
+  - c17
+- beat: s05b03
+  claims:
+  - c01
+  - c12
+  - c25
+- beat: s05b04
+  claims:
+  - c08
+  - c14
+  - c31

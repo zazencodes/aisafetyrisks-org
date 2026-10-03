@@ -1,0 +1,52 @@
+title: How Machines Pursue Goals
+category: alignment
+dek: A conceptual essay explains purposeful behavior through goals, negative feedback and prediction, using examples from machines and living organisms.
+summary: >-
+  A machine can approach a goal through correction signals that reduce its error [c14].
+  Rosenblueth, Wiener and Bigelow distinguish this feedback-controlled purpose from behavior without ongoing correction, and distinguish prediction from following a current source [c15, c19].
+  Their classification gives us a vocabulary for examining goal pursuit; choosing a safe goal remains a separate question.
+explanation:
+- heading: A corrected route can lead to the wrong room
+  body: >-
+    Imagine a delivery robot adjusting its route around a person while carrying a package to the wrong room.
+    This hypothetical example separates competent movement from a useful outcome.
+    In January 1943, Rosenblueth, Wiener and Bigelow set out to classify behavior and clarify the concept of purpose [c01].
+    Their approach helps us describe what a machine is doing before asking whether its destination serves the person relying on it.
+- heading: What counts as purpose
+  body: >-
+    The authors define purposeful behavior as an act interpreted as directed toward a goal: a final relation to another object or event [c08].
+    A clock illustrates their distinction between a designer’s purpose and a machine’s behavior.
+    Although built for a purpose, its repeating motion does not approach a specific final condition, so the authors classify it as non-purposeful [c10].
+    The question concerns how the behavior relates to a goal, rather than simply why someone built the device.
+- heading: How feedback corrects error
+  body: >-
+    Negative feedback controls behavior through its margin of error relative to a goal [c14].
+    Signals from the goal restrict movement that would otherwise go beyond it.
+    The authors also allow purposeful behavior without fresh goal signals modifying activity during the movement [c15].
+    In their hypothetical light-guided machine, repeated overshooting produces growing oscillations and a missed goal [c17].
+    A corrective loop must therefore be examined through the behavior it produces, including how it can fail.
+- heading: What prediction adds
+  body: >-
+    Feedback-controlled behavior may follow a current source or anticipate a future position [c19].
+    The authors illustrate prediction with a cat moving toward where a running mouse is going [c20].
+    They use teleology to mean purposeful behavior controlled by negative feedback: correction guided by the difference between the present state and the final state interpreted as the purpose [c31].
+    This gives purpose a description in terms of an observable corrective mechanism.
+findings:
+- kind: definition
+  text: Purposeful behavior is interpreted as directed toward a goal condition, rather than defined by the reason someone built a machine [c08, c10].
+- kind: definition
+  text: Negative feedback uses error relative to a goal to restrict outputs that would otherwise go beyond it [c14].
+- kind: hypothesis
+  text: In the authors’ imagined light-guided machine, repeated overshooting creates growing oscillations and misses the goal [c17].
+- kind: definition
+  text: Predictive behavior anticipates a future position, illustrated by a cat pursuing a running mouse [c19, c20].
+limitations:
+- source: authors
+  text: The authors acknowledge that their broad definition of purpose is vague and operationally largely meaningless, while retaining it as useful [c12].
+- source: editorial
+  text: This is a conceptual classification with illustrative examples and hypotheses, rather than an experimental assessment of modern AI safety.
+context: >-
+  Read the essay as a way to distinguish a goal, ongoing correction and prediction, rather than as a method for choosing goals that benefit people [c08, c14, c19].
+  The delivery robot is our editorial illustration, not a system the authors tested.
+  Evidence page numbers refer to the archive.org retypeset PDF linked above, whose pagination differs from the original journal article.
+extra_references: []

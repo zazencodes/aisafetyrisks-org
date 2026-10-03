@@ -1,0 +1,200 @@
+status: published
+published_on: '2026-10-03'
+published_at: '2026-10-03T13:32:07.264546-04:00'
+updated_on: null
+updated_at: null
+title: How Machines Pursue Goals
+dek: A conceptual essay explains purposeful behavior through goals, negative feedback and prediction,
+  using examples from machines and living organisms.
+category: alignment
+paper:
+  title: Behavior, Purpose and Teleology
+  authors:
+  - Arturo Rosenblueth
+  - Norbert Wiener
+  - Julian Bigelow
+  published: '1943-01-01'
+  venue: Philosophy of Science
+  url: https://doi.org/10.1086/286788
+  pdf_url: https://archive.org/download/behavior-purpose-and-teleology-nortbert-wiener-arturo-rosenblueth-y-julian-bigelow/Behavior%2C%20Purpose%20and%20Teleology%20-%20Nortbert%20Wiener%2C%20Arturo%20Rosenblueth%20y%20Julian%20Bigelow.pdf
+  arxiv_id: null
+  doi: 10.1086/286788
+summary: A machine can approach a goal through correction signals that reduce its error [c14]. Rosenblueth,
+  Wiener and Bigelow distinguish this feedback-controlled purpose from behavior without ongoing correction,
+  and distinguish prediction from following a current source [c15, c19]. Their classification gives us
+  a vocabulary for examining goal pursuit; choosing a safe goal remains a separate question.
+explanation:
+- heading: A corrected route can lead to the wrong room
+  body: Imagine a delivery robot adjusting its route around a person while carrying a package to the wrong
+    room. This hypothetical example separates competent movement from a useful outcome. In January 1943,
+    Rosenblueth, Wiener and Bigelow set out to classify behavior and clarify the concept of purpose [c01].
+    Their approach helps us describe what a machine is doing before asking whether its destination serves
+    the person relying on it.
+- heading: What counts as purpose
+  body: 'The authors define purposeful behavior as an act interpreted as directed toward a goal: a final
+    relation to another object or event [c08]. A clock illustrates their distinction between a designer’s
+    purpose and a machine’s behavior. Although built for a purpose, its repeating motion does not approach
+    a specific final condition, so the authors classify it as non-purposeful [c10]. The question concerns
+    how the behavior relates to a goal, rather than simply why someone built the device.'
+- heading: How feedback corrects error
+  body: Negative feedback controls behavior through its margin of error relative to a goal [c14]. Signals
+    from the goal restrict movement that would otherwise go beyond it. The authors also allow purposeful
+    behavior without fresh goal signals modifying activity during the movement [c15]. In their hypothetical
+    light-guided machine, repeated overshooting produces growing oscillations and a missed goal [c17].
+    A corrective loop must therefore be examined through the behavior it produces, including how it can
+    fail.
+- heading: What prediction adds
+  body: 'Feedback-controlled behavior may follow a current source or anticipate a future position [c19].
+    The authors illustrate prediction with a cat moving toward where a running mouse is going [c20]. They
+    use teleology to mean purposeful behavior controlled by negative feedback: correction guided by the
+    difference between the present state and the final state interpreted as the purpose [c31]. This gives
+    purpose a description in terms of an observable corrective mechanism.'
+findings:
+- kind: definition
+  text: Purposeful behavior is interpreted as directed toward a goal condition, rather than defined by
+    the reason someone built a machine [c08, c10].
+- kind: definition
+  text: Negative feedback uses error relative to a goal to restrict outputs that would otherwise go beyond
+    it [c14].
+- kind: hypothesis
+  text: In the authors’ imagined light-guided machine, repeated overshooting creates growing oscillations
+    and misses the goal [c17].
+- kind: definition
+  text: Predictive behavior anticipates a future position, illustrated by a cat pursuing a running mouse
+    [c19, c20].
+limitations:
+- source: authors
+  text: The authors acknowledge that their broad definition of purpose is vague and operationally largely
+    meaningless, while retaining it as useful [c12].
+- source: editorial
+  text: This is a conceptual classification with illustrative examples and hypotheses, rather than an
+    experimental assessment of modern AI safety.
+context: Read the essay as a way to distinguish a goal, ongoing correction and prediction, rather than
+  as a method for choosing goals that benefit people [c08, c14, c19]. The delivery robot is our editorial
+  illustration, not a system the authors tested. Evidence page numbers refer to the archive.org retypeset
+  PDF linked above, whose pagination differs from the original journal article.
+claims:
+- id: c01
+  kind: method
+  statement: The essay aims to define the behavioristic study of natural events, classify behavior, and
+    stress the importance of purpose.
+  evidence:
+  - page: 1
+    quote: This essay has two goals. The ﬁrst is to de- ﬁne the behavioristic study of natural events
+      and to classify behavior. The second is to stress the importance of the concept of pur- pose.
+- id: c08
+  kind: definition
+  statement: Purposeful active behavior can be interpreted as directed toward a goal, a final relation
+    in time or space to another object or event.
+  evidence:
+  - page: 1
+    quote: The term purposeful is meant to denote that the act or behavior may be interpreted as directed
+      to the attainment of a goal — i.e., to a ﬁnal condition in which the behaving ob- ject reaches a
+      deﬁnite correlation in time or in space with respect to another object or event.
+- id: c10
+  kind: author_interpretation
+  statement: 'The authors reject the view that every machine is purposeful: a clock can be designed for
+    a purpose without its behavior approaching a specific final condition.'
+  evidence:
+  - page: 2
+    quote: Then may be considered devices such as a clock, designed, it is true, with a purpose, but having
+      a performance which, although orderly, is not purposeful — i.e., there is no speciﬁc ﬁnal condition
+      toward which the movement of the clock strives.
+- id: c12
+  kind: limitation
+  statement: The authors acknowledge that their definition of purposeful behavior is relatively vague
+    and operationally largely meaningless, but retain purpose as a useful concept.
+  evidence:
+  - page: 2
+    quote: It is apparent from these considerations that although the deﬁnition of purposeful be- havior
+      is relatively vague, and hence oper- ationally largely meaningless, the concept of purpose is useful
+      and should, therefore, be re- tained.
+- id: c14
+  kind: definition
+  statement: The paper uses negative feedback to mean control by the margin of error relative to a goal,
+    with goal signals restricting outputs that would go beyond it.
+  evidence:
+  - page: 2
+    quote: The term feed-back is also employed in a more restricted sense to signify that the behavior
+      of an object is controlled by the margin of error at which the object stands at a given time with
+      refer- ence to a relatively speciﬁc goal. The feed-back is then negative, that is,
+  - page: 2
+    quote: the signals from the goal are used to restrict outputs which would otherwise go beyond the
+      goal.
+- id: c15
+  kind: definition
+  statement: Non-feedback behavior lacks goal signals modifying activity during the behavior; the authors
+    still consider purposeful behavior to need goal signals at some time.
+  evidence:
+  - page: 2
+    quote: All purposeful behavior may be considered to require negative feed-back. If a goal is to be
+      attained, some signals from the goal are nec- essary at some time to direct the behavior.
+  - page: 2
+    quote: By non-feed-back behavior is meant that in which there are no signals from the goal which mod-
+      ify the activity of the object in the course of the behavior.
+- id: c17
+  kind: hypothesis
+  statement: In the paper’s hypothetical light-guided machine, repeated overshooting leads to growing
+    oscillations and missing the goal.
+  evidence:
+  - page: 2
+    quote: Suppose further that the machine overshoots seriously when it follows a move- ment of the goal
+      in a certain direction; an even stronger stimulus will then be delivered which will turn the machine
+      in the opposite direction. If that movement again overshoots a series of increasingly larger oscillations
+      will ensue and the machine will miss the goal.
+- id: c19
+  kind: definition
+  statement: Feedback purposeful behavior can be predictive or non-predictive; the authors describe an
+    amoeba following a source as non-predictive.
+  evidence:
+  - page: 3
+    quote: Feed-back purposeful behavior may again be subdivided. It may be extrapolative (pre- dictive),
+      or it may be non-extrapolative (non- predictive). The reactions of unicellular organ- isms known
+      as tropisms are examples of non- predictive performances. The amoeba merely follows the source to
+      which it reacts; there is no evidence that it extrapolates the path of a moving source.
+- id: c20
+  kind: background
+  statement: The authors illustrate prediction with a cat pursuing a running mouse by moving toward its
+    extrapolated future position.
+  evidence:
+  - page: 3
+    quote: A cat start- ing to pursue a running mouse does not run directly toward the region where the
+      mouse is at any given time, but moves toward an extrap- olated future position.
+- id: c31
+  kind: definition
+  statement: 'Teleological behavior is restricted to purposeful reactions controlled by error: the difference
+    between current state and the final state interpreted as purpose.'
+  evidence:
+  - page: 5
+    quote: We have restricted the connotation of teleo- logical behavior by applying this designation
+      only to purposeful reactions which are con- trolled by the error of the reaction — i.e., by the
+      difference between the state of the behav- ing object at any time and the ﬁnal state inter- preted
+      as
+  - page: 5
+    quote: the purpose. Teleological behavior thus becomes synonymous with behavior con- trolled by negative
+      feedback, and gains there- fore in precision by a sufﬁciently restricted connotation.
+references:
+- title: Behavior, Purpose and Teleology
+  url: https://doi.org/10.1086/286788
+  note: the original paper
+video:
+  key: works/behavior-purpose-and-teleology/video-97023db4873d.mp4
+  duration_seconds: 394.6
+  width: 1920
+  height: 1080
+  captions: captions.vtt
+  chapters:
+  - start: 0.0
+    title: A machine pursuing a goal
+  - start: 63.0
+    title: What counts as purpose
+  - start: 149.85
+    title: How feedback corrects error
+  - start: 237.75
+    title: What prediction adds
+  - start: 331.15
+    title: The goal still matters
+  youtube_url: null
+thumbnail: thumbnail.jpg
+review:
+  reviewed_on: '2026-10-03'

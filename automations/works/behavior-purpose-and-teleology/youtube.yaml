@@ -1,0 +1,37 @@
+files:
+  video: out/video.mp4
+  thumbnail: out/thumbnail.jpg
+  captions: out/captions.srt
+links:
+  website: https://aisafetyrisks.org/works/behavior-purpose-and-teleology/
+  paper: https://doi.org/10.1086/286788
+  pdf: https://archive.org/download/behavior-purpose-and-teleology-nortbert-wiener-arturo-rosenblueth-y-julian-bigelow/Behavior%2C%20Purpose%20and%20Teleology%20-%20Nortbert%20Wiener%2C%20Arturo%20Rosenblueth%20y%20Julian%20Bigelow.pdf
+citation: Rosenblueth et al. (1943)
+title: 'How Machines Pursue Goals: Purpose, Feedback and Prediction'
+description: |-
+  A delivery robot could correct its route competently while still carrying a package to the wrong room. This hypothetical example shows why AI safety asks about both how a system pursues a goal and what outcome that goal leads to for people.
+  In January 1943, Arturo Rosenblueth, Norbert Wiener and Julian Bigelow proposed a classification of behavior shared by machines and living organisms. Their essay explains purposeful behavior, negative feedback and prediction. Its imagined light-guided machine overshoots repeatedly and misses its goal, showing why correction needs to be examined through the behavior it produces.
+  This is a conceptual essay with examples and hypotheses, not an experimental test of modern AI systems or a guarantee that a pursued goal is safe.
+
+  Full explainer, with every claim linked to the passage in the paper that supports it:
+  https://aisafetyrisks.org/works/behavior-purpose-and-teleology/
+
+  Paper: Behavior, Purpose and Teleology
+  Arturo Rosenblueth, Norbert Wiener, Julian Bigelow (1943)
+  https://doi.org/10.1086/286788
+
+  Chapters
+  0:00 A machine pursuing a goal
+  1:03 What counts as purpose
+  2:29 How feedback corrects error
+  3:57 What prediction adds
+  5:31 The goal still matters
+tags:
+- ai safety
+- alignment
+- cybernetics
+- negative feedback
+- goal-directed behavior
+- teleology
+- prediction
+- norbert wiener

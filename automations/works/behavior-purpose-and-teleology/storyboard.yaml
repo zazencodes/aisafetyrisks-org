@@ -1,0 +1,452 @@
+title: 'How Machines Pursue Goals: Purpose, Feedback and Prediction'
+logline: A January 1943 conceptual essay explains goal-directed behavior through negative
+  feedback, without promising that a pursued goal is safe.
+visual_language: Cyan geometric mover; amber goal ring; teal error-return arrow; pale
+  human intended destination. Dark background, large labels, schematic paths without
+  data axes. Reuse loop and corridor motif. All diagrams are editorial illustrations,
+  never experimental measurements.
+roadmap:
+- What counts as purpose
+- How feedback corrects error
+- What prediction adds
+scenes:
+- id: s01
+  title: A machine that keeps correcting
+  chapter: A machine pursuing a goal
+  roadmap_item: null
+  checkpoint: null
+  purpose: Separate corrective goal pursuit from the question of whether the goal
+    is useful.
+  visual_concept: 'Hypothetical room delivery robot: cyan dot, amber target ring,
+    pale human doorway; the robot returns in the closing.'
+  beats:
+  - id: s01b01
+    narration: Imagine an AI-controlled delivery robot in a corridor. This is a hypothetical
+      example. A person steps into its route, and the robot adjusts its path while
+      keeping the same destination.
+    visual: Draw corridor boundaries and a cyan robot on left; animate pale person
+      crossing and robot curving around it toward amber goal on right.
+    on_screen_text:
+    - Delivery robot
+    - Destination
+    claims: []
+    epistemic_label: future_scenario
+  - id: s01b02
+    narration: That correction looks useful. But imagine the destination has been
+      set to the wrong room. The robot could keep correcting its movements while still
+      delivering the package to the wrong place.
+    visual: Retain corridor; amber target stays on upper doorway while pale intended
+      doorway appears below; cyan robot corrects around obstacle and ends at amber
+      ring.
+    on_screen_text:
+    - Set destination
+    - Intended room
+    claims: []
+    epistemic_label: future_scenario
+  - id: s01b03
+    narration: The safety question is whether competent pursuit leads to a useful
+      outcome for people. To think clearly about that question, we first need a way
+      to describe goal-directed machines.
+    visual: Move robot and ring toward center; show one curved route converging and
+      pale intended doorway apart. Highlight endpoint relation rather than speed.
+    on_screen_text:
+    - Goal-directed behavior
+    claims: []
+    epistemic_label: background
+  - id: s01b04
+    narration: In January 1943, Arturo Rosenblueth, Norbert Wiener and Julian Bigelow
+      asked how behavior could be classified across machines and living organisms.
+      Their essay placed purpose and feedback at the center of that classification.
+    visual: Transform corridor into central input-output box with cyan organism circle
+      on left and cyan machine square on right; amber target persists.
+    on_screen_text:
+    - January 1943
+    - Behavior, Purpose and Teleology
+    - Rosenblueth et al. (1943)
+    claims:
+    - c01
+    - c26
+    epistemic_label: method
+  - id: s01b05
+    narration: They described behavior through its relation to a goal, and distinguished
+      ongoing correction from prediction. How can a machine pursue a goal through
+      a mechanism we can actually examine?
+    visual: Animate input arrow entering cyan box, output arrow toward amber ring,
+      and teal return arrow. Then ghost a future ring ahead of current ring.
+    on_screen_text:
+    - Purpose
+    - Feedback
+    - Prediction
+    - Rosenblueth et al. (1943)
+    claims:
+    - c08
+    - c14
+    - c19
+    epistemic_label: definition
+- id: s02
+  title: What counts as purpose
+  chapter: What counts as purpose
+  roadmap_item: 1
+  checkpoint: 'We will follow three ideas: what counts as purpose, how feedback corrects
+    error, and what prediction adds.'
+  purpose: Purpose is a behavioral classification, not merely the reason a machine
+    was built.
+  visual_concept: Clock versus target-seeking machine; extend simple classification
+    tree without slides.
+  beats:
+  - id: s02b01
+    narration: 'The authors start with observable behavior: what changes around an
+      object, and how those changes relate to inputs. Their behavioristic approach
+      sets aside the object’s internal construction to study those relations.'
+    visual: Central cyan box receives left input arrow and sends right output arrow;
+      animate pulse across both. Internal circuitry fades as surrounding relation
+      brightens.
+    on_screen_text:
+    - Input
+    - Object
+    - Output
+    - Rosenblueth et al. (1943)
+    claims:
+    - c02
+    - c03
+    - c04
+    epistemic_label: method
+  - id: s02b02
+    narration: They separate active behavior, where the object supplies the output
+      energy, from passive behavior, where it does not. Within active behavior, they
+      ask whether an action can be interpreted as approaching a goal.
+    visual: Draw upper energy reservoir inside cyan box and lower externally pushed
+      circle; transform upper branch to cyan mover aimed at amber ring.
+    on_screen_text:
+    - Active
+    - Passive
+    - Purposeful
+    - Rosenblueth et al. (1943)
+    claims:
+    - c06
+    - c07
+    - c08
+    epistemic_label: definition
+  - id: s02b03
+    narration: Purpose here means a final relation to another object or event. It
+      is a description of behavior directed toward that condition. The definition
+      does not tell us whether the condition is desirable.
+    visual: Animate cyan dot approaching amber ring; pale initial position and endpoint
+      connector shrink. Add no consciousness symbols or reward metric.
+    on_screen_text:
+    - Behavior
+    - Goal
+    - Rosenblueth et al. (1943)
+    claims:
+    - c08
+    epistemic_label: definition
+  - id: s02b04
+    narration: 'Consider the paper’s clock. Someone built it for a purpose, yet the
+      authors classify its orderly motion as non-purposeful: the hands are not approaching
+      a specific final condition.'
+    visual: Left large clock circle with rotating geometric hands; show repeating
+      arc. Right amber endpoint remains separated.
+    on_screen_text:
+    - Clock
+    - Orderly motion
+    - Rosenblueth et al. (1943)
+    claims:
+    - c10
+    epistemic_label: author_interpretation
+  - id: s02b05
+    narration: Their contrasting example is a torpedo with a target-seeking mechanism.
+      They call such machines intrinsically purposeful, and use the term servomechanism
+      for machines with this kind of behavior.
+    visual: Replace right clock arc with cyan triangular machine turning toward amber
+      target. Endpoint connector shortens while left clock keeps cycling.
+    on_screen_text:
+    - Target-seeking machine
+    - Servomechanism
+    - Rosenblueth et al. (1943)
+    claims:
+    - c11
+    epistemic_label: background
+  - id: s02b06
+    narration: The authors acknowledge that this broad definition of purpose is vague
+      and difficult to apply precisely. They keep it as a useful starting point, then
+      distinguish mechanisms we can examine more closely.
+    visual: Keep clock left and seeker right; fade surrounding classification branches
+      and brighten teal return signal from target to machine.
+    on_screen_text:
+    - Purpose
+    - Error signal
+    - Rosenblueth et al. (1943)
+    claims:
+    - c12
+    - c14
+    epistemic_label: limitation
+- id: s03
+  title: How feedback corrects error
+  chapter: How feedback corrects error
+  roadmap_item: 2
+  checkpoint: We have examined purpose; next comes feedback and error correction.
+  purpose: Ongoing negative feedback corrects current error, but undamped correction
+    can oscillate.
+  visual_concept: Light-guided machine with current state, goal ring and teal error
+    return; compare controlled convergence and growing overshoot schematically.
+  beats:
+  - id: s03b01
+    narration: Negative feedback uses information about the gap between the current
+      state and a goal. In the authors’ definition, signals from the goal restrict
+      outputs that would otherwise go beyond it.
+    visual: Cyan machine at left; amber target at right; draw dotted separation and
+      teal signal returning left, then reduce machine movement as it nears target.
+    on_screen_text:
+    - Current state
+    - Goal
+    - Error
+    - Negative feedback
+    - Rosenblueth et al. (1943)
+    claims:
+    - c14
+    - c31
+    epistemic_label: definition
+  - id: s03b02
+    narration: 'A loop becomes visible: movement changes the relation to the goal,
+      that relation supplies an error signal, and the signal changes the next movement.
+      The correction depends on the remaining difference.'
+    visual: Animate machine step, teal pulse from endpoint along return curve to machine,
+      then smaller corrected step; persistent goal ring and shrinking error segment.
+    on_screen_text:
+    - Movement
+    - Error signal
+    - Correction
+    - Rosenblueth et al. (1943)
+    claims:
+    - c14
+    - c31
+    epistemic_label: definition
+  - id: s03b03
+    narration: The paper also allows purposeful behavior without feedback during the
+      movement. Goal information can direct behavior beforehand. The distinction is
+      whether fresh signals from the goal modify activity while the action is taking
+      place.
+    visual: Split schematic into upper planned straight move with no return arrow
+      during motion and lower stepwise move with teal return pulses.
+    on_screen_text:
+    - Before movement
+    - During movement
+    - Rosenblueth et al. (1943)
+    claims:
+    - c13
+    - c15
+    epistemic_label: definition
+  - id: s03b04
+    narration: The authors argue that continuous feedback is especially useful when
+      a goal moves. But they warn that correction can become clumsy if it is inadequately
+      damped. Damping means restraining oscillation in the response.
+    visual: Move amber ring along small right-side arc; cyan machine follows with
+      modest course correction. Then duplicate schematic lower with exaggerated reversal
+      arrow.
+    on_screen_text:
+    - Moving goal
+    - Damped correction
+    - Overshoot
+    - Rosenblueth et al. (1943)
+    claims:
+    - c16
+    epistemic_label: author_interpretation
+  - id: s03b05
+    narration: They ask us to imagine a machine guided toward a moving light. It overshoots,
+      receives a stronger signal in the opposite direction, and overshoots again.
+      In their example, growing oscillations make it miss the goal.
+    visual: Show moving amber luminous ring and cyan triangle passing target then
+      reversing across it with growing excursion. Keep trajectory schematic with no
+      numerical axes.
+    on_screen_text:
+    - Light-guided machine
+    - Growing oscillations
+    - Rosenblueth et al. (1943)
+    claims:
+    - c17
+    epistemic_label: hypothesis
+  - id: s03b06
+    narration: The machine remains goal-directed throughout this imagined failure.
+      Having a goal and receiving correction signals do not, by themselves, make that
+      particular motion successful. The way the feedback acts matters.
+    visual: Retain growing path, highlight amber target and teal return loop, then
+      draw separate compact convergent path above as a conceptual contrast.
+    on_screen_text:
+    - Goal-directed
+    - Missed goal
+    - Rosenblueth et al. (1943)
+    claims:
+    - c16
+    - c17
+    epistemic_label: author_interpretation
+- id: s04
+  title: What prediction adds
+  chapter: What prediction adds
+  roadmap_item: 3
+  checkpoint: We have traced feedback correction; now we turn to prediction.
+  purpose: Prediction targets a future position and is limited by sensing and internal
+    structure.
+  visual_concept: Simple cat and mouse geometry represented by cyan pursuer and amber
+    moving target; ghost future ring.
+  beats:
+  - id: s04b01
+    narration: Feedback behavior can also be predictive. The authors contrast following
+      a source with moving toward an anticipated future position. Their example is
+      a cat pursuing a running mouse.
+    visual: Cyan pursuer left and amber target right; animate target moving upward
+      while direct pursuit curve bends behind it. Reveal pale dashed future target
+      ring.
+    on_screen_text:
+    - Current position
+    - Future position
+    - Rosenblueth et al. (1943)
+    claims:
+    - c19
+    - c20
+    epistemic_label: definition
+  - id: s04b02
+    narration: In their account, the cat heads toward where the mouse is going. The
+      diagram changes from a line to the current target into a route toward a projected
+      meeting point. Prediction changes which position guides the movement.
+    visual: Animate cyan pursuer along diagonal toward ghost future ring; amber target
+      reaches same schematic meeting region. Avoid measured timing or performance
+      claims.
+    on_screen_text:
+    - Predicted meeting point
+    - Rosenblueth et al. (1943)
+    claims:
+    - c20
+    epistemic_label: background
+  - id: s04b03
+    narration: Some tasks require anticipating more than one path. The cat predicts
+      the mouse’s movement. Throwing a stone at a moving target also requires anticipating
+      the stone’s movement, so both trajectories enter the prediction.
+    visual: Transform pursuer into launching point and cyan stone arc; amber target
+      follows separate straight path, both meet at pale ring.
+    on_screen_text:
+    - Target path
+    - Stone path
+    - Rosenblueth et al. (1943)
+    claims:
+    - c21
+    epistemic_label: definition
+  - id: s04b04
+    narration: Prediction requires information about time and space. The paper says
+      sensing can limit it. A machine also needs internal organization capable of
+      interpreting the signals it receives; sensitivity to light alone is insufficient
+      for predictive tracking.
+    visual: Build sensor box left with temporal dotted sequence of amber positions;
+      send pulses into cyan interpretation box, then illuminate projected route at
+      right.
+    on_screen_text:
+    - Sensing
+    - Interpretation
+    - Prediction
+    - Rosenblueth et al. (1943)
+    claims:
+    - c22
+    - c23
+    epistemic_label: limitation
+  - id: s04b05
+    narration: The authors argue that the same behavioral analysis can apply to machines
+      and organisms. They also emphasize deep differences in their internal structures.
+      A shared way of describing behavior is compatible with different physical implementations.
+    visual: Place cyan circle and cyan square under matching amber endpoint-and-teal-return
+      diagrams; open each briefly to reveal different internal geometric networks.
+    on_screen_text:
+    - Shared behavior
+    - Different structures
+    - Rosenblueth et al. (1943)
+    claims:
+    - c26
+    - c28
+    epistemic_label: author_interpretation
+  - id: s04b06
+    narration: The authors call purpose controlled by negative feedback teleology.
+      Here, that word names correction guided by the difference between the present
+      state and a goal. They leave broader questions of causality outside the essay’s
+      scope.
+    visual: Keep machine loop; transform future ghost ring into fixed amber goal;
+      illuminate present error segment and teal return arrow.
+    on_screen_text:
+    - Teleology
+    - Present error
+    - Negative feedback
+    - Rosenblueth et al. (1943)
+    claims:
+    - c30
+    - c31
+    epistemic_label: definition
+- id: s05
+  title: From correction to safety
+  chapter: The goal still matters
+  roadmap_item: null
+  checkpoint: We have completed purpose, feedback and prediction; let us return to
+    the delivery robot.
+  purpose: Apply the conceptual vocabulary to the opening without implying a modern
+    safety result.
+  visual_concept: Return corridor motif; compare set destination and human intended
+    room; finish error loop plus goal relation.
+  beats:
+  - id: s05b01
+    narration: Return to our hypothetical delivery robot. We can now distinguish its
+      destination, the feedback that corrects its route, and prediction of where a
+      moving obstacle will be.
+    visual: Restore corridor, cyan robot and amber wrong-room destination; animate
+      teal return pulse and pale future obstacle marker.
+    on_screen_text:
+    - Destination
+    - Feedback
+    - Prediction
+    claims: []
+    epistemic_label: future_scenario
+  - id: s05b02
+    narration: That vocabulary separates questions we might otherwise blur. Is movement
+      being corrected? Is it approaching the set destination? Is that destination
+      the one the person intended? The last question still matters even when the route
+      looks competent.
+    visual: Animate corrected cyan path toward upper amber room; illuminate pale intended
+      room below and show separated endpoint rings.
+    on_screen_text:
+    - Set destination
+    - Intended room
+    claims: []
+    epistemic_label: future_scenario
+  - id: s05b03
+    narration: The January 1943 essay provides a conceptual classification with examples
+      and hypotheses. It does not test modern AI systems or establish how to choose
+      safe goals. That is the evidence boundary of this explainer.
+    visual: Transform corridor into concise machine-to-goal loop; fade unrelated modern
+      inference symbols, keep source citation and month-year.
+    on_screen_text:
+    - January 1943
+    - Conceptual essay
+    - Rosenblueth et al. (1943)
+    claims:
+    - c01
+    - c12
+    - c25
+    epistemic_label: limitation
+  - id: s05b04
+    narration: 'The takeaway is simple: describing a machine as purposeful becomes
+      more useful when we can trace its goal, its error signals and its corrections.
+      For safety, we must also examine what outcome that goal leads to for people.'
+    visual: Finish cyan machine, amber goal, teal return loop and pale human doorway
+      in one stable diagram; trace loop then illuminate human endpoint relation.
+    on_screen_text:
+    - Goal
+    - Error
+    - Correction
+    - Rosenblueth et al. (1943)
+    claims:
+    - c08
+    - c14
+    - c31
+    epistemic_label: background
+datasets: []
+axis_ticks: {}
+thumbnail:
+  headline: It overshoots again
+  visual: Large cyan machine zigzags across one amber target ring in increasingly
+    wide loops; teal correction arrow reverses direction. Few bold shapes on dark
+    background, no labels.

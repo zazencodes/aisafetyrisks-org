@@ -1,0 +1,69 @@
+title: How goal-directed correction can go wrong
+description: A hypothetical delivery robot can correct its route while still heading to the wrong room.
+  This short uses the January 1943 essay’s definitions and its imagined overshooting machine to explain
+  purpose and negative feedback. The essay is a conceptual classification, not a test of modern AI safety
+  or a method for choosing safe goals.
+scope_label: Conceptual essay · hypothetical examples
+selection_reason: The opening establishes the robot and its hypothetical status before the wrong-room
+  example. The named-author context introduces the essay; purpose and negative feedback are defined before
+  damping and the imagined light-guided failure. The complete spoken evidence boundary and takeaway remain.
+  Clock, active/passive classification and prediction are omitted to keep one mechanism self-contained.
+segments:
+- beat: s01b01
+  role: hook
+  heading: A robot adjusts its route
+  caption_emphasis:
+  - phrase: hypothetical example
+    kind: italic
+- beat: s01b02
+  role: hook
+  heading: The wrong destination
+  caption_emphasis:
+  - phrase: the wrong room
+    kind: bold
+- beat: s01b04
+  role: context
+  heading: Purpose and feedback
+  caption_emphasis: []
+- beat: s02b03
+  role: explanation
+  heading: A goal condition
+  caption_emphasis:
+  - phrase: does not tell us whether the condition is desirable
+    kind: italic
+- beat: s03b01
+  role: explanation
+  heading: Feedback corrects error
+  caption_emphasis:
+  - phrase: Negative feedback
+    kind: bold
+- beat: s03b04
+  role: explanation
+  heading: Correction needs damping
+  caption_emphasis:
+  - phrase: restraining oscillation
+    kind: bold
+- beat: s03b05
+  role: explanation
+  heading: An imagined overshoot
+  caption_emphasis:
+  - phrase: growing oscillations
+    kind: bold
+- beat: s03b06
+  role: explanation
+  heading: Goal-directed failure
+  caption_emphasis:
+  - phrase: remains goal-directed
+    kind: bold
+- beat: s05b03
+  role: limitation
+  heading: A conceptual classification
+  caption_emphasis:
+  - phrase: does not test modern AI systems
+    kind: italic
+- beat: s05b04
+  role: takeaway
+  heading: Trace the goal and correction
+  caption_emphasis:
+  - phrase: what outcome that goal leads to for people
+    kind: bold

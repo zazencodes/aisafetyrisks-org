@@ -51,8 +51,8 @@ papers:
   category: alignment
   relevance: Defines purposeful behaviour mechanistically, as negative feedback toward a goal; the cybernetic
     basis for treating machines as goal-directed systems.
-  status: queued
-  work: null
+  status: published
+  work: behavior-purpose-and-teleology
 - title: Intelligent Machinery, A Heretical Theory
   authors:
   - Alan Turing

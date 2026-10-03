@@ -1,0 +1,160 @@
+{
+  "duration": 137.0,
+  "width": 1080,
+  "height": 1920,
+  "content_key": "05b6b4d9ae962f87",
+  "segments": [
+    {
+      "beat": "s01b01",
+      "role": "hook",
+      "heading": "A robot adjusts its route",
+      "start": 0.0,
+      "duration": 12.1,
+      "source_start": 0.0,
+      "claims": [],
+      "narration": "Imagine an AI-controlled delivery robot in a corridor. This is a hypothetical example. A person steps into its route, and the robot adjusts its path while keeping the same destination."
+    },
+    {
+      "beat": "s01b02",
+      "role": "hook",
+      "heading": "The wrong destination",
+      "start": 12.1,
+      "duration": 11.233333333333333,
+      "source_start": 12.100000000000001,
+      "claims": [],
+      "narration": "That correction looks useful. But imagine the destination has been set to the wrong room. The robot could keep correcting its movements while still delivering the package to the wrong place."
+    },
+    {
+      "beat": "s01b04",
+      "role": "context",
+      "heading": "Purpose and feedback",
+      "start": 23.333333,
+      "duration": 16.1,
+      "source_start": 34.7833333333329,
+      "claims": [
+        "c01",
+        "c26"
+      ],
+      "narration": "In January 1943, Arturo Rosenblueth, Norbert Wiener and Julian Bigelow asked how behavior could be classified across machines and living organisms. Their essay placed purpose and feedback at the center of that classification."
+    },
+    {
+      "beat": "s02b03",
+      "role": "explanation",
+      "heading": "A goal condition",
+      "start": 39.433333000000005,
+      "duration": 12.833333333333334,
+      "source_start": 99.15866666666638,
+      "claims": [
+        "c08"
+      ],
+      "narration": "Purpose here means a final relation to another object or event. It is a description of behavior directed toward that condition. The definition does not tell us whether the condition is desirable."
+    },
+    {
+      "beat": "s03b01",
+      "role": "explanation",
+      "heading": "Feedback corrects error",
+      "start": 52.266666,
+      "duration": 11.7,
+      "source_start": 155.5,
+      "claims": [
+        "c14",
+        "c31"
+      ],
+      "narration": "Negative feedback uses information about the gap between the current state and a goal. In the authors’ definition, signals from the goal restrict outputs that would otherwise go beyond it."
+    },
+    {
+      "beat": "s03b04",
+      "role": "explanation",
+      "heading": "Correction needs damping",
+      "start": 63.966666000000004,
+      "duration": 14.366666666666667,
+      "source_start": 194.61666666666594,
+      "claims": [
+        "c16"
+      ],
+      "narration": "The authors argue that continuous feedback is especially useful when a goal moves. But they warn that correction can become clumsy if it is inadequately damped. Damping means restraining oscillation in the response."
+    },
+    {
+      "beat": "s03b05",
+      "role": "explanation",
+      "heading": "An imagined overshoot",
+      "start": 78.33333300000001,
+      "duration": 14.2,
+      "source_start": 208.96666666666545,
+      "claims": [
+        "c17"
+      ],
+      "narration": "They ask us to imagine a machine guided toward a moving light. It overshoots, receives a stronger signal in the opposite direction, and overshoots again. In their example, growing oscillations make it miss the goal."
+    },
+    {
+      "beat": "s03b06",
+      "role": "explanation",
+      "heading": "Goal-directed failure",
+      "start": 92.53333300000001,
+      "duration": 14.1,
+      "source_start": 223.14999999999822,
+      "claims": [
+        "c16",
+        "c17"
+      ],
+      "narration": "The machine remains goal-directed throughout this imagined failure. Having a goal and receiving correction signals do not, by themselves, make that particular motion successful. The way the feedback acts matters."
+    },
+    {
+      "beat": "s05b03",
+      "role": "limitation",
+      "heading": "A conceptual classification",
+      "start": 106.63333300000001,
+      "duration": 15.466666666666667,
+      "source_start": 363.6999999999996,
+      "claims": [
+        "c01",
+        "c12",
+        "c25"
+      ],
+      "narration": "The January 1943 essay provides a conceptual classification with examples and hypotheses. It does not test modern AI systems or establish how to choose safe goals. That is the evidence boundary of this explainer."
+    },
+    {
+      "beat": "s05b04",
+      "role": "takeaway",
+      "heading": "Trace the goal and correction",
+      "start": 122.10000000000001,
+      "duration": 14.9,
+      "source_start": 379.16666666666595,
+      "claims": [
+        "c08",
+        "c14",
+        "c31"
+      ],
+      "narration": "The takeaway is simple: describing a machine as purposeful becomes more useful when we can trace its goal, its error signals and its corrections. For safety, we must also examine what outcome that goal leads to for people."
+    }
+  ],
+  "video_sha256": "d14bdf4df0c578f9c9eecd41080181da253832c00e391ebebac6c975788e3eee",
+  "ok": true,
+  "review": {
+    "content_key": "05b6b4d9ae962f87",
+    "science": {
+      "verdict": "accurate",
+      "issues": []
+    },
+    "visual_issues": [
+      {
+        "beat": "s03b01",
+        "severity": "minor",
+        "problem": "The inherited diagram label Error is faint at phone size. The spoken definition and captions retain the gap between current state and goal, so this does not change the scientific meaning.",
+        "suggested_fix": "Increase the source diagram label contrast when revising the landscape scene."
+      },
+      {
+        "beat": "s03b06",
+        "severity": "minor",
+        "problem": "The inherited labels Goal-directed and Missed goal have low contrast at phone size. The narration and captions independently state the contrast, but the diagram is harder to read.",
+        "suggested_fix": "Increase the source diagram label contrast when revising the landscape scene."
+      },
+      {
+        "beat": "s01b01",
+        "severity": "minor",
+        "problem": "This review inspected the current contact sheet, cut frames, nine additional emphasis frames at full and phone resolution, the complete selected narration text, and all selected WAV durations against the timeline. Audio playback was unavailable, so proportional caption timing relative to the spoken words was not verified by listening.",
+        "suggested_fix": "Listen to the 137-second draft during human review to confirm caption timing; each selected beat already contains its complete WAV plus 0.340–0.367 seconds of padding."
+      }
+    ]
+  }
+}

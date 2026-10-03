@@ -1,0 +1,16 @@
+title: "How Machines Pursue Goals: Purpose, Feedback and Prediction"
+description: >-
+  A delivery robot could correct its route competently while still carrying a package to the wrong room. This hypothetical example shows why AI safety asks about both how a system pursues a goal and what outcome that goal leads to for people.
+
+  In January 1943, Arturo Rosenblueth, Norbert Wiener and Julian Bigelow proposed a classification of behavior shared by machines and living organisms. Their essay explains purposeful behavior, negative feedback and prediction. Its imagined light-guided machine overshoots repeatedly and misses its goal, showing why correction needs to be examined through the behavior it produces.
+
+  This is a conceptual essay with examples and hypotheses, not an experimental test of modern AI systems or a guarantee that a pursued goal is safe.
+tags:
+- ai safety
+- alignment
+- cybernetics
+- negative feedback
+- goal-directed behavior
+- teleology
+- prediction
+- norbert wiener

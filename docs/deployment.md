@@ -354,3 +354,23 @@ outstanding check. Search Console discovery reports remain deferred; no indexing
 Expansion backups for this paper verified successfully. `paper-video backup-pending` also completed
 the earlier in-context-scheming and anti-scheming-training full/short backups; the queue is now empty.
 No YouTube, Instagram or Zernio posting was performed.
+
+## Behavior, Purpose and Teleology publication: 2026-10-03
+
+Published https://aisafetyrisks.org/works/behavior-purpose-and-teleology/ under standing authorization.
+The archive.org retypeset PDF is attributed to DOI `10.1086/286788`; research date is January 1943.
+Research dates now display month/year and use month precision in ScholarlyArticle metadata, avoiding
+an invented day for issue-dated works. Explainer publication timestamps remain precise.
+
+32 verified claims, accurate storyboard/page science reviews with no issues, and five current scene
+reviews with zero layout/visual problems. Full video: 394.60 seconds. Local portrait draft: 137.00 seconds,
+passing independent review with two minor notes (brief inherited labels at a cut and unavailable
+listening verification), detailed in the work's HANDOVER.md. Both Expansion backups verified.
+All 3 site tests and 45 automation tests passed; build passed.
+
+Deployment: `e7dcac12-5d15-4d2c-9e64-82741dba8f8a`. Exact video:
+`works/behavior-purpose-and-teleology/video-97023db4873d.mp4`, 20,541,247 bytes.
+Public page/media/thumbnail/captions, video/chapter metadata, sitemap, robots and HTTPS redirect checks
+passed; range request returned 206/1,024 bytes. Public browser playback and chapter seeking work.
+Search Console requested sign-in, so Pages/Videos discovery reports remain unverified.
+No YouTube/Instagram/Zernio posting.

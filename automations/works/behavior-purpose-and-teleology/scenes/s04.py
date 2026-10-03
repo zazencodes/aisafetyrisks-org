@@ -1,0 +1,82 @@
+# storyboard: 80d2ce796c3ce87e
+from aisr_kit import *
+
+class S04(NarratedScene):
+    def construct(self):
+        with self.beat("s04b01") as b:
+            heading = Heading("What prediction adds")
+            tag = Tag("definition")
+            source = Source("Rosenblueth et al. (1943)")
+            pursuer = Agent(color=BLUE).move_to(LEFT * 4 + DOWN)
+            target = Dot(RIGHT * 2 + DOWN, color=AMBER, radius=0.18)
+            future = DashedVMobject(Circle(radius=0.4, color=SAND)).move_to(RIGHT * 3 + UP * 1.5)
+            current_label = T("Current position", size=26).move_to(RIGHT * 1.4 + DOWN * 1.8)
+            future_label = T("Future position", size=26, color=SAND).move_to(RIGHT * 3 + UP * 2.3)
+            chase = CubicBezier(LEFT * 4 + DOWN, LEFT * 2 + DOWN, RIGHT + DOWN, RIGHT * 2 + UP * 0.6).set_color(BLUE)
+            self.play(FadeIn(heading), FadeIn(tag), FadeIn(source), FadeIn(pursuer), FadeIn(target), FadeIn(current_label), run_time=1)
+            self.play(target.animate.move_to(RIGHT * 2 + UP * 0.6), Create(chase), run_time=3)
+            self.play(Create(future), FadeIn(future_label), run_time=2)
+        with self.beat("s04b02") as b:
+            next_tag = Tag("background")
+            route = Line(pursuer.get_center(), future.get_center(), color=BLUE)
+            meeting = T("Predicted meeting point", size=26, color=SAND).move_to(RIGHT * 2.7 + UP * 2.3)
+            self.play(ReplacementTransform(tag, next_tag), FadeOut(current_label), ReplacementTransform(future_label, meeting), ReplacementTransform(chase, route), run_time=1.5)
+            tag = next_tag
+            self.play(pursuer.animate.move_to(future.get_center() + LEFT * 0.25), target.animate.move_to(future.get_center() + RIGHT * 0.2), run_time=4)
+            self.play(Indicate(future, color=SAND), run_time=1)
+        with self.beat("s04b03") as b:
+            next_tag = Tag("definition")
+            launch = Circle(radius=0.3, color=BLUE).move_to(LEFT * 4 + DOWN * 1.6)
+            stone = Dot(launch.get_center(), color=BLUE, radius=0.13)
+            arc = CubicBezier(launch.get_center(), LEFT * 2 + UP * 2, RIGHT + UP * 2.3, future.get_center()).set_color(BLUE)
+            target_path = Line(RIGHT * 4 + DOWN * 1.6, future.get_center(), color=AMBER)
+            stone_label = T("Stone path", size=26, color=BLUE).move_to(LEFT * 1.4 + UP * 2.15)
+            target_label = T("Target path", size=26, color=AMBER).move_to(RIGHT * 4.7 + DOWN * 0.3)
+            self.play(ReplacementTransform(tag, next_tag), FadeOut(route), FadeOut(meeting), ReplacementTransform(pursuer, launch), target.animate.move_to(target_path.get_start()), FadeIn(stone), run_time=1.5)
+            tag = next_tag
+            self.play(Create(arc), Create(target_path), FadeIn(stone_label), FadeIn(target_label), run_time=2)
+            self.play(MoveAlongPath(stone, arc), MoveAlongPath(target, target_path), run_time=4)
+            trajectory = VGroup(launch, stone, arc, target_path, stone_label, target_label, future, target)
+        with self.beat("s04b04") as b:
+            next_tag = Tag("limitation")
+            sensor = Node("Sensing", color=AMBER, width=2.3).move_to(LEFT * 4)
+            interpreter = Node("Interpretation", color=BLUE, width=3).move_to(ORIGIN)
+            prediction = Node("Prediction", color=SAND, width=2.4).move_to(RIGHT * 4)
+            input_link = Link(sensor, interpreter, color=AMBER)
+            output_link = Link(interpreter, prediction, color=BLUE)
+            positions = VGroup(*[Dot(LEFT * 5 + RIGHT * i * 0.65 + UP * 1.6, color=AMBER, radius=0.1) for i in range(4)])
+            projected = DashedVMobject(Line(RIGHT * 2.8 + UP * 1.1, RIGHT * 5.1 + UP * 2.1, color=SAND))
+            pulse = Dot(sensor.get_right(), color=AMBER, radius=0.1)
+            self.play(ReplacementTransform(tag, next_tag), FadeOut(trajectory), FadeIn(sensor), FadeIn(interpreter), FadeIn(prediction), run_time=1.5)
+            tag = next_tag
+            self.play(LaggedStart(*[FadeIn(p) for p in positions], lag_ratio=0.4), GrowArrow(input_link.arrow), run_time=2)
+            self.play(FadeIn(pulse), pulse.animate.move_to(interpreter.get_left()), run_time=2)
+            self.play(Indicate(interpreter.box, color=BLUE), GrowArrow(output_link.arrow), run_time=2)
+            self.play(Create(projected), FadeOut(pulse), run_time=2)
+            sensing_group = VGroup(sensor, interpreter, prediction, input_link, output_link, positions, projected)
+        with self.beat("s04b05") as b:
+            next_tag = Tag("author_interpretation")
+            shared = T("Shared behavior", size=30).move_to(UP * 2.2)
+            structures = T("Different structures", size=28, color=SOFT).move_to(DOWN * 2.4)
+            organism = Circle(radius=0.65, color=BLUE).move_to(LEFT * 4)
+            machine = Square(side_length=1.3, color=BLUE).move_to(RIGHT)
+            goals = VGroup(Circle(radius=0.32, color=AMBER).move_to(LEFT * 1.6), Circle(radius=0.32, color=AMBER).move_to(RIGHT * 3.4))
+            forward = VGroup(Arrow(organism.get_right(), goals[0].get_left(), color=BLUE), Arrow(machine.get_right(), goals[1].get_left(), color=BLUE))
+            returns = VGroup(CurvedArrow(goals[0].get_bottom(), organism.get_bottom(), angle=-PI / 2, color=TEAL), CurvedArrow(goals[1].get_bottom(), machine.get_bottom(), angle=-PI / 2, color=TEAL))
+            organic_inner = VGroup(Line(LEFT * 4.3 + UP * 0.2, LEFT * 3.7 + DOWN * 0.2, color=BLUE), Line(LEFT * 4.2 + DOWN * 0.3, LEFT * 3.9 + UP * 0.35, color=BLUE))
+            machine_inner = VGroup(Line(RIGHT * 0.65 + UP * 0.25, RIGHT * 1.35 + UP * 0.25, color=BLUE), Line(RIGHT * 0.65 + DOWN * 0.25, RIGHT * 1.35 + DOWN * 0.25, color=BLUE), Line(RIGHT, RIGHT + UP * 0.25, color=BLUE))
+            self.play(ReplacementTransform(tag, next_tag), FadeOut(sensing_group), FadeIn(shared), Create(organism), Create(machine), Create(goals), run_time=2)
+            tag = next_tag
+            self.play(Create(forward), Create(returns), run_time=2)
+            self.play(Create(organic_inner), Create(machine_inner), FadeIn(structures), run_time=3)
+            left_group = VGroup(organism, goals[0], forward[0], returns[0], organic_inner)
+            right_group = VGroup(machine, goals[1], forward[1], returns[1], machine_inner)
+        with self.beat("s04b06") as b:
+            next_tag = Tag("definition")
+            teleology = T("Teleology", size=32).move_to(UP * 2.2)
+            self.play(ReplacementTransform(tag, next_tag), FadeOut(left_group), FadeOut(structures), ReplacementTransform(shared, teleology), right_group.animate.shift(LEFT * 2.2), run_time=2)
+            error = Line(machine.get_right(), goals[1].get_left(), color=AMBER)
+            error_label = T("Present error", size=28, color=AMBER).move_to(UP * 0.9)
+            feedback_label = T("Negative feedback", size=28, color=TEAL).move_to(DOWN * 2)
+            self.play(Create(error), FadeIn(error_label), Indicate(goals[1], color=AMBER), run_time=2)
+            self.play(Indicate(returns[1], color=TEAL), FadeIn(feedback_label), run_time=2)

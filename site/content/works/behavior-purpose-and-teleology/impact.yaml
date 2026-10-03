@@ -1,0 +1,34 @@
+updated_at: '2026-10-03T13:19:45.270892-04:00'
+summary: 'Goal-directed behavior can be studied through a mechanism: a goal, signals
+  about error, and corrective actions. Later safety work asks further questions about
+  that mechanism, including whether people can intervene in time and whether an agent
+  has incentives to accept intervention. These examples connect the essay’s vocabulary
+  to later concerns; they do not imply that the original essay tested modern AI or
+  solved alignment.'
+examples:
+- title: Some Moral and Technical Consequences of Automation
+  url: https://www.cs.umd.edu/users/gasarch/BLOGPAPERS/moral.pdf
+  year: 1960
+  description: Wiener later treats human intervention as feedback and argues that
+    a machine operating faster than people can understand may become difficult to
+    stop in time. This extends the feedback perspective toward the timing and information
+    needed for effective oversight.
+  source_passage: we may not know, until too late, when to turn it off.
+- title: The Off-Switch Game
+  url: https://arxiv.org/abs/1611.08219
+  year: 2016
+  description: Hadfield-Menell and colleagues model when a goal-directed agent has
+    an incentive to preserve human shutdown control. Their formal game considers uncertainty
+    about the objective and human actions as evidence. It is related later research
+    on goal pursuit and intervention, rather than a replication of the 1943 classification.
+  source_passage: it needs to be uncertain about the utility associated with the outcome
+citations:
+  count: 1577
+  url: https://openalex.org/W2022305914
+  retrieved_on: '2026-10-03'
+  record_title: Behavior, Purpose and Teleology
+  scope: OpenAlex record for the original January 1943 Philosophy of Science article,
+    verified by title, all three authors and DOI 10.1086/286788; index coverage is
+    not a complete measure of influence.
+citation_note: Citation totals reflect index coverage and attention, not endorsement
+  or scientific correctness.

@@ -1,0 +1,28 @@
+{
+  "duration": 394.6,
+  "width": 1920,
+  "height": 1080,
+  "chapters": [
+    {
+      "start": 0.0,
+      "title": "A machine pursuing a goal"
+    },
+    {
+      "start": 63.0,
+      "title": "What counts as purpose"
+    },
+    {
+      "start": 149.85,
+      "title": "How feedback corrects error"
+    },
+    {
+      "start": 237.73,
+      "title": "What prediction adds"
+    },
+    {
+      "start": 331.13,
+      "title": "The goal still matters"
+    }
+  ],
+  "problems": []
+}
