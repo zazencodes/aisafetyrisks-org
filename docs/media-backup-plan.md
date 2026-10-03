@@ -20,12 +20,30 @@ archived files' content. Changed files create a new snapshot; unchanged reruns v
 Copies preserve `works/<slug>/` with `out/`, `audio/`, root YAML files, scene code, and available
 short checks/report. No local source files are removed.
 
-The configured volume must be mounted. Missing drives, insufficient space, changed source files
-during copying, or failed verification fail the creation command while retaining its local video.
-Reconnect the drive and rerun the same command after resolving the failure. An interrupted copy
-remains marked `.in-progress`; inspect that incomplete snapshot before retrying. A snapshot is
-promoted to its final name only after all copied file sizes and hashes pass verification. macOS
-AppleDouble sidecars (`._*`) are outside the source-file manifest.
+The archive destination must be on the mounted configured volume. Missing drives, insufficient
+space, changed source files during copying, and failed verification defer the backup while leaving
+video generation successful. They never block workflow completion or authorized publication.
+The command reports the reason and records it in the tracked Markdown backlog
+[`automations/backlog/media-backups.md`](../automations/backlog/media-backups.md). Keep local
+exports and paid narration until the backup verifies. Say the backup will be updated later and
+continue; do not ask the user to connect the drive during a paper workflow.
+
+The table has one row per paper and export kind (`full` or `short`), with the last deferral time and
+reason. Repeated failures update that row. When Expansion is mounted, run from the repository root:
+
+```sh
+uv run --frozen paper-video backup-pending
+```
+
+This retries every pending row against current local files without rebuilding videos or
+regenerating narration. A verified snapshot removes its row; failures remain and are reported.
+The backlog queues the latest exports, not historical versions, so retain the current local files.
+The pipeline maintains its table; do not remove rows manually. Failure to write the backlog itself
+fails loudly to avoid losing deferred work.
+
+An interrupted copy remains marked `.in-progress`; inspect that incomplete snapshot before
+retrying. A snapshot is promoted to its final name only after all copied file sizes and hashes
+pass verification. macOS AppleDouble sidecars (`._*`) are outside the source-file manifest.
 
 ## Initial backup
 

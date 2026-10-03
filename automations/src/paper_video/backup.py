@@ -11,6 +11,46 @@ from typing import Literal
 from paper_video.config import REPO, BackupConfig
 from paper_video.workdir import WorkDir, load_json, save_json
 
+BACKLOG = REPO / "automations/backlog/media-backups.md"
+BACKLOG_HEADER = """# Pending media backups
+
+Backups here are deferred work, not a blocker for generation or authorized publication.
+Keep local exports and narration until they have been archived. Each row represents the
+latest files for one paper/export kind; reruns update the row rather than duplicate it.
+
+When Expansion is available, run `uv run --frozen paper-video backup-pending`.
+The command verifies each snapshot and removes only successful rows. Remaining failures
+stay listed with their latest reason. See [the backup guide](../../docs/media-backup-plan.md).
+
+The pipeline maintains this table. Do not remove a row before its backup verifies.
+
+| Paper | Export | Last deferred at | Reason |
+| --- | --- | --- | --- |
+"""
+
+
+def pending_backups() -> list[list[str]]:
+    rows = []
+    for line in BACKLOG.read_text().splitlines():
+        if not line.startswith("| ") or line.startswith(("| Paper |", "| --- |")):
+            continue
+        fields = [field.strip() for field in line.strip("|").split("|")]
+        if len(fields) != 4 or fields[1] not in ("full", "short"):
+            raise ValueError(f"invalid media backup backlog row: {line}")
+        rows.append(fields)
+    return rows
+
+
+def update_pending_backup(slug: str, kind: str, error: Exception | None) -> None:
+    rows = [row for row in pending_backups() if row[:2] != [slug, kind]]
+    if error is not None:
+        reason = " ".join(str(error).split()).replace("|", "&#124;")
+        rows.append([slug, kind, datetime.now().astimezone().isoformat(), reason])
+    text = BACKLOG_HEADER + "".join("| " + " | ".join(row) + " |\n" for row in rows)
+    temporary = BACKLOG.with_suffix(".md.tmp")
+    temporary.write_text(text)
+    temporary.replace(BACKLOG)
+
 
 def checksum(path: Path) -> str:
     with path.open("rb") as stream:
