@@ -1,11 +1,24 @@
 {
   "scene": "s06",
   "rendered": true,
-  "render_key": "020c96b0b51d49ec",
+  "render_key": "6429c5e13c716ed6",
   "problems": [],
   "render_log_tail": null,
   "layout_problems": [],
   "visual_review": {
-    "issues": []
+    "issues": [
+      {
+        "beat": "s06b01",
+        "severity": "minor",
+        "problem": "The end-of-beat frame is nearly empty because the report diagram fades out in the last 0.7 s so that s06b02 opens on its own state (the portrait short cuts from s03b03 to s06b02).",
+        "suggested_fix": "None needed; the diagram is visible for the rest of the beat's narration."
+      },
+      {
+        "beat": "s06b03",
+        "severity": "minor",
+        "problem": "The end-of-beat frame is nearly empty because the proxy diagram and its tag fade out in the last 0.7 s so that s06b04 opens on its own state (the portrait short cuts from s06b02 to s06b04).",
+        "suggested_fix": "None needed; the diagram is visible for the rest of the beat's narration."
+      }
+    ]
   }
 }

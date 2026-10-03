@@ -1,11 +1,18 @@
 {
   "scene": "s05",
   "rendered": true,
-  "render_key": "6e659b89436b4cee",
+  "render_key": "259ff6cb2da70334",
   "problems": [],
   "render_log_tail": null,
   "layout_problems": [],
   "visual_review": {
-    "issues": []
+    "issues": [
+      {
+        "beat": "s05b01",
+        "severity": "minor",
+        "problem": "The connector arrows between the four pipeline boxes are short, so the flow direction reads mainly from box order.",
+        "suggested_fix": "Optional; widen the gaps if the pipeline is ever given more horizontal room."
+      }
+    ]
   }
 }

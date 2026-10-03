@@ -1,11 +1,18 @@
 {
   "scene": "s01",
   "rendered": true,
-  "render_key": "5dfac09d28143972",
+  "render_key": "117d3d36a122b9ec",
   "problems": [],
   "render_log_tail": null,
   "layout_problems": [],
   "visual_review": {
-    "issues": []
+    "issues": [
+      {
+        "beat": "s01b05",
+        "severity": "minor",
+        "problem": "The Files and Tools labels sit level with the larger Constructed tests label inside the enclosure, so the top row reads slightly crowded.",
+        "suggested_fix": "Move the Files and Tools labels closer to their cards or below them."
+      }
+    ]
   }
 }

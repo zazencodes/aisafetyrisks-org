@@ -1,2 +1,6 @@
-render_key: 4aa628a123ce2852
-issues: []
+render_key: 6099cbc1df9fbf40
+issues:
+- beat: s01b03
+  severity: minor
+  problem: The end-of-beat frame is nearly empty because the scheming diagram fades out in the last 0.7 s so that s01b04 opens on its own state (required for the portrait short, which cuts from s01b01 to s01b04).
+  suggested_fix: None needed; the diagram is visible for the rest of the beat's narration.

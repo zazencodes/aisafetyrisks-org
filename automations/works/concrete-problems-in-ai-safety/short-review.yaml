@@ -1,38 +1,52 @@
-content_key: 6dc89694203c7dba
+content_key: fd2d547cecb00a81
 science:
   verdict: accurate
   issues:
-  - location: s02b02
+  - location: s08b03
     severity: minor
-    category: misleading_visual
-    problem: >-
-      The source diagram's row labelled Practical problems contains six boxes, whereas c02 and c06
-      specify five problems. The portrait title and five subsequent examples correctly identify
-      the count, so this inherited diagram inconsistency is unlikely to alter the central meaning.
-    suggested_fix: >-
-      Draw five boxes in the source practical-problems diagram and regenerate both outputs
-      when that source animation is revised.
+    category: overgeneralization
+    problem: "\"The authors say good fixes would not replace careful testing\" generalizes c20, which is stated specifically about approaches to side effects (\"Good approaches to side effects would certainly not be a replacement for extensive testing\"). Likewise c14 ties the \"preliminary ideas\" caveat most strongly to the wrong-objective problems, while c40 calls safe exploration arguably the most studied problem. The overall research-agenda caveat (no measured results, proposed experiments) is correct and well supported by c06 and the notes' scope."
+    suggested_fix: "Say \"the authors say good side-effect fixes would not replace careful testing\", or keep the general statement as editorial context and attribute only the side-effect version to the authors."
+  - location: s07b01
+    severity: minor
+    category: missing_limitation
+    problem: "The beat defines distributional shift and gives the office-to-factory example, but drops the paper's central point in c41 and c44 that systems may also wrongly assume their performance is good (confident errors). The beat is not wrong, but a viewer may think the issue is only lower performance."
+    suggested_fix: "If narration is ever revised, add \"and may stay confident while getting it wrong\" (c41). Not required for accuracy."
+  - location: s08b04 heading
+    severity: minor
+    category: clarity
+    problem: "The heading \"Harm can come from the goal itself\" covers only the wrong-objective category (c08). The spoken takeaway correctly includes the other two categories, a correct goal that is too costly to check (c09) and problems during learning with a correct objective (c10), so the heading slightly understates the taxonomy. Context removes any real risk of misleading."
+    suggested_fix: "Use a heading such as \"Harm without a malfunction\" that covers all three categories."
 visual_issues:
-- beat: s08b03
+- beat: s02b02
+  severity: major
+  problem: "Text garbles mid-transition. Just after the s02b01 to s02b02 cut, the status badge morphs from DEFINITION into AUTHORS' INTERPRETATION with a glyph Transform. From about 24.9 s to 25.4 s (around 12 frames), it shows unreadable letter soup (e.g. \"AUTHORS'INTERPRETATION\" mixed with \"DEFINITION\" fragments), and for several frames the badge also overflows past the left edge of its pill. This breaks the requirement that text never garbles during a transition, on the very label that tells viewers the epistemic status."
+  suggested_fix: "Replace the badge Transform with a crossfade (FadeOut the old badge, then FadeIn the new one), or make the swap instant at the beat boundary. Then re-render and re-cut the short."
+- beat: s02b01
   severity: minor
-  problem: >-
-    At 360x640 phone size, the five problem labels and Proposal badges in the reused landscape
-    diagram are small. The portrait heading, scope and narration captions remain readable
-    and preserve the research-agenda and preliminary-approach limitations supported by c06,
-    c14 and c20.
-  suggested_fix: >-
-    Enlarge those source diagram labels or add readable portrait labels when the animation
-    is next revised, preserving the five problem names and proposed status.
+  problem: "\"unintended and harmful behavior\" is drawn with a Write animation from about 15.8 s to 18.2 s. Intermediate frames show half-drawn outline glyphs (\"un'r\", \"unintendc\", \"harmfu l\") while the narration speaks those words. This is a stroke-reveal, not a garble, but the partial outlines read as broken text at phone size."
+  suggested_fix: "Use FadeIn or AddTextLetterByLetter for this definition line so that every visible glyph is complete."
+- beat: s02b01
+  severity: minor
+  problem: "At 360 px width, the definition's continuation line \"that may emerge from poor design of real-world AI systems\" is only about 3 px tall and illegible. The small \"Amodei et al. (2016)\" source labels under diagrams in s03b01 through s08b03 are similarly unreadable. The definition is spoken and captioned, and the scope/citation line below gives the source, so nothing essential is lost."
+  suggested_fix: "Enlarge the second definition line, or drop it from the diagram since the caption carries it."
+- beat: s02b02
+  severity: minor
+  problem: "The \"Extreme scenarios\" cloud label is low-contrast grey on dark grey and barely legible at 360 px. It also fades out within about 2 s while the narration mentions superintelligent machines."
+  suggested_fix: "Raise the label to the standard off-white ink or increase its size."
+- beat: s05b01
+  severity: minor
+  problem: "The \"Hours of inspection\" label beside the clock and the \"Visible dirt?\" label above the ten-panel row are small. They are legible at full resolution but marginal at 360 px. The eye icons on the ten panels are also tiny. The diagram does not contradict the narration."
+  suggested_fix: "Increase both labels by about 30%."
 - beat: s01b02
   severity: minor
-  problem: >-
-    Review limitation: I inspected the complete contact sheet, all segment start/end frames,
-    additional actual-video frames at phone size, and burned-caption scripts. All 48 cues
-    contain at most two lines and one accent color; the shortest duration is 1.76 seconds.
-    Selected WAVs fit their segments with 0.333–0.367 seconds of padding. Video lasts
-    138.367 seconds and audio 138.4 seconds. Continuous playback and listening were unavailable,
-    so perceived audio continuity and proportional caption-to-speech synchronization were
-    not independently assessed.
-  suggested_fix: >-
-    Play and listen to the complete draft before posting, checking every cut and caption
-    boundary for continuity and synchronization.
+  problem: "The hook's status badge reads FUTURE SCENARIO, but the robot is the paper's fictional illustration (c11), not a scenario the authors forecast. The \"Hypothetical\" tag inside the diagram and the scope label \"Research agenda · hypothetical robot\" correct this, but the badge suggests a prediction."
+  suggested_fix: "Use a badge such as ILLUSTRATION or HYPOTHETICAL for the hook."
+- beat: s08b03
+  severity: minor
+  problem: "The diagram title \"Back to the office\" (inherited from the source scene) does not describe the proposal table that follows. In s08b04, the takeaway synthesis carries a DEFINITION badge. Neither label contradicts the narration, and the five problem tabs match c02 exactly (Side effects, Reward hacking, Scalable oversight, Safe exploration, Distributional shift, each with a Proposal tag and \"No measured results\")."
+  suggested_fix: "Retitle the diagram to something like \"What the paper offers\", and give the takeaway a summary badge rather than DEFINITION."
+- beat: s01b02
+  severity: minor
+  problem: "Review limitation. Audio playback was not possible in this review. Narration completeness was checked only by comparing each selected WAV length with the edit timeline (every segment is 0.34 to 0.37 s longer than its WAV, and the final segment ends at 138.5 s after its 15.6 s WAV) and by checking caption text against the narration. No one listened to the audio."
+  suggested_fix: "Play the short once with audio before publishing it to confirm that no word is clipped at any cut."

@@ -4,6 +4,7 @@ from aisr_kit import *
 # Roles from the video's visual language.
 INTENT = "#8CC084"   # what the designer meant: green dashed
 WRITTEN = "#E0873A"  # the goal as written: solid orange
+WRITTEN_TEXT = "#F5A862"  # lighter orange for written-goal text, for contrast on the dark ground
 HARM = "#E0564F"     # harm: red
 BOX_GREY = GRAY
 
@@ -125,7 +126,7 @@ class S03(NarratedScene):
                                               stroke_color=WRITTEN, stroke_width=3).move_to(TARGET_POS)
             box_outline.set_z_index(2)
             target_outline.set_z_index(2)
-            reward_label = T("Reward: move the box", size=24, color=WRITTEN, weight=MEDIUM)
+            reward_label = T("Reward:\nmove the box", size=40, color=WRITTEN_TEXT, weight=SEMIBOLD)
             reward_label.move_to([COL_X, 1.3, 0])
             self.play(Create(box_outline), Create(target_outline), run_time=0.8)
             self.play(FadeIn(reward_label, shift=LEFT * 0.2), run_time=0.6)
@@ -190,11 +191,12 @@ class S03(NarratedScene):
             written_label = T("Written goal", size=24, color=WRITTEN, weight=MEDIUM)
             written_label.move_to([COL_X, 1.3, 0])
             self.play(
-                ReplacementTransform(tag, tag_b3),
+                FadeOut(tag),
                 FadeOut(rings), FadeOut(minuses), FadeOut(socket_label), FadeOut(wall_label),
-                ReplacementTransform(reward_label, written_label),
-                run_time=0.9,
+                FadeOut(reward_label),
+                run_time=0.45,
             )
+            self.play(FadeIn(tag_b3), FadeIn(written_label), run_time=0.45)
             tag = tag_b3
 
             intent_small = dashed_round_rect(0.85, 0.85, BOX_START, INTENT)

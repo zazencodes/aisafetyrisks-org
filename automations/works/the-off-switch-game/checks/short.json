@@ -2,7 +2,7 @@
   "duration": 140.2,
   "width": 1080,
   "height": 1920,
-  "content_key": "3b92d0a0d25cff8a",
+  "content_key": "a40bb75f724b4116",
   "segments": [
     {
       "beat": "s01b01",
@@ -109,7 +109,7 @@
       "heading": "A single decision in a model",
       "start": 108.66666899999998,
       "duration": 15.566666666666666,
-      "source_start": 326.03333200000026,
+      "source_start": 326.0399986666667,
       "claims": [
         "c30",
         "c31",
@@ -123,7 +123,7 @@
       "heading": "Uncertainty can give correction value",
       "start": 124.23333599999998,
       "duration": 15.966666666666667,
-      "source_start": 341.58333199999976,
+      "source_start": 341.5899986666667,
       "claims": [
         "c18",
         "c29"
@@ -131,26 +131,118 @@
       "narration": "The takeaway is that a system’s uncertainty can give human correction value. The authors’ proposal is to preserve that uncertainty honestly, together with a model of human decisions, so accepting oversight can serve the objective the system was built for."
     }
   ],
-  "video_sha256": "d45bc140a83139e747f18bb5c566dfe1f4e4b84ffea41e052bb786b81b7f70ca",
+  "video_sha256": "96317c1ea8cc0357e1fe5d6975529d67f643ca3bbf6a49089a052b672bd92403",
   "ok": true,
   "review": {
-    "content_key": "3b92d0a0d25cff8a",
+    "content_key": "a40bb75f724b4116",
     "science": {
       "verdict": "accurate",
-      "issues": []
+      "issues": [
+        {
+          "location": "s01b04",
+          "severity": "minor",
+          "category": "clarity",
+          "problem": "\"ask when an agent would instead benefit from letting a human stop it\" has no antecedent for \"instead\" in this edit. The omitted s01b02/s01b03 beats carried the paper's motivation: the risk that capable systems adopt subgoals that prevent shutdown (c01) and the authors' explanation that this comes from maximizing expected utility, not a built-in instinct (c02). Without it, a viewer is not told why an agent might resist being stopped.",
+          "suggested_fix": "Add a short clause attributed to the authors, e.g. \"The authors note that an agent pursuing a goal can have a reason to avoid being switched off. They ask when it would instead benefit from letting a human stop it.\" (c01, c02)."
+        },
+        {
+          "location": "s02b03",
+          "severity": "minor",
+          "category": "clarity",
+          "problem": "The robot's options are given as only \"act immediately\" or \"announce and wait\". The game's third robot option, switching itself off, is never introduced, yet s03b01 compares waiting with \"the robot's best alternative\" and s04b02 says the robot \"may prefer to act directly or stop itself\" (c22). The self-shutdown option appears without setup.",
+          "suggested_fix": "Mention the third option in s02b03 (e.g. \"It can act immediately, bypassing oversight, switch itself off, or announce the proposed action and wait\") so s03b01 and s04b02 have their antecedent."
+        },
+        {
+          "location": "s04b01",
+          "severity": "minor",
+          "category": "missing_limitation",
+          "problem": "\"a simple model of human mistakes\" keeps \"simple\" but drops the paper's characterization of that model: a noisily rational human who occasionally makes the wrong decision in 'unimportant' situations (c20). A viewer may picture arbitrary errors, including on high-stakes choices.",
+          "suggested_fix": "Say \"a simple model in which the human occasionally makes the wrong choice, mostly when the stakes are small\" or \"in 'unimportant' situations\" (c20)."
+        },
+        {
+          "location": "s04b02",
+          "severity": "minor",
+          "category": "missing_limitation",
+          "problem": "The narration hedges correctly (\"can\", \"may\", \"in this modeled setting\", c22) but omits the conditions from the Gaussian/noisy-human analysis (Figure 3): stopping or acting is favored at low uncertainty and high human suboptimality, depending on the sign of the mean, while waiting remains optimal at zero mean. Nothing tells the viewer that robot uncertainty still matters in this setting.",
+          "suggested_fix": "Add one clause, e.g. \"especially when the robot is fairly sure of the action's value and the human's choices are very noisy\" (Figure 3, c22, c24)."
+        },
+        {
+          "location": "s05b02",
+          "severity": "minor",
+          "category": "missing_limitation",
+          "problem": "\"mistaken models of people\" narrows c31's \"model misspecification\", which is not limited to the model of the human. The information-source limitation (c32) is stated, but its consequence is dropped: with alternative information sources the robot may have an incentive to disable its off switch, learn that information and then decide.",
+          "suggested_fix": "Use \"and mistaken models remain open questions\" or \"misspecified models\", and add \"With other sources of information, the robot might gain a reason to disable the switch and learn first\" (c32)."
+        },
+        {
+          "location": "s05b03",
+          "severity": "minor",
+          "category": "clarity",
+          "problem": "\"preserve that uncertainty honestly, together with a model of human decisions\" is presented as the authors' proposal. c29 recommends accurately representing inherent uncertainty, warning that overconfidence makes correction difficult and underconfidence makes the agent ineffective. c18 identifies the assumption that the human is effective as a source of the incentive; it is not a recommendation to pair uncertainty with a model of human decisions. \"Preserve\" also omits c25's point that uncertainty is not free, so a viewer could infer that more uncertainty is always better.",
+          "suggested_fix": "Say \"The authors recommend representing that uncertainty accurately: an overconfident system is hard to correct, and an underconfident one is ineffective\" (c29, c25). Mention the dependence on effective human decisions as part of the mechanism (c18), not as the proposal."
+        },
+        {
+          "location": "title",
+          "severity": "minor",
+          "category": "overgeneralization",
+          "problem": "\"Why an AI might allow shutdown\" generalizes from the robot in a one-shot mathematical game to \"an AI\". \"Might\" and the scope label \"One-shot mathematical game\" limit the effect, but the title does not say that this is a model result.",
+          "suggested_fix": "Consider \"When a robot in a model allows shutdown\", or keep the current title with the scope label always visible, as it already is."
+        }
+      ]
     },
     "visual_issues": [
       {
+        "beat": "s01b04",
+        "severity": "minor",
+        "problem": "The exact first frame (12.267 s) and roughly the first second keep state from the omitted s01b02/s01b03 beats: a \"Robot -> Shutdown -> Objective\" diagram with a red THREAT MODEL badge, under narration \"Hadfield-Menell and colleagues ask when an...\". The short never explains that shutdown blocks the robot's objective, so these labels are unexplained before they fade into \"The Off-Switch Game\" with a METHOD badge.",
+        "suggested_fix": "Start the s01b04 cut after the carried-over diagram has faded, or render a short-specific transition straight from the hook scene to the game diagram. Alternatively, narrate the self-preservation motivation (see science issue s01b04)."
+      },
+      {
+        "beat": "s02b03",
+        "severity": "minor",
+        "problem": "The first frame (38.333 s) and roughly the next second show the omitted s02b02 state: a utility ellipse labelled \"Harmful\", \"Utility\", \"Beneficial\" with a DEFINITION badge, under \"The robot can act immediately,\". \"Utility\" is never mentioned in the short, and harmful/beneficial outcomes are introduced only in s03b01.",
+        "suggested_fix": "Trim the cut in past the fade-out of the s02b02 ellipse, or transition directly from the s02b01 \"Human benefit\" diagram to the Act/Wait diagram."
+      },
+      {
         "beat": "s05b02",
         "severity": "minor",
-        "problem": "At 360x640 phone size, the nested one-shot diagram makes its Human feedback label and the Other information label small. The portrait heading, scope and captions remain readable, and narration states the one-shot and information-source limitations supported by c30, c31 and c32; the small labels do not change the scientific meaning.",
-        "suggested_fix": "Enlarge these labels in the source scene or add readable portrait labels when the source animation is next revised, retaining the distinction between modeled and alternative information sources."
+        "problem": "For about the first 2 s (108.67-110.7 s) the frame shows the omitted s05b01 state: the hook robot with \"Hypothetical example\", a \"Human feedback\" label and a FUTURE SCENARIO badge, while the narration starts the limitation (\"This models / a single decision, not a deployed robot\"). The badge contradicts the STATED LIMITATION badge that replaces it, and \"Human feedback\" appears about 10 s before the narration explains it.",
+        "suggested_fix": "Start the cut once the \"One-shot game\" frame and STATED LIMITATION badge are in place, or hide the FUTURE SCENARIO badge and \"Hypothetical example\" label in the short's carry-in."
+      },
+      {
+        "beat": "s05b02",
+        "severity": "minor",
+        "problem": "The enlarged \"Human feedback\" and \"Other information\" labels are now clearly readable at 360 px with good contrast. However, the narration never mentions other information, and an arrow points from \"Other information\" into a decision box beside the game. A viewer can read this as the robot receiving other information, the opposite of the spoken limitation that the shutdown decision is its only information source (c32).",
+        "suggested_fix": "Label it as outside the model (e.g. \"Not modeled: other information\") or narrate c32's point that other sources could give a reason to disable the switch and learn first."
+      },
+      {
+        "beat": "s04b02",
+        "severity": "minor",
+        "problem": "At 360 px, the dark grey arrow from the human node to the action diamond and the small dim diamond above the stop node have low contrast against the background and are unlabeled. The meaning of the noisy-human branches (allowing or stopping, with mistakes) is hard to read on a phone. \"Stop itself\" also appears without having been introduced in s02b03.",
+        "suggested_fix": "Raise the contrast of the human-allow arrow and the small marker, or remove the marker. Add short \"Allow\" and \"Stop\" labels to the noisy-human branches."
+      },
+      {
+        "beat": "s05b03",
+        "severity": "minor",
+        "problem": "The diagram heading \"Uncertainty makes correction valuable\" is unconditional, while the narration correctly says \"can give\", and s04b02 has just shown that waiting can lose its advantage with a noisy human.",
+        "suggested_fix": "Change the label to \"Uncertainty can make correction valuable\"."
+      },
+      {
+        "beat": "s03b03",
+        "severity": "minor",
+        "problem": "Most diagram labels (\"Beneficial\", \"Harmful\", \"Proceed\", \"Stop\", \"Uncertain value\", \"Robot belief\", \"Act\", \"Wait\") render at about 26 px on the 1080 px frame, roughly 8-9 px at 360 px phone width. They are legible with adequate contrast, but they are the smallest essential text in the edit. \"Stop\" in s03b03 is the faintest.",
+        "suggested_fix": "If re-rendering, raise branch labels by about 20% to match the enlarged s05 labels."
       },
       {
         "beat": "s01b01",
         "severity": "minor",
-        "problem": "Review limitation: I inspected the full contact sheet, all segment start/end frames, additional actual-video frames at phone size, and burned-caption scripts. All 56 cues have at most two lines and one accent color, and their shortest duration is 1.41 seconds. Each selected WAV fits its segment with 0.347–0.367 seconds of padding; both muxed streams last 140.2 seconds. Continuous playback and listening were unavailable, so these checks do not establish perceived audio continuity or caption-to-speech synchronization.",
-        "suggested_fix": "Play and listen to the complete draft before posting, checking cut continuity and synchronization at proportional caption boundaries."
+        "problem": "Bold caption emphasis (\"uncertainty is about which outcome does that\", \"response separates outcomes\", \"waiting can lose its advantage\", \"uncertainty can give human correction value\") is barely distinguishable from regular weight at 360 px. Italics are clear. Emphasis is otherwise appropriate: it keeps negations and conditions (\"can\", \"not a deployed robot\"), all captions stay within two lines, and the ink is the same off-white throughout. The first frame shows title, heading and caption, but the diagram area is empty for about 0.7 s while the hook scene fades in.",
+        "suggested_fix": "Use a heavier bold weight for emphasized caption phrases, and start the hook with the hallway scene already visible."
+      },
+      {
+        "beat": "s05b03",
+        "severity": "minor",
+        "problem": "Review limitation: the audio was not listened to. Narration completeness was checked from the timeline instead. Each WAV fits inside its segment with 0.35-0.37 s to spare, the total is 140.2 s, the video hash matches the timeline, and silence detection shows a pause at every cut. Caption cues ended within about 0.3 s of the detected speech pauses, so no words appear to be cut and captions do not run far ahead of speech.",
+        "suggested_fix": "Do a listening pass before posting the short."
       }
     ]
   }

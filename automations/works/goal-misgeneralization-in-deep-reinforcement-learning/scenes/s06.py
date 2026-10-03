@@ -98,32 +98,35 @@ class S06(NarratedScene):
             self.play(MoveAlongPath(agent, path), Create(trail), run_time=2.6)
             self.play(FadeIn(divergent_group), dest_box.animate.set_stroke(color=ROSE, width=2.5), run_time=1.0)
 
+            # Clear the threat-model diagram as the narration ends, so the next beat opens on its own.
             b1_mobs = VGroup(
                 facility, dock, agent, intended_target, intended_path,
                 proxy_group, shift_banner, divergent_group, trail
             )
+            self.wait(b.duration - 7.2 - 0.6)
+            self.play(FadeOut(b1_mobs), run_time=0.6)
 
         # Beat 2: Scope boundary - Procgen experiments vs theoretical limits
         with self.beat("s06b02") as b:
             tag_b2 = Tag("limitation")
 
             # Center scope boundary
-            divider = DashedLine([0, 1.15, 0], [0, -2.7, 0], dash_length=0.14, dashed_ratio=0.5, color=MUTED, stroke_width=2)
+            divider = DashedLine([0, 1.45, 0], [0, -2.85, 0], dash_length=0.14, dashed_ratio=0.5, color=MUTED, stroke_width=2)
             scope_pill = RoundedRectangle(
                 corner_radius=0.14,
-                width=2.5,
-                height=0.48,
+                width=3.5,
+                height=0.62,
                 stroke_color=MUTED,
                 stroke_width=1.5,
                 fill_color=PANEL,
                 fill_opacity=1,
-            ).move_to([0, 1.45, 0])
-            scope_text = T("Scope boundary", size=20, color=INK, weight=SEMIBOLD).move_to(scope_pill)
+            ).move_to([0, 1.85, 0])
+            scope_text = T("Scope boundary", size=30, color=INK, weight=SEMIBOLD).move_to(scope_pill)
             scope_group = VGroup(divider, scope_pill, scope_text)
 
             # Left side: Experimental setting (positioned with top at 1.1, cleanly below scope_pill)
-            left_panel = Panel(width=5.6, height=3.9, color=TEAL).move_to([-3.6, -0.85, 0])
-            left_title = T("Feedforward networks in Procgen", size=20, color=TEAL, weight=SEMIBOLD).move_to([-3.6, 0.75, 0])
+            left_panel = Panel(width=5.6, height=4.3, color=TEAL).move_to([-3.6, -0.75, 0])
+            left_title = T("Feedforward networks\nin Procgen", size=32, color=INK, weight=SEMIBOLD).move_to([-3.6, 0.75, 0])
 
             # Mini Gridworld
             grid = Grid(rows=3, cols=3, cell=0.58, color=FAINT, fill=PANEL).move_to([-4.7, -0.8, 0])
@@ -157,21 +160,21 @@ class S06(NarratedScene):
             left_setting = VGroup(left_panel, left_title, grid, grid_agent, grid_coin, net_lines, net_dots, arrow_in, arrow_out)
 
             # Right side: Theoretical limits (positioned with top at 1.1, cleanly below scope_pill)
-            right_panel = Panel(width=5.6, height=3.9, color=ROSE).move_to([3.6, -0.85, 0])
-            right_title = T("Theoretical limits:\nlarge scale and multi-agent", size=20, color=ROSE, weight=SEMIBOLD).move_to([3.6, 0.75, 0])
+            right_panel = Panel(width=5.6, height=4.3, color=ROSE).move_to([3.6, -0.75, 0])
+            right_title = T("Theoretical limits:\nlarge scale / multi-agent", size=32, color=INK, weight=SEMIBOLD).move_to([3.6, 0.75, 0])
 
             # Multi-agent nodes
             a1 = Agent(color=BLUE, radius=0.2).move_to([2.3, -0.6, 0])
             a2 = Agent(color=ROSE, radius=0.2).move_to([4.9, -0.6, 0])
-            a3 = Agent(color=AMBER, radius=0.2).move_to([3.6, -1.65, 0])
+            a3 = Agent(color=AMBER, radius=0.2).move_to([3.6, -1.25, 0])
             link1 = DashedLine(a1.get_right(), a2.get_left(), dash_length=0.1, color=ROSE, stroke_width=2)
             link2 = DashedLine(a1.get_bottom(), a3.get_left(), dash_length=0.1, color=ROSE, stroke_width=2)
             link3 = DashedLine(a2.get_bottom(), a3.get_right(), dash_length=0.1, color=ROSE, stroke_width=2)
 
             # Large state space sprawl dots & lines
             sprawl_points = [
-                [1.9, 0.05, 0], [3.6, 0.15, 0], [5.2, 0.05, 0],
-                [1.7, -1.5, 0], [5.4, -1.5, 0], [3.6, -2.15, 0],
+                [1.9, -0.25, 0], [3.6, -0.15, 0], [5.2, -0.25, 0],
+                [1.7, -1.5, 0], [5.4, -1.5, 0], [3.6, -1.65, 0],
             ]
             sprawl_dots = VGroup(*[Dot(point=p, radius=0.05, color=MUTED) for p in sprawl_points])
             sprawl_lines = VGroup(
@@ -179,45 +182,48 @@ class S06(NarratedScene):
                 Line(sprawl_points[1], sprawl_points[2], stroke_width=1, color=FAINT),
                 Line(sprawl_points[0], [2.3, -0.6, 0], stroke_width=1, color=FAINT),
                 Line(sprawl_points[2], [4.9, -0.6, 0], stroke_width=1, color=FAINT),
-                Line(sprawl_points[3], [3.6, -1.65, 0], stroke_width=1, color=FAINT),
-                Line(sprawl_points[4], [3.6, -1.65, 0], stroke_width=1, color=FAINT),
+                Line(sprawl_points[3], [3.6, -1.25, 0], stroke_width=1, color=FAINT),
+                Line(sprawl_points[4], [3.6, -1.25, 0], stroke_width=1, color=FAINT),
             )
 
             limit_pill = RoundedRectangle(
                 corner_radius=0.1,
                 width=4.6,
-                height=0.48,
+                height=1.05,
                 stroke_color=ROSE,
                 stroke_width=1.5,
                 fill_color=PANEL,
                 fill_opacity=0.9,
-            ).move_to([3.6, -2.4, 0])
-            limit_text = T("Computationally intractable", size=20, color=ROSE, weight=MEDIUM).move_to(limit_pill)
+            ).move_to([3.6, -2.25, 0])
+            limit_text = T("Computationally\nintractable", size=32, color=INK, weight=SEMIBOLD).move_to(limit_pill)
             right_setting = VGroup(right_panel, right_title, sprawl_lines, sprawl_dots, a1, a2, a3, link1, link2, link3, limit_pill, limit_text)
 
-            self.play(
-                FadeOut(b1_mobs),
-                ReplacementTransform(tag, tag_b2),
-                run_time=0.8,
-            )
+            # Swap the tag at the cut; morphing one tag into another garbles the text.
+            self.remove(tag)
+            self.add(tag_b2)
             tag = tag_b2
 
+            # The experimental setting appears at once; the theoretical limits follow the narration.
             self.play(
-                FadeIn(left_panel), FadeIn(left_title), Create(grid),
-                FadeIn(grid_agent), FadeIn(grid_coin), Create(net_lines),
-                FadeIn(net_dots), GrowArrow(arrow_in), GrowArrow(arrow_out),
-                run_time=2.4,
+                FadeIn(left_panel), FadeIn(left_title), FadeIn(grid),
+                FadeIn(grid_agent), FadeIn(grid_coin), FadeIn(net_lines),
+                FadeIn(net_dots), FadeIn(arrow_in), FadeIn(arrow_out),
+                run_time=0.5,
             )
-            self.play(Create(divider), FadeIn(scope_pill), FadeIn(scope_text), run_time=1.4)
+            self.play(grid_agent.animate.move_to(grid.cell(0, 0).get_center()), run_time=0.7)
+            self.play(Create(divider), FadeIn(scope_pill), FadeIn(scope_text), run_time=0.8)
+            self.wait(2.4)
             self.play(
                 FadeIn(right_panel), FadeIn(right_title), Create(sprawl_lines),
                 FadeIn(sprawl_dots), FadeIn(a1), FadeIn(a2), FadeIn(a3),
                 Create(link1), Create(link2), Create(link3),
-                run_time=2.8,
+                run_time=1.6,
             )
-            self.play(FadeIn(limit_pill), FadeIn(limit_text), right_panel.animate.set_stroke(color=ROSE, width=2.5), run_time=1.6)
-            self.play(Indicate(scope_pill, color=INK), run_time=1.2)
+            self.wait(1.2)
+            self.play(FadeIn(limit_pill), FadeIn(limit_text), right_panel.animate.set_stroke(color=ROSE, width=2.5), run_time=1.0)
+            self.play(Indicate(scope_pill, color=INK), run_time=1.0)
 
+            # Held until the beat ends; the takeaway beat clears it at its first frames.
             b2_mobs = VGroup(left_setting, scope_group, right_setting)
 
         # Beat 3: Core takeaway - Performance is not alignment
@@ -227,17 +233,17 @@ class S06(NarratedScene):
             # Header takeaway badge and main thesis
             takeaway_badge = RoundedRectangle(
                 corner_radius=0.12,
-                width=2.8,
-                height=0.48,
+                width=3.5,
+                height=0.6,
                 stroke_color=AMBER,
                 stroke_width=1.5,
                 fill_color=PANEL,
                 fill_opacity=1,
             ).move_to([0, 2.15, 0])
-            takeaway_text = T("Core takeaway", size=22, color=AMBER, weight=SEMIBOLD).move_to(takeaway_badge)
+            takeaway_text = T("Core takeaway", size=30, color=AMBER, weight=SEMIBOLD).move_to(takeaway_badge)
             takeaway_group = VGroup(takeaway_badge, takeaway_text)
 
-            thesis_text = Serif("Performance is not alignment", size=30, color=INK).move_to([0, 1.5, 0])
+            thesis_text = Serif("Performance is not alignment", size=40, color=INK).move_to([0, 1.5, 0])
 
             # Balance scale structure: pillar & fulcrum
             fulcrum = Triangle(color=MUTED, stroke_width=2, fill_color=PANEL, fill_opacity=1).scale(0.28).move_to([0, -2.1, 0])
@@ -252,11 +258,11 @@ class S06(NarratedScene):
             string_l1 = Line([-3.4, 0.05, 0], [-4.4, -1.65, 0], stroke_width=1.5, color=MUTED)
             string_l2 = Line([-3.4, 0.05, 0], [-2.4, -1.65, 0], stroke_width=1.5, color=MUTED)
 
-            card_left = Panel(width=3.2, height=1.35, color=TEAL).move_to([-3.4, -0.95, 0])
-            card_left_title = T("High training performance", size=20, color=TEAL, weight=MEDIUM).move_to([-3.4, -0.55, 0])
-            bar1 = Rectangle(width=0.25, height=0.35, fill_color=TEAL, fill_opacity=0.9, stroke_width=0).move_to([-3.8, -1.15, 0])
-            bar2 = Rectangle(width=0.25, height=0.55, fill_color=TEAL, fill_opacity=0.9, stroke_width=0).move_to([-3.4, -1.05, 0])
-            bar3 = Rectangle(width=0.25, height=0.75, fill_color=TEAL, fill_opacity=0.9, stroke_width=0).move_to([-3.0, -0.95, 0])
+            card_left = Panel(width=4.7, height=1.35, color=TEAL).move_to([-3.4, -0.95, 0])
+            card_left_title = T("High training performance", size=26, color=TEAL, weight=MEDIUM).move_to([-3.4, -0.5, 0])
+            bar1 = Rectangle(width=0.25, height=0.35, fill_color=TEAL, fill_opacity=0.9, stroke_width=0).move_to([-3.8, -1.27, 0])
+            bar2 = Rectangle(width=0.25, height=0.55, fill_color=TEAL, fill_opacity=0.9, stroke_width=0).move_to([-3.4, -1.17, 0])
+            bar3 = Rectangle(width=0.25, height=0.75, fill_color=TEAL, fill_opacity=0.9, stroke_width=0).move_to([-3.0, -1.07, 0])
             perf_bars = VGroup(bar1, bar2, bar3)
             left_scale_content = VGroup(pan_left_plate, string_l1, string_l2, card_left, card_left_title, perf_bars)
 
@@ -265,8 +271,8 @@ class S06(NarratedScene):
             string_r1 = Line([3.4, 0.75, 0], [2.4, -0.95, 0], stroke_width=1.5, color=MUTED)
             string_r2 = Line([3.4, 0.75, 0], [4.4, -0.95, 0], stroke_width=1.5, color=MUTED)
 
-            card_right = Panel(width=3.2, height=1.35, color=ROSE).move_to([3.4, -0.25, 0])
-            card_right_title = T("Divergent objective", size=20, color=ROSE, weight=MEDIUM).move_to([3.4, 0.15, 0])
+            card_right = Panel(width=4.7, height=1.35, color=ROSE).move_to([3.4, -0.25, 0])
+            card_right_title = T("Divergent objective", size=26, color=ROSE, weight=MEDIUM).move_to([3.4, 0.15, 0])
             agent_right = Agent(color=BLUE, radius=0.18).move_to([2.9, -0.4, 0])
             diverge_arrow = Arrow([3.1, -0.4, 0], [3.8, -0.4, 0], stroke_width=2.5, color=ROSE, buff=0, max_tip_length_to_length_ratio=0.25)
             right_scale_content = VGroup(pan_right_plate, string_r1, string_r2, card_right, card_right_title, agent_right, diverge_arrow)
@@ -274,23 +280,21 @@ class S06(NarratedScene):
             # Bottom takeaway summary
             summary_box = RoundedRectangle(
                 corner_radius=0.14,
-                width=8.2,
-                height=0.55,
+                width=9.4,
+                height=0.72,
                 stroke_color=ROSE,
                 stroke_width=1.5,
                 fill_color=PANEL,
                 fill_opacity=0.95,
             ).move_to([0, -2.75, 0])
-            summary_label = T("Capable pursuit of unintended goals", size=22, color=ROSE, weight=SEMIBOLD).move_to(summary_box)
+            summary_label = T("Capable pursuit of unintended goals", size=32, color=ROSE, weight=SEMIBOLD).move_to(summary_box)
             summary_group = VGroup(summary_box, summary_label)
 
-            self.play(
-                FadeOut(b2_mobs),
-                ReplacementTransform(tag, tag_b3),
-                run_time=0.8,
-            )
+            self.remove(tag)
+            self.add(tag_b3)
             tag = tag_b3
 
+            self.play(FadeOut(b2_mobs), run_time=0.2)
             self.play(FadeIn(takeaway_group), FadeIn(thesis_text), run_time=1.0)
             self.play(
                 FadeIn(fulcrum), FadeIn(pillar), FadeIn(pivot),

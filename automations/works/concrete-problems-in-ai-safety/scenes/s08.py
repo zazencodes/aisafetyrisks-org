@@ -80,7 +80,7 @@ def ended_office():
 
 
 def problem_tab(label):
-    return Node(label, color=ORANGE, height=0.5, size=22, fill=0.12)
+    return Node(label, color=ORANGE, height=0.7, size=32, fill=0.12)
 
 
 def glance_icon(width=0.7, color=GRAY):
@@ -186,42 +186,49 @@ class S08(NarratedScene):
             unified.next_to(outline, DOWN, buff=0.22)
             self.play(FadeIn(unified, shift=UP * 0.15), run_time=0.8)
 
+            # Clear this beat's diagram as its narration ends, so the next beat opens on its own.
+            stage2 = VGroup(office, panels[0], g1, g2, ind_label, panels[1], plus, health_label, harms,
+                            trust, outline, unified)
+            self.wait(b.duration - 11.8 - 0.6)
+            self.play(FadeOut(stage2), run_time=0.6)
+
         # ------------------------------------------------------------------ b03
         with self.beat("s08b03") as b:
             new_tag = Tag("limitation")
-            stage2 = VGroup(office, panels[0], g1, g2, ind_label, panels[1], plus, health_label, harms,
-                            trust, outline, unified)
-            self.play(FadeOut(tag), FadeIn(new_tag), FadeOut(stage2), run_time=0.8)
+            self.remove(tag)
+            self.add(new_tag)
             tag = new_tag
 
-            row = VGroup(*[problem_tab(name) for name in tab_names])
-            # Two rows keep the five tabs legible at full size: three on top, two below.
-            top = VGroup(*row[:3]).arrange(RIGHT, buff=0.5)
-            low = VGroup(*row[3:]).arrange(RIGHT, buff=0.5)
-            VGroup(top, low).arrange(DOWN, buff=1.05).move_to([0, 0.75, 0])
+            # One row per problem, large enough to read on a phone; each gets its "Proposal" tag beside it.
+            tab_w = max(T(name, size=38).width for name in tab_names) + 0.6
+            row = VGroup(*[Node(name, color=ORANGE, width=tab_w, height=0.74, size=38, fill=0.12)
+                           for name in tab_names])
+            props = VGroup(*[Node("Proposal", color=SOFT, height=0.66, size=34, fill=0.1) for _ in tab_names])
+            for i, (t, p) in enumerate(zip(row, props)):
+                y = 2.2 - 1.0 * i
+                t.move_to([-0.25 - tab_w / 2, y, 0])
+                p.move_to([0.25 + p.width / 2, y, 0])
+            shift = -(row.get_left()[0] + props.get_right()[0]) / 2
+            VGroup(row, props).shift(RIGHT * shift)
             self.play(LaggedStart(*[FadeIn(t, shift=UP * 0.2) for t in row], lag_ratio=0.15), run_time=1.4)
+            self.play(LaggedStart(*[FadeIn(p, shift=LEFT * 0.15) for p in props], lag_ratio=0.2), run_time=1.6)
 
-            props = VGroup()
-            for t in row:
-                p = Node("Proposal", color=GRAY, height=0.42, size=20, fill=0.1)
-                p.next_to(t, DOWN, buff=0.14)
-                props.add(p)
-            self.play(LaggedStart(*[FadeIn(p, shift=DOWN * 0.1) for p in props], lag_ratio=0.2), run_time=1.6)
-
-            none = T("No measured results", size=32, color=INK, weight=MEDIUM)
-            none.move_to([0, -1.9, 0])
+            none = T("No measured results", size=44, color=INK, weight=MEDIUM)
+            none.move_to([0, -2.75, 0])
             source = Source(self.paper["short"])
             self.play(FadeIn(none), FadeIn(source), run_time=0.9)
             self.play(Indicate(none, color=SOFT, scale_factor=1.05), run_time=1.0)
 
         # ------------------------------------------------------------------ b04
         with self.beat("s08b04") as b:
+            # Swap the tag cleanly: everything from s08b03 fades out fully before the new tag appears.
             new_tag = Tag("definition")
-            self.play(FadeOut(tag), FadeIn(new_tag), FadeOut(VGroup(row, props, none, source)), run_time=0.8)
+            self.play(FadeOut(tag), FadeOut(VGroup(row, props, none, source)), run_time=0.4)
+            self.play(FadeIn(new_tag), run_time=0.4)
             tag = new_tag
 
             center = np.array([0, -0.3, 0])
-            floor = RoundedRectangle(corner_radius=0.3, width=11, height=4.8, stroke_color=GRAY, stroke_width=2,
+            floor = RoundedRectangle(corner_radius=0.3, width=12.2, height=4.8, stroke_color=GRAY, stroke_width=2,
                                      fill_color=PANEL, fill_opacity=1).move_to(center)
             score = make_score(5, True)
             score.next_to(floor.get_corner(UR), DL, buff=0.3)
@@ -230,23 +237,26 @@ class S08(NarratedScene):
             robot.shift(center - robot.body.get_center())
             self.play(FadeIn(floor), FadeIn(score), FadeIn(robot), run_time=1.0)
 
-            specs = [("Left something out", np.array([-4.3, 0.9, 0]), UP, -0.8),
-                     ("Could be gamed", np.array([4.3, 0.7, 0]), UP, 0.8),
-                     ("Too costly to check", np.array([-4.3, -1.5, 0]), DOWN, 0.8),
-                     ("Risks and new places", np.array([4.3, -1.5, 0]), DOWN, -0.8)]
+            # Each arrow and its label arrive as the narration names that cause (pauses in the
+            # recording: about 5.4 s, 7.5 s, 9.0 s and 11.5 s into the beat) and stay to the end.
             body = robot.body
-            targets = [body.get_corner(UL), body.get_corner(UR), body.get_corner(DL), body.get_corner(DR)]
+            specs = [("Left something out", np.array([-3.25, 1.0, 0]), UP, body.get_corner(UL), 3.6),
+                     ("Could be gamed", np.array([3.25, 1.0, 0]), UP, body.get_corner(UR), 0.5),
+                     ("Too costly to check", np.array([-3.25, -2.0, 0]), DOWN, body.get_corner(DL), 0.6),
+                     ("Risks and new places", np.array([3.25, -2.0, 0]), DOWN, body.get_corner(DR), 0.9)]
             arcs, labels = VGroup(), VGroup()
-            for (text, start, side, angle), end in zip(specs, targets):
+            for text, label_pos, side, end, lead in specs:
+                label = T(text, size=36, color=ORANGE, weight=MEDIUM).move_to(label_pos)
+                # The arrow starts just beyond the label's inner edge, on the robot's side.
+                start = label.get_edge_center(-side) + (-side) * 0.22 + RIGHT * np.sign(-label_pos[0]) * 0.6
+                angle = 0.5 if (side[1] > 0) == (label_pos[0] < 0) else -0.5
                 arc = CurvedArrow(start, end + (start - end) / np.linalg.norm(start - end) * 0.12,
                                   angle=angle, color=ORANGE, stroke_width=3, tip_length=0.18)
-                label = T(text, size=24, color=ORANGE).next_to(start, side, buff=0.18)
                 arcs.add(arc)
                 labels.add(label)
-                self.play(Create(arc), FadeIn(label), run_time=1.1)
-                self.play(Indicate(body, color=ORANGE, scale_factor=1.15), run_time=0.5)
+                self.wait(lead)
+                self.play(Create(arc), FadeIn(label), run_time=1.0)
 
-            self.play(FadeOut(labels), arcs.animate.set_opacity(0.25), run_time=0.9)
-            meant = dashed_round_rect(11.5, 5.2, center, num_dashes=70)
-            self.play(Create(meant), run_time=1.6)
-            self.play(FadeOut(arcs), run_time=0.8)
+            self.play(Indicate(body, color=ORANGE, scale_factor=1.15), run_time=0.5)
+            meant = dashed_round_rect(12.8, 5.3, center, num_dashes=80)
+            self.play(Create(meant), run_time=1.4)

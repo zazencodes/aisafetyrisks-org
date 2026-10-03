@@ -1,11 +1,24 @@
 {
   "scene": "s03",
   "rendered": true,
-  "render_key": "ef2f04bf50899050",
+  "render_key": "261db64dc9e2eab8",
   "problems": [],
   "render_log_tail": null,
   "layout_problems": [],
   "visual_review": {
-    "issues": []
+    "issues": [
+      {
+        "beat": "s03b02",
+        "severity": "minor",
+        "problem": "The returned/expected comparison and Explanation card fade out during the beat's final 0.4 s, so the end-of-beat frame shows only the pipeline.",
+        "suggested_fix": "None needed; the fade keeps the portrait cut into s03b03 free of omitted comparison labels."
+      },
+      {
+        "beat": "s03b04",
+        "severity": "minor",
+        "problem": "The short connector arrows in the stacked pipeline column are small at phone width, though the four labelled boxes read as the same pipeline in order.",
+        "suggested_fix": "Optional; widen the column spacing if more vertical room becomes available."
+      }
+    ]
   }
 }

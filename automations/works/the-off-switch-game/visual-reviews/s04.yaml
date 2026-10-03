@@ -1,2 +1,6 @@
-render_key: 149da4683aa5749a
-issues: []
+render_key: c3dc6ed774af1fcd
+issues:
+- beat: s04b03
+  severity: minor
+  problem: The small amber token that reappears inside the broad uncertainty halo is unlabelled; narration carries its meaning.
+  suggested_fix: Optional; label it or let the halo alone carry the point.

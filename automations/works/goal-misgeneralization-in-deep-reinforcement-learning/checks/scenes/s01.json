@@ -1,11 +1,18 @@
 {
   "scene": "s01",
   "rendered": true,
-  "render_key": "f7b35d6fbe83d43f",
+  "render_key": "585b46e08b883cbc",
   "problems": [],
   "render_log_tail": null,
   "layout_problems": [],
   "visual_review": {
-    "issues": []
+    "issues": [
+      {
+        "beat": "s01b02",
+        "severity": "minor",
+        "problem": "The end-of-beat frame shows only heading and tag because the split comparison fades during the final 0.6 s of narration so that s01b03 opens on its own title card; the panel titles in this beat remain at size 22.",
+        "suggested_fix": "None needed for the clear, which is intentional; optionally enlarge the two panel titles and the risk banner."
+      }
+    ]
   }
 }

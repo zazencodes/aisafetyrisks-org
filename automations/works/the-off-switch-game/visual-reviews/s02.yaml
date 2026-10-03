@@ -1,2 +1,10 @@
-render_key: aa12d59c7b404bf5
-issues: []
+render_key: 519f78247c98e92c
+issues:
+- beat: s02b02
+  severity: minor
+  problem: The end-of-beat frame no longer shows the utility rail because the rail, labels, belief oval and definition tag fade out and the human and outcome return to the choice layout in the final 1.5 s, so s02b03 (used without s02b02 in the short) opens on its own robot, human and outcome layout.
+  suggested_fix: None needed; the rail is fully shown for the rest of the beat.
+- beat: s02b04
+  severity: minor
+  problem: The enlarged Human label touches the top of the amber frame drawn around the human.
+  suggested_fix: Optional; raise the label slightly before framing the human.

@@ -1,11 +1,24 @@
 {
   "scene": "s05",
   "rendered": true,
-  "render_key": "7cf6d9acaa72c3fe",
+  "render_key": "b0da47cb3373b000",
   "problems": [],
   "render_log_tail": null,
   "layout_problems": [],
   "visual_review": {
-    "issues": []
+    "issues": [
+      {
+        "beat": "s05b02",
+        "severity": "minor",
+        "problem": "The end-of-beat contact-sheet frame shows only the heading, tag and citation, because the chess and measurement diagram deliberately fades out in the last 0.8 s so that s05b03 opens on its own visual. The real-outcome/measurement diagram is visible for the rest of the beat.",
+        "suggested_fix": "None needed; keep the fade so omitted s05b01/s05b02 state never reaches the s05b03 cut."
+      },
+      {
+        "beat": "s05b04",
+        "severity": "minor",
+        "problem": "The storyboard visual asks for the shutdown control adjacent to the route, but s05b04 omits it because its narration does not mention shutdown and 'Off switch' is not in the beat's on-screen text; s05b03 likewise omits the measurement ring that only s05b02 explains.",
+        "suggested_fix": "If the storyboard is revised, drop the shutdown control and measurement ring from the s05b03/s05b04 visual descriptions to match."
+      }
+    ]
   }
 }

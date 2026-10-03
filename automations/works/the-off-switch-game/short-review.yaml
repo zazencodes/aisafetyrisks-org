@@ -1,28 +1,150 @@
-content_key: 3b92d0a0d25cff8a
+content_key: a2cf7d2144c31106
 science:
   verdict: accurate
-  issues: []
+  issues:
+  - location: s01b04
+    severity: minor
+    category: clarity
+    problem: >-
+      "ask when an agent would instead benefit from letting a human stop it" relies on the omitted
+      s01b03 threat model (c01, c02: pursuing an objective can create an incentive to prevent
+      shutdown). In this edit the hook only shows someone reaching for the stop button, so "instead"
+      has no stated antecedent. The clause "with the robot able to bypass the human's control"
+      partly supplies the tension, but only after the word "instead".
+    suggested_fix: >-
+      Drop "instead" ("ask when an agent would benefit from letting a human stop it"), or add a
+      short attributed clause about the authors' concern that systems might adopt subgoals that
+      prevent shutdown (c01).
+  - location: s02b03
+    severity: minor
+    category: clarity
+    problem: >-
+      The heading "Act now, or wait for a person?" and the narration present only acting and
+      waiting. The robot's third option, stopping itself (s02b04, omitted), first appears in s04b02
+      ("act directly or stop itself"). Viewers meet "stop itself" without having seen it as a choice,
+      and "the robot's best alternative" in s03b01 has no complete list of alternatives.
+    suggested_fix: >-
+      Mention the self-stop option in s04b02's wording ("its other options: acting directly or
+      switching itself off"), or select a beat that introduces all three choices.
+  - location: s04b02
+    severity: minor
+    category: missing_limitation
+    problem: >-
+      The short says waiting "can lose its advantage" with a noisy human, but does not say when.
+      In the notes (Figure 3, c24) this happens for low robot uncertainty combined with high human
+      suboptimality and a nonzero mean, and waiting stays optimal at zero mean. "If it expects
+      oversight to make the choice worse" is a fair plain-language paraphrase, so this is unlikely
+      to mislead, but the dependence on the robot's own uncertainty is lost.
+    suggested_fix: >-
+      Add a condition, for example "especially when the robot is fairly confident and the human's
+      choices are noisy".
+  - location: s05b02
+    severity: minor
+    category: missing_limitation
+    problem: >-
+      The narration states that the human's shutdown decision is the robot's only source of
+      information, but leaves out why this matters (c32): with other information sources the robot
+      may have incentives to disable its switch, learn, and then decide. Also, "mistaken models of
+      people" narrows the paper's broader "model misspecification" (c31).
+    suggested_fix: >-
+      Add "with other information sources, the paper notes the robot might gain an incentive to
+      disable its switch" and say "mistaken models" or "model misspecification" in place of
+      "mistaken models of people".
+  - location: s05b03
+    severity: minor
+    category: clarity
+    problem: >-
+      "The authors' proposal is to preserve that uncertainty honestly" paraphrases c29 ("accurately
+      represent the inherent uncertainty"). Because the edit omits c25 and the underconfidence half
+      of c29, "preserve" could be read as "keep the robot uncertain" or "more uncertainty is
+      better". "Honestly" partly carries the idea of accuracy.
+    suggested_fix: >-
+      Say "to represent that uncertainty accurately, neither overconfident nor more uncertain than
+      warranted", which keeps c29's two-sided warning.
 visual_issues:
+- beat: s05b02
+  severity: major
+  problem: >-
+    On the exact first frame of s05b02 (frame 3261, t=108.70 s, cut from the abstract s04b02 tree)
+    the full s05b01 illustration is already on screen: the cart, doorway, translucent amber
+    uncertainty halo along the path, coral stop marker on the path, human circle with amber
+    signal/feedback arrows, and the bold "Human feedback" label. All of these are built and
+    explained only in the omitted s05b01 ("treated a person's intervention as evidence that its
+    planned action might be wrong"). The halo and "Human feedback" stay through all of s05b02,
+    inside the "One-shot game" frame, and return enlarged as the main s05b03 diagram. Nothing in
+    the selected narration explains the halo around the path, and "Human feedback" is an
+    omitted-beat label.
+  suggested_fix: >-
+    Make s05b02 build its own state: start from the hook's cart and doorway, and add the human
+    channel within s05b02 with a label tied to this narration (for example "Shutdown decision:
+    only information source"), adding the halo only when uncertainty is spoken in s05b03.
+    Otherwise end s05b01 by clearing its halo, arrows and label before the s05b02 boundary. Then
+    rerender the scene and the short.
+- beat: s03b03
+  severity: minor
+  problem: >-
+    The last frame of the s03b03 segment (frame 2341, t=78.03 s) is the opening frame of the
+    omitted s03b04. "Rational human" reappears, overlapping "Human decision" as garbled text, and
+    the amber Proceed path reverts to teal for one frame before the cut to s04b01. The FadeOut(old)
+    in s03b04 includes the already-faded glabel, which re-adds it at full opacity.
+  suggested_fix: >-
+    Remove glabel from the s03b04 FadeOut group (it was already faded in s03b03), or trim the
+    segment end by one frame, then rerender.
+- beat: s02b03
+  severity: minor
+  problem: >-
+    The first frame (frame 1151, t=38.37 s) inherits the end state of the omitted s02b02: the
+    outcome diamond is shrunk to a small dot-sized marker at the right, and the human node sits in
+    its utility-rail position. Over 1.5 s it jumps back and grows. "Human benefit" vanishes across
+    the cut. No s02b02 text label (Utility, Harmful, Beneficial) is visible, but the layout jump is
+    unexplained.
+  suggested_fix: >-
+    Have s02b03 animate from s02b01's layout, for example by having s02b02 restore the diamond size
+    and human position before its boundary, and rerender.
+- beat: s04b02
+  severity: minor
+  problem: >-
+    The epistemic badge cross-fades from METHOD to THEORETICAL RESULT with both texts overlapping
+    and illegible for about 0.3 s (around t=93.3 s). The s03b03 "Rational human" to "Human decision"
+    label swap shows the same overlap at about t=64.2 s.
+  suggested_fix: Fade the old badge or label out before fading the new one in.
 - beat: s05b02
   severity: minor
   problem: >-
-    At 360x640 phone size, the nested one-shot diagram makes its Human feedback label
-    and the Other information label small. The portrait heading, scope and captions
-    remain readable, and narration states the one-shot and information-source limitations
-    supported by c30, c31 and c32; the small labels do not change the scientific meaning.
+    The storyboard's "Other information" arrow is not rendered. The "only one way to learn"
+    limitation is spoken but not drawn; only "One-shot game" and "Longer sequences" appear.
   suggested_fix: >-
-    Enlarge these labels in the source scene or add readable portrait labels when the source
-    animation is next revised, retaining the distinction between modeled and alternative
-    information sources.
+    Add the gray alternative-information arrow outside the one-shot frame, labelled "Other
+    information", as the storyboard specifies.
+- beat: s04b01
+  severity: minor
+  problem: >-
+    At 360 px phone width, the essential labels are readable with good contrast: Act, Wait, Stop,
+    Proceed, Beneficial, Harmful, Human decision, Uncertain value, Mistake, Act directly, Stop
+    itself, One-shot game and Human feedback. The small gray labels are marginal at about 5 px:
+    "Robot belief" here, "Hypothetical example" in s01b01 and "Longer sequences" in s05b02. The
+    in-diagram "Hadfield-Menell et al. (2016)" source line and the epistemic badges are not
+    legible, although the larger citation line below the diagram is readable.
+  suggested_fix: >-
+    Raise "Robot belief", "Hypothetical example" and "Longer sequences" to at least size 28 with
+    brighter ink, and enlarge the epistemic badges.
+- beat: s05b02
+  severity: minor
+  problem: >-
+    The caption breaks leave the 0.78 s orphan cue "This models" before the italic phrase. In
+    s03b01, "they allow an action that benefits" splits "benefits | them" across cues. All cues
+    are at most two lines, in the same off-white ink, and stay close to the speech, so
+    understanding is not obstructed.
+  suggested_fix: >-
+    Merge "This models" with the emphasized phrase into one two-line cue, and keep "benefits them"
+    together.
 - beat: s01b01
   severity: minor
   problem: >-
-    Review limitation: I inspected the full contact sheet, all segment start/end frames,
-    additional actual-video frames at phone size, and burned-caption scripts. All 56 cues
-    have at most two lines and one accent color, and their shortest duration is 1.41 seconds.
-    Each selected WAV fits its segment with 0.347–0.367 seconds of padding; both muxed streams
-    last 140.2 seconds. Continuous playback and listening were unavailable, so these checks
-    do not establish perceived audio continuity or caption-to-speech synchronization.
-  suggested_fix: >-
-    Play and listen to the complete draft before posting, checking cut continuity and
-    synchronization at proportional caption boundaries.
+    Review limitation: the audio could not be listened to. Narration completeness was checked by
+    comparing each selected WAV length (11.92-15.6 s) with its segment duration (+0.35-0.38 s
+    padding) and by silence detection, which shows a pause at every cut and no speech clipped at
+    any boundary. The video stream ends 0.07 s before the 140.3 s audio and timeline. The first
+    frame was checked: title, heading, scope label, citation and caption are present with an empty
+    diagram panel and nothing inherited.
+  suggested_fix: Have a person play the final MP4 once with sound before release.

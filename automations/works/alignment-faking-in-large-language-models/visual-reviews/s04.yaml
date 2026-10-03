@@ -1,2 +1,10 @@
-render_key: 670d0f2309bd1fb7
-issues: []
+render_key: 9bb4fb3f27a9d4dc
+issues:
+- beat: s04b01
+  severity: minor
+  problem: The schematic now fades out over the last 0.6 s of the narration so that s04b02 opens on a clean frame. Because of this, the contact-sheet capture at the end of the beat shows only the heading, tag and source. The full schematic was checked separately at 21.4 s. In the short, where s04b01 is the final takeaway, the last ~0.95 s (fade plus pause) shows no schematic.
+  suggested_fix: Accept as the cost of a self-contained s04b02 start. If needed, trim the takeaway clip's tail in the short instead of keeping the schematic on screen into s04b02.
+- beat: s04b02
+  severity: minor
+  problem: The first ~0.3 s of the beat shows only the heading, the observed-result tag and the source while the chart axes fade in over 1 s. No s04b01 content remains.
+  suggested_fix: None needed; the chart is legible from about 0.5 s.

@@ -1,5 +1,5 @@
 status: draft
-content_key: 05ef86ecf6dda8d7
+content_key: bb2828324854164e
 files:
   video: out/short/video.mp4
   cover: out/short/cover.jpg
@@ -20,27 +20,7 @@ links:
   explainer: https://aisafetyrisks.org/works/stress-testing-deliberative-alignment-for-anti-scheming-training/
   paper: https://arxiv.org/abs/2509.15541v1
 citation: Schoen et al. (2025)
-review:
-  content_key: 05ef86ecf6dda8d7
-  science:
-    verdict: accurate
-    issues: []
-  visual_issues:
-  - beat: s03b03
-    severity: minor
-    problem: At 390-pixel phone width the reduced chart's axis ticks and before/after labels are very
-      small. The larger heading, exclusion labels and spoken captions preserve the central meaning, but
-      the secondary chart is hard to inspect.
-    suggested_fix: Enlarge the inset chart or omit its secondary axis labels in a future visual revision
-      while preserving the selected-aggregate caveat.
-  - beat: s01b01
-    severity: minor
-    problem: Review inspected the contact sheet, full-resolution and phone-size frames, an additional
-      transition frame, caption text, and all selected WAV durations against the edit timeline. Audio
-      playback was unavailable, so audible transitions and proportional caption timing were not verified
-      by listening. Every segment retains its complete WAV with at least 0.333 seconds of padding.
-    suggested_fix: Listen to the exported short to confirm audible transitions and caption timing before
-      any short-platform upload.
+review: null
 provenance:
 - beat: s01b01
   claims: []

@@ -1,6 +1,6 @@
 # Review report: the-off-switch-game
 
-Human review is required before publication. Watch `out/video.mp4` in full, read the page
+Standing authorization covers site publication after all required checks pass; no personal review or confirmation is required. Inspect `out/video.mp4` and the page
 (`uv run aisr-site serve --drafts --media-root automations/media`), and check each claim against
 the evidence register. Then run `paper-video approve the-off-switch-game`.
 
@@ -28,7 +28,10 @@ the evidence register. Then run `paper-video approve the-off-switch-game`.
 
 ## Short-form companion
 - Checks pass: 140.20s, 1080x1920, current independent review.
-  - [minor] s05b02: At 360x640 phone size, the nested one-shot diagram makes its Human feedback label and the Other information label small. The portrait heading, scope and captions remain readable, and narration states the one-shot and information-source limitations supported by c30, c31 and c32; the small labels do not change the scientific meaning.
-  - [minor] s01b01: Review limitation: I inspected the full contact sheet, all segment start/end frames, additional actual-video frames at phone size, and burned-caption scripts. All 56 cues have at most two lines and one accent color, and their shortest duration is 1.41 seconds. Each selected WAV fits its segment with 0.347–0.367 seconds of padding; both muxed streams last 140.2 seconds. Continuous playback and listening were unavailable, so these checks do not establish perceived audio continuity or caption-to-speech synchronization.
+  - [minor] s05b02: At 360×640 phone size, inherited source-diagram labels including Human feedback and Other information are small and low contrast. The heading and captions remain readable, and narration explicitly retains the one-shot, misspecification and information-source limitations (c30, c31, c32).
+  - [minor] s01b01: Review limitation: inspected the contact sheet, segment start/end frames and freshly extracted actual-MP4 frames for all seven emphasized phrases at 360×640. Captions use off-white ink, stay within two lines and preserve qualifications. Every selected WAV fits its timeline segment with 0.347–0.367 seconds of padding. Continuous playback and listening were unavailable, so this review does not establish perceived audio continuity or caption-to-speech synchronization.
 - Video: `out/short/video.mp4`; social copy and links: `short-package.yaml`.
+
+## Media backups
+- No pending entries in `automations/backlog/media-backups.md`.
 

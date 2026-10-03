@@ -1,2 +1,8 @@
-render_key: 87409a69a1407582
-issues: []
+render_key: 9d17de05ea3fbb94
+issues:
+- beat: s01b03
+  severity: minor
+  problem: The end-of-beat contact-sheet frame is empty apart from the heading and citation, because the
+    definition diagram deliberately fades out in the last 0.8 s so that s01b04 opens on its own visual.
+    The full system, drive and counteract diagram is visible for the rest of the beat.
+  suggested_fix: None needed; keep the fade so omitted s01b03 state never reaches the s01b04 cut.

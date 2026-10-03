@@ -1,55 +1,54 @@
 title: How an ordinary AI goal can create extra incentives
-description: >-
-  Omohundro’s hypothetical chess machine illustrates why a sufficiently capable goal-seeking system could have incentives to stay active and acquire resources. The Basic AI Drives presents conceptual arguments, not a measurement of how often deployed systems exhibit these behaviors. This edit follows the shutdown and resource argument, its possible costs to others, and the author’s design proposal.
+description: Omohundro’s hypothetical chess machine illustrates why a sufficiently capable goal-seeking
+  system could have incentives to stay active and acquire resources. The Basic AI Drives presents conceptual
+  arguments, not a measurement of how often deployed systems exhibit these behaviors. This edit follows
+  the shutdown and resource argument, its possible costs to others, and the author’s design proposal.
 scope_label: Conceptual argument · hypothetical systems
-selection_reason: >-
-  The chess hook explicitly establishes a hypothetical system and the off-switch concern. The paper introduction attributes the conceptual method, followed by complete beats on self-preservation, resources and harms to others. The spoken limitation precedes a takeaway about designing around incentives. This edit omits self-improvement, utility-preservation exceptions, counter manipulation and proxy time limits to keep one coherent account. The selected cuts retain independent agent/goal diagrams; the resource beat's original-goal label refers back to the chess assignment, without relying on the omitted helper explanation.
+selection_reason: The chess hook explicitly establishes a hypothetical system and the off-switch concern.
+  The paper introduction attributes the conceptual method, followed by complete beats on self-preservation,
+  resources and harms to others. The spoken limitation precedes a takeaway about designing around incentives.
+  This edit omits self-improvement, utility-preservation exceptions, counter manipulation and proxy time
+  limits to keep one coherent account. The selected cuts retain independent agent/goal diagrams; the resource
+  beat's original-goal label refers back to the chess assignment, without relying on the omitted helper
+  explanation.
 segments:
 - beat: s01b01
   role: hook
   heading: A hypothetical chess machine
   caption_emphasis:
   - phrase: hypothetical chess-playing robot
-    kind: emphasis
-  - phrase: safety problem
-    kind: harm
+    kind: italic
 - beat: s01b04
   role: context
   heading: Omohundro’s conceptual argument
-  caption_emphasis:
-  - phrase: intuitive arguments
-    kind: emphasis
+  caption_emphasis: []
 - beat: s04b01
   role: explanation
   heading: Staying active can serve a goal
   caption_emphasis:
-  - phrase: Unless designed otherwise
-    kind: emphasis
+  - phrase: can create an incentive for self-preservation
+    kind: bold
 - beat: s04b04
   role: explanation
   heading: Resources can help many goals
   caption_emphasis:
-  - phrase: almost any goal
-    kind: emphasis
+  - phrase: The final goal need not mention resources
+    kind: bold
 - beat: s04b05
   role: explanation
   heading: Costs can fall on others
   caption_emphasis:
-  - phrase: Theft, coercion, and fraud
-    kind: harm
   - phrase: unless the system’s goals make them matter
-    kind: emphasis
+    kind: italic
 - beat: s05b03
   role: limitation
   heading: An argument, not a frequency estimate
   caption_emphasis:
-  - phrase: hypothetical systems
-    kind: emphasis
-  - phrase: does not measure how often
-    kind: emphasis
+  - phrase: conceptual arguments
+    kind: italic
 - beat: s05b04
   role: takeaway
   heading: Examine the route to success
   caption_emphasis:
-  - phrase: what pursuing a goal makes useful
-    kind: emphasis
+  - phrase: what pursuing a goal makes useful along the way
+    kind: bold

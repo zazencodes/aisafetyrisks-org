@@ -1,8 +1,8 @@
 {
-  "duration": 138.4,
+  "duration": 138.5,
   "width": 1080,
   "height": 1920,
-  "content_key": "6dc89694203c7dba",
+  "content_key": "3d529baaa619e3d5",
   "segments": [
     {
       "beat": "s01b02",
@@ -10,7 +10,7 @@
       "heading": "A good score. A broken vase.",
       "start": 0.0,
       "duration": 11.566666666666666,
-      "source_start": 12.983333333333334,
+      "source_start": 12.99,
       "claims": [],
       "narration": "Picture a hypothetical cleaning robot in an office. Its score says the room is clean. But on the way it knocked over a vase, and the messes it could not see are still there."
     },
@@ -19,7 +19,7 @@
       "role": "context",
       "heading": "What counts as an AI accident?",
       "start": 11.566667,
-      "duration": 13.066666666666666,
+      "duration": 13.1,
       "source_start": 40.733333,
       "claims": [
         "c01"
@@ -30,9 +30,9 @@
       "beat": "s02b02",
       "role": "context",
       "heading": "Practical problems to study",
-      "start": 24.633334,
+      "start": 24.666667,
       "duration": 13.466666666666667,
-      "source_start": 53.799999666666665,
+      "source_start": 53.803333,
       "claims": [
         "c04",
         "c06"
@@ -43,7 +43,7 @@
       "beat": "s03b01",
       "role": "explanation",
       "heading": "Side effects",
-      "start": 38.100001,
+      "start": 38.133334,
       "duration": 14.266666666666667,
       "source_start": 108.58333299999998,
       "claims": [
@@ -55,7 +55,7 @@
       "beat": "s04b01",
       "role": "explanation",
       "heading": "Reward hacking",
-      "start": 52.366668,
+      "start": 52.400000999999996,
       "duration": 11.3,
       "source_start": 181.086666,
       "claims": [
@@ -67,7 +67,7 @@
       "beat": "s05b01",
       "role": "explanation",
       "heading": "Scalable oversight",
-      "start": 63.666668,
+      "start": 63.700001,
       "duration": 16.2,
       "source_start": 277.9333326666667,
       "claims": [
@@ -79,7 +79,7 @@
       "beat": "s06b01",
       "role": "explanation",
       "heading": "Learning · risky trials",
-      "start": 79.866668,
+      "start": 79.900001,
       "duration": 17.233333333333334,
       "source_start": 337.68333233333334,
       "claims": [
@@ -92,7 +92,7 @@
       "beat": "s07b01",
       "role": "explanation",
       "heading": "Learning · unfamiliar places",
-      "start": 97.100001,
+      "start": 97.133334,
       "duration": 12.033333333333333,
       "source_start": 376.249999,
       "claims": [
@@ -105,9 +105,9 @@
       "beat": "s08b03",
       "role": "limitation",
       "heading": "Proposed experiments, preliminary fixes",
-      "start": 109.133334,
+      "start": 109.166667,
       "duration": 13.3,
-      "source_start": 463.31666600000005,
+      "source_start": 463.33666600000004,
       "claims": [
         "c06",
         "c14",
@@ -119,9 +119,9 @@
       "beat": "s08b04",
       "role": "takeaway",
       "heading": "Harm can come from the goal itself",
-      "start": 122.433334,
-      "duration": 15.933333333333334,
-      "source_start": 476.616666,
+      "start": 122.466667,
+      "duration": 15.966666666666667,
+      "source_start": 476.63666599999976,
       "claims": [
         "c02",
         "c08",
@@ -131,34 +131,92 @@
       "narration": "The takeaway is that an AI system can cause harm even when nothing malfunctions, because its goal left something out or could be gamed, the right goal was too costly to check, or learning met risky trials and places it never trained for."
     }
   ],
-  "video_sha256": "da1a8dff214ead16025c89cce5cae72ebbcc49a4f0f6ed644b128a32ea76fafb",
+  "video_sha256": "1a645717b52fd83f6daf20b98975526cd8b67227773b54cb9b0cd8b6076e8d94",
   "ok": true,
   "review": {
-    "content_key": "6dc89694203c7dba",
+    "content_key": "3d529baaa619e3d5",
     "science": {
       "verdict": "accurate",
       "issues": [
         {
-          "location": "s02b02",
+          "location": "s08b03",
           "severity": "minor",
-          "category": "misleading_visual",
-          "problem": "The source diagram's row labelled Practical problems contains six boxes, whereas c02 and c06 specify five problems. The portrait title and five subsequent examples correctly identify the count, so this inherited diagram inconsistency is unlikely to alter the central meaning.",
-          "suggested_fix": "Draw five boxes in the source practical-problems diagram and regenerate both outputs when that source animation is revised."
+          "category": "overgeneralization",
+          "problem": "\"the authors say good fixes would not replace careful testing\" generalizes a caveat that the notes attach only to side effects (c20: \"Good approaches to side effects would certainly not be a replacement for extensive testing\"). Here it follows \"its fixes are preliminary ideas\" about all five problems, so it reads as a statement about every proposed fix.",
+          "suggested_fix": "Scope it, e.g. \"and the authors say good fixes for side effects would not replace careful testing\", or drop the clause and keep the c06/c14 caveats."
+        },
+        {
+          "location": "s07b01",
+          "severity": "minor",
+          "category": "missing_limitation",
+          "problem": "The short defines distributional shift only as a train/deploy mismatch. It omits the overconfidence that the notes make central (c41, ML systems \"may not only exhibit poor performance, but also wrongly assume that their performance is good\") and the stated goal of knowing when performance is bad (c43). The definition is correct, but a viewer loses what distinguishes the problem from ordinary error.",
+          "suggested_fix": "If time allows, add a short clause such as \"and the system may still be confident it is doing well\" (c41). Otherwise accept the omission."
+        },
+        {
+          "location": "s07b01",
+          "severity": "minor",
+          "category": "unsupported_claim",
+          "problem": "\"Habits learned for cleaning an office might be dangerous on a factory floor\" cites c12, whose statement only says \"using office cleaning strategies on a factory workfloor\". The word \"dangerous\" does not appear in the verified evidence of c12 (none of its quotes covers the factory example).",
+          "suggested_fix": "Add the paper's factory-workfloor sentence as verified evidence for c12, or soften to \"might not suit a factory floor\"."
+        },
+        {
+          "location": "s01b02 (status badge)",
+          "severity": "minor",
+          "category": "mislabelled_status",
+          "problem": "The hook panel carries a \"FUTURE SCENARIO\" badge. The robot is the paper's fictional illustration (c11, a method), not a forecast. The \"Hypothetical\" tag, the narration and the scope label make the setting clear, so it is unlikely to mislead.",
+          "suggested_fix": "Label the panel \"Illustration\" or \"Hypothetical example\" rather than \"Future scenario\"."
+        },
+        {
+          "location": "s08b04",
+          "severity": "minor",
+          "category": "clarity",
+          "problem": "The takeaway is stated in the editor's voice (\"The takeaway is that an AI system can cause harm even when nothing malfunctions\"). It is supported for wrong objectives (c08, \"even in the limit of perfect learning and infinite data\") and is consistent with c09 and c10, but it does not say this is the authors' framing (c02, c07).",
+          "suggested_fix": "Optionally attribute it, e.g. \"The paper's point is that ...\". This is acceptable as written."
         }
       ]
     },
     "visual_issues": [
       {
+        "beat": "s08b04",
+        "severity": "minor",
+        "problem": "The four labelled arrows (\"Left something out\", \"Could be gamed\", \"Too costly to check\", \"Risks and new places\") are all on screen by about 129-130 s and fade into unlabelled swooshes at about 131 s. The narration reaches \"too costly to check\" at about 131-134 s and \"risky trials and places it never trained for\" at about 134-138 s, so those two labels are gone before they are spoken (checked at 133 s). The last 7 s show only a robot in a dashed box with a full score.",
+        "suggested_fix": "Hold the four labels until the narration finishes, or time each label to its spoken clause."
+      },
+      {
+        "beat": "s08b04",
+        "severity": "minor",
+        "problem": "\"Left something out\" and \"Too costly to check\" overlap the office box's left border, and \"Risks and new places\" runs past its right border. The arrow labels are small orange text, about 6-7 px tall at 360 px width: legible but marginal.",
+        "suggested_fix": "Move the labels fully inside or outside the box and enlarge them by about 30%."
+      },
+      {
+        "beat": "s04b01",
+        "severity": "minor",
+        "problem": "At about 58.0 s the side label morphs from \"Reward: see no mess\" to \"Reward: clean messes\" as garbled, letter-scrambled text (\"R?w?a?u?le?a?mc??s\") for about 0.3 s. It is transient, but it is visible at full and phone size.",
+        "suggested_fix": "Crossfade the two labels (FadeOut/FadeIn) instead of using a Transform morph."
+      },
+      {
+        "beat": "s03b01",
+        "severity": "minor",
+        "problem": "The side label \"Reward: move the box\" (and later \"Reward: see no mess\" / \"Reward: clean messes\" in s04b01) is small orange text beside the panel, about 7 px tall at 360 px width. It is readable, but it is the smallest essential label in the edit. The scene's own \"Amodei et al. (2016)\" citation under each panel is about 4 px at 360 px and duplicates the overlay citation.",
+        "suggested_fix": "Enlarge the reward labels. The tiny in-scene citation can stay, since the overlay carries the citation legibly."
+      },
+      {
         "beat": "s08b03",
         "severity": "minor",
-        "problem": "At 360x640 phone size, the five problem labels and Proposal badges in the reused landscape diagram are small. The portrait heading, scope and narration captions remain readable and preserve the research-agenda and preliminary-approach limitations supported by c06, c14 and c20.",
-        "suggested_fix": "Enlarge those source diagram labels or add readable portrait labels when the animation is next revised, preserving the five problem names and proposed status."
+        "problem": "The panel title \"Back to the office\" comes from the source scene, where the omitted s08b01 opens with \"Back to the office robot\". In this edit it sits above a list of five problems with \"Proposal\" tags and no office, so the title does not describe the diagram. It persists into s08b04, where it does fit.",
+        "suggested_fix": "Accept it, or give the limitation panel a title such as \"What the paper offers\"."
+      },
+      {
+        "beat": "s08b04",
+        "severity": "minor",
+        "problem": "In the first ~0.5 s after the cut at 122.467 s, the \"STATED LIMITATION\" badge crossfades into \"DEFINITION\" with both texts overlapping, while s08b03's proposal list is still fading out under the new heading. Both come from the selected preceding beat, not an omitted one, and clear within a second.",
+        "suggested_fix": "Cut the badge change rather than overlapping the two texts."
       },
       {
         "beat": "s01b02",
         "severity": "minor",
-        "problem": "Review limitation: I inspected the complete contact sheet, all segment start/end frames, additional actual-video frames at phone size, and burned-caption scripts. All 48 cues contain at most two lines and one accent color; the shortest duration is 1.76 seconds. Selected WAVs fit their segments with 0.333–0.367 seconds of padding. Video lasts 138.367 seconds and audio 138.4 seconds. Continuous playback and listening were unavailable, so perceived audio continuity and proportional caption-to-speech synchronization were not independently assessed.",
-        "suggested_fix": "Play and listen to the complete draft before posting, checking every cut and caption boundary for continuity and synchronization."
+        "problem": "Review limitation: I did not play or listen to the video. I checked the audio by comparing the WAV durations with the timeline segment durations (each segment is 0.34-0.37 s longer than its WAV) and by silence detection, which shows a pause at every cut (for example 11.07-11.65 s, 37.65-38.16 s, 121.97-122.54 s) and speech ending at 137.97 s of 138.5 s. No words appear to be clipped, and the caption cues line up with the detected pauses.",
+        "suggested_fix": "Do a quick listen before publishing to confirm the narration is clean."
       }
     ]
   }

@@ -32,7 +32,7 @@ scenes:
     - OMOHUNDRO (2007)
     claims:
     - c02
-    epistemic_label: future_scenario
+    epistemic_label: threat_model
   - id: s01b02
     narration: In his scenario, the machine could resist being turned off, make copies of itself, or acquire
       resources without regard for other people. The concern is that a goal can make these actions useful

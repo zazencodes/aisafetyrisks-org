@@ -51,9 +51,9 @@ def make_office():
 
 
 def make_score(slots):
-    label = T("Score", size=22, color=AMBER, weight=MEDIUM)
-    pips = VGroup(*[Square(side_length=0.2, stroke_color=AMBER, stroke_width=2, fill_color=AMBER, fill_opacity=0)
-                    for _ in range(slots)]).arrange(RIGHT, buff=0.08)
+    label = T("Score", size=30, color=AMBER, weight=MEDIUM)
+    pips = VGroup(*[Square(side_length=0.27, stroke_color=AMBER, stroke_width=2.5, fill_color=AMBER, fill_opacity=0)
+                    for _ in range(slots)]).arrange(RIGHT, buff=0.11)
     pips.next_to(label, RIGHT, buff=0.2)
     score = VGroup(label, pips)
     score.pips = pips
@@ -119,10 +119,13 @@ class S01(NarratedScene):
             new_tag = Tag("future_scenario")
             score = make_score(len(office.messes))
             score.next_to(office.floor.get_corner(UR), DL, buff=0.3)
-            hyp = T("Hypothetical", size=22, color=MUTED)
+            hyp = T("Hypothetical", size=30, color=SOFT)
             hyp.next_to(office.floor.get_corner(UL), UR, buff=0.12).shift(RIGHT * 0.15)
-            self.play(FadeOut(tag), FadeIn(new_tag), FadeIn(score), FadeIn(hyp), run_time=0.6)
+            # Swap the tag at the cut so this beat never shows the opening's tag.
+            self.remove(tag)
+            self.add(new_tag)
             tag = new_tag
+            self.play(FadeIn(score), FadeIn(hyp), run_time=0.6)
 
             for mess, pip in zip(office.messes, score.pips):
                 dx = mess.get_x() - robot.body.get_x()
@@ -147,7 +150,7 @@ class S01(NarratedScene):
             tag = new_tag
 
             self.play(FadeOut(robot.cone), robot.body.animate.set_fill(opacity=0.45), run_time=0.5)
-            self.play(score.animate.scale(1.7).move_to([-3.0, 1.15, 0]), run_time=1.0)
+            self.play(score.animate.scale(1.25).move_to([-3.0, 1.15, 0]), run_time=1.0)
             looks = T("Score looks good", size=32, color=AMBER).next_to(score, DOWN, buff=0.4)
             self.play(FadeIn(looks), run_time=0.5)
 

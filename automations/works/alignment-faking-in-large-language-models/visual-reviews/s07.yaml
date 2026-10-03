@@ -1,2 +1,10 @@
-render_key: 88092112f6662aaf
-issues: []
+render_key: d1c2fede71010abe
+issues:
+- beat: s07b01
+  severity: minor
+  problem: The beat now fades its workplace diagram out in the last second so s07b02 starts clean; the end-of-beat contact-sheet frame and the final ~0.2 s show only the heading and source note.
+  suggested_fix: None needed; the clear frame is intentional so the selected short beat s07b02 is self-contained.
+- beat: s07b02
+  severity: minor
+  problem: At 360 px phone width the top-right STATED LIMITATION tag pill text is only a few pixels tall; the essential labels (Constructed settings, Salient training cues, Limited concealment) are clearly readable in INK on dark fills.
+  suggested_fix: Optional; the portrait short carries its own limitation heading, so the tag can stay at kit size.

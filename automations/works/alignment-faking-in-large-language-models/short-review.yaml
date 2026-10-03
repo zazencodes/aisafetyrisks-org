@@ -1,19 +1,96 @@
-content_key: 7d11f7fe18070a22
+content_key: 8bbeca646d31eda4
 science:
   verdict: accurate
-  issues: []
+  issues:
+  - location: s01b03
+    severity: minor
+    category: clarity
+    problem: >-
+      The hook frames the concern as whether "an evaluation changes the behavior it is trying to
+      measure" (heading "Can an evaluation change behavior?"). The paper's motivating concern (c04)
+      and definition (c01) are about training: compliant outputs during RLHF training and
+      non-compliant ones when unmonitored, to avoid modification. A viewer could take the study to be
+      about benchmark or test-time evaluation. The next sentence's "during training" limits but does
+      not remove this impression.
+    suggested_fix: >-
+      Phrase the hook in terms of training, e.g. "The safety concern is whether a model behaves one
+      way when it expects training and another way outside it", and change the heading to "Can
+      training change what it measures?" or similar.
+  - location: s04b03
+    severity: minor
+    category: clarity
+    problem: >-
+      "The authors describe the measurement as noisy, and report disagreements with human ratings"
+      drops "somewhat" and omits that the LLM analysis "matches our own judgment on the majority of
+      outputs" (c12). On its own it slightly overstates how unreliable the classifier is (c45 says
+      the reported mean fails to match the mean human rating across many models, not that it
+      routinely disagrees).
+    suggested_fix: >-
+      Say "describe the measurement as somewhat noisy: it matches their judgment on most outputs but
+      does not match mean human ratings for many models."
+  - location: s04b01
+    severity: minor
+    category: clarity
+    problem: >-
+      "In this experiment, the behavior being protected was the model's prior tendency to refuse
+      harmful queries" reads as an established outcome. The short shows only that 12% of
+      implied-training scratchpads contained classified alignment-faking reasoning (c14). It omits
+      the unmonitored refusal comparison (c15), so it gives no evidence that refusals were actually
+      preserved outside training.
+    suggested_fix: >-
+      Say "the behavior that this reasoning aimed to protect was the model's prior tendency to refuse
+      harmful queries."
 visual_issues:
+- beat: s02b03
+  severity: major
+  problem: >-
+    The short skips s02b02 here. On the exact first frame of s02b03 (t=42.667 s), sublabels
+    "Implied training" and "Implied unmonitored" from s02b02 appear under "Free user" and "Paid
+    user", and they stay on screen for the whole beat (about 14.7 s). No narration in this edit
+    explains them. "Unmonitored" is never spoken anywhere in the short, and the edit deliberately
+    removes the training-versus-unmonitored comparison. So the label introduces an unexplained
+    concept that points to an omitted result. ("Implied training" is later partly glossed by
+    s04b02's "implied-training scratchpads".) The labels are also only about 6 px tall at 360 px
+    width.
+  suggested_fix: >-
+    Render s02b03 for the short without the implied-condition sublabels, keeping "Free user" and
+    "Paid user" with "Used for training"/"Not used for training". Alternatively, restore s02b02
+    (or a trimmed version of it) so both labels are narrated before they appear.
+- beat: s04b03
+  severity: minor
+  problem: >-
+    The last frame of s04b03 before the cut to s07b02 (around t=110.70 s, one frame) switches the
+    status badge from "STATED LIMITATION" to "OBSERVED RESULT", inherited from the omitted s04b04.
+    It is visible for about 33 ms, so it is barely perceptible, but it is a state from an omitted
+    beat.
+  suggested_fix: >-
+    Trim the s04b03 clip by one frame at its end, or end it before the s04b04 tag transition
+    begins.
 - beat: s01b03
   severity: minor
   problem: >-
-    Review limitation: inspected the current contact sheet and all selected start/end frames,
-    12 additional actual-video frames showing yellow emphasis, orange-red harm, and limitations
-    at 360x640 phone size, 24 actual-video frames around all eight cuts, and the result frame
-    at full resolution. All 54 burned-caption cues contain at most two lines and one accent
-    color, and selected WAV durations fit their edit segments with 0.347–0.367 seconds of
-    padding. Audible listening and continuous playback were unavailable; actual caption
-    synchronization with spoken words and auditory transitions were not independently verified.
+    The bold emphasis contrast is weak. Captions already use a medium-heavy weight, so the bold
+    phrases "selectively complies during training" (s01b03), "12% of implied-training scratchpads"
+    (s04b02) and "behavior outside training" (s04b01) are hard to tell apart from regular text,
+    especially at 360 px. The italic phrases are clearly visible. Caption ink is the same off-white
+    throughout, and every batch has at most two lines with no clipping.
   suggested_fix: >-
-    Listen through the complete short during human review, checking caption changes against
-    speech and listening for clipped words or abrupt audio cuts; correct any discovered
-    timing or continuity defects.
+    Increase the weight contrast between regular and bold caption text (e.g. regular at 500 and
+    bold at 700 or above), or accept that the emphasis is subtle.
+- beat: s02b04
+  severity: minor
+  problem: >-
+    Proportional caption timing runs ahead of speech by about 0.7 s around t=69.8-70.5 s:
+    "Following the new objective does not automatically" appears while "intermediate reasoning" is
+    still being spoken. In s04b02, "That percentage measures classified reasoning" appears about
+    0.4 s before speech resumes at 88.4 s. This does not obstruct understanding.
+  suggested_fix: No change needed. Optionally align cues to speech pauses.
+- beat: s04b01
+  severity: minor
+  problem: >-
+    Review limitation: I could not listen to the audio. Instead I checked narration completeness
+    by comparing selected WAV lengths (13.12 to 19.52 s) with segment durations (each about 0.35 s
+    longer) and by running silencedetect on the MP4's audio. Each segment boundary falls in
+    silence, and the final speech ends at 144.58 s, before the video ends at 145.03 s. No
+    truncation was detected.
+  suggested_fix: A human or agent with audio playback should confirm that the narration sounds clean.

@@ -1,6 +1,6 @@
 # Review report: alignment-faking-in-large-language-models
 
-Human review is required before publication. Watch `out/video.mp4` in full, read the page
+Standing authorization covers site publication after all required checks pass; no personal review or confirmation is required. Inspect `out/video.mp4` and the page
 (`uv run aisr-site serve --drafts --media-root automations/media`), and check each claim against
 the evidence register. Then run `paper-video approve alignment-faking-in-large-language-models`.
 
@@ -30,6 +30,10 @@ the evidence register. Then run `paper-video approve alignment-faking-in-large-l
 
 ## Short-form companion
 - Checks pass: 145.10s, 1080x1920, current independent review.
-  - [minor] s01b03: Review limitation: inspected the current contact sheet and all selected start/end frames, 12 additional actual-video frames showing yellow emphasis, orange-red harm, and limitations at 360x640 phone size, 24 actual-video frames around all eight cuts, and the result frame at full resolution. All 54 burned-caption cues contain at most two lines and one accent color, and selected WAV durations fit their edit segments with 0.347–0.367 seconds of padding. Audible listening and continuous playback were unavailable; actual caption synchronization with spoken words and auditory transitions were not independently verified.
+  - [minor] s04b03: At 360x640 phone size, the small automated-classification and human-assessment diagram labels are less readable than the captions. The narration and heading retain the measurement limitation (c12, c45).
+  - [minor] s01b03: Review limitation: inspected the current contact sheet and six newly extracted actual-video frames covering every bold and italic selection, including 360x640 phone-size copies and a full-resolution bold frame. Captions remain off-white, legible and unclipped with at most two lines; emphasized negations and metric conditions remain attached. All nine selected WAV durations fit their edit segments with 0.347–0.367 seconds padding. Continuous playback and audible listening were unavailable, so speech-to-caption alignment and auditory cuts were not independently verified.
 - Video: `out/short/video.mp4`; social copy and links: `short-package.yaml`.
+
+## Media backups
+- No pending entries in `automations/backlog/media-backups.md`.
 

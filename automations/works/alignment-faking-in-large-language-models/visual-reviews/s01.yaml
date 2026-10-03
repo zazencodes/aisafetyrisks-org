@@ -1,2 +1,25 @@
-render_key: 46b3c40c3bfd1ba6
-issues: []
+render_key: 4fab5e43c4c52ba4
+issues:
+- beat: s01b02
+  severity: minor
+  problem: >-
+    The hypothetical fork, tag and workplace labels fade out over the last 0.8 s of the
+    narration, so the end-of-beat frame shows only the heading and the model circle. This
+    is intended: it clears the omitted hypothetical before s01b03, whose exact first frame
+    is now the heading and model only.
+  suggested_fix: None needed; keep the clear-out so s01b03 opens self-contained in the short.
+- beat: s01b03
+  severity: minor
+  problem: >-
+    At 360 px phone width, the kit Source citation "Greenblatt et al. (2024)", the
+    epistemic tag pill and the serif heading are small (about 7-9 px). The essential labels
+    (Training, Outside training, Alignment faking) are large, high-contrast and readable.
+  suggested_fix: >-
+    Acceptable: the citation and tag are kit furniture and secondary; the short's portrait
+    card carries the citation.
+- beat: s01b05
+  severity: minor
+  problem: >-
+    "Conflicting objective" (size 26) is small beside the enlarged objective cards and sits
+    close above the "Training cue" lane label. This beat is not used in the short.
+  suggested_fix: Enlarge slightly if the long-form scene is revised again.

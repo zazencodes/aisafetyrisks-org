@@ -1,5 +1,5 @@
 {
-  "duration": 257.2,
+  "duration": 257.1,
   "width": 1920,
   "height": 1080,
   "chapters": [
@@ -8,23 +8,23 @@
       "title": "The Hidden Risk of AI Competence"
     },
     {
-      "start": 40.97,
+      "start": 40.93,
       "title": "Competent pursuit of wrong goals"
     },
     {
-      "start": 83.18,
+      "start": 83.15,
       "title": "Why learned proxies take over"
     },
     {
-      "start": 136.35,
+      "start": 136.32,
       "title": "Actor and critic disagreement"
     },
     {
-      "start": 180.23,
+      "start": 180.2,
       "title": "Fixing proxies through diversity"
     },
     {
-      "start": 217.0,
+      "start": 216.97,
       "title": "What This Means for AI Safety"
     }
   ],

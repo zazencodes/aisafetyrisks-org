@@ -1,6 +1,6 @@
-render_key: 88493707c176eed4
+render_key: 08eef929a8770e4a
 issues:
-  - beat: s05b02
-    severity: minor
-    problem: The human feedback label becomes small within the framed overview.
-    suggested_fix: Hide the repeated label while the illustration is reduced, retaining the amber information channel.
+- beat: s05b01
+  severity: minor
+  problem: The end-of-beat frame is intentionally empty apart from the heading and source, because the whole hypothetical illustration fades out in the final 0.8 s so that s05b02 (used without s05b01 in the short) starts from an empty stage.
+  suggested_fix: None needed; the illustration, tag and caption are on screen for the rest of the beat.

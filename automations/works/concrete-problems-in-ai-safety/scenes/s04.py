@@ -5,6 +5,7 @@ from aisr_kit import *
 BROWN = "#9A6B45"    # messes
 INTENT = "#8CC084"   # what the designer meant: green dashed
 WRITTEN = "#E0873A"  # the goal as written: solid orange
+WRITTEN_TEXT = "#F5A862"  # lighter orange for written-goal text, for contrast on the dark ground
 HARM = "#E0564F"     # harm: red
 
 OFFICE_C = np.array([-1.7, -0.35, 0])
@@ -168,7 +169,7 @@ class S04(NarratedScene):
             self.play(LaggedStart(*[FadeIn(m, scale=0.5) for m in messes], lag_ratio=0.2),
                       FadeIn(robot), FadeIn(score), run_time=1.0)
 
-            reward = T("Reward: see no mess", size=24, color=WRITTEN, weight=MEDIUM)
+            reward = T("Reward:\nsee no mess", size=40, color=WRITTEN_TEXT, weight=SEMIBOLD)
             reward.move_to([COL_X, 1.2, 0])
             self.play(FadeIn(reward, shift=LEFT * 0.2), run_time=0.5)
 
@@ -179,9 +180,11 @@ class S04(NarratedScene):
             self.play(*fill_pips(score.pips, 5), run_time=0.9)
             self.play(Indicate(messes, color=BROWN, scale_factor=1.3), run_time=0.7)
 
-            reward2 = T("Reward: clean messes", size=24, color=WRITTEN, weight=MEDIUM).move_to(reward)
-            self.play(ReplacementTransform(reward, reward2), Transform(robot.eye, eye_open),
-                      robot.cone.animate.set_fill(opacity=0.08), *fill_pips(score.pips, 2), run_time=0.8)
+            reward2 = T("Reward:\nclean messes", size=40, color=WRITTEN_TEXT, weight=SEMIBOLD)
+            reward2.move_to(reward)
+            self.play(FadeOut(reward), Transform(robot.eye, eye_open),
+                      robot.cone.animate.set_fill(opacity=0.08), run_time=0.4)
+            self.play(FadeIn(reward2), *fill_pips(score.pips, 2), run_time=0.4)
             reward = reward2
 
             new_mess = Dot(robot.body.get_center() + LEFT * 0.55, radius=0.11, color=BROWN)

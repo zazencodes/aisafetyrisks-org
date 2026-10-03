@@ -34,7 +34,7 @@ class S01(NarratedScene):
                 fill_color=PANEL,
                 fill_opacity=0.6,
             ).move_to([-4.6, -0.45, 0])
-            agent_label = T("Automated agent", size=22, color=BLUE, weight=MEDIUM).next_to(start_dock, UP, buff=0.25)
+            agent_label = T("Automated agent", size=30, color=BLUE, weight=MEDIUM).next_to(start_dock, UP, buff=0.25)
             agent = Agent(color=BLUE, radius=0.22).move_to([-4.6, -0.45, 0])
 
             obs1 = _make_hazard([-2.2, 0.45, 0], width=0.8, height=1.6)
@@ -69,7 +69,8 @@ class S01(NarratedScene):
                 fill_color=ROSE,
                 fill_opacity=0.15,
             ).move_to([4.5, -1.1, 0])
-            dest_label = T("Wrong destination", size=20, color=ROSE, weight=MEDIUM).next_to(dest_box, DOWN, buff=0.15)
+            dest_label = T("Wrong destination", size=30, color=ROSE, weight=MEDIUM).next_to(dest_box, DOWN, buff=0.15)
+            dest_label.align_to(facility, RIGHT).shift(LEFT * 0.2)
 
             self.play(
                 FadeIn(facility),
@@ -99,7 +100,7 @@ class S01(NarratedScene):
             path = VMobject().set_points_smoothly(path_points)
             trail = DashedVMobject(path, num_dashes=28, dashed_ratio=0.6, color=BLUE)
 
-            avoidance_label = T("Obstacle avoidance", size=22, color=SOFT, weight=MEDIUM).move_to([0.1, 1.25, 0])
+            avoidance_label = T("Obstacle avoidance", size=30, color=SOFT, weight=MEDIUM).move_to([0.1, 1.5, 0])
 
             self.play(
                 MoveAlongPath(agent, path),
@@ -190,8 +191,7 @@ class S01(NarratedScene):
             risk_banner = T("Risk: arbitrarily bad states", size=22, color=ROSE, weight=SEMIBOLD).move_to([3.2, -2.25, 0])
             self.play(FadeIn(risk_banner), restricted.animate.set_stroke(color=ROSE, width=3), run_time=1.2)
 
-        # Beat 3: Langosco et al. (2021) title card, question, and RL agent diagram
-        with self.beat("s01b03") as b:
+            # Clear the comparison as the narration ends, so the next beat opens on its own diagram.
             beat2_mobs = VGroup(
                 left_panel,
                 left_title,
@@ -208,15 +208,23 @@ class S01(NarratedScene):
                 right_trail,
                 risk_banner,
             )
+            self.wait(b.duration - 6.6 - 0.6)
+            self.play(FadeOut(beat2_mobs), run_time=0.6)
 
+        # Beat 3: Langosco et al. (2021) title card, question, and RL agent diagram
+        with self.beat("s01b03") as b:
+            # Swap the tag at the cut; morphing one tag into another garbles the text.
             new_tag = Tag("background")
-            citation_card = Panel(width=7.4, height=1.3, color=FAINT).move_to([0, 1.6, 0])
-            citation = T("Langosco et al. (2021)", size=24, color=INK, weight=MEDIUM).move_to([0, 1.88, 0])
-            core_question = T("Intended goal vs learned proxy", size=22, color=AMBER, weight=SEMIBOLD).move_to([0, 1.35, 0])
+            self.remove(tag)
+            self.add(new_tag)
+            tag = new_tag
+            citation_card = Panel(width=9.0, height=1.7, color=FAINT).move_to([0, 1.65, 0])
+            citation = T("Langosco et al. (2021)", size=36, color=INK, weight=MEDIUM).move_to([0, 2.05, 0])
+            core_question = T("Intended goal vs learned proxy", size=34, color=AMBER, weight=SEMIBOLD).move_to([0, 1.3, 0])
 
             # Left side: Neural network representing reinforcement learning
             nn_panel = Panel(width=5.0, height=3.0, color=FAINT).move_to([-3.4, -1.0, 0])
-            rl_label = T("Reinforcement learning", size=22, color=BLUE, weight=MEDIUM).move_to([-3.4, 0.1, 0])
+            rl_label = T("Reinforcement learning", size=30, color=BLUE, weight=MEDIUM).move_to([-3.4, 0.1, 0])
 
             in_nodes = [Dot([-4.4, y, 0], radius=0.1, color=BLUE) for y in [-0.7, -1.1, -1.5]]
             hid_nodes = [Dot([-3.4, y, 0], radius=0.1, color=BLUE) for y in [-0.5, -0.9, -1.3, -1.7]]
@@ -262,8 +270,6 @@ class S01(NarratedScene):
             proxy_marker = VGroup(proxy_box, proxy_beacon)
 
             self.play(
-                FadeOut(beat2_mobs),
-                Transform(tag, new_tag),
                 FadeIn(citation_card),
                 FadeIn(citation),
                 FadeIn(core_question),

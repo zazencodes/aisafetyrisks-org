@@ -1,6 +1,14 @@
 # storyboard: 7debc5a370f5a270
 from aisr_kit import *
 
+
+def make_cart(center, scale=1.0):
+    body = RoundedRectangle(width=1.7 * scale, height=0.7 * scale, corner_radius=0.15 * scale, color=TEAL, fill_opacity=0.25).move_to(center)
+    box = Rectangle(width=0.7 * scale, height=0.6 * scale, color=AMBER, fill_opacity=0.18).move_to(center + UP * 0.66 * scale)
+    wheels = VGroup(*[Circle(radius=0.16 * scale, color=TEAL, fill_opacity=1).move_to(center + (RIGHT * dx + DOWN * 0.5) * scale) for dx in [-0.5, 0.5]])
+    return VGroup(body, box, wheels)
+
+
 class S05(NarratedScene):
     def construct(self):
         with self.beat("s05b01") as b:
@@ -22,33 +30,75 @@ class S05(NarratedScene):
             stop_bar = Line(stop.get_center() + LEFT * 0.15, stop.get_center() + RIGHT * 0.15, color=INK, stroke_width=4)
             signal = Arrow(human.get_top(), stop.get_bottom(), color=AMBER, buff=0.08)
             feedback = Arrow(stop.get_top(), [-0.8, -0.12, 0], color=AMBER, buff=0.06)
-            label = T("Human feedback", size=25, color=AMBER).next_to(human, RIGHT, buff=0.5)
+            label = T("Human feedback", size=32, color=INK, weight=SEMIBOLD).next_to(human, RIGHT, buff=0.5)
             self.play(Transform(robot, cart_body), Transform(parcel, box), FadeIn(wheels), Create(door), run_time=1.7)
             self.play(Create(halo), GrowArrow(path), Create(human), Create(stop), Create(stop_bar), run_time=1.8)
             self.play(GrowArrow(signal), GrowArrow(feedback), FadeIn(label), run_time=1.5)
             self.play(Indicate(halo, color=AMBER), run_time=1.1)
             illustration = VGroup(robot, parcel, wheels, door, halo, path, human, stop, stop_bar, signal, feedback, label)
+            # Clear the whole scenario so the limitation beat starts from an empty stage.
+            self.wait(b.duration - 7.9 - 0.9)
+            self.play(FadeOut(tag), FadeOut(caption), FadeOut(illustration), run_time=0.8)
+
         with self.beat("s05b02") as b:
-            next_tag = Tag("limitation")
-            self.play(ReplacementTransform(tag, next_tag), FadeOut(caption), illustration.animate.scale(0.55).move_to(LEFT * 3.5 + DOWN * 0.4), run_time=1.7)
-            tag = next_tag
-            frame = RoundedRectangle(width=6, height=4.5, corner_radius=0.15, color=FAINT).move_to(LEFT * 3.2 + DOWN * 0.3)
-            game_label = T("One-shot game", size=27).move_to(LEFT * 3.2 + UP * 1.5)
-            branch = VGroup(Line([0.6, 0, 0], [1.4, 0, 0], color=TEAL), Line([1.4, 0, 0], [2.3, 0.75, 0], color=TEAL), Line([1.4, 0, 0], [2.3, -0.75, 0], color=ROSE))
-            branch_frame = RoundedRectangle(width=2.25, height=2.3, corner_radius=0.1, color=SOFT).move_to([1.5, 0, 0])
-            self.play(Create(frame), FadeIn(game_label), Create(branch_frame), Create(branch), run_time=1.7)
-            chain = VGroup(*[VGroup(Line([x, 0, 0], [x + 0.55, 0.5, 0], color=MUTED), Line([x, 0, 0], [x + 0.55, -0.5, 0], color=MUTED)) for x in [3.1, 4.15, 5.2]]).set_opacity(0.4)
-            self.play(LaggedStart(*[Create(part) for part in chain], lag_ratio=0.25), run_time=2)
-            other_arrow = Arrow([5.8, 0, 0], [3.2, 0, 0], color=GRAY, buff=0).set_opacity(0.6)
-            other_label = T("Other information", size=25, color=MUTED).move_to([4.5, 1.1, 0])
-            self.play(ReplacementTransform(chain, other_arrow), FadeIn(other_label), run_time=1.8)
-            self.play(Indicate(signal, color=AMBER), Indicate(feedback, color=AMBER), run_time=1.4)
+            tag = Tag("limitation")
+            self.add(tag)
+            # One-shot game: the robot waits, the human allows or stops.
+            frame = RoundedRectangle(width=5.8, height=4.0, corner_radius=0.15, color=SOFT).move_to([-3.2, -0.25, 0])
+            game_label = T("One-shot game", size=28, color=INK).move_to([-3.2, 1.38, 0])
+            small_cart = make_cart(np.array([-5.1, -0.3, 0]), scale=0.62)
+            person = Circle(radius=0.3, color=AMBER, fill_opacity=0.18).move_to([-2.9, -0.3, 0])
+            person_label = T("Human", size=24, color=AMBER).move_to([-2.9, -0.98, 0])
+            self.play(Create(frame), FadeIn(game_label), FadeIn(small_cart), Create(person), FadeIn(person_label), run_time=1.5)
+            wait_arrow = Arrow([-4.5, -0.3, 0], [-3.22, -0.3, 0], color=TEAL, buff=0)
+            proceed = Arrow([-2.62, -0.15, 0], [-1.0, 0.6, 0], color=TEAL, buff=0)
+            stop_small = Circle(radius=0.22, color=ROSE, fill_opacity=0.3).move_to([-1.0, -1.25, 0])
+            stop_small_bar = Line(stop_small.get_center() + LEFT * 0.1, stop_small.get_center() + RIGHT * 0.1, color=INK, stroke_width=3)
+            halt = Arrow([-2.62, -0.45, 0], stop_small.get_left() + LEFT * 0.04, color=ROSE, buff=0)
+            self.play(GrowArrow(wait_arrow), GrowArrow(proceed), GrowArrow(halt), FadeIn(stop_small), FadeIn(stop_small_bar), run_time=1.5)
+            # Longer sequences lie outside this model.
+            chain = VGroup(*[VGroup(Line([x - 0.45, 0, 0], [x, 0, 0], color=MUTED), Line([x, 0, 0], [x + 0.45, 0.45, 0], color=MUTED), Line([x, 0, 0], [x + 0.45, -0.45, 0], color=MUTED)) for x in [1.3, 2.7, 4.1, 5.5]]).shift(DOWN * 0.3).set_opacity(0.6)
+            sequence_label = T("Longer sequences", size=28, color=SOFT).move_to([3.4, 0.85, 0])
+            self.wait(1.1)
+            self.play(LaggedStart(*[Create(part) for part in chain], lag_ratio=0.25), FadeIn(sequence_label), run_time=1.8)
+            self.wait(3.0)
+            # Other information sources also lie outside the frame.
+            other = Arrow([5.9, -0.3, 0], [0.3, -0.3, 0], color=GRAY, buff=0, stroke_opacity=0.7)
+            other_label = T("Other information", size=28, color=SOFT).move_to([3.1, 0.35, 0])
+            self.play(FadeOut(sequence_label), run_time=0.3)
+            self.play(ReplacementTransform(chain, other), FadeIn(other_label), run_time=1.2)
+            # The sole information channel: the human's shutdown decision.
+            info = CurvedArrow([-2.95, 0.05, 0], [-4.75, 0.2, 0], angle=PI / 2, color=AMBER, stroke_width=5)
+            info_label = T("Shutdown decision", size=26, color=AMBER).move_to([-3.85, 0.88, 0])
+            self.wait(0.3)
+            self.play(Create(info), FadeIn(info_label), run_time=1.3)
+            self.wait(0.8)
+            self.play(Indicate(info, color=AMBER), Indicate(info_label, color=AMBER), Indicate(person, color=AMBER), run_time=1.5)
+
         with self.beat("s05b03") as b:
-            next_tag = Tag("author_interpretation")
-            self.play(ReplacementTransform(tag, next_tag), FadeOut(frame), FadeOut(game_label), FadeOut(branch_frame), FadeOut(branch), FadeOut(other_arrow), FadeOut(other_label), illustration.animate.scale(1 / 0.55).move_to([0.45, -0.45, 0]), run_time=2)
-            takeaway = T("Uncertainty makes correction valuable", size=31, color=INK).move_to(UP * 2.15)
-            self.play(FadeIn(takeaway), run_time=0.8)
-            self.play(Indicate(halo, color=AMBER), Indicate(feedback, color=AMBER), run_time=1.7)
-            cart = VGroup(robot, parcel, wheels)
-            self.play(cart.animate.shift(RIGHT * 1.15), run_time=2)
-            self.play(Indicate(stop, color=ROSE), Indicate(signal, color=AMBER), run_time=1.4)
+            obsolete = VGroup(frame, game_label, person_label, wait_arrow, proceed, halt, stop_small, stop_small_bar, other, other_label, info, info_label)
+            self.play(FadeOut(obsolete), FadeOut(tag), run_time=0.5)
+            tag = Tag("author_interpretation")
+            takeaway = T("Uncertainty can give correction value", size=31, color=INK).move_to(UP * 2.15)
+            cart = make_cart(np.array([-4.6, 0, 0]))
+            gate_human = Circle(radius=0.35, color=AMBER, fill_opacity=0.18).move_to([-0.8, -2.0, 0])
+            self.play(FadeIn(tag), FadeIn(takeaway), ReplacementTransform(small_cart, cart), ReplacementTransform(person, gate_human), run_time=1.0)
+            door = VGroup(Line([4, -1.1, 0], [4, 1.45, 0], color=SOFT), Line([4, 1.45, 0], [5.2, 1.45, 0], color=SOFT), Line([5.2, 1.45, 0], [5.2, -1.1, 0], color=SOFT))
+            path = Arrow([-2.3, 0, 0], [3.7, 0, 0], color=TEAL, buff=0)
+            halo = Ellipse(width=5.6, height=1.1, color=AMBER, fill_opacity=0.08, stroke_opacity=0.5).move_to([0.6, 0, 0])
+            halo_label = T("Uncertain value", size=27, color=AMBER).move_to([0.6, 0.95, 0])
+            self.play(Create(door), GrowArrow(path), Create(halo), FadeIn(halo_label), run_time=1.2)
+            stop = Circle(radius=0.3, color=ROSE, fill_opacity=0.3).move_to([-0.8, -0.95, 0])
+            stop_bar = Line(stop.get_center() + LEFT * 0.14, stop.get_center() + RIGHT * 0.14, color=INK, stroke_width=4)
+            thick = dict(color=AMBER, stroke_width=6, max_tip_length_to_length_ratio=0.45, max_stroke_width_to_length_ratio=14)
+            signal = Arrow(gate_human.get_top(), stop.get_bottom(), buff=0.08, **thick)
+            feedback = Arrow(stop.get_top(), [-0.8, -0.1, 0], buff=0.06, **thick)
+            correction = T("Human correction", size=30, color=INK, weight=SEMIBOLD).next_to(gate_human, RIGHT, buff=0.5)
+            self.play(Create(stop), Create(stop_bar), GrowArrow(signal), GrowArrow(feedback), FadeIn(correction), run_time=1.5)
+            self.wait(1.6)
+            self.play(Indicate(halo, color=AMBER), Indicate(halo_label, color=AMBER), run_time=1.5)
+            self.wait(1.6)
+            self.play(Indicate(gate_human, color=AMBER), Indicate(signal, color=AMBER), Indicate(feedback, color=AMBER), run_time=1.5)
+            self.wait(0.6)
+            self.play(cart.animate.shift(RIGHT * 1.0), run_time=1.8)
+            self.play(Indicate(stop, color=ROSE), Indicate(stop_bar, color=INK), run_time=1.2)

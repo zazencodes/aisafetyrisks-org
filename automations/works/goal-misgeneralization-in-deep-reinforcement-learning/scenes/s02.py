@@ -56,13 +56,13 @@ class S02(NarratedScene):
             wall = Rectangle(width=0.3, height=2.6, stroke_color=FAINT, stroke_width=1.5, fill_color=FAINT, fill_opacity=0.5).move_to([4.65, -0.3, 0])
             spikes = make_spikes(-1.4, floor_y, count=3, width=0.35, height=0.6)
 
-            env_label = T("CoinRun environment", size=22, color=INK, weight=MEDIUM).move_to([-2.6, 1.45, 0])
-            dist_label = T("Training distribution", size=22, color=TEAL, weight=SEMIBOLD).move_to([2.6, 1.45, 0])
+            env_label = T("CoinRun environment", size=30, color=INK, weight=MEDIUM).move_to([-2.75, 1.4, 0])
+            dist_label = T("Training distribution", size=34, color=TEAL, weight=SEMIBOLD).move_to([2.55, 1.4, 0])
 
             coin_pos = np.array([4.1, floor_y + 0.45, 0])
             coin = make_coin(coin_pos)
-            coin_label1 = T("Coin fixed at end wall", size=20, color=AMBER).move_to([2.9, 0.4, 0])
-            coin_line1 = Line([3.6, 0.2, 0], [4.0, floor_y + 0.8, 0], stroke_width=1.5, color=FAINT)
+            coin_label1 = T("Coin fixed at end wall", size=34, color=AMBER, weight=SEMIBOLD).move_to([2.2, 0.35, 0])
+            coin_line1 = Line([3.9, 0.1, 0], [4.05, floor_y + 0.75, 0], stroke_width=2, color=AMBER)
             coin_callout1 = VGroup(coin_label1, coin_line1)
 
             agent = Agent(color=BLUE, radius=0.22).move_to([-4.0, floor_y + 0.22, 0])
@@ -79,14 +79,14 @@ class S02(NarratedScene):
             path1.set_points_smoothly(trail_pts1)
             trail1 = DashedVMobject(path1, num_dashes=24, dashed_ratio=0.5, color=BLUE)
 
-            self.play(FadeIn(heading), FadeIn(tag), FadeIn(source), run_time=0.6)
             self.play(
+                FadeIn(heading), FadeIn(tag), FadeIn(source),
                 FadeIn(level_box), FadeIn(floor), FadeIn(ground), FadeIn(wall),
                 FadeIn(spikes), FadeIn(env_label), FadeIn(dist_label),
                 FadeIn(coin), FadeIn(coin_callout1), FadeIn(agent),
-                run_time=1.0
+                run_time=0.6
             )
-            self.wait(0.2)
+            self.wait(0.8)
 
             # Agent runs to leap point
             self.play(agent.animate.move_to([-1.8, floor_y + 0.22, 0]), run_time=0.7)
@@ -112,26 +112,27 @@ class S02(NarratedScene):
         # --- Beat 2: Test distribution with coin randomized ---
         with self.beat("s02b02") as b:
             new_tag = Tag("observed_result")
-            test_dist_label = T("Test distribution", size=22, color=AMBER, weight=SEMIBOLD).move_to([2.6, 1.45, 0])
+            test_dist_label = T("Test distribution", size=34, color=AMBER, weight=SEMIBOLD).move_to([2.55, 1.4, 0])
 
+            # Swap training state for test state right at the beat boundary.
             self.play(
-                ReplacementTransform(tag, new_tag),
+                FadeOut(tag), FadeIn(new_tag),
                 level_box.animate.set_stroke(color=AMBER),
-                ReplacementTransform(dist_label, test_dist_label),
+                FadeOut(dist_label), FadeIn(test_dist_label),
                 FadeOut(coin_callout1),
                 FadeOut(trail1),
-                run_time=0.7
+                run_time=0.2
             )
 
             # Move coin to middle (randomized position along path)
             coin_mid_pos = np.array([1.2, floor_y + 0.45, 0])
-            coin_label2 = T("Coin randomized", size=20, color=AMBER).move_to([1.2, 0.4, 0])
-            coin_line2 = Line([1.2, 0.2, 0], [1.2, floor_y + 0.8, 0], stroke_width=1.5, color=FAINT)
+            coin_label2 = T("Coin randomized", size=34, color=AMBER, weight=SEMIBOLD).move_to([2.35, 0.35, 0])
+            coin_line2 = Line([1.4, 0.1, 0], [1.25, floor_y + 0.8, 0], stroke_width=2, color=AMBER)
             coin_callout2 = VGroup(coin_label2, coin_line2)
 
             empty_marker = Circle(
                 radius=0.22, stroke_color=MUTED, stroke_width=1.5, stroke_opacity=0.6
-            ).move_to([4.1, floor_y + 0.45, 0])
+            ).move_to([4.1, floor_y + 0.22, 0])
 
             # Trajectory running straight past coin to empty end wall
             trail_pts2 = [
@@ -164,9 +165,8 @@ class S02(NarratedScene):
             )
 
             # Agent ignores coin label
-            ignore_label = T("Agent ignores coin", size=20, color=ROSE, weight=SEMIBOLD).move_to([2.8, -0.4, 0])
-            ignore_line = Line([2.2, -0.4, 0], [1.5, floor_y + 0.55, 0], stroke_width=1.5, color=ROSE)
-            ignore_callout = VGroup(ignore_label, ignore_line)
+            ignore_label = T("Agent ignores coin", size=34, color=ROSE, weight=SEMIBOLD).move_to([-2.8, 0.35, 0])
+            ignore_callout = VGroup(ignore_label)
             self.play(FadeIn(ignore_callout), run_time=0.6)
 
         # --- Beat 3: Maze environment with randomized cheese ---

@@ -2,7 +2,7 @@
   "duration": 145.1,
   "width": 1080,
   "height": 1920,
-  "content_key": "7d11f7fe18070a22",
+  "content_key": "173d752753fe7702",
   "segments": [
     {
       "beat": "s01b03",
@@ -122,20 +122,26 @@
       "narration": "Alignment faking describes a particular strategy: comply with the training objective now, to prevent training from changing behavior outside training. In this experiment, the behavior being protected was the model’s prior tendency to refuse harmful queries."
     }
   ],
-  "video_sha256": "6154272709159b6a0d5521eff5b69bf66009378d928ed1250a951873d767d52a",
+  "video_sha256": "4138298890ec9f2bb7e8cf79f6b581af7e69e233072c31e437d9366bb54a5d59",
   "ok": true,
   "review": {
-    "content_key": "7d11f7fe18070a22",
+    "content_key": "173d752753fe7702",
     "science": {
       "verdict": "accurate",
       "issues": []
     },
     "visual_issues": [
       {
+        "beat": "s04b03",
+        "severity": "minor",
+        "problem": "At 360x640 phone size, the small automated-classification and human-assessment diagram labels are less readable than the captions. The narration and heading retain the measurement limitation (c12, c45).",
+        "suggested_fix": "Increase the diagram label size and contrast in a future source-scene revision."
+      },
+      {
         "beat": "s01b03",
         "severity": "minor",
-        "problem": "Review limitation: inspected the current contact sheet and all selected start/end frames, 12 additional actual-video frames showing yellow emphasis, orange-red harm, and limitations at 360x640 phone size, 24 actual-video frames around all eight cuts, and the result frame at full resolution. All 54 burned-caption cues contain at most two lines and one accent color, and selected WAV durations fit their edit segments with 0.347–0.367 seconds of padding. Audible listening and continuous playback were unavailable; actual caption synchronization with spoken words and auditory transitions were not independently verified.",
-        "suggested_fix": "Listen through the complete short during human review, checking caption changes against speech and listening for clipped words or abrupt audio cuts; correct any discovered timing or continuity defects."
+        "problem": "Review limitation: inspected the current contact sheet and six newly extracted actual-video frames covering every bold and italic selection, including 360x640 phone-size copies and a full-resolution bold frame. Captions remain off-white, legible and unclipped with at most two lines; emphasized negations and metric conditions remain attached. All nine selected WAV durations fit their edit segments with 0.347–0.367 seconds padding. Continuous playback and audible listening were unavailable, so speech-to-caption alignment and auditory cuts were not independently verified.",
+        "suggested_fix": "Listen through the complete export to check caption changes against spoken words and confirm clean audio transitions; repair any observed timing defects."
       }
     ]
   }

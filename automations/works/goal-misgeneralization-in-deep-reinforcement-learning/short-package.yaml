@@ -1,5 +1,5 @@
 status: draft
-content_key: 58406e5c4d818dc4
+content_key: babe001c7b5c4c45
 files:
   video: out/short/video.mp4
   cover: out/short/cover.jpg
@@ -9,7 +9,7 @@ format:
   width: 1080
   height: 1920
   frame_rate: 30
-  duration: 114.2
+  duration: 114.0
 title: Capable agent. Wrong goal.
 description: Langosco and colleagues tested goal misgeneralization in reinforcement-learning game environments.
   In CoinRun, an agent trained with the coin at the right wall ran past a relocated coin. Varying coin
@@ -19,48 +19,7 @@ links:
   explainer: https://aisafetyrisks.org/works/goal-misgeneralization-in-deep-reinforcement-learning/
   paper: https://arxiv.org/abs/2105.14111v7
 citation: Langosco et al. (2021)
-review:
-  content_key: 58406e5c4d818dc4
-  science:
-    verdict: accurate
-    issues:
-    - location: s05b03.on_screen_text
-      severity: minor
-      category: clarity
-      problem: The inherited diagram says 'Shortcut broken', although c14 supports improved goal generalization
-        with 2% randomized training levels and further improvement with more randomization. The narration
-        and portrait heading correctly describe weakening the shortcut, which limits the misleading implication
-        of that stronger diagram label.
-      suggested_fix: Change the source diagram label to 'Shortcut weakened' when revising its animation.
-  visual_issues:
-  - beat: s03b01
-    severity: minor
-    problem: At 360x640 phone size, auxiliary diagram labels such as 'Always co-occur', 'Visual object
-      tracking', 'Simpler directional cue' and the inductive-bias hypothesis are very small and low contrast.
-      Some comparison and scope-boundary labels in s05b02 and s06b02 are similarly difficult to read.
-      Their essential meanings remain in the legible narration captions and portrait headings; no essential
-      experimental condition relies solely on the small labels.
-    suggested_fix: Increase the essential source diagram labels or create portrait-specific diagrams,
-      then inspect actual frames at 360px width.
-  - beat: s01b03
-    severity: minor
-    problem: 'This cut briefly inherits the capability-failure/risk comparison from the omitted preceding
-      source beat before the study card replaces it. The label ''Risk: arbitrarily bad states'' remains
-      during the early transition. s06b02 similarly begins with the omitted deployment-threat-model diagram
-      before transitioning to scope boundaries. These are labelled source visuals, but the selected beat
-      claim lists omit the additional inherited threat-model claims.'
-    suggested_fix: Begin selected beats in their own visual states while retaining full narration, or
-      explicitly record inherited visual claims in the short's provenance.
-  - beat: s01b01
-    severity: minor
-    problem: Continuous playback and listening were unavailable. I reviewed the entire supplied brief
-      against the verified notes, the contact sheet, full-resolution individual frames, and additional
-      actual-video frames at 360px phone size covering caption colors, CoinRun cuts and limitations. All
-      41 rendered ASS cues have at most two lines and one accent color; highlighted phrases preserve their
-      meaning. Every selected WAV fits within its segment with 0.34-0.37 seconds padding. Caption timing
-      relative to heard speech was not verified.
-    suggested_fix: Play the complete short with sound before posting to verify speech/caption synchronization,
-      transitions and absence of audible clipping.
+review: null
 provenance:
 - beat: s01b01
   claims:

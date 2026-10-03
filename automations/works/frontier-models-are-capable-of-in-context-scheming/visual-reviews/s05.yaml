@@ -1,2 +1,6 @@
-render_key: 6e659b89436b4cee
-issues: []
+render_key: 259ff6cb2da70334
+issues:
+- beat: s05b01
+  severity: minor
+  problem: The connector arrows between the four pipeline boxes are short, so the flow direction reads mainly from box order.
+  suggested_fix: Optional; widen the gaps if the pipeline is ever given more horizontal room.

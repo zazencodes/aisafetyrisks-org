@@ -1,11 +1,18 @@
 {
   "scene": "s04",
   "rendered": true,
-  "render_key": "149da4683aa5749a",
+  "render_key": "c3dc6ed774af1fcd",
   "problems": [],
   "render_log_tail": null,
   "layout_problems": [],
   "visual_review": {
-    "issues": []
+    "issues": [
+      {
+        "beat": "s04b03",
+        "severity": "minor",
+        "problem": "The small amber token that reappears inside the broad uncertainty halo is unlabelled; narration carries its meaning.",
+        "suggested_fix": "Optional; label it or let the halo alone carry the point."
+      }
+    ]
   }
 }

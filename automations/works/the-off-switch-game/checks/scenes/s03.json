@@ -1,11 +1,18 @@
 {
   "scene": "s03",
   "rendered": true,
-  "render_key": "1a221b246f5498e1",
+  "render_key": "4cb6f37be7a4b2c0",
   "problems": [],
   "render_log_tail": null,
   "layout_problems": [],
   "visual_review": {
-    "issues": []
+    "issues": [
+      {
+        "beat": "s03b03",
+        "severity": "minor",
+        "problem": "The uncertainty halo sits where the Wait node was, so the two branch lines start inside the halo next to the combined diamonds.",
+        "suggested_fix": "Optional; shorten the branch origins to the halo edge."
+      }
+    ]
   }
 }

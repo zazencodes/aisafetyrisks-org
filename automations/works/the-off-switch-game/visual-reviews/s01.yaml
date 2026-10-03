@@ -1,2 +1,10 @@
-render_key: e1913e558b779804
-issues: []
+render_key: 84368bea3a85a48c
+issues:
+- beat: s01b03
+  severity: minor
+  problem: The end-of-beat frame shows only the robot node because the threat-model diagram and tag now fade out in the final 0.8 s, so s01b04 (used without s01b03 in the short) opens cleanly.
+  suggested_fix: None needed; the full diagram is visible for the rest of the beat.
+- beat: s01b04
+  severity: minor
+  problem: The enlarged Human label sits close below the paper title.
+  suggested_fix: Optional; nudge the title up slightly if the layout is revisited.

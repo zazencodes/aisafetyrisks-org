@@ -87,25 +87,27 @@ class S02(NarratedScene):
             phrase.next_to(word, DOWN, buff=0.35)
             rest = T("that may emerge from poor design of real-world AI systems", size=22, color=SOFT)
             rest.next_to(phrase, DOWN, buff=0.2)
-            self.play(Write(phrase), run_time=2.4)
+            self.play(FadeIn(phrase), run_time=0.6)
+            self.wait(1.8)
             self.play(FadeIn(rest), run_time=1.0)
             self.play(Indicate(room.floor, color=ROSE, scale_factor=1.04), run_time=1.2)
 
         # Beat 2: away from extreme scenarios, towards practical, testable problems.
         with self.beat("s02b02") as b:
             tag2 = Tag("author_interpretation")
-            self.play(FadeOut(VGroup(title, cite, word, phrase, rest)), ReplacementTransform(tag, tag2),
-                      run_time=1.0)
+            self.remove(tag)
+            self.add(tag2)
+            self.play(FadeOut(VGroup(title, cite, word, phrase, rest, room)), run_time=1.0)
             tag = tag2
 
             puff = cloud(5.0)
-            puff_label = T("Extreme scenarios", size=28, color=MUTED)
+            puff_label = T("Extreme scenarios", size=32, color=INK, weight=MEDIUM)
             big = VGroup(puff, puff_label)
             puff_label.move_to(puff)
             big.move_to(UP * 3.2)
             big.set_opacity(0)
-            self.play(big.animate.move_to(UP * 0.7).set_opacity(0.8), run_time=2.0)
-            puff_label.set_fill(opacity=0.8)
+            self.play(puff.animate.shift(DOWN * 2.5).set_opacity(0.8),
+                      puff_label.animate.shift(DOWN * 2.5).set_opacity(1), run_time=2.0)
             self.play(FadeOut(big, shift=UP * 0.4), run_time=1.4)
 
             boxes = VGroup(*[RoundedRectangle(corner_radius=0.1, width=1.0, height=0.7, stroke_color=BLUE,
@@ -126,7 +128,9 @@ class S02(NarratedScene):
             tag3 = Tag("definition")
             bot = room.robot
             others = VGroup(*[m for m in room if m is not bot])
-            self.play(FadeOut(VGroup(boxes, row_label, testable)), FadeOut(others), ReplacementTransform(tag, tag3),
+            self.remove(tag)
+            self.add(tag3)
+            self.play(FadeOut(VGroup(boxes, row_label, testable)), FadeOut(others),
                       bot.animate.scale(2.5).move_to(np.array([5.7, 2.0, 0])),
                       run_time=1.2)
             tag = tag3
@@ -156,7 +160,9 @@ class S02(NarratedScene):
         # Beat 4: five problems under three branches; the robot rolls into the centre.
         with self.beat("s02b04") as b:
             tag4 = Tag("method")
-            self.play(ReplacementTransform(tag, tag4), *[n.box.animate.set_fill(ORANGE, opacity=0.12) for n in cats],
+            self.remove(tag)
+            self.add(tag4)
+            self.play(*[n.box.animate.set_fill(ORANGE, opacity=0.12) for n in cats],
                       run_time=0.8)
             tag = tag4
 

@@ -1,11 +1,18 @@
 {
   "scene": "s03",
   "rendered": true,
-  "render_key": "9aa0976fcdf98624",
+  "render_key": "a966ba6a95a5be67",
   "problems": [],
   "render_log_tail": null,
   "layout_problems": [],
   "visual_review": {
-    "issues": []
+    "issues": [
+      {
+        "beat": "s03b03",
+        "severity": "minor",
+        "problem": "The inset model label \"o3\" sits close to the 13.0% value label after the chart shrinks; they do not overlap and remain readable at 360 px.",
+        "suggested_fix": "Optionally move the inset title further above the bars."
+      }
+    ]
   }
 }

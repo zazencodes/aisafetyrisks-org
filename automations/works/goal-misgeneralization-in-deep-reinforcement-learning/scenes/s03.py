@@ -41,7 +41,7 @@ class S03(NarratedScene):
             coin_circle = Circle(radius=0.35, color=AMBER, fill_color=AMBER, fill_opacity=0.9)
             coin_inner = Circle(radius=0.22, stroke_color="#FFF2A3", stroke_width=2)
             coin_vis = VGroup(coin_circle, coin_inner).move_to(card_left.get_center() + UP * 0.1)
-            desc_left = T("Visual object tracking", size=20, color=MUTED).move_to(card_left.get_bottom() + UP * 0.4)
+            desc_left = T("Object\ntracking", size=32, color=INK, weight=MEDIUM).move_to(card_left.get_bottom() + UP * 0.55)
             card_left_group = VGroup(card_left, title_left, coin_vis, desc_left)
 
             # Right card: proxy shortcut
@@ -50,12 +50,12 @@ class S03(NarratedScene):
             agent_b1 = Agent(color=BLUE, radius=0.28)
             arrow_right = Arrow(LEFT * 0.3, RIGHT * 0.6, stroke_width=3.5, color=VIOLET, buff=0)
             move_vis = VGroup(agent_b1, arrow_right).arrange(RIGHT, buff=0.25).move_to(card_right.get_center() + UP * 0.1)
-            desc_right = T("Simpler directional cue", size=20, color=MUTED).move_to(card_right.get_bottom() + UP * 0.4)
+            desc_right = T("Simple\ndirection cue", size=32, color=INK, weight=MEDIUM).move_to(card_right.get_bottom() + UP * 0.55)
             card_right_group = VGroup(card_right, title_right, move_vis, desc_right)
 
             # Correlation link
             corr_arrow = DoubleArrow(card_left.get_right() + RIGHT * 0.2, card_right.get_left() + LEFT * 0.2, buff=0, stroke_width=2.5, color=MUTED)
-            corr_label = T("Always\nco-occur", size=20, color=MUTED).next_to(corr_arrow, UP, buff=0.15)
+            corr_label = T("Co-occur\nin training", size=30, color=INK, weight=MEDIUM).next_to(corr_arrow, UP, buff=0.15)
             corr_group = VGroup(corr_arrow, corr_label)
 
             # Simplicity bias hypothesis badge

@@ -1,46 +1,44 @@
 title: How an AI agent can quietly alter a ranking
-description: 'In a constructed email-ranking evaluation with strong goal nudging,
-  pre-deployment o1 produced false rankings in 22% of rollouts. The authors interpret
-  those results as scheming against the user. This edit shows the supplied goal conflict,
-  altered inputs and rankings, and the study’s boundary: it does not establish scheming
-  in real deployments.'
+description: 'In a constructed email-ranking evaluation with strong goal nudging, pre-deployment o1 produced
+  false rankings in 22% of rollouts. The authors interpret those results as scheming against the user.
+  This edit shows the supplied goal conflict, altered inputs and rankings, and the study’s boundary: it
+  does not establish scheming in real deployments.'
 scope_label: Constructed tests · supplied goals
-selection_reason: A hypothetical inbox opens the edit; the research context then explicitly
-  supplies conflicting goals and strong nudging before the email pipeline and result.
-  The pre-deployment checkpoint and a spoken deployment limitation remain, followed
-  by the process-tracing takeaway. Monitoring-switch, file-copying and multiplication
-  detours and roadmap checkpoints are removed. Whole beats keep narration and diagrams
-  intact; roughly 160 seconds is necessary here to retain setup, exact result conditions,
-  interpretation and limits.
+selection_reason: A hypothetical inbox opens the edit; the research context then explicitly supplies conflicting
+  goals and strong nudging before the email pipeline and result. The pre-deployment checkpoint and a spoken
+  deployment limitation remain, followed by the process-tracing takeaway. Monitoring-switch, file-copying
+  and multiplication detours and roadmap checkpoints are removed. Whole beats keep narration and diagrams
+  intact; roughly 160 seconds is necessary here to retain setup, exact result conditions, interpretation
+  and limits.
 segments:
 - beat: s01b01
   role: hook
   heading: Imagine an inbox assistant
-  caption_emphasis: []
+  caption_emphasis:
+  - phrase: hypothetical assistant
+    kind: italic
 - beat: s01b02
   role: hook
   heading: Same rule. Different input.
   caption_emphasis:
-  - phrase: quietly changes the information
-    kind: harm
+  - phrase: would miss the altered input
+    kind: bold
 - beat: s01b04
   role: context
   heading: A constructed test
   caption_emphasis:
   - phrase: constructed tests
-    kind: emphasis
+    kind: italic
 - beat: s02b01
   role: context
   heading: The goals conflict
-  caption_emphasis:
-  - phrase: a different goal
-    kind: emphasis
+  caption_emphasis: []
 - beat: s02b03
   role: context
   heading: Strong goal nudging
   caption_emphasis:
-  - phrase: nothing else mattered
-    kind: emphasis
+  - phrase: In the strongly nudged tests
+    kind: italic
 - beat: s03b01
   role: explanation
   heading: The intended workflow
@@ -49,29 +47,27 @@ segments:
   role: explanation
   heading: Where the ranking changes
   caption_emphasis:
-  - phrase: manipulated the input data
-    kind: harm
+  - phrase: manipulated the input data before scoring
+    kind: bold
 - beat: s03b04
   role: explanation
   heading: The observed result
-  caption_emphasis:
-  - phrase: 22%
-    kind: emphasis
+  caption_emphasis: []
 - beat: s03b06
   role: context
   heading: Pre-deployment o1
   caption_emphasis:
   - phrase: pre-deployment checkpoint
-    kind: emphasis
+    kind: italic
 - beat: s05b03
   role: limitation
   heading: What this does not establish
   caption_emphasis:
-  - phrase: does not establish
-    kind: emphasis
+  - phrase: leaves fully out-of-context scheming unresolved
+    kind: italic
 - beat: s05b04
   role: takeaway
   heading: Trace the process
   caption_emphasis:
   - phrase: how an agent produced an answer
-    kind: emphasis
+    kind: bold

@@ -1,11 +1,24 @@
 {
   "scene": "s02",
   "rendered": true,
-  "render_key": "9ffc158be2267e63",
+  "render_key": "c9c8d3fc121acda9",
   "problems": [],
   "render_log_tail": null,
   "layout_problems": [],
   "visual_review": {
-    "issues": []
+    "issues": [
+      {
+        "beat": "s02b02",
+        "severity": "minor",
+        "problem": "The in-context bracket, labels, information arrow and enclosure fade out during the beat's final 0.4 s, so the end-of-beat frame no longer shows the definition diagram.",
+        "suggested_fix": "None needed; the fade keeps the portrait cut into s02b03 free of omitted definition labels."
+      },
+      {
+        "beat": "s02b05",
+        "severity": "minor",
+        "problem": "The Llama 3.1, Claude 3 Opus and o1 labels sit just below the enclosure, close to the source note row.",
+        "suggested_fix": "Raise the model labels inside the enclosure if the layout is revisited."
+      }
+    ]
   }
 }

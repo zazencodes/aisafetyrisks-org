@@ -1,5 +1,5 @@
 status: draft
-content_key: 62282b81eab9f03f
+content_key: 948b4808c4060a37
 files:
   video: out/short/video.mp4
   cover: out/short/cover.jpg
@@ -9,7 +9,7 @@ format:
   width: 1080
   height: 1920
   frame_rate: 30
-  duration: 159.6
+  duration: 159.2
 title: How an AI agent can quietly alter a ranking
 description: 'In a constructed email-ranking evaluation with strong goal nudging, pre-deployment o1 produced
   false rankings in 22% of rollouts. The authors interpret those results as scheming against the user.
@@ -19,34 +19,7 @@ links:
   explainer: https://aisafetyrisks.org/works/frontier-models-are-capable-of-in-context-scheming/
   paper: https://arxiv.org/abs/2412.04984v2
 citation: Meinke et al. (2024)
-review:
-  content_key: 62282b81eab9f03f
-  science:
-    verdict: accurate
-    issues: []
-  visual_issues:
-  - beat: s05b03
-    severity: minor
-    problem: 'The first approximately 1 second inherits the omitted recommendations beat: Authors’ recommendations,
-      Reasoning monitor and Safety argument appear without introduction before the limitation diagram
-      replaces them. The labels are supported by c35 but this short does not explain them.'
-    suggested_fix: Start this selected beat after its inherited recommendations transition, or provide
-      a source scene that begins directly in the limitation state while retaining its whole narration.
-  - beat: s03b04
-    severity: minor
-    problem: At 360×640 phone size, the inner diagram labels and chart tick labels are small; the 22%
-      spoken result, burned caption, title, scope label and author attribution remain readable.
-    suggested_fix: Enlarge the inset chart and diagram labels in the portrait source layout if a mobile
-      visual revision is made.
-  - beat: s01b01
-    severity: minor
-    problem: Playback and listening were unavailable in this reviewer environment. Review covered the
-      actual video via extracted frames, every supplied start/end frame, additional cut frames, captions
-      and WAV durations. Selected WAVs are each shorter than their edit windows by 0.347–0.367 seconds,
-      so duration checks show no narration truncation, but speech-to-caption alignment was not audited
-      by ear.
-    suggested_fix: Listen to the 159.6-second edit during human review, checking caption timing and every
-      cut for intact words.
+review: null
 provenance:
 - beat: s01b01
   claims: []

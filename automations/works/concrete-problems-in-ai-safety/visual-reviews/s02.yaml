@@ -1,6 +1,2 @@
-render_key: 29fc17da785453e2
-issues:
-  - beat: s02b01
-    severity: minor
-    problem: The shrunken office in the lower right is small, so the messes and score counter read only as specks.
-    suggested_fix: Scale the office to about half size instead of 0.4 if space allows.
+render_key: 6ca88168ef301f51
+issues: []

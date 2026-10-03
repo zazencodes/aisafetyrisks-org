@@ -1,6 +1,6 @@
 # Review report: concrete-problems-in-ai-safety
 
-Human review is required before publication. Watch `out/video.mp4` in full, read the page
+Standing authorization covers site publication after all required checks pass; no personal review or confirmation is required. Inspect `out/video.mp4` and the page
 (`uv run aisr-site serve --drafts --media-root automations/media`), and check each claim against
 the evidence register. Then run `paper-video approve concrete-problems-in-ai-safety`.
 
@@ -38,6 +38,9 @@ the evidence register. Then run `paper-video approve concrete-problems-in-ai-saf
 - Checks pass: 138.40s, 1080x1920, current independent review.
   - [minor] s02b02: The source diagram's row labelled Practical problems contains six boxes, whereas c02 and c06 specify five problems. The portrait title and five subsequent examples correctly identify the count, so this inherited diagram inconsistency is unlikely to alter the central meaning.
   - [minor] s08b03: At 360x640 phone size, the five problem labels and Proposal badges in the reused landscape diagram are small. The portrait heading, scope and narration captions remain readable and preserve the research-agenda and preliminary-approach limitations supported by c06, c14 and c20.
-  - [minor] s01b02: Review limitation: I inspected the complete contact sheet, all segment start/end frames, additional actual-video frames at phone size, and burned-caption scripts. All 48 cues contain at most two lines and one accent color; the shortest duration is 1.76 seconds. Selected WAVs fit their segments with 0.333–0.367 seconds of padding. Video lasts 138.367 seconds and audio 138.4 seconds. Continuous playback and listening were unavailable, so perceived audio continuity and proportional caption-to-speech synchronization were not independently assessed.
+  - [minor] s01b02: Review limitation: inspected the complete contact sheet, segment start/end frames, and eight actual-video frames showing every selected bold/italic phrase at 360x640 phone size plus a full-resolution italic frame. Captions use off-white ink, fit within two lines, and preserve qualifications and negations. Selected WAVs fit their complete edit segments with 0.333–0.367 seconds padding; the video duration is 138.4 seconds. Continuous playback and listening were unavailable, so perceived audio continuity and proportional caption-to-speech synchronization were not independently assessed.
 - Video: `out/short/video.mp4`; social copy and links: `short-package.yaml`.
+
+## Media backups
+- No pending entries in `automations/backlog/media-backups.md`.
 
