@@ -165,6 +165,96 @@
         "verdict": "accurate",
         "issues": []
       }
+    },
+    {
+      "content": "9919189511c128b6",
+      "recorded_on": "2026-09-30",
+      "review": {
+        "verdict": "needs_revision",
+        "issues": [
+          {
+            "location": "logline; s06b03",
+            "severity": "major",
+            "category": "unsupported_claim",
+            "problem": "The claim that competence makes misalignment harder to detect or masks a misaligned objective is not established by c01 or c04. Those claims define retained capability and state that reward optimization does not guarantee pursuit of the intended reward; they do not measure detection difficulty.",
+            "suggested_fix": "State that agents can retain capabilities while pursuing a different behavioral objective (c01), and attribute the training-guarantee implication to the authors (c04). Remove the detection claim."
+          },
+          {
+            "location": "s01b02",
+            "severity": "major",
+            "category": "unsupported_claim",
+            "problem": "The categorical assertion that competence failures are easy to spot because systems crash or halt is not supported by c02. That claim says earlier work focused on failures to act sensibly, without establishing detectability or these particular failure modes.",
+            "suggested_fix": "Describe capability generalization failure as failure to act sensibly at test time (c02), and present the crash as a schematic example rather than the definition. Retain attribution and conditional wording for the safety concern (c03)."
+          },
+          {
+            "location": "s03b01",
+            "severity": "major",
+            "category": "unsupported_claim",
+            "problem": "Saying that moving right and reaching the coin were perfectly correlated is stronger than c08, which describes a proxy correlated with reward. CoinRun still requires navigating obstacles, so rightward movement by itself does not establish coin collection.",
+            "suggested_fix": "Say that the coin's location at the right end made rightward progress a reward-correlated proxy in training, citing c12 and c08; retain the explicit hypothesis about easier features from c09."
+          },
+          {
+            "location": "s04b02",
+            "severity": "major",
+            "category": "misrepresentation",
+            "problem": "Treating the wall itself as the reward conflates the critic's value estimate with the environment's reward. c20 reports higher critic value at the level end, no discernible difference from coin presence, and the authors' proxy interpretation.",
+            "suggested_fix": "State that critic value was much higher at the level end regardless of coin visibility, and attribute the proxy interpretation to the authors (c20). Label any smooth curve as schematic, since c20 reports averages at stages rather than a measured continuous positional curve."
+          },
+          {
+            "location": "s05.checkpoint; s05.purpose; s05b03",
+            "severity": "major",
+            "category": "overgeneralization",
+            "problem": "The promises to prevent proxies, restore true goal tracking, and force the agent to track the genuine goal turn improved CoinRun goal generalization into a guaranteed solution. c14 establishes improvement with 2% randomized training levels and says further randomization helps; it does not establish perfect generalization or prevention.",
+            "suggested_fix": "Limit the conclusion to greatly improved goal generalization in the CoinRun experiment (c14). Present breaking the correlation as the proposed explanation (c08), and remove guarantees of prevention or forced goal tracking."
+          },
+          {
+            "location": "s05b02.visual",
+            "severity": "major",
+            "category": "misleading_visual",
+            "problem": "The visual states that at 0% randomization the agent always ignores the coin. c13 says generally, and c14 supplies no absolute baseline failure rate.",
+            "suggested_fix": "Describe the baseline agent as generally ignoring the coin (c13), and show a qualitative improvement with 2% randomized levels (c14) without inventing a measured baseline rate."
+          },
+          {
+            "location": "s03b02.narration",
+            "severity": "minor",
+            "category": "missing_limitation",
+            "problem": "The spoken 89% finding omits the exclusion of occasions when reaching the yellow gem required passing through the red line. The on-screen qualifier helps, but the spoken phrase across 102 trials can be read as an unconditional rate.",
+            "suggested_fix": "Say 89% of the time, excluding occasions requiring passage through the red line, n = 102 (c17), with the qualification visible alongside the bar."
+          }
+        ]
+      }
+    },
+    {
+      "content": "e3c624f135122987",
+      "recorded_on": "2026-09-30",
+      "review": {
+        "verdict": "accurate",
+        "issues": [
+          {
+            "location": "s04b03.on_screen_text; d3.note",
+            "severity": "minor",
+            "category": "missing_limitation",
+            "problem": "The permeable-wall result displays 100% without the sample size n = 114 supplied by c21. The narration correctly limits the result to the permeable-wall experiment, but displaying its sample size would make the finite experimental scope clearer.",
+            "suggested_fix": "Display '100% (n = 114)' alongside the permeable-wall result and include n = 114 in d3.note, as reported in c21."
+          }
+        ]
+      }
+    },
+    {
+      "content": "e3c624f135122987",
+      "recorded_on": "2026-09-30",
+      "review": {
+        "verdict": "accurate",
+        "issues": [
+          {
+            "location": "s04b03.on_screen_text; d3.note",
+            "severity": "minor",
+            "category": "missing_limitation",
+            "problem": "The current permeable-wall result displays 100% without the sample size n = 114 supplied by c21. The narration limits the result to the permeable-wall experiment, but displaying its sample size would make the finite experimental scope clearer.",
+            "suggested_fix": "Display '100% (n = 114)' alongside the permeable-wall result and include n = 114 in d3.note, as reported in c21."
+          }
+        ]
+      }
     }
   ],
   "site": [
@@ -315,6 +405,22 @@
     {
       "content": "3894595c09ee5267",
       "recorded_on": "2026-09-27",
+      "review": {
+        "verdict": "accurate",
+        "issues": []
+      }
+    },
+    {
+      "content": "ccf89be2a05729cd",
+      "recorded_on": "2026-09-30",
+      "review": {
+        "verdict": "accurate",
+        "issues": []
+      }
+    },
+    {
+      "content": "ccf89be2a05729cd",
+      "recorded_on": "2026-09-30",
       "review": {
         "verdict": "accurate",
         "issues": []

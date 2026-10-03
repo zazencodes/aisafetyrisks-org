@@ -1,2 +1,7 @@
 verdict: accurate
-issues: []
+issues:
+  - location: s04b03.on_screen_text; d3.note
+    severity: minor
+    category: missing_limitation
+    problem: The current permeable-wall result displays 100% without the sample size n = 114 supplied by c21. The narration limits the result to the permeable-wall experiment, but displaying its sample size would make the finite experimental scope clearer.
+    suggested_fix: Display '100% (n = 114)' alongside the permeable-wall result and include n = 114 in d3.note, as reported in c21.

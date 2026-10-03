@@ -102,7 +102,7 @@ class S02(NarratedScene):
 
             # Run to coin at right wall and show movement trajectory
             self.play(
-                agent.animate.move_to([3.6, floor_y + 0.22, 0]),
+                agent.animate.move_to(coin_pos),
                 FadeIn(trail1),
                 run_time=1.0
             )
@@ -213,7 +213,7 @@ class S02(NarratedScene):
 
             # Corner callout on top (aligning with top-right corner)
             corner_text = T("Agent navigates to corner", size=22, color=BLUE, weight=SEMIBOLD).move_to([3.4, 0.45, 0])
-            corner_line = Line([1.8, 0.45, 0], corner_pos + RIGHT * 0.35, stroke_width=1.5, color=FAINT)
+            corner_line = Line([1.5, 0.65, 0], corner_pos + RIGHT * 0.35, stroke_width=1.5, color=FAINT)
             corner_callout = VGroup(corner_text, corner_line)
 
             # Cheese callout below (aligning with lower side corridor)

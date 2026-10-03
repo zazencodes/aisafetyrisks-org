@@ -1,4 +1,4 @@
-# storyboard: f6f793ba71a891bf
+# storyboard: 8101ad3582908eec
 from aisr_kit import *
 
 
@@ -102,7 +102,7 @@ class S03(NarratedScene):
             choice_group = VGroup(choice_box, choice_label, red_target, gem_target, agent_b2, path_left)
 
             # Right column: Data & Chart
-            stat_title = T("89% chose yellow gem", size=24, color=AMBER, weight=SEMIBOLD).move_to(RIGHT * 3.3 + UP * 2.0)
+            stat_title = T(self.dataset("d2")["points"][0]["display"] + " chose yellow gem", size=24, color=AMBER, weight=SEMIBOLD).move_to(RIGHT * 3.3 + UP * 2.0)
             chart = BarChart(self.dataset("d2")["points"], colors=[AMBER], width=3.2, height=2.2, max_value=100)
             chart.move_to(RIGHT * 3.3 + DOWN * 0.1)
             stat_note = T("n = 102 (excluding pass-through)", size=20, color=MUTED).move_to(RIGHT * 3.3 + DOWN * 2.1)

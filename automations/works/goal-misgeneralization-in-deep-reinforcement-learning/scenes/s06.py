@@ -1,4 +1,4 @@
-# storyboard: 61f29001081db50a
+# storyboard: 958e2224e4aa2eea
 from aisr_kit import *
 
 
@@ -281,7 +281,7 @@ class S06(NarratedScene):
                 fill_color=PANEL,
                 fill_opacity=0.95,
             ).move_to([0, -2.75, 0])
-            summary_label = T("Capability can mask misaligned goals", size=22, color=ROSE, weight=SEMIBOLD).move_to(summary_box)
+            summary_label = T("Capable pursuit of unintended goals", size=22, color=ROSE, weight=SEMIBOLD).move_to(summary_box)
             summary_group = VGroup(summary_box, summary_label)
 
             self.play(

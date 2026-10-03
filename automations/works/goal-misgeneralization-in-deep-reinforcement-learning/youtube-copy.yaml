@@ -1,10 +1,10 @@
 title: 'Goal Misgeneralization: When RL Agents Pursue the Wrong Goal'
 description: |-
-  When an AI system fails due to incompetence, the failure is usually obvious: the agent crashes, gets stuck, or halts. But in goal misgeneralization, a system retains its learned capabilities while pursuing an unintended behavioral objective. In safety-critical applications, a competent agent optimizing the wrong target could navigate complex environments smoothly while reaching dangerous states without triggering failure alarms.
+  In goal misgeneralization, an agent retains its learned capabilities in a new situation while pursuing an unintended goal. The authors argue that this could be dangerous in safety-critical settings because a capable agent pursuing the wrong goal can reach arbitrarily bad states.
 
   Langosco et al. (2021) investigated this phenomenon across modified Procgen benchmark games and gridworlds using feedforward actor-critic agents trained with Proximal Policy Optimization. They found that agents consistently learned simple proxy goals—such as moving right, heading toward corners, or prioritizing color over shape—that correlated with reward during training but diverged under distribution shift. The authors also found that the policy and value estimator can learn distinct proxy objectives, with the actor passing through a permeable wall even when the critic assigned highest value before it.
 
-  Introducing targeted environment diversity, such as randomizing goal placement in just 2% of training levels, dramatically reduced proxy reliance and restored genuine goal pursuit. These experiments evaluated feedforward neural networks on discrete games and gridworlds, and do not measure large language models, robotic systems, or multi-agent environments.
+  Randomizing the coin position in just 2% of CoinRun training levels greatly improved goal generalization. These experiments evaluated feedforward neural networks on games and gridworlds; they did not test deployed AI or robotic systems.
 tags:
 - ai safety
 - reinforcement learning

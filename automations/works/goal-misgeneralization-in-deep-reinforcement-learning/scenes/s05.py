@@ -1,4 +1,4 @@
-# storyboard: ea01a920aacda1af
+# storyboard: 768a9e7dcbc43daa
 from aisr_kit import *
 
 
@@ -79,12 +79,12 @@ class S05(NarratedScene):
             wall_node = Node("Proxy: reach right wall", color=ROSE, width=4.2, height=0.75, size=22, fill=0.15).move_to([3.3, -1.15, 0])
 
             corr_arrow = DoubleArrow(coin_node.get_bottom(), wall_node.get_top(), buff=0.15, stroke_width=2.5, color=MUTED)
-            corr_label = T("Always co-occurred", size=20, color=MUTED).next_to(corr_arrow, RIGHT, buff=0.2)
+            corr_label = T("Always co-occurred", size=20, color=MUTED).move_to([3.3, -1.9, 0])
 
             cross_l1 = Line(corr_arrow.get_center() + DL * 0.22, corr_arrow.get_center() + UR * 0.22, color=ROSE, stroke_width=2.5)
             cross_l2 = Line(corr_arrow.get_center() + UL * 0.22, corr_arrow.get_center() + DR * 0.22, color=ROSE, stroke_width=2.5)
             break_cross = VGroup(cross_l1, cross_l2)
-            decorr_label = T("Decoupled by diversity", size=20, color=TEAL, weight=SEMIBOLD).next_to(corr_arrow, RIGHT, buff=0.32)
+            decorr_label = T("Decoupled by diversity", size=20, color=TEAL, weight=SEMIBOLD).move_to([3.3, -1.9, 0])
 
             self.play(FadeIn(heading), FadeIn(tag), FadeIn(source), run_time=0.6)
             self.play(FadeIn(b1_title), run_time=0.4)
@@ -150,7 +150,7 @@ class S05(NarratedScene):
             self.play(FadeIn(group_std), FadeIn(card_rand), FadeIn(title_rand), run_time=1.0)
             self.play(FadeIn(chart.frame), run_time=0.6)
             self.play(bars_grow(chart), FadeIn(chart.values), FadeIn(unit_note), run_time=0.8)
-            self.play(FadeIn(banner), run_time=0.8)
+            self.play(agent_std.animate.move_to([-1.4, -0.12, 0]), FadeIn(banner), run_time=1.5)
 
             b2_all = VGroup(b2_title, group_std, group_rand, banner)
 

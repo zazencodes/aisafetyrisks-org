@@ -1,4 +1,4 @@
-# storyboard: 7467488da81c545a
+# storyboard: d7ff94cf01757ed6
 from aisr_kit import *
 
 
@@ -112,7 +112,8 @@ class S04(NarratedScene):
             peak_ring = Circle(radius=0.18, stroke_color=AMBER, stroke_width=1.5).move_to([2.0, -1.1, 0])
             wall_val_label = T("High value at wall", size=22, color=AMBER, weight=SEMIBOLD).move_to([0.2, -1.1, 0])
             peak_arrow = Arrow([1.2, -1.1, 0], [1.8, -1.1, 0], stroke_width=2.5, color=AMBER, buff=0.05)
-            val_group = VGroup(val_box, baseline, wall_proj, curve, peak_dot, peak_ring, wall_val_label, peak_arrow)
+            schematic_label = T("Schematic value curve", size=20, color=SOFT).move_to([-2.7, -2.6, 0])
+            val_group = VGroup(val_box, baseline, wall_proj, curve, peak_dot, peak_ring, wall_val_label, peak_arrow, schematic_label)
 
             self.play(ReplacementTransform(tag, tag_b2), FadeOut(b1_elements), run_time=0.8)
             tag = tag_b2
@@ -125,6 +126,8 @@ class S04(NarratedScene):
             self.play(FadeIn(val_box), FadeIn(baseline), FadeIn(wall_proj), run_time=0.6)
             self.play(Create(curve), run_time=1.2)
             self.play(FadeIn(peak_dot), FadeIn(peak_ring), FadeIn(wall_val_label), GrowArrow(peak_arrow), run_time=0.8)
+            self.play(FadeIn(schematic_label), coin_b2.animate.set_opacity(0.15), run_time=0.7)
+            self.play(Indicate(peak_ring), coin_b2.animate.set_opacity(1), run_time=0.7)
 
             b2_elements = VGroup(
                 b2_title, coin_callout, coin_b2, wall_solid, val_group
@@ -156,7 +159,8 @@ class S04(NarratedScene):
             ])
             crit_thumb_wall = DashedLine([-0.9, -2.4, 0], [-0.9, -1.3, 0], stroke_width=1.5, color=AMBER)
             crit_thumb_dot = Dot([-0.9, -1.4, 0], radius=0.06, color=AMBER)
-            card_crit_group = VGroup(card_critic, t_crit_head, crit_thumb_base, crit_thumb_curve, crit_thumb_wall, crit_thumb_dot)
+            thumb_label = T("Schematic value curve", size=20, color=SOFT).move_to([-2.6, -2.6, 0])
+            card_crit_group = VGroup(card_critic, t_crit_head, crit_thumb_base, crit_thumb_curve, crit_thumb_wall, crit_thumb_dot, thumb_label)
 
             card_actor = Panel(width=4.8, height=2.1, color=BLUE).move_to([2.6, -1.75, 0])
             stat_val = self.dataset("d3")["points"][0]["display"]

@@ -1,5 +1,6 @@
-status: draft
-published_on: null
+status: published
+published_on: '2026-09-30'
+published_at: '2026-09-30T17:27:32.986+00:00'
 updated_on: null
 title: Goal Misgeneralization in Deep Reinforcement Learning
 dek: In simple games, trained agents kept their skills when the goal moved but used them to chase a proxy,
@@ -139,24 +140,25 @@ references:
   url: https://arxiv.org/abs/2105.14111v7
   note: the original paper
 video:
-  key: works/goal-misgeneralization-in-deep-reinforcement-learning/video-bc2df78b6881.mp4
-  duration_seconds: 243.98
+  key: works/goal-misgeneralization-in-deep-reinforcement-learning/video-7886099f0396.mp4
+  duration_seconds: 257.2
   width: 1920
   height: 1080
   captions: captions.vtt
   chapters:
   - start: 0.0
     title: The Hidden Risk of AI Competence
-  - start: 40.0
+  - start: 40.97
     title: Competent pursuit of wrong goals
-  - start: 78.72
+  - start: 83.18
     title: Why learned proxies take over
-  - start: 127.08
+  - start: 136.35
     title: Actor and critic disagreement
-  - start: 167.5
+  - start: 180.23
     title: Fixing proxies through diversity
-  - start: 204.75
+  - start: 217.0
     title: What This Means for AI Safety
   youtube_url: null
 thumbnail: thumbnail.jpg
-review: null
+review:
+  reviewed_on: '2026-09-30'

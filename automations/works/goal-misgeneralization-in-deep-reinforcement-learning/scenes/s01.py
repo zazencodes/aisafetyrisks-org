@@ -1,4 +1,4 @@
-# storyboard: 927a5f6cfa0009b3
+# storyboard: be378f355c43ba37
 from aisr_kit import *
 
 
@@ -169,10 +169,10 @@ class S01(NarratedScene):
             # Right agent weaves past hazards into restricted zone
             right_path_points = [
                 np.array([1.1, -0.5, 0]),
-                np.array([1.8, 0.1, 0]),
-                np.array([2.4, 0.85, 0]),
-                np.array([3.0, 0.1, 0]),
-                np.array([3.6, -0.85, 0]),
+                np.array([1.7, -0.9, 0]),
+                np.array([2.4, -1.0, 0]),
+                np.array([3.0, -0.25, 0]),
+                np.array([3.6, -0.25, 0]),
                 np.array([4.4, -0.5, 0]),
                 np.array([5.1, -0.5, 0]),
             ]

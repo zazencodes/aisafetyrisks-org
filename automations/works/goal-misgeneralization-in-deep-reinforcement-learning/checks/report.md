@@ -9,11 +9,12 @@ the evidence register. Then run `paper-video approve goal-misgeneralization-in-d
 
 ## Storyboard
 - Provenance checks: pass.
-- Science review: **none of the current version**.
+- Science review: **accurate**.
+  - [minor] s04b03.on_screen_text; d3.note: The current permeable-wall result displays 100% without the sample size n = 114 supplied by c21. The narration limits the result to the permeable-wall experiment, but displaying its sample size would make the finite experimental scope clearer.
 
 ## Web page
 - Provenance checks: pass.
-- Science review: **none of the current version**.
+- Science review: **accurate**.
 
 ## Scenes
 - s01: rendered=True, layout problems=0, visual review=recorded, visual issues=0 (contact sheet `frames/s01-sheet.png`)
@@ -24,7 +25,7 @@ the evidence register. Then run `paper-video approve goal-misgeneralization-in-d
 - s06: rendered=True, layout problems=0, visual review=recorded, visual issues=0 (contact sheet `frames/s06-sheet.png`)
 
 ## Video
-- Duration 244 s, 1920x1080.
+- Duration 257 s, 1920x1080.
 
 ## Short-form companion
 - Checks pass: 114.20s, 1080x1920, current independent review.
