@@ -17,7 +17,7 @@
 <div class="band">
   <div class="wrap work-title">
     <div>
-      <p class="eyebrow">{{ w.category.label }}<span class="sep">·</span><time datetime="{{ w.paper.published.isoformat() }}">{{ w.paper.published|date }}</time></p>
+      <p class="eyebrow">{{ w.category.label }}<span class="sep">·</span><time datetime="{{ w.paper.published.strftime("%Y-%m") }}">{{ w.paper.published|research_date }}</time></p>
       <h1>{{ w.title }}</h1>
       <p class="dek">{{ w.dek }}</p>
       <dl class="paper-meta">
@@ -30,7 +30,7 @@
         <dd>{{ w.paper.authors|join(", ") }}</dd>
         {% endif %}
         <dt>Published</dt>
-        <dd><time datetime="{{ w.paper.published.isoformat() }}">{{ w.paper.published|date }}</time>{% if w.paper.venue %} · {{ w.paper.venue }}{% endif %}{% if w.paper.arxiv_id %} · arXiv:{{ w.paper.arxiv_id }}{% endif %}</dd>
+        <dd><time datetime="{{ w.paper.published.strftime("%Y-%m") }}">{{ w.paper.published|research_date }}</time>{% if w.paper.venue %} · {{ w.paper.venue }}{% endif %}{% if w.paper.arxiv_id %} · arXiv:{{ w.paper.arxiv_id }}{% endif %}</dd>
       </dl>
       <div class="actions">
         <a class="button" href="{{ w.paper.url }}" target="_blank" rel="noopener" aria-label="Original paper (opens in a new tab)">Original paper <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3h7v7M13 3 4 12" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>

@@ -27,7 +27,7 @@
         <img src="/works/{{ lw.slug }}/{{ w.thumbnail }}" alt="" loading="lazy" width="1280" height="720">
       </a>
       <div>
-        <p class="eyebrow"><time datetime="{{ w.paper.published.isoformat() }}">{{ w.paper.published|date }}</time><span class="sep">·</span>{{ w.category.label }}</p>
+        <p class="eyebrow"><time datetime="{{ w.paper.published.strftime("%Y-%m") }}">{{ w.paper.published|research_date }}</time><span class="sep">·</span>{{ w.category.label }}</p>
         <h2><a href="/works/{{ lw.slug }}/">{{ w.title }}</a>{% if w.status == "draft" %}<span class="draft-flag">Draft</span>{% endif %}</h2>
         <p class="dek">{{ w.dek }}</p>
         <p class="source">Explains <i>{{ w.paper.title }}</i> — {{ w.paper.authors|authors }}, {{ w.paper.published.year }}</p>

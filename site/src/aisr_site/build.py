@@ -126,6 +126,10 @@ def fmt_date(d: date) -> str:
     return f"{d.day} {d.strftime('%B %Y')}"
 
 
+def fmt_research_date(d: date) -> str:
+    return d.strftime("%B %Y")
+
+
 def author_line(authors: list[str]) -> str:
     if len(authors) <= 3:
         return ", ".join(authors[:-1]) + (" and " if len(authors) > 1 else "") + authors[-1]
@@ -232,7 +236,7 @@ def work_jsonld(cfg: SiteConfig, base: str, lw: LoadedWork, url: str, image: str
                     "@type": "ScholarlyArticle",
                     "name": w.paper.title,
                     "author": [{"@type": "Person", "name": a} for a in w.paper.authors],
-                    "datePublished": w.paper.published.isoformat(),
+                    "datePublished": w.paper.published.strftime("%Y-%m"),
                     "url": str(w.paper.url),
                     **({"sameAs": f"https://doi.org/{w.paper.doi}"} if w.paper.doi else {}),
                 },
@@ -349,7 +353,7 @@ def build(include_drafts: bool = False, media_base_url: str | None = None) -> Pa
     css_url = css_bundle(DIST)
 
     env = Environment(loader=PackageLoader("aisr_site"), undefined=StrictUndefined, autoescape=True)
-    env.filters.update(date=fmt_date, timestamp=fmt_timestamp, authors=author_line)
+    env.filters.update(date=fmt_date, research_date=fmt_research_date, timestamp=fmt_timestamp, authors=author_line)
     env.globals.update(site=cfg, base=base, css_url=css_url, year=date.today().year,
                        site_jsonld=jsonld(site_jsonld(cfg, base)))
 
