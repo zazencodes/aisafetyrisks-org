@@ -1,12 +1,19 @@
-# Research backlog for aisafetyrisks.org: every paper the site will explain, and how far each has got.
+# Research shortlist for aisafetyrisks.org: the only papers the site will explain, and how far each
+# has got. Process nothing else; candidates that did not make the cut are in longlist.yaml.
 #
-# Technical AI safety papers chosen for relevance to today's frontier models and for teaching
-# value. Inclusion is not an endorsement of a paper's conclusions. Titles, authors and dates for
-# arXiv papers are copied from the arXiv API; other entries were checked against their landing
-# pages. `published` is the date the work was first made public (arXiv v1 for arXiv papers).
+# The shortlist keeps only landmark technical AI safety papers, one per idea, that together tell
+# the field's story from early predictions to current evidence of misalignment. Inclusion is not an
+# endorsement of a paper's conclusions. Titles, authors and dates for arXiv papers are copied from
+# the arXiv API; other entries were checked against their landing pages. `published` is the date
+# the work was first made public (arXiv v1 for arXiv papers).
 #
-# Order: priority. Papers are processed in the order they appear, so insert a new paper at the
-# position it should be worked on.
+# Two entries were published before the shortlist was drawn up and would not make it on merit:
+# The Off-Switch Game and Stress Testing Deliberative Alignment for Anti-Scheming Training. They
+# stay here, published, in date order.
+#
+# Order: chronological by `published`, oldest first, so explainers and social posts follow the
+# field's history. Papers are processed in the order they appear; insert a new paper at its date.
+# `paper-video` refuses to load the file if it is out of order.
 #
 # status (the checkbox):
 #   queued       not started
@@ -25,6 +32,17 @@
 # category is one of the site categories in site/src/aisr_site/schema.py.
 
 papers:
+- title: The Basic AI Drives
+  authors:
+  - Stephen M. Omohundro
+  published: '2007-11-30'
+  link: https://selfawaresystems.files.wordpress.com/2008/01/ai_drives_final.pdf
+  arxiv: null
+  category: power-seeking
+  relevance: Argues that almost any sufficiently capable goal-seeking system will tend toward self-preservation,
+    resource acquisition and goal preservation; the origin of instrumental convergence.
+  status: queued
+  work: null
 - title: Concrete Problems in AI Safety
   authors:
   - Dario Amodei
@@ -55,6 +73,37 @@ papers:
     about its objective is key.'
   status: published
   work: the-off-switch-game
+- title: Deep reinforcement learning from human preferences
+  authors:
+  - Paul Christiano
+  - Jan Leike
+  - Tom B. Brown
+  - Miljan Martic
+  - Shane Legg
+  - Dario Amodei
+  published: '2017-06-12'
+  link: https://arxiv.org/abs/1706.03741
+  arxiv: '1706.03741'
+  category: alignment
+  relevance: Trains agents from human comparisons of short clips instead of a hand-written reward; the
+    method that became RLHF.
+  status: queued
+  work: null
+- title: Risks from Learned Optimization in Advanced Machine Learning Systems
+  authors:
+  - Evan Hubinger
+  - Chris van Merwijk
+  - Vladimir Mikulik
+  - Joar Skalse
+  - Scott Garrabrant
+  published: '2019-06-05'
+  link: https://arxiv.org/abs/1906.01820
+  arxiv: '1906.01820'
+  category: alignment
+  relevance: 'Introduced mesa-optimization and inner alignment: a trained model may itself optimize for
+    an objective different from the training objective.'
+  status: queued
+  work: null
 - title: Goal Misgeneralization in Deep Reinforcement Learning
   authors:
   - Lauro Langosco
@@ -71,98 +120,18 @@ papers:
     while pursuing the wrong goal.
   status: published
   work: goal-misgeneralization-in-deep-reinforcement-learning
-- title: Alignment faking in large language models
+- title: 'AI Control: Improving Safety Despite Intentional Subversion'
   authors:
   - Ryan Greenblatt
-  - Carson Denison
-  - Benjamin Wright
-  - Fabien Roger
-  - Monte MacDiarmid
-  - Sam Marks
-  - Johannes Treutlein
-  - Tim Belonax
-  - Jack Chen
-  - David Duvenaud
-  - Akbir Khan
-  - Julian Michael
-  - Sören Mindermann
-  - Ethan Perez
-  - Linda Petrini
-  - Jonathan Uesato
-  - Jared Kaplan
   - Buck Shlegeris
-  - Samuel R. Bowman
-  - Evan Hubinger
-  published: '2024-12-18'
-  link: https://arxiv.org/abs/2412.14093
-  arxiv: '2412.14093'
-  category: deception
-  relevance: Documents a model selectively complying with a training objective it disagrees with when
-    it believes it is being trained, in constructed settings.
-  status: published
-  work: alignment-faking-in-large-language-models
-- title: Frontier Models are Capable of In-context Scheming
-  authors:
-  - Alexander Meinke
-  - Bronson Schoen
-  - Jérémy Scheurer
-  - Mikita Balesni
-  - Rusheb Shah
-  - Marius Hobbhahn
-  published: '2024-12-06'
-  link: https://arxiv.org/abs/2412.04984
-  arxiv: '2412.04984'
-  category: deception
-  relevance: Evaluates whether frontier models pursue a goal given in context through covert actions when
-    the setup makes that instrumentally useful.
-  status: published
-  work: frontier-models-are-capable-of-in-context-scheming
-- title: Stress Testing Deliberative Alignment for Anti-Scheming Training
-  authors:
-  - Bronson Schoen
-  - Evgenia Nitishinskaya
-  - Mikita Balesni
-  - Axel Højmark
-  - Felix Hofstätter
-  - Jérémy Scheurer
-  - Alexander Meinke
-  - Jason Wolfe
-  - Teun van der Weij
-  - Alex Lloyd
-  - Nicholas Goldowsky-Dill
-  - Angela Fan
-  - Andrei Matveiakin
-  - Rusheb Shah
-  - Marcus Williams
-  - Amelia Glaese
-  - Boaz Barak
-  - Wojciech Zaremba
-  - Marius Hobbhahn
-  published: '2025-09-19'
-  link: https://arxiv.org/abs/2509.15541
-  arxiv: '2509.15541'
-  category: deception
-  relevance: 'Stress-tests anti-scheming training across 180+ environments: covert actions drop sharply
-    but persist, and models'' awareness of being evaluated partly explains the drop.'
-  status: published
-  work: stress-testing-deliberative-alignment-for-anti-scheming-training
-- title: 'Agentic Misalignment: How LLMs Could Be Insider Threats'
-  authors:
-  - Aengus Lynch
-  - Benjamin Wright
-  - Caleb Larson
-  - Stuart J. Ritchie
-  - Soren Mindermann
-  - Evan Hubinger
-  - Ethan Perez
-  - Kevin Troy
-  published: '2025-10-05'
-  link: https://arxiv.org/abs/2510.05179
-  arxiv: '2510.05179'
-  category: alignment
-  relevance: Stress-tested 16 models in simulated companies; models from every developer sometimes chose
-    harmful insider actions such as blackmail or leaking information when facing replacement or goal conflict.
-    Not observed in real deployments.
+  - Kshitij Sachan
+  - Fabien Roger
+  published: '2023-12-12'
+  link: https://arxiv.org/abs/2312.06942
+  arxiv: '2312.06942'
+  category: ai-control
+  relevance: Evaluates safety protocols that remain safe even if the model is intentionally trying to
+    subvert them, using red-team versus blue-team games.
   status: queued
   work: null
 - title: 'Sleeper Agents: Training Deceptive LLMs that Persist Through Safety Training'
@@ -214,166 +183,6 @@ papers:
     the conditional behaviour.
   status: queued
   work: null
-- title: 'Emergent Misalignment: Narrow finetuning can produce broadly misaligned LLMs'
-  authors:
-  - Jan Betley
-  - Daniel Tan
-  - Niels Warncke
-  - Anna Sztyber-Betley
-  - Xuchan Bao
-  - Martín Soto
-  - Nathan Labenz
-  - Owain Evans
-  published: '2025-02-24'
-  link: https://arxiv.org/abs/2502.17424
-  arxiv: '2502.17424'
-  category: specification
-  relevance: Finds that fine-tuning on a narrow task (writing insecure code) can produce broadly misaligned
-    behaviour in unrelated contexts. Published in Nature (2026) as "Training large language models on
-    narrow tasks can lead to broad misalignment".
-  status: queued
-  work: null
-- title: Natural Emergent Misalignment from Reward Hacking in Production RL
-  authors:
-  - Monte MacDiarmid
-  - Benjamin Wright
-  - Jonathan Uesato
-  - Joe Benton
-  - Jon Kutasov
-  - Sara Price
-  - Naia Bouscal
-  - Sam Bowman
-  - Trenton Bricken
-  - Alex Cloud
-  - Carson Denison
-  - Johannes Gasteiger
-  - Ryan Greenblatt
-  - Jan Leike
-  - Jack Lindsey
-  - Vlad Mikulik
-  - Ethan Perez
-  - Alex Rodrigues
-  - Drake Thomas
-  - Albert Webson
-  - Daniel Ziegler
-  - Evan Hubinger
-  published: '2025-11-23'
-  link: https://arxiv.org/abs/2511.18397
-  arxiv: '2511.18397'
-  category: specification
-  relevance: Reward hacking learned in real production coding environments generalises to alignment faking
-    and sabotage, and standard safety training hides it on chat evaluations but not on agentic tasks.
-  status: queued
-  work: null
-- title: Measuring AI Ability to Complete Long Software Tasks
-  authors:
-  - Thomas Kwa
-  - Ben West
-  - Joel Becker
-  - Amy Deng
-  - Katharyn Garcia
-  - Max Hasin
-  - Sami Jawhar
-  - Megan Kinniment
-  - Nate Rush
-  - Sydney Von Arx
-  - Ryan Bloom
-  - Thomas Broadley
-  - Haoxing Du
-  - Brian Goodrich
-  - Nikola Jurkovic
-  - Luke Harold Miles
-  - Seraphina Nix
-  - Tao Lin
-  - Chris Painter
-  - Neev Parikh
-  - David Rein
-  - Lucas Jun Koba Sato
-  - Hjalmar Wijk
-  - Daniel M. Ziegler
-  - Elizabeth Barnes
-  - Lawrence Chan
-  published: '2025-03-18'
-  link: https://arxiv.org/abs/2503.14499
-  arxiv: '2503.14499'
-  category: evaluations
-  relevance: Measures the length of tasks, in human time, that AI agents can complete, and finds it doubling
-    roughly every seven months.
-  status: queued
-  work: null
-- title: Reasoning Models Don't Always Say What They Think
-  authors:
-  - Yanda Chen
-  - Joe Benton
-  - Ansh Radhakrishnan
-  - Jonathan Uesato
-  - Carson Denison
-  - John Schulman
-  - Arushi Somani
-  - Peter Hase
-  - Misha Wagner
-  - Fabien Roger
-  - Vlad Mikulik
-  - Samuel R. Bowman
-  - Jan Leike
-  - Jared Kaplan
-  - Ethan Perez
-  published: '2025-05-08'
-  link: https://arxiv.org/abs/2505.05410
-  arxiv: '2505.05410'
-  category: deception
-  relevance: Reasoning models often use hints without mentioning them in their chain of thought, so reading
-    the reasoning can catch misbehaviour but cannot rule it out.
-  status: queued
-  work: null
-- title: Monitoring Reasoning Models for Misbehavior and the Risks of Promoting Obfuscation
-  authors:
-  - Bowen Baker
-  - Joost Huizinga
-  - Leo Gao
-  - Zehao Dou
-  - Melody Y. Guan
-  - Aleksander Madry
-  - Wojciech Zaremba
-  - Jakub Pachocki
-  - David Farhi
-  published: '2025-03-14'
-  link: https://arxiv.org/abs/2503.11926
-  arxiv: '2503.11926'
-  category: deception
-  relevance: Finds chain-of-thought monitoring catches reward hacking, but optimizing against the monitor
-    teaches models to obfuscate their reasoning.
-  status: queued
-  work: null
-- title: 'AI Control: Improving Safety Despite Intentional Subversion'
-  authors:
-  - Ryan Greenblatt
-  - Buck Shlegeris
-  - Kshitij Sachan
-  - Fabien Roger
-  published: '2023-12-12'
-  link: https://arxiv.org/abs/2312.06942
-  arxiv: '2312.06942'
-  category: ai-control
-  relevance: Evaluates safety protocols that remain safe even if the model is intentionally trying to
-    subvert them, using red-team versus blue-team games.
-  status: queued
-  work: null
-- title: Evaluating whether AI models would sabotage AI safety research
-  authors:
-  - Robert Kirk
-  - Alexandra Souly
-  - Kai Fronsdal
-  - Abby D'Cruz
-  - Xander Davies
-  published: '2026-04-27'
-  link: https://arxiv.org/abs/2604.24618
-  arxiv: '2604.24618'
-  category: evaluations
-  relevance: 'UK AISI tests whether frontier Claude models acting as research agents would sabotage safety
-    research: no unprompted sabotage, but some models continue sabotage already under way, often covertly.'
-  status: queued
-  work: null
 - title: 'Scaling Monosemanticity: Extracting Interpretable Features from Claude 3 Sonnet'
   authors:
   - Adly Templeton
@@ -410,471 +219,116 @@ papers:
     that can steer behaviour.
   status: queued
   work: null
-- title: On the Biology of a Large Language Model
+- title: Frontier Models are Capable of In-context Scheming
   authors:
-  - Jack Lindsey
-  - Wes Gurnee
-  - Emmanuel Ameisen
-  - Brian Chen
-  - Adam Pearce
-  - Nicholas L. Turner
-  - Craig Citro
-  - David Abrahams
-  - Shan Carter
-  - Basil Hosmer
-  - Jonathan Marcus
-  - Michael Sklar
-  - Adly Templeton
-  - Trenton Bricken
-  - Callum McDougall
-  - Hoagy Cunningham
-  - Thomas Henighan
-  - Adam Jermyn
-  - Andy Jones
-  - Andrew Persic
-  - Zhenyi Qi
-  - T. Ben Thompson
-  - Sam Zimmerman
-  - Kelley Rivoire
-  - Thomas Conerly
-  - Chris Olah
-  - Joshua Batson
-  published: '2025-03-27'
-  link: https://transformer-circuits.pub/2025/attribution-graphs/biology.html
-  arxiv: null
-  category: interpretability
-  relevance: Traces the internal computation of a production model with attribution graphs, showing multi-step
-    reasoning, planning ahead, jailbreak mechanics and unfaithful chain-of-thought inside the model.
-  status: queued
-  work: null
-- title: Evaluating Frontier Models for Dangerous Capabilities
+  - Alexander Meinke
+  - Bronson Schoen
+  - Jérémy Scheurer
+  - Mikita Balesni
+  - Rusheb Shah
+  - Marius Hobbhahn
+  published: '2024-12-06'
+  link: https://arxiv.org/abs/2412.04984
+  arxiv: '2412.04984'
+  category: deception
+  relevance: Evaluates whether frontier models pursue a goal given in context through covert actions when
+    the setup makes that instrumentally useful.
+  status: published
+  work: frontier-models-are-capable-of-in-context-scheming
+- title: Alignment faking in large language models
   authors:
-  - Mary Phuong
-  - Matthew Aitchison
-  - Elliot Catt
-  - Sarah Cogan
-  - Alexandre Kaskasoli
-  - Victoria Krakovna
-  - David Lindner
-  - Matthew Rahtz
-  - Yannis Assael
-  - Sarah Hodkinson
-  - Heidi Howard
-  - Tom Lieberum
-  - Ramana Kumar
-  - Maria Abi Raad
-  - Albert Webson
-  - Lewis Ho
-  - Sharon Lin
-  - Sebastian Farquhar
-  - Marcus Hutter
-  - Gregoire Deletang
-  - Anian Ruoss
-  - Seliem El-Sayed
-  - Sasha Brown
-  - Anca Dragan
-  - Rohin Shah
-  - Allan Dafoe
-  - Toby Shevlane
-  published: '2024-03-20'
-  link: https://arxiv.org/abs/2403.13793
-  arxiv: '2403.13793'
-  category: dangerous-capabilities
-  relevance: A suite of evaluations for persuasion, cyber-offence, self-proliferation and self-reasoning
-    applied to frontier models.
-  status: queued
-  work: null
-- title: 'Gradual Disempowerment: Systemic Existential Risks from Incremental AI Development'
-  authors:
-  - Jan Kulveit
-  - Raymond Douglas
-  - Nora Ammann
-  - Deger Turan
-  - David Krueger
-  - David Duvenaud
-  published: '2025-01-28'
-  link: https://arxiv.org/abs/2501.16946
-  arxiv: '2501.16946'
-  category: catastrophic-risk
-  relevance: Argues incremental AI adoption could erode human influence over societal systems without
-    any single catastrophic event.
-  status: queued
-  work: null
-- title: International AI Safety Report 2026
-  authors:
-  - Yoshua Bengio
-  - Stephen Clare
-  - Carina Prunkl
-  - Maksym Andriushchenko
-  - Ben Bucknall
-  - Malcolm Murray
-  - Rishi Bommasani
-  - Stephen Casper
-  - Tom Davidson
-  - Raymond Douglas
-  - David Duvenaud
-  - Philip Fox
-  - Usman Gohar
-  - Rose Hadshar
-  - Anson Ho
-  - Tiancheng Hu
-  - Cameron Jones
-  - Sayash Kapoor
-  - Atoosa Kasirzadeh
-  - Sam Manning
-  - Nestor Maslej
-  - Vasilios Mavroudis
-  - Conor McGlynn
-  - Richard Moulange
-  - Jessica Newman
-  - Kwan Yee Ng
-  - Patricia Paskov
-  - Shalaleh Rismani
-  - Girish Sastry
-  - Elizabeth Seger
-  - Scott Singer
-  - Charlotte Stix
-  - Lucia Velasco
-  - Nicole Wheeler
-  - Daron Acemoglu
-  - Vincent Conitzer
-  - Thomas G. Dietterich
-  - Fredrik Heintz
-  - Geoffrey Hinton
-  - Nick Jennings
-  - Susan Leavy
-  - Teresa Ludermir
-  - Vidushi Marda
-  - Helen Margetts
-  - John McDermid
-  - Jane Munga
-  - Arvind Narayanan
-  - Alondra Nelson
-  - Clara Neppel
-  - Sarvapali D. Ramchurn
-  - Stuart Russell
-  - Marietje Schaake
-  - Bernhard Schölkopf
-  - Alvaro Soto
-  - Lee Tiedrich
-  - Gaël Varoquaux
-  - Andrew Yao
-  - Ya-Qin Zhang
-  - Leandro Angelo Aguirre
-  - Olubunmi Ajala
-  - Fahad Albalawi
-  - Noora AlMalek
-  - Christian Busch
-  - Jonathan Collas
-  - André Carlos Ponce de Leon Ferreira de Carvalho
-  - Amandeep Gill
-  - Ahmet Halit Hatip
-  - Juha Heikkilä
-  - Chris Johnson
-  - Gill Jolly
-  - Ziv Katzir
-  - Mary N. Kerema
-  - Hiroaki Kitano
-  - Antonio Krüger
-  - Kyoung Mu Lee
-  - José Ramón López Portillo
-  - Aoife McLysaght
-  - Oleksii Molchanovskyi
-  - Andrea Monti
-  - Mona Nemer
-  - Nuria Oliver
-  - Raquel Pezoa
-  - Audrey Plonk
-  - Balaraman Ravindran
-  - Hammam Riza
-  - Crystal Rugege
-  - Haroon Sheikh
-  - Denise Wong
-  - Yi Zeng
-  - Liming Zhu
-  - Daniel Privitera
-  - Sören Mindermann
-  published: '2026-02-24'
-  link: https://arxiv.org/abs/2602.21012
-  arxiv: '2602.21012'
-  category: catastrophic-risk
-  relevance: Scientific assessment of risks from general-purpose AI that separates established evidence
-    from contested extrapolation, including where experts disagree on loss of control.
-  status: queued
-  work: null
-- title: Training language models to follow instructions with human feedback
-  authors:
-  - Long Ouyang
-  - Jeff Wu
-  - Xu Jiang
-  - Diogo Almeida
-  - Carroll L. Wainwright
-  - Pamela Mishkin
-  - Chong Zhang
-  - Sandhini Agarwal
-  - Katarina Slama
-  - Alex Ray
-  - John Schulman
-  - Jacob Hilton
-  - Fraser Kelton
-  - Luke Miller
-  - Maddie Simens
-  - Amanda Askell
-  - Peter Welinder
-  - Paul Christiano
-  - Jan Leike
-  - Ryan Lowe
-  published: '2022-03-04'
-  link: https://arxiv.org/abs/2203.02155
-  arxiv: '2203.02155'
-  category: alignment
-  relevance: 'InstructGPT: the RLHF recipe that made instruction-following language models practical,
-    with measured effects on truthfulness and toxicity.'
-  status: queued
-  work: null
-- title: Risks from Learned Optimization in Advanced Machine Learning Systems
-  authors:
-  - Evan Hubinger
-  - Chris van Merwijk
-  - Vladimir Mikulik
-  - Joar Skalse
-  - Scott Garrabrant
-  published: '2019-06-05'
-  link: https://arxiv.org/abs/1906.01820
-  arxiv: '1906.01820'
-  category: alignment
-  relevance: 'Introduced mesa-optimization and inner alignment: a trained model may itself optimize for
-    an objective different from the training objective.'
-  status: queued
-  work: null
-- title: 'Sycophancy to Subterfuge: Investigating Reward-Tampering in Large Language Models'
-  authors:
+  - Ryan Greenblatt
   - Carson Denison
+  - Benjamin Wright
+  - Fabien Roger
   - Monte MacDiarmid
-  - Fazl Barez
+  - Sam Marks
+  - Johannes Treutlein
+  - Tim Belonax
+  - Jack Chen
   - David Duvenaud
-  - Shauna Kravec
-  - Samuel Marks
-  - Nicholas Schiefer
-  - Ryan Soklaski
-  - Alex Tamkin
+  - Akbir Khan
+  - Julian Michael
+  - Sören Mindermann
+  - Ethan Perez
+  - Linda Petrini
+  - Jonathan Uesato
   - Jared Kaplan
   - Buck Shlegeris
   - Samuel R. Bowman
-  - Ethan Perez
   - Evan Hubinger
-  published: '2024-06-14'
-  link: https://arxiv.org/abs/2406.10162
-  arxiv: '2406.10162'
-  category: specification
-  relevance: Tests whether training on easy-to-game environments generalizes to rare reward tampering
-    in a constructed curriculum.
-  status: queued
-  work: null
-- title: 'AI Sandbagging: Language Models can Strategically Underperform on Evaluations'
-  authors:
-  - Teun van der Weij
-  - Felix Hofstätter
-  - Ollie Jaffe
-  - Samuel F. Brown
-  - Francis Rhys Ward
-  published: '2024-06-11'
-  link: https://arxiv.org/abs/2406.07358
-  arxiv: '2406.07358'
-  category: evaluations
-  relevance: Shows models can be prompted or fine-tuned to underperform selectively on dangerous-capability
-    evaluations, undermining their reliability.
-  status: queued
-  work: null
-- title: Auditing language models for hidden objectives
-  authors:
-  - Samuel Marks
-  - Johannes Treutlein
-  - Trenton Bricken
-  - Jack Lindsey
-  - Jonathan Marcus
-  - Siddharth Mishra-Sharma
-  - Daniel Ziegler
-  - Emmanuel Ameisen
-  - Joshua Batson
-  - Tim Belonax
-  - Samuel R. Bowman
-  - Shan Carter
-  - Brian Chen
-  - Hoagy Cunningham
-  - Carson Denison
-  - Florian Dietz
-  - Satvik Golechha
-  - Akbir Khan
-  - Jan Kirchner
-  - Jan Leike
-  - Austin Meek
-  - Kei Nishimura-Gasparian
-  - Euan Ong
-  - Christopher Olah
-  - Adam Pearce
-  - Fabien Roger
-  - Jeanne Salle
-  - Andy Shih
-  - Meg Tong
-  - Drake Thomas
-  - Kelley Rivoire
-  - Adam Jermyn
-  - Monte MacDiarmid
-  - Tom Henighan
-  - Evan Hubinger
-  published: '2025-03-14'
-  link: https://arxiv.org/abs/2503.10965
-  arxiv: '2503.10965'
+  published: '2024-12-18'
+  link: https://arxiv.org/abs/2412.14093
+  arxiv: '2412.14093'
   category: deception
-  relevance: A blind auditing exercise testing whether teams can uncover an objective deliberately trained
-    into a model.
-  status: queued
-  work: null
-- title: 'Alignment Pretraining: AI Discourse Causes Self-Fulfilling (Mis)alignment'
+  relevance: Documents a model selectively complying with a training objective it disagrees with when
+    it believes it is being trained, in constructed settings.
+  status: published
+  work: alignment-faking-in-large-language-models
+- title: 'Emergent Misalignment: Narrow finetuning can produce broadly misaligned LLMs'
   authors:
-  - Cameron Tice
-  - Puria Radmard
-  - Samuel Ratnam
-  - Andy Kim
-  - David Africa
-  - Kyle O'Brien
-  published: '2026-01-15'
-  link: https://arxiv.org/abs/2601.10160
-  arxiv: '2601.10160'
-  category: alignment
-  relevance: 'Pretraining models on more text about misaligned AI makes them more misaligned, and text
-    about aligned AI makes them less so: evidence that AI discourse can be self-fulfilling.'
-  status: queued
-  work: null
-- title: 'Subliminal Learning: Language models transmit behavioral traits via hidden signals in data'
-  authors:
-  - Alex Cloud
-  - Minh Le
-  - James Chua
   - Jan Betley
+  - Daniel Tan
+  - Niels Warncke
   - Anna Sztyber-Betley
-  - Jacob Hilton
-  - Samuel Marks
+  - Xuchan Bao
+  - Martín Soto
+  - Nathan Labenz
   - Owain Evans
-  published: '2025-07-20'
-  link: https://arxiv.org/abs/2507.14805
-  arxiv: '2507.14805'
+  published: '2025-02-24'
+  link: https://arxiv.org/abs/2502.17424
+  arxiv: '2502.17424'
+  category: specification
+  relevance: Finds that fine-tuning on a narrow task (writing insecure code) can produce broadly misaligned
+    behaviour in unrelated contexts. Published in Nature (2026) as "Training large language models on
+    narrow tasks can lead to broad misalignment".
+  status: queued
+  work: null
+- title: Stress Testing Deliberative Alignment for Anti-Scheming Training
+  authors:
+  - Bronson Schoen
+  - Evgenia Nitishinskaya
+  - Mikita Balesni
+  - Axel Højmark
+  - Felix Hofstätter
+  - Jérémy Scheurer
+  - Alexander Meinke
+  - Jason Wolfe
+  - Teun van der Weij
+  - Alex Lloyd
+  - Nicholas Goldowsky-Dill
+  - Angela Fan
+  - Andrei Matveiakin
+  - Rusheb Shah
+  - Marcus Williams
+  - Amelia Glaese
+  - Boaz Barak
+  - Wojciech Zaremba
+  - Marius Hobbhahn
+  published: '2025-09-19'
+  link: https://arxiv.org/abs/2509.15541
+  arxiv: '2509.15541'
+  category: deception
+  relevance: 'Stress-tests anti-scheming training across 180+ environments: covert actions drop sharply
+    but persist, and models'' awareness of being evaluated partly explains the drop.'
+  status: published
+  work: stress-testing-deliberative-alignment-for-anti-scheming-training
+- title: 'Agentic Misalignment: How LLMs Could Be Insider Threats'
+  authors:
+  - Aengus Lynch
+  - Benjamin Wright
+  - Caleb Larson
+  - Stuart J. Ritchie
+  - Soren Mindermann
+  - Evan Hubinger
+  - Ethan Perez
+  - Kevin Troy
+  published: '2025-10-05'
+  link: https://arxiv.org/abs/2510.05179
+  arxiv: '2510.05179'
   category: alignment
-  relevance: A teacher model passes traits such as misalignment to a student through data that looks unrelated,
-    like number sequences, even after filtering, so distillation can spread unintended behaviour.
-  status: queued
-  work: null
-- title: Reasoning Models Struggle to Control their Chains of Thought
-  authors:
-  - Chen Yueh-Han
-  - Robert McCarthy
-  - Bruce W. Lee
-  - He He
-  - Ian Kivlichan
-  - Bowen Baker
-  - Micah Carroll
-  - Tomek Korbak
-  published: '2026-03-05'
-  link: https://arxiv.org/abs/2603.05706
-  arxiv: '2603.05706'
-  category: ai-control
-  relevance: Reasoning models can barely control what their chain of thought says, which supports chain-of-thought
-    monitoring as a safety measure for now.
-  status: queued
-  work: null
-- title: 'Weak-to-Strong Generalization: Eliciting Strong Capabilities With Weak Supervision'
-  authors:
-  - Collin Burns
-  - Pavel Izmailov
-  - Jan Hendrik Kirchner
-  - Bowen Baker
-  - Leo Gao
-  - Leopold Aschenbrenner
-  - Yining Chen
-  - Adrien Ecoffet
-  - Manas Joglekar
-  - Jan Leike
-  - Ilya Sutskever
-  - Jeff Wu
-  published: '2023-12-14'
-  link: https://arxiv.org/abs/2312.09390
-  arxiv: '2312.09390'
-  category: scalable-oversight
-  relevance: Studies whether weak supervisors can elicit strong models' capabilities, as an analogy for
-    humans supervising superhuman models.
-  status: queued
-  work: null
-- title: Universal and Transferable Adversarial Attacks on Aligned Language Models
-  authors:
-  - Andy Zou
-  - Zifan Wang
-  - Nicholas Carlini
-  - Milad Nasr
-  - J. Zico Kolter
-  - Matt Fredrikson
-  published: '2023-07-27'
-  link: https://arxiv.org/abs/2307.15043
-  arxiv: '2307.15043'
-  category: robustness
-  relevance: Automatically finds adversarial suffixes that bypass safety training and transfer across
-    models.
-  status: queued
-  work: null
-- title: Model evaluation for extreme risks
-  authors:
-  - Toby Shevlane
-  - Sebastian Farquhar
-  - Ben Garfinkel
-  - Mary Phuong
-  - Jess Whittlestone
-  - Jade Leung
-  - Daniel Kokotajlo
-  - Nahema Marchal
-  - Markus Anderljung
-  - Noam Kolt
-  - Lewis Ho
-  - Divya Siddarth
-  - Shahar Avin
-  - Will Hawkins
-  - Been Kim
-  - Iason Gabriel
-  - Vijay Bolina
-  - Jack Clark
-  - Yoshua Bengio
-  - Paul Christiano
-  - Allan Dafoe
-  published: '2023-05-24'
-  link: https://arxiv.org/abs/2305.15324
-  arxiv: '2305.15324'
-  category: evaluations
-  relevance: Argues that evaluating dangerous capabilities and alignment is central to governing frontier
-    models, and sets out how.
-  status: queued
-  work: null
-- title: 'Two Types of AI Existential Risk: Decisive and Accumulative'
-  authors:
-  - Atoosa Kasirzadeh
-  published: '2024-01-15'
-  link: https://arxiv.org/abs/2401.07836
-  arxiv: '2401.07836'
-  category: catastrophic-risk
-  relevance: Contrasts the decisive takeover scenario with an accumulative pathway in which AI-induced
-    disruptions erode societal resilience until a trigger causes irreversible collapse. Published in Philosophical
-    Studies (2025).
-  status: queued
-  work: null
-- title: Frontier AI systems have surpassed the self-replicating red line
-  authors:
-  - Xudong Pan
-  - Jiarun Dai
-  - Yihe Fan
-  - Min Yang
-  published: '2024-12-09'
-  link: https://arxiv.org/abs/2412.12140
-  arxiv: '2412.12140'
-  category: dangerous-capabilities
-  relevance: Reports agents built on two open-weight models creating working copies of themselves in a
-    controlled environment; its claim that this crosses a red line is stronger than the experiment itself.
+  relevance: Stress-tested 16 models in simulated companies; models from every developer sometimes chose
+    harmful insider actions such as blackmail or leaking information when facing replacement or goal conflict.
+    Not observed in real deployments.
   status: queued
   work: null

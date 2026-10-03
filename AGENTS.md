@@ -13,9 +13,10 @@ two packages:
 
 ## Usage
 
-The main way to run this project is to work through the research backlog,
-`automations/backlog/papers.yaml`, one paper per agent session, in the file's priority order. Start a
-session with:
+The main way to run this project is to work through the research shortlist,
+`automations/backlog/papers.yaml`, one paper per agent session, oldest first. Only papers in that file
+are processed; `automations/backlog/longlist.yaml` holds rejected candidates for reference.
+Start a session with:
 
 > Read `automations/backlog/papers.yaml` and follow the instructions at the top: take the first
 > `queued` paper and run `workflows/publish-paper/WORKFLOW.md` for it.

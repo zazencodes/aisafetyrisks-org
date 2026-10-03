@@ -59,7 +59,8 @@ paper if you do not have that CLI.
 ## Choose one paper
 
 Open a GitHub issue naming the queued paper you want to work on, and check existing issues to
-avoid duplicating work. The backlog is `automations/backlog/papers.yaml`, in priority order.
+avoid duplicating work. The shortlist is `automations/backlog/papers.yaml`, oldest first; only
+papers in it are processed.
 Then give your agent this prompt from the repository root:
 
 > Read AGENTS.md and automations/backlog/papers.yaml. Take the first queued paper that is not

@@ -28,7 +28,12 @@ class Entry(BaseModel):
 
 
 def load() -> list[Entry]:
-    return [Entry.model_validate(e) for e in yaml.safe_load(BACKLOG.read_text())["papers"]]
+    entries = [Entry.model_validate(e) for e in yaml.safe_load(BACKLOG.read_text())["papers"]]
+    for prev, e in zip(entries, entries[1:]):
+        if e.published < prev.published:
+            raise ValueError(f"{BACKLOG} is not in chronological order: {e.title!r} ({e.published}) "
+                             f"follows {prev.title!r} ({prev.published})")
+    return entries
 
 
 def save(entries: list[Entry]) -> None:
