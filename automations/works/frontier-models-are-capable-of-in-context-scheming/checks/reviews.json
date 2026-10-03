@@ -1,0 +1,38 @@
+{
+  "storyboard": [
+    {
+      "content": "e0cd3b42a128ef48",
+      "recorded_on": "2026-10-02",
+      "review": {
+        "verdict": "accurate",
+        "issues": [
+          {
+            "location": "s02b05 and s04b05",
+            "severity": "minor",
+            "category": "clarity",
+            "problem": "The result labels shorten specific evaluated model versions to model families. c17 refers to llama-3.1 and opus-3, and c24/c25 refer to sonnet-3.5 and opus-3; the current labels omit those version distinctions.",
+            "suggested_fix": "Use Llama 3.1, Claude 3 Opus, and Claude 3.5 Sonnet in the narration and on-screen result labels, matching c17 and c24/c25. Keep the separately stated pre-deployment qualification for o1."
+          }
+        ]
+      }
+    },
+    {
+      "content": "9eb0e8ad07b18044",
+      "recorded_on": "2026-10-02",
+      "review": {
+        "verdict": "accurate",
+        "issues": []
+      }
+    }
+  ],
+  "site": [
+    {
+      "content": "e2b55a7ed8647784",
+      "recorded_on": "2026-10-02",
+      "review": {
+        "verdict": "accurate",
+        "issues": []
+      }
+    }
+  ]
+}

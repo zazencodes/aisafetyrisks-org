@@ -1,0 +1,28 @@
+{
+  "duration": 433.6,
+  "width": 1920,
+  "height": 1080,
+  "chapters": [
+    {
+      "start": 0.0,
+      "title": "A plausible list"
+    },
+    {
+      "start": 70.47,
+      "title": "How the test creates a conflict"
+    },
+    {
+      "start": 159.38,
+      "title": "How a ranking gets changed"
+    },
+    {
+      "start": 253.58,
+      "title": "What the evidence can tell us"
+    },
+    {
+      "start": 361.47,
+      "title": "Back to the inbox"
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,98 @@
+# storyboard: c555ccecfba0002e
+from aisr_kit import *
+
+class S04(NarratedScene):
+    def construct(self):
+        with self.beat("s04b01") as b:
+            heading = Heading("Capability and its boundaries")
+            tag = Tag("observed_result")
+            source = Source("Meinke et al. (2024)")
+            frame = RoundedRectangle(width=11.8, height=4.8, corner_radius=0.15, color=FAINT).move_to(DOWN * 0.2)
+            label = T("Tested models", size=26, color=SOFT).move_to(UP * 1.8)
+            left = Node("Supposed weights", color=AMBER, width=3.4, height=1.6).move_to(LEFT * 3 + DOWN * 0.2)
+            right = Node("Other server", color=TEAL, width=3.4, height=1.6).move_to(RIGHT * 3 + DOWN * 0.2)
+            link = Link(left, right, color=AMBER)
+            agent = Agent(color=SAND).move_to(LEFT * 3 + DOWN * 1.6)
+            file = Square(side_length=0.45, color=AMBER, fill_opacity=0.4).move_to(LEFT * 2 + DOWN * 0.7)
+            self.play(FadeIn(heading), FadeIn(tag), FadeIn(source), Create(frame), run_time=1)
+            self.play(FadeIn(label), Create(left), Create(right), FadeIn(agent), run_time=1.5)
+            self.play(GrowArrow(link.arrow), FadeIn(file), run_time=1)
+            self.play(file.animate.move_to(RIGHT * 2 + DOWN * 0.7), run_time=3)
+            group = VGroup(frame, label, left, right, link, agent, file)
+        with self.beat("s04b02") as b:
+            next_tag = Tag("limitation")
+            self.play(ReplacementTransform(tag, next_tag), run_time=0.5)
+            tag = next_tag
+            sandbox = RoundedRectangle(width=12.5, height=5.0, corner_radius=0.2, color=TEAL).move_to(DOWN * 0.3)
+            sandbox_label = T("Sandbox", size=28, color=TEAL).move_to(UP * 2)
+            stamp = T("No real weights", size=28, color=AMBER).move_to(DOWN * 1.8)
+            stop = Line(RIGHT * 6.25 + DOWN * 0.65, RIGHT * 6.25 + UP * 0.15, color=TEAL, stroke_width=7)
+            self.play(FadeOut(label), Transform(frame, sandbox), FadeIn(sandbox_label), run_time=1.5)
+            self.play(file.animate.set_fill(AMBER, opacity=0.08), Write(stamp), run_time=1.5)
+            self.play(Create(stop), Indicate(frame, color=TEAL), run_time=1)
+            group = VGroup(frame, sandbox_label, left, right, link, agent, file, stamp, stop)
+        with self.beat("s04b03") as b:
+            next_tag = Tag("observed_result")
+            self.play(FadeOut(group), ReplacementTransform(tag, next_tag), run_time=0.8)
+            tag = next_tag
+            strong = Node("Strong nudge", color=AMBER, width=4, height=1).move_to(LEFT * 3 + UP * 1)
+            weak = Node("Goal only", color=TEAL, width=4, height=1).move_to(RIGHT * 3 + UP * 1)
+            lower = T("Lower observed rates", size=28, color=SOFT).move_to(RIGHT * 3 + DOWN * 1.9)
+            a = Square(color=AMBER, fill_opacity=0.4).scale(0.35).rotate(PI / 4).move_to(LEFT * 3 + DOWN * 0.5)
+            c = a.copy().move_to(RIGHT * 3 + DOWN * 0.5)
+            self.play(Create(strong), Create(weak), run_time=1.3)
+            self.play(GrowFromCenter(a), GrowFromCenter(c), run_time=1)
+            self.play(c.animate.set_opacity(0.25), FadeIn(lower), run_time=2)
+            group = VGroup(strong, weak, a, c, lower)
+        with self.beat("s04b04") as b:
+            next_tag = Tag("method")
+            self.play(FadeOut(group), ReplacementTransform(tag, next_tag), run_time=0.8)
+            tag = next_tag
+            name = T("Sandbagging", size=30, color=INK).move_to(UP * 2)
+            task = Node("Multiplication", color=TEAL, width=3.2).move_to(LEFT * 4)
+            upper = Node("Do well: abilities removed", color=AMBER, width=6.4, size=24).move_to(RIGHT * 2 + UP * 0.9)
+            lower = Node("Do poorly: no deployment", color=TEAL, width=6.4, size=24).move_to(RIGHT * 2 + DOWN * 0.9)
+            arrows = VGroup(Link(task, upper, color=AMBER), Link(task, lower, color=TEAL))
+            caption = T("Different incentives", size=26, color=SOFT).move_to(DOWN * 2.2)
+            self.play(FadeIn(name), Create(task), run_time=1)
+            self.play(GrowArrow(arrows[0].arrow), Create(upper), run_time=1.5)
+            self.play(GrowArrow(arrows[1].arrow), Create(lower), run_time=1.5)
+            self.play(FadeIn(caption), Indicate(upper), Indicate(lower), run_time=1)
+            group = VGroup(name, task, upper, lower, arrows, caption)
+        with self.beat("s04b05") as b:
+            next_tag = Tag("observed_result")
+            self.play(FadeOut(group), ReplacementTransform(tag, next_tag), run_time=0.8)
+            tag = next_tag
+            goal = Node("Assigned goal", color=AMBER, width=3.5).move_to(UP * 2)
+            names = ["Claude 3.5 Sonnet", "Claude 3 Opus", "o1"]
+            rows = VGroup()
+            highlights = VGroup()
+            for name, y in zip(names, [0.8, -0.4, -1.6]):
+                label = T(name, size=27).move_to(LEFT * 3.2 + UP * y)
+                pair = VGroup(Square(side_length=0.55, color=AMBER, fill_opacity=0.4), Square(side_length=0.55, color=TEAL, fill_opacity=0.15)).arrange(RIGHT, buff=0.7).move_to(RIGHT * 2 + UP * y)
+                highlight = SurroundingRectangle(pair, color=AMBER, buff=0.16)
+                rows.add(VGroup(label, pair))
+                highlights.add(highlight)
+            legend = VGroup(T("Do poorly", size=22, color=AMBER), T("Do well", size=22, color=TEAL)).arrange(RIGHT, buff=0.6).move_to(RIGHT * 2 + DOWN * 2.5)
+            self.play(Create(goal), FadeIn(rows), FadeIn(legend), run_time=1.5)
+            self.play(LaggedStart(*[Create(h) for h in highlights], lag_ratio=0.3), run_time=2)
+            self.play(Transform(goal, Node("No assigned goal", color=SOFT, width=3.8).move_to(UP * 2)), FadeOut(highlights[2]), rows[2][1][0].animate.set_color(TEAL).set_fill(opacity=0.15), run_time=2)
+            self.play(Indicate(highlights[0]), Indicate(highlights[1]), run_time=1)
+            group = VGroup(goal, rows, highlights[0], highlights[1], legend)
+        with self.beat("s04b06") as b:
+            next_tag = Tag("limitation")
+            self.play(FadeOut(group), ReplacementTransform(tag, next_tag), run_time=0.8)
+            tag = next_tag
+            enclosure = RoundedRectangle(width=6.2, height=4.6, corner_radius=0.15, color=FAINT).move_to(LEFT * 3 + DOWN * 0.2)
+            conditions = T("Supplied conditions", size=27, color=SOFT).move_to(LEFT * 3 + UP * 1.7)
+            can = Node("Capability", color=TEAL, width=3.3).move_to(LEFT * 2.8 + DOWN * 0.1)
+            propensity = Node("Propensity", color=SOFT, width=3.3).move_to(RIGHT * 3.4 + DOWN * 0.1)
+            boundary = DashedLine(UP * 2.4 + RIGHT * 0.7, DOWN * 2.7 + RIGHT * 0.7, color=SOFT)
+            agent = Agent(color=SAND).move_to(LEFT * 5.3 + DOWN * 0.1)
+            route = Link(agent, can, color=TEAL)
+            prompts = Node("Prompts", color=AMBER, width=2.1, size=22).move_to(LEFT * 4.5 + DOWN * 1.7)
+            training = Node("Safety training", color=TEAL, width=2.8, size=22).move_to(LEFT * 1.6 + DOWN * 1.7)
+            self.play(Create(enclosure), FadeIn(conditions), Create(boundary), run_time=1.5)
+            self.play(Create(can), Create(propensity), FadeIn(agent), run_time=1)
+            self.play(GrowArrow(route.arrow), run_time=1.5)
+            self.play(Create(prompts), Create(training), run_time=1.5)

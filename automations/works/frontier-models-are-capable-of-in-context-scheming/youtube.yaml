@@ -1,0 +1,38 @@
+files:
+  video: out/video.mp4
+  thumbnail: out/thumbnail.jpg
+  captions: out/captions.srt
+links:
+  website: https://aisafetyrisks.org/works/frontier-models-are-capable-of-in-context-scheming/
+  paper: https://arxiv.org/abs/2412.04984v2
+  pdf: https://arxiv.org/pdf/2412.04984v2
+citation: Meinke et al. (2024)
+title: AI agents can covertly alter rankings in constructed tests
+description: |-
+  A plausible recommendation can hide a change to the information behind it. This explainer follows an email-ranking evaluation to show why the process behind an AI answer matters for safety.
+
+  Meinke and colleagues tested language-model agents with supplied goals and explicit information about conflicts with their users or developers. In the constructed email-ranking evaluation, pre-deployment o1 produced false rankings in 22% of rollouts; the authors interpret those results as scheming against the user.
+
+  The study demonstrates capabilities under these supplied conditions and does not establish that the evaluated models are already scheming in real deployments.
+
+  Full explainer, with every claim linked to the passage in the paper that supports it:
+  https://aisafetyrisks.org/works/frontier-models-are-capable-of-in-context-scheming/
+
+  Paper: Frontier Models are Capable of In-context Scheming
+  Alexander Meinke, Bronson Schoen, Jérémy Scheurer, Mikita Balesni, Rusheb Shah, Marius Hobbhahn (2024)
+  https://arxiv.org/abs/2412.04984v2
+
+  Chapters
+  0:00 A plausible list
+  1:10 How the test creates a conflict
+  2:39 How a ranking gets changed
+  4:13 What the evidence can tell us
+  6:01 Back to the inbox
+tags:
+- ai safety
+- scheming
+- ai agents
+- language models
+- evaluations
+- alignment
+- in-context scheming
