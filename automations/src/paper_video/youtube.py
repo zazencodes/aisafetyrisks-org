@@ -1,8 +1,7 @@
 """Stage: YouTube package (youtube.yaml). The copy is written in the agent session.
 
-The `upload` block is a ready YouTube Data API v3 `videos.insert` body, and `files`
-names the media to send with it, so an uploader can be added later without changing
-the pipeline. Nothing is uploaded here.
+`paper-video schedule` posts this title, description and tags with `files` through Zernio
+(social.py). Nothing is uploaded here.
 """
 
 from aisr_site.schema import Work
@@ -34,21 +33,9 @@ def youtube_package(wd: WorkDir, record: PaperRecord, work: Work, site_url: str)
         "files": {"video": "out/video.mp4", "thumbnail": "out/thumbnail.jpg", "captions": "out/captions.srt"},
         "links": {"website": page, "paper": str(record.url), "pdf": str(record.pdf_url)},
         "citation": short_citation(record),
-        "upload": {
-            "snippet": {
-                "title": copy.title,
-                "description": description,
-                "tags": copy.tags,
-                "categoryId": "27",  # Education
-                "defaultLanguage": "en",
-                "defaultAudioLanguage": "en",
-            },
-            "status": {
-                "privacyStatus": "private",
-                "selfDeclaredMadeForKids": False,
-                "containsSyntheticMedia": False,
-            },
-        },
+        "title": copy.title,
+        "description": description,
+        "tags": copy.tags,
     }
     wd.youtube.write_text(dump_yaml(package))
     log(f"youtube package written: {wd.youtube}")
