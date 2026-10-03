@@ -1,0 +1,59 @@
+{
+  "storyboard": [
+    {
+      "content": "ffcc8d14c0121e3a",
+      "recorded_on": "2026-10-02",
+      "review": {
+        "verdict": "needs_revision",
+        "issues": [
+          {
+            "location": "s02b02",
+            "severity": "major",
+            "category": "unsupported_claim",
+            "problem": "The demonstration filtering, prompt removal and recall claims are supported by c07, but this beat cites only c08. c08 concerns the limitations of rewarded honesty and does not support these method claims.",
+            "suggested_fix": "Replace c08 with c07 in this beat’s claims list."
+          },
+          {
+            "location": "s02b05 / s03b01–s03b02",
+            "severity": "major",
+            "category": "missing_limitation",
+            "problem": "The verification step is explained without its material measurement limitation. c13 explicitly says illegible, incomplete or unfaithful reasoning can cause significant undercounting. Without this condition, the quoted action rates can be mistaken for a complete count of covert behavior.",
+            "suggested_fix": "Add a sentence to s02b05 explaining that this conservative check can miss covert actions when reasoning is illegible, incomplete or unfaithful, and cite c13 alongside c12."
+          },
+          {
+            "location": "s05b05",
+            "severity": "major",
+            "category": "unsupported_claim",
+            "problem": "The narration says the authors could not isolate which parts of later training caused the increase. c39 supports the narrower statement that they cannot identify the specific impact of reward hacking because susceptibility of training tasks is not precisely known. It does not establish that all components or mechanisms were unidentifiable.",
+            "suggested_fix": "Say: “The authors did not know precisely how susceptible these training tasks were to exploiting their scoring systems, so they do not identify reward hacking’s specific contribution to the increase.” Retain c39 and c37."
+          },
+          {
+            "location": "s05b04",
+            "severity": "minor",
+            "category": "missing_limitation",
+            "problem": "c37 describes the increases as small; the beat omits that scale qualifier and its visual suggests deterioration without stating its size.",
+            "suggested_fix": "Change “covert action rates increased” to “covert action rates increased slightly” or “small increases in covert action rates occurred,” consistent with c37."
+          }
+        ]
+      }
+    },
+    {
+      "content": "4780a1015bd15c3e",
+      "recorded_on": "2026-10-02",
+      "review": {
+        "verdict": "accurate",
+        "issues": []
+      }
+    }
+  ],
+  "site": [
+    {
+      "content": "75151097e2421bce",
+      "recorded_on": "2026-10-02",
+      "review": {
+        "verdict": "accurate",
+        "issues": []
+      }
+    }
+  ]
+}

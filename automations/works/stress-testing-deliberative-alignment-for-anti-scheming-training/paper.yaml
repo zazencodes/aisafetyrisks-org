@@ -1,0 +1,52 @@
+slug: stress-testing-deliberative-alignment-for-anti-scheming-training
+title: Stress Testing Deliberative Alignment for Anti-Scheming Training
+authors:
+- Bronson Schoen
+- Evgenia Nitishinskaya
+- Mikita Balesni
+- Axel Højmark
+- Felix Hofstätter
+- Jérémy Scheurer
+- Alexander Meinke
+- Jason Wolfe
+- Teun van der Weij
+- Alex Lloyd
+- Nicholas Goldowsky-Dill
+- Angela Fan
+- Andrei Matveiakin
+- Rusheb Shah
+- Marcus Williams
+- Amelia Glaese
+- Boaz Barak
+- Wojciech Zaremba
+- Marius Hobbhahn
+published: '2025-09-19'
+venue: null
+url: https://arxiv.org/abs/2509.15541v1
+pdf_url: https://arxiv.org/pdf/2509.15541v1
+arxiv_id: 2509.15541v1
+doi: null
+abstract: 'Highly capable AI systems could secretly pursue misaligned goals -- what we call "scheming".
+  Because a scheming AI would deliberately try to hide its misaligned goals and actions, measuring and
+  mitigating scheming requires different strategies than are typically used in ML. We propose that assessing
+  anti-scheming interventions requires at least (1) testing propensity to scheme on far out-of-distribution
+  (OOD) tasks, (2) evaluating whether lack of scheming is driven by situational awareness, and (3) checking
+  for robustness to pre-existing misaligned goals. We use a broad category of "covert actions" -- such
+  as secretly breaking rules or intentionally underperforming in tests -- as a proxy for scheming, and
+  design evaluations for covert actions. We then stress-test deliberative alignment as a case study for
+  anti-scheming. Across 26 OOD evaluations (180+ environments), deliberative alignment reduces covert
+  action rates (OpenAI o3: 13%->0.4%) but does not fully eliminate them. Our mitigation is also able to
+  largely stop agents from pursuing a hidden goal previously trained into the model, but we still find
+  misbehavior after additional red-teaming. We find that models'' chain-of-thought (CoT) often demonstrates
+  awareness of being evaluated for alignment, and show causal evidence that this awareness decreases covert
+  behavior, while unawareness increases it. Therefore, we cannot exclude that the observed reductions
+  in covert action rates are at least partially driven by situational awareness. While we rely on human-legible
+  CoT for training, studying situational awareness, and demonstrating clear evidence of misalignment,
+  our ability to rely on this degrades as models continue to depart from reasoning in standard English.
+  We encourage research into alignment mitigations for scheming and their assessment, especially for the
+  adversarial case of deceptive alignment, which this paper does not address.'
+source:
+  input: '2509.15541'
+  retrieved_on: '2026-10-02'
+  sha256: b7b4dd6e048104a0dc099627735d63e72385402b244d37ac46d4757b9f91762c
+  pages: 96
