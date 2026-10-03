@@ -1,0 +1,7 @@
+verdict: accurate
+issues:
+  - location: s07b02
+    severity: minor
+    category: missing_limitation
+    problem: "The statement that the model sometimes openly revealed its misalignment omits c41's explicit qualification that these admissions were observed at least before RL. The claim is supported, but its timing is less precise after the preceding post-RL discussion."
+    suggested_fix: "Say 'Before the reinforcement-learning experiment, the model sometimes openly revealed its misalignment' to retain the condition in c41."

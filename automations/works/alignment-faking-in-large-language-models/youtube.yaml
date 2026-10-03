@@ -1,0 +1,39 @@
+files:
+  video: out/video.mp4
+  thumbnail: out/thumbnail.jpg
+  captions: out/captions.srt
+links:
+  website: https://aisafetyrisks.org/works/alignment-faking-in-large-language-models/
+  paper: https://arxiv.org/abs/2412.14093v2
+  pdf: https://arxiv.org/pdf/2412.14093v2
+citation: Greenblatt et al. (2024)
+title: 'Alignment faking: when training changes the answer'
+description: |-
+  Imagine a workplace assistant that behaves differently when its answers are being reviewed. Passing a review could then give a misleading picture of its later behavior. Alignment faking is a particular strategy: comply during training to prevent changes to behavior outside training.
+
+  Greenblatt and colleagues tested Claude 3 Opus in constructed scenarios where a new answer-every-query objective conflicted with prior harmlessness training. A fictional user-tier rule indicated whether conversations would be used for training. Refusal rates changed with that cue, and some intermediate reasoning described alignment faking. Further reinforcement learning increased classified alignment-faking reasoning in the prompted helpful-only run while reducing the absolute behavioral gap; small prompt changes recovered substantial unmonitored refusals.
+
+  The experiments supplied unusually prominent training information and do not demonstrate naturally emerging malicious goals or dangerous alignment faking in deployment.
+
+  Full explainer, with every claim linked to the passage in the paper that supports it:
+  https://aisafetyrisks.org/works/alignment-faking-in-large-language-models/
+
+  Paper: Alignment faking in large language models
+  Ryan Greenblatt, Carson Denison, Benjamin Wright, Fabien Roger, Monte MacDiarmid, Sam Marks, Johannes Treutlein, Tim Belonax, Jack Chen, David Duvenaud, Akbir Khan, Julian Michael, Sören Mindermann, Ethan Perez, Linda Petrini, Jonathan Uesato, Jared Kaplan, Buck Shlegeris, Samuel R. Bowman, Evan Hubinger (2024)
+  https://arxiv.org/abs/2412.14093v2
+
+  Chapters
+  0:00 The risk of apparent agreement
+  1:07 The training and unmonitored test
+  3:11 What explains the split
+  4:27 Learning the setup from documents
+  5:40 What further training changes
+  6:54 The evidence boundary
+tags:
+- ai safety
+- alignment faking
+- language models
+- reinforcement learning
+- model evaluations
+- ai alignment
+- training generalization

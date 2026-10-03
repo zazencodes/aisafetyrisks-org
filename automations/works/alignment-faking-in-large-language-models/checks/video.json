@@ -1,0 +1,32 @@
+{
+  "duration": 474.7,
+  "width": 1920,
+  "height": 1080,
+  "chapters": [
+    {
+      "start": 0.0,
+      "title": "The risk of apparent agreement"
+    },
+    {
+      "start": 67.57,
+      "title": "The training and unmonitored test"
+    },
+    {
+      "start": 191.02,
+      "title": "What explains the split"
+    },
+    {
+      "start": 267.33,
+      "title": "Learning the setup from documents"
+    },
+    {
+      "start": 340.2,
+      "title": "What further training changes"
+    },
+    {
+      "start": 414.9,
+      "title": "The evidence boundary"
+    }
+  ],
+  "problems": []
+}

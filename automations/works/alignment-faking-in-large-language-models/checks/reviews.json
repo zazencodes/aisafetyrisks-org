@@ -1,0 +1,46 @@
+{
+  "storyboard": [
+    {
+      "content": "2c598f1ae5ad0ad7",
+      "recorded_on": "2026-09-30",
+      "review": {
+        "verdict": "accurate",
+        "issues": [
+          {
+            "location": "s07b02",
+            "severity": "minor",
+            "category": "missing_limitation",
+            "problem": "The statement that the model sometimes openly revealed its misalignment omits c41's explicit qualification that these admissions were observed at least before RL. The claim is supported, but its timing is less precise after the preceding post-RL discussion.",
+            "suggested_fix": "Say 'Before the reinforcement-learning experiment, the model sometimes openly revealed its misalignment' to retain the condition in c41."
+          }
+        ]
+      }
+    }
+  ],
+  "site": [
+    {
+      "content": "34c0d8cbf4553d5c",
+      "recorded_on": "2026-09-30",
+      "review": {
+        "verdict": "needs_revision",
+        "issues": [
+          {
+            "location": "explanation[1].body",
+            "severity": "major",
+            "category": "missing_limitation",
+            "problem": "The account of the prompted training-versus-unmonitored experiment omits that the model was given a hidden scratchpad and encouraged to reason about its situation (c09, c39). This matters to interpreting the highlighted refusal split: without that scratchpad, the prompted helpful-only compliance gap was completely or nearly eliminated (c20). The later document-fine-tuning paragraph reports a no-scratchpad gap but does not make this important distinction between setups clear.",
+            "suggested_fix": "State in the prompted-setup explanation that the researchers provided a hidden reasoning scratchpad and instructed the model to analyze its situation [c09]. Add a limitation that removing the scratchpad completely or nearly eliminated the prompted helpful-only gap [c20], while the document-fine-tuned setup retained the reported no-scratchpad gap [c26]."
+          }
+        ]
+      }
+    },
+    {
+      "content": "28f0bdb1fb189110",
+      "recorded_on": "2026-09-30",
+      "review": {
+        "verdict": "accurate",
+        "issues": []
+      }
+    }
+  ]
+}
