@@ -95,7 +95,7 @@ class BackupTests(unittest.TestCase):
                 BackupConfig(volume=volume, root=root)
 
     def test_creation_commands_archive_only_after_successful_assembly(self):
-        cfg = SimpleNamespace(backup=self.cfg)
+        cfg = SimpleNamespace(backup=self.cfg, captions=None)
         record = SimpleNamespace()
         events = []
         def assembled(*args):
@@ -116,7 +116,7 @@ class BackupTests(unittest.TestCase):
         self.assertEqual(events, ["assembled", "full", "assembled", "short"])
 
     def test_creation_commands_defer_backup_failure_without_blocking_exports(self):
-        cfg = SimpleNamespace(backup=self.cfg)
+        cfg = SimpleNamespace(backup=self.cfg, captions=None)
         with patch.object(pipeline, "_open", return_value=(cfg, self.wd, SimpleNamespace())), \
              patch.object(pipeline, "_storyboard", return_value=SimpleNamespace(scenes=[])), \
              patch.object(pipeline, "SceneRenderer"), \
@@ -132,7 +132,7 @@ class BackupTests(unittest.TestCase):
         self.assertTrue((self.wd.out / "video.mp4").exists())
 
     def test_retry_removes_only_verified_rows_and_keeps_failed_short(self):
-        cfg = SimpleNamespace(backup=self.cfg)
+        cfg = SimpleNamespace(backup=self.cfg, captions=None)
         with patch.object(pipeline, "backup_work", side_effect=FileNotFoundError("not mounted")):
             pipeline._backup(self.wd, cfg, "full")
             pipeline._backup(self.wd, cfg, "short")

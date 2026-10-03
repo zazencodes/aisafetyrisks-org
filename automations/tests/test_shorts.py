@@ -14,6 +14,7 @@ from paper_video import pipeline
 from paper_video.config import WORKS
 from paper_video.models import Notes, PaperRecord, Storyboard, VisualIssue
 from paper_video.media import probe, run
+from paper_video.align import timed_parts
 from paper_video.shorts import (CaptionEmphasis, ShortPlan, ShortReview, ass_text, caption_file, check_short,
                                build_short, caption_parts, content_key, current_short_review,
                                font, short_cues, validate_plan, wrap)
@@ -39,7 +40,9 @@ class ShortTests(unittest.TestCase):
         self.plan = ShortPlan.model_validate(self.plan_data)
         beats = {b.id: b for b in self.sb.beats()}
         self.sources = {b: dict(beat=beats[b], duration=10, narration_duration=9.5, start=0,
-                               source_start=10 * i, clip=self.wd.render / f"{b[:3]}.mp4")
+                               source_start=10 * i, clip=self.wd.render / f"{b[:3]}.mp4",
+                               word_starts=[9 * k / len(beats[b].narration.split())
+                                            for k in range(len(beats[b].narration.split()))])
                         for i, b in enumerate(ids)}
 
     def test_complete_shape_and_unique_beats_are_required(self):
@@ -79,6 +82,11 @@ class ShortTests(unittest.TestCase):
         self.assertTrue(all(start < end for start, end, _ in cues))
         self.assertTrue(all(a[1] <= b[0] + 1e-8 for a, b in zip(cues, cues[1:])))
 
+    def test_caption_cues_change_at_the_spoken_word(self):
+        parts = ["One two three.", "Four five."]
+        cues = timed_parts(parts, [0.1, 0.4, 0.7, 2.5, 2.9], offset=10, duration=3.5)
+        self.assertEqual(cues, [(10, 12.5, "One two three."), (12.5, 13.5, "Four five.")])
+
     def test_every_segment_begins_with_its_first_caption(self):
         for b, segment in zip(self.sources.values(), self.plan.segments):
             local = short_cues([b], [segment])
@@ -94,6 +102,7 @@ class ShortTests(unittest.TestCase):
         for b in chosen:
             b.update(clip=source, start=0, duration=31 / 30, narration_duration=0.9)
             b["beat"] = b["beat"].model_copy(update={"narration": "First caption. Final caption."})
+            b["word_starts"] = [0.0, 0.2, 0.45, 0.65]
             with wave.open(str(self.wd.audio / f"{b['beat'].id}.wav"), "wb") as f:
                 f.setparams((1, 2, 24000, 0, "NONE", "not compressed"))
                 f.writeframes(b"\0\0" * 21600)
@@ -126,15 +135,15 @@ class ShortTests(unittest.TestCase):
         path = self.wd.root / "captions.ass"
         cues = [(0, 1, "The authors chose not to start from extreme"),
                 (1, 2, "scenarios about superintelligent machines.")]
-        caption_file(path, cues, [CaptionEmphasis(phrase="extreme scenarios", kind="emphasis")])
+        caption_file(path, cues, [CaptionEmphasis(phrase="extreme scenarios", kind="bold")])
         events = [line for line in path.read_text().splitlines() if line.startswith("Dialogue:")]
-        self.assertIn(r"{\c&H47A6D9&}extreme{\c&HE1E7E9&}", events[0])
-        self.assertIn(r"{\c&H47A6D9&}scenarios{\c&HE1E7E9&}", events[1])
+        self.assertIn(r"{\fnIBM Plex Sans SmBld}extreme{\fnIBM Plex Sans Medm\i0}", events[0])
+        self.assertIn(r"{\fnIBM Plex Sans SmBld}scenarios{\fnIBM Plex Sans Medm\i0}", events[1])
 
-    def test_mixed_accents_split_batches_and_preserve_every_word(self):
+    def test_mixed_styles_preserve_every_word_without_color_splits(self):
         text = "A high score can hide harmful behavior in the office while the robot keeps learning."
-        emphasis = [CaptionEmphasis(phrase="high score", kind="emphasis"),
-                    CaptionEmphasis(phrase="harmful behavior", kind="harm")]
+        emphasis = [CaptionEmphasis(phrase="high score", kind="bold"),
+                    CaptionEmphasis(phrase="harmful behavior", kind="italic")]
         parts = caption_parts(text, emphasis)
         self.assertEqual(" ".join(parts), text)
         self.assertGreater(len(parts), 1)
@@ -142,14 +151,14 @@ class ShortTests(unittest.TestCase):
         path = self.wd.root / "captions.ass"
         caption_file(path, [(i, i + 1, part) for i, part in enumerate(parts)], emphasis)
         events = [line for line in path.read_text().splitlines() if line.startswith("Dialogue:")]
-        self.assertTrue(any("47A6D9" in e for e in events))
-        self.assertTrue(any("6A82D9" in e for e in events))
+        self.assertTrue(any(r"{\fnIBM Plex Sans SmBld}" in e for e in events))
+        self.assertTrue(any(r"{\i1}" in e for e in events))
         for event, part in zip(events, parts):
-            self.assertFalse("47A6D9" in event and "6A82D9" in event)
-            self.assertLessEqual(len(wrap(part, font(56), 760)), 2)
+            self.assertNotIn(r"\c&H", event)
+            self.assertLessEqual(len(wrap(part, font(56, "IBMPlexSans-SemiBold.ttf"), 760)), 2)
             self.assertIn(r"{\pos(520,1510)}", event)
-        with self.assertRaisesRegex(ValueError, "multiple accent colors"):
-            caption_file(path, [(0, 1, "A high score can hide harmful behavior")], emphasis)
+        caption_file(path, [(0, 1, "A high score can hide harmful behavior")], emphasis)
+        self.assertIn(r"{\i1}harmful behavior", path.read_text())
 
     def test_measured_width_splits_previous_three_line_caption(self):
         text = "The authors chose not to start from extreme scenarios about superintelligent machines."
@@ -159,13 +168,13 @@ class ShortTests(unittest.TestCase):
 
     def test_caption_batches_avoid_isolated_final_word(self):
         text = "In 2016, Amodei and colleagues called this an accident."
-        parts = caption_parts(text, [CaptionEmphasis(phrase="accident", kind="harm")])
+        parts = caption_parts(text, [CaptionEmphasis(phrase="accident", kind="italic")])
         self.assertEqual(" ".join(parts), text)
         self.assertTrue(all(len(part.split()) > 1 for part in parts))
 
     def test_emphasis_requires_exact_source_phrases(self):
         data = deepcopy(self.plan_data)
-        data["segments"][0]["caption_emphasis"] = [dict(phrase="invented finding", kind="emphasis")]
+        data["segments"][0]["caption_emphasis"] = [dict(phrase="invented finding", kind="bold")]
         with self.assertRaisesRegex(ValueError, "not an exact narration phrase"):
             validate_plan(self.wd, self.record, self.sb, self.notes, ShortPlan.model_validate(data), self.sources)
 

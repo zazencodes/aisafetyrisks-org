@@ -165,11 +165,14 @@ class SceneRenderer:
         return True, result.log, cached, load_json(report_path)
 
     def _frames(self, scene: Scene, video: Path, report: dict) -> Path:
+        # A beat's first frame and early transition matter as much as its end: shorts cut whole beats.
         shots = []
         for b in report["beats"]:
-            path = frame_at(video, b["hold_end"] - 0.15, self.wd.frames / scene.id / f"{b['beat']}.png")
-            shots.append((b["beat"], path))
-        return contact_sheet(shots, self.wd.frames / f"{scene.id}-sheet.png")
+            for label, t in (("first frame", b["start"] + 0.01), ("+0.4 s", b["start"] + 0.4),
+                             ("end", b["hold_end"] - 0.15)):
+                name = f"{b['beat']}-{label.replace(' ', '').replace('+', 'plus').replace('.', '')}.png"
+                shots.append((f"{b['beat']} {label}", frame_at(video, t, self.wd.frames / scene.id / name)))
+        return contact_sheet(shots, self.wd.frames / f"{scene.id}-sheet.png", cols=3, width=640)
 
     def _visual_review(self, scene: Scene, key: str) -> dict | None:
         path = self.wd.visual_review(scene.id)

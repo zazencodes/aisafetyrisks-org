@@ -34,6 +34,11 @@ class TTSConfig(Section):
     timeout_seconds: int = Field(gt=0)
 
 
+class CaptionsConfig(Section):
+    whisper_cli: str = Field(min_length=1)
+    whisper_model: Path
+
+
 class RenderConfig(Section):
     resolution: tuple[int, int]
     frame_rate: int
@@ -82,6 +87,7 @@ class SocialConfig(Section):
 class Config(Section):
     agy: AgyConfig
     tts: TTSConfig
+    captions: CaptionsConfig
     render: RenderConfig
     publish: PublishConfig
     backup: BackupConfig

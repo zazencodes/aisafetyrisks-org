@@ -9,6 +9,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 from paper_video.config import KIT
+from paper_video.align import timed_parts
 from paper_video.narrate import SAMPLE_RATE
 
 
@@ -111,17 +112,11 @@ def split_caption(text: str, limit: int = 84) -> list[str]:
     return cues
 
 
-def caption_cues(beats: list[tuple[float, float, str]]) -> list[tuple[float, float, str]]:
-    """(start, duration, narration) per beat -> (start, end, text) cues timed by character count."""
+def caption_cues(beats: list[tuple[float, float, str, list[float]]]) -> list[tuple[float, float, str]]:
+    """(start, duration, narration, word starts) per beat -> (start, end, text) cues timed to the speech."""
     cues = []
-    for start, duration, text in beats:
-        parts = split_caption(text)
-        total = sum(len(p) for p in parts)
-        t = start
-        for part in parts:
-            span = duration * len(part) / total
-            cues.append((t, t + span, part))
-            t += span
+    for start, duration, text, starts in beats:
+        cues += timed_parts(split_caption(text), starts, start, duration)
     return cues
 
 

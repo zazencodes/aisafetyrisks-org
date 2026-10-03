@@ -26,6 +26,12 @@ voice and claim provenance without another narration bill. Do not blindly center
    completed video's storyboard, captions and scene frames. Write `short.yaml`: one hook, context,
    explanation, a spoken limitation, and a takeaway. Prefer 90–150 seconds, leaving room below the
    hard limit. Read the selected narration in order and check every antecedent and retained condition.
+   **Choose caption emphasis separately from the edit.** Read the complete selected narration,
+   then choose sparse exact phrases: bold for the main mechanism, contrast or takeaway; italic
+   for necessary qualifications and evidence boundaries. Keep all caption text off-white.
+   Include meaning-bearing negations and conditions. Leave routine dates, names and context
+   plain; `caption_emphasis: []` is encouraged. Review the phrase list across the whole short
+   before building, using the selection rules in `automations/src/paper_video/prompts/short.md`.
 2. **Build.** Run `paper-video short <slug>`. Fix every failure and repeat until it produces
    `out/short/video.mp4`, `out/short/cover.jpg`, captions in SRT/VTT, `out/short/timeline.json`,
    `frames/short-sheet.png`, and `short-package.yaml`. It checks source provenance and current
@@ -62,9 +68,19 @@ voice and claim provenance without another narration bill. Do not blindly center
   status, conditions and caveats. The independent review covers new headings and social copy too.
 - Exactly one canonical edit: `short.yaml`. Outputs live in `out/short/`; reruns replace that draft.
   Cache keys make interrupted builds resumable and refuse stale reviews after inputs change.
-- A selected beat can rely on diagrams established earlier in its scene. Inspect each new cut;
-  include the setup if an isolated cut fails to explain itself. If a suitable edit cannot be made
-  from complete beats, improve the source explainer through its workflow and regenerate it first.
+- Every selected beat must have a self-contained visual opening from its first frame. Inspect
+  the exact cut and the following transition at phone size: labels or diagrams from omitted beats
+  must not appear without explanation. Clear obsolete state and establish the necessary diagram
+  in the source scene before the selected beat starts; retain its complete narration. Include the
+  setup if the diagram genuinely depends on it. Essential labels must be readable at 360-pixel
+  phone width with sufficient contrast; enlarge and reflow them, or remove redundant secondary
+  text already explained by narration. Verify box counts, chart labels and values against notes.
+  Text never morphs into other text or overlaps mid-swap, at cuts or inside beats; diagrams never
+  say more than the narration. `frames/short-sheet.png` shows every cut's first frame and transition
+  at phone width; check it yourself before starting a review round, so reviews find little.
+  Improve the source explainer through its workflow and regenerate affected scenes and videos.
+- Captions follow word timings that local whisper.cpp reads from the cached narration WAVs
+  (`[captions]` in `automations/config.toml`). Never regenerate narration to fix caption timing.
 - Keep scientific/source and short review artifacts versioned. Binaries remain in the existing
   ignored out/render/frames folders. Do not modify the existing site's publication state for backfills.
 - This workflow produces the local short and package; posting follows the scheduling workflow

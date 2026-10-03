@@ -16,6 +16,12 @@ similarity_boost = 0.75
 seed = 42
 timeout_seconds = 180
 
+[captions]
+# Caption cues follow word timings read from the cached narration WAVs with local whisper.cpp
+# (`brew install whisper-cpp`); timings are cached beside each WAV. No API is called.
+whisper_cli = "whisper-cli"
+whisper_model = "/Users/alex/.cache/aisafetyrisks/ggml-small.en.bin"
+
 [render]
 resolution = [1920, 1080]
 frame_rate = 60

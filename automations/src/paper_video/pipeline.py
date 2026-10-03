@@ -117,7 +117,7 @@ def assemble(slug: str) -> None:
     stale = [s.id for s in sb.scenes if not renderer.is_current(s)]
     if stale:
         raise ValueError(f"renders missing or out of date for {stale}; run `paper-video render {slug}`")
-    timeline = assemble_video(wd, sb)
+    timeline = assemble_video(wd, sb, cfg.captions)
     _backup(wd, cfg, "full")
     log(f"video assembled: {wd.out / 'video.mp4'} ({timeline['duration']:.0f} s)")
     for p in timeline["problems"]:

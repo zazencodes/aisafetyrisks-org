@@ -10,7 +10,11 @@ animations verbatim, removes unselected beats and roadmap checkpoints, and lays 
 landscape diagram inside a 1080x1920 frame with large headings and burned-in captions.
 Read all selected narration in its new order: every pronoun, "now", "second", and "that" needs
 an antecedent in the short itself. Earlier visual state can persist inside a source scene; inspect
-it at the cut and ensure it makes sense without the preceding beats. Include the setup if needed.
+the very first frame at the cut and its transition. Clear unexplained diagrams or labels from
+omitted beats in the source scene before the selected beat starts, retaining complete narration.
+Include the setup if the new diagram genuinely depends on it. At 360-pixel phone width, essential
+diagram labels must be readable: enlarge/reflow high-contrast text and remove redundant secondary
+labels already explained by narration. Check diagram counts and chart values against the notes.
 
 Give the short a concrete hook, a plain account of what the paper did, its central explanation,
 an explicit limitation, and a useful takeaway. A narrow central mechanism is often enough;
@@ -25,13 +29,20 @@ beats' claim ids. Headings have room for two lines; keep them brief. The persist
 names the setting or epistemic status (for example "Research agenda · hypothetical examples").
 The command adds the paper citation, explainer URL, source URL, and website call to action.
 For each segment, write `caption_emphasis` as a list of objects with `phrase` (exact narration
-text) and `kind`: `emphasis` for amber yellow, or `harm` for the animation palette's orange-red.
-Use yellow for ordinary emphasis on mechanisms, conditions and caveats; use orange-red for
-harms, failures and dangerous behavior. Use [] when emphasis adds nothing. Do not rewrite words.
-Emphasis uses the main IBM Plex Sans Medium font and remains attached to the phrase across
-caption cues and line breaks. Phrases must match the source exactly and must not overlap.
-Each caption batch has at most two lines and one accent color alongside the white base text.
-The renderer splits batches at color changes and measured line limits, preserving every word.
+text) and `kind`: `bold` or `italic`. All caption text stays the same off-white color.
+Use bold sparingly for the central mechanism, meaningful contrast or takeaway. Use italics for
+an essential qualification, hypothetical status or evidence boundary. These are reading cues,
+not a classification of harms. Do not emphasize dates, names or dramatic words merely because
+they are salient. Plain captions are the default; use [] whenever emphasis adds nothing.
+Read the full narration before choosing phrases. Preserve negation, conditions and qualifiers
+inside the emphasized phrase when omitting them would change its meaning. Choose the shortest
+complete phrase that tells viewers what to understand or remember, rather than an isolated keyword.
+Usually choose at most one phrase per beat, and leave routine context beats plain. Do not force
+emphasis into every beat or emphasize whole sentences. Review the choices together across the edit
+for repetition and visual noise. Do not rewrite words. Phrases must match the source exactly and
+must not overlap. Emphasis remains attached across caption cues and line breaks. Each caption
+batch has at most two lines; bold and italics may coexist without forcing a new cue. The renderer
+measures against the bundled semibold font to allow room for emphasized text.
 Do not add marketing claims, unrelated account links, or instructions to post the content.
 
 In `selection_reason`, explain why this edit works on its own and which long-form material was

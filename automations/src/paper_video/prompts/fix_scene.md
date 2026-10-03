@@ -2,10 +2,14 @@
 
 Render with the command given above. It checks the file against the hard rules, renders it with the workspace's Manim installation, and checks the layout at the end of each beat. Then inspect the contact sheet, write `visual-reviews/<scene>.yaml` with the render key and any issues, and re-run the command to record the review. The result is printed and saved to the scene's check file.
 
-The contact sheet shows one frame per beat, captured at the end of the beat and labelled with its id; a checkpoint frame shows the kit's roadmap. Review it for concrete defects only:
+The contact sheet shows three frames per beat, labelled with its id: the beat's first frame, 0.4 seconds in, and its end; a checkpoint shows the kit's roadmap. Review it for concrete defects only:
 - text overlapping text or shapes so that it is hard to read; text cut off by the frame; text too small or low-contrast;
 - clutter: too many elements, crowding at the edges, unbalanced composition;
 - a frame that does not show what the beat's `visual` asks for, or leftover elements from an earlier beat that no longer belong;
+- a beat whose first frames show labels, badges or a diagram from the previous beat that this beat's narration does not explain: shorts cut whole beats, so that state appears unexplained (major);
+- text morphing into other text, two texts overlapping mid-swap, or a tag changing by morph rather than a clean swap (major);
+- essential labels that would be unreadable 360 pixels wide (smaller than size 30 or low contrast) (major);
+- a label or motion that says more than the narration, or reads in the wrong direction (major);
 - a beat whose frame shows nothing new although its `visual` asks for a change;
 - a chart or diagram that could mislead: truncated axes, unlabelled values or units, misaligned labels;
 - a missing epistemic tag when the beat has an `epistemic_label`;

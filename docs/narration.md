@@ -26,6 +26,15 @@ in ElevenLabs to get the exact ID. Audition it with Eleven v4,
 since voices can sound different across models. The v4 model supports stability and similarity
 settings; this pipeline uses 0.5 and 0.75 respectively.
 
+## Caption timing
+
+Captions are timed from the narration audio itself, not from character counts. `assemble` and
+`short` run local whisper.cpp on each cached WAV, match the heard words to the narration text,
+and cache the word start times beside the WAV as `<beat>.words.json`. No API is called and the
+narration is never regenerated for captions. Install it once with `brew install whisper-cpp`,
+then place the English model at the `[captions] whisper_model` path in
+`automations/config.toml` (download `ggml-small.en.bin` from the whisper.cpp model list).
+
 ## Generate or change a voice
 
 From the repository root, after the storyboard passes its check:

@@ -19,20 +19,21 @@ from paper_video.context import metadata_text, short_citation
 from paper_video.media import assemble, contact_sheet, frame_at, probe, run, srt, vtt
 from paper_video.models import Notes, PaperRecord, ScienceReview, Storyboard, Strict, VisualIssue
 from paper_video.provenance import claim_sources, number_supported, numbers_in, verify_notes, verify_storyboard
+from paper_video.align import timed_parts, word_starts
 from paper_video.scenes import SceneRenderer, class_name, narrated_durations
 from paper_video.workdir import WorkDir, dump_yaml, load_json, load_model, save_json
 
 # The canonical social format. Runtime is strictly less than three minutes.
 WIDTH, HEIGHT, FPS, MAX_SECONDS = 1080, 1920, 30, 180
 BG, INK, MUTED, ACCENT = "#111418", "#E9E7E1", "#8E949C", "#5FB3A1"
-# Caption accents match the kit's AMBER and ROSE animation palette (ASS uses BGR).
-CAPTION_COLORS = {"emphasis": "47A6D9", "harm": "6A82D9"}
+# All captions use the same ink; emphasis changes typography only.
+CAPTION_STYLES = {"bold": r"{\fnIBM Plex Sans SmBld}", "italic": r"{\i1}"}
 CAPTION_SIZE, CAPTION_WIDTH, CAPTION_Y = 56, 760, 1510
 
 
 class CaptionEmphasis(Strict):
     phrase: str = Field(min_length=1)
-    kind: Literal["emphasis", "harm"]
+    kind: Literal["bold", "italic"]
 
 
 class ShortSegment(Strict):
@@ -40,7 +41,7 @@ class ShortSegment(Strict):
     role: Literal["hook", "context", "explanation", "limitation", "takeaway"]
     heading: str = Field(min_length=1, max_length=70)
     caption_emphasis: list[CaptionEmphasis] = Field(
-        description="Exact narration phrases: emphasis in yellow, harm in orange-red; [] for none")
+        description="Exact narration phrases: bold for key ideas, italic for qualifications; [] for none")
 
 
 class ShortPlan(Strict):
@@ -109,12 +110,13 @@ def source_beats(wd: WorkDir, record: PaperRecord, sb: Storyboard, cfg: Config) 
                 raise ValueError(f"{beat.id}: invalid source timing")
             if abs(timing["narration"] - durations[beat.id]) > 1 / FPS:
                 raise ValueError(f"{beat.id}: source timing differs from narration")
-            if end - start + 1 / FPS < durations[beat.id]:
+            # Quantize each cut down to whole output frames so no frame of the next beat shows.
+            duration = math.floor((end - start) * FPS + 1e-6) / FPS
+            if duration < durations[beat.id]:
                 raise ValueError(f"{beat.id}: would cut off narration")
             result[beat.id] = {
                 "scene": scene.id, "clip": clip, "start": start,
-                # Quantize each cut to output frames; keep all spoken words.
-                "duration": math.ceil((end - start) * FPS - 1e-6) / FPS,
+                "duration": duration,
                 "narration_duration": durations[beat.id],
                 "source_start": offset + start, "beat": beat,
             }
@@ -158,14 +160,15 @@ def validate_plan(wd: WorkDir, record: PaperRecord, sb: Storyboard, notes: Notes
 
 def content_key(wd: WorkDir, plan: ShortPlan, chosen: list[dict]) -> str:
     paths = {wd.paper, wd.notes, wd.storyboard, Path(__file__)}
-    paths.add(Path(__file__).with_name("media.py"))
+    paths.update(Path(__file__).with_name(name) for name in ("media.py", "align.py"))
     paths.update((KIT / "fonts").glob("*.ttf"))
     for b in chosen:
         paths.update((b["clip"], wd.audio / f"{b['beat'].id}.wav"))
     payload = [plan.model_dump(mode="json"),
                [(str(p.relative_to(wd.root)) if p.is_relative_to(wd.root) else p.name, file_hash(p))
                 for p in sorted(paths)],
-               [{k: b[k] for k in ("start", "duration", "narration_duration", "source_start")} for b in chosen]]
+               [{k: b[k] for k in ("start", "duration", "narration_duration", "source_start", "word_starts")}
+                for b in chosen]]
     return hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()[:16]
 
 
@@ -175,6 +178,8 @@ def load_inputs(wd: WorkDir, record: PaperRecord, cfg: Config):
     notes = load_model(wd.notes, Notes)
     sources = source_beats(wd, record, sb, cfg)
     chosen = validate_plan(wd, record, sb, notes, plan, sources)
+    for b in chosen:
+        b["word_starts"] = word_starts(wd.audio / f"{b['beat'].id}.wav", b["beat"].narration, cfg.captions)
     return plan, chosen, content_key(wd, plan, chosen)
 
 
@@ -254,14 +259,14 @@ def emphasis_spans(text: str, phrases: list[CaptionEmphasis]) -> list[tuple[int,
     return spans
 
 
-def accent_text(text: str, spans: list[tuple[int, int, str]], offset: int) -> str:
+def emphasized_text(text: str, spans: list[tuple[int, int, str]], offset: int) -> str:
     pieces, cursor = [], 0
     for start, end, kind in spans:
         a, z = max(start - offset, 0), min(end - offset, len(text))
         if a >= z:
             continue
-        pieces.extend((ass_text(text[cursor:a]), "{\\c&H" + CAPTION_COLORS[kind] + "&}", ass_text(text[a:z]),
-                       r"{\c&HE1E7E9&}"))
+        pieces.extend((ass_text(text[cursor:a]), CAPTION_STYLES[kind], ass_text(text[a:z]),
+                       r"{\fnIBM Plex Sans Medm\i0}"))
         cursor = z
     pieces.append(ass_text(text[cursor:]))
     return "".join(pieces)
@@ -282,15 +287,12 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
     spans = emphasis_spans(" ".join(text for _, _, text in cues), emphasis)
     events, offset = [], 0
     for start, end, text in cues:
-        lines = wrap(text, font(CAPTION_SIZE), CAPTION_WIDTH)
+        lines = wrap(text, font(CAPTION_SIZE, "IBMPlexSans-SemiBold.ttf"), CAPTION_WIDTH)
         if len(lines) > 2:
             raise ValueError(f"caption needs more than two portrait lines: {text!r}")
-        colors = {kind for a, z, kind in spans if a < offset + len(text) and z > offset}
-        if len(colors) > 1:
-            raise ValueError(f"caption batch contains multiple accent colors: {text!r}")
         displayed_lines, line_offset = [], offset
         for line in lines:
-            displayed_lines.append(accent_text(line, spans, line_offset))
+            displayed_lines.append(emphasized_text(line, spans, line_offset))
             line_offset += len(line) + 1
         displayed = r"\N".join(displayed_lines)
         # Center the complete caption block between the citation and the footer divider.
@@ -307,7 +309,7 @@ def filter_path(path: Path) -> str:
 def caption_parts(text: str, emphasis: list[CaptionEmphasis]) -> list[str]:
     """Balance sentence batches within two lines, keeping emphasized phrases together."""
     spans = emphasis_spans(text, emphasis)
-    face = font(CAPTION_SIZE)
+    face = font(CAPTION_SIZE, "IBMPlexSans-SemiBold.ttf")
     units, previous_span = [], None
     for match in re.finditer(r"\S+", text):
         word = match.group()
@@ -324,14 +326,12 @@ def caption_parts(text: str, emphasis: list[CaptionEmphasis]) -> list[str]:
         # Sum of squared lengths favors equal sizes for a fixed batch count.
         best = {len(units): ((0, 0), [])}
         for i in range(len(units) - 1, -1, -1):
-            colors, words, options = set(), [], []
+            words, options = [], []
             for j in range(i, len(units)):
                 word, kind = units[j]
                 words.append(word)
-                if kind:
-                    colors.add(kind)
                 candidate = " ".join(words)
-                if len(colors) > 1 or len(wrap(candidate, face, CAPTION_WIDTH)) > 2:
+                if len(wrap(candidate, face, CAPTION_WIDTH)) > 2:
                     break
                 if j + 1 in best:
                     (count, cost), tail = best[j + 1]
@@ -359,12 +359,7 @@ def short_cues(chosen: list[dict], segments: list[ShortSegment]) -> list[tuple]:
         if b["beat"].id != segment.beat:
             raise ValueError("caption segment differs from selected source beat")
         parts = caption_parts(b["beat"].narration, segment.caption_emphasis)
-        total = sum(len(p) for p in parts)
-        t = offset
-        for part in parts:
-            end = t + b["narration_duration"] * len(part) / total
-            cues.append((t, end, part))
-            t = end
+        cues += timed_parts(parts, b["word_starts"], offset, b["narration_duration"])
         offset += b["duration"]
     return cues
 
@@ -422,11 +417,13 @@ def build_short(wd: WorkDir, record: PaperRecord, cfg: Config) -> dict:
                           "video_sha256": file_hash(master)})
     (out / "captions.srt").write_text(srt(cues))
     (out / "captions.vtt").write_text(vtt(cues))
+    # Every cut's first frame and transition, at phone width, for the independent review.
     for b in timeline:
-        for label, t in (("start", b["start"] + 0.2), ("end", b["start"] + b["duration"] - 0.5)):
-            frame = frame_at(master, t, wd.frames / "short" / f"{b['beat']}-{label}.png")
-            shots.append((f"{b['beat']} {label}", frame))
-    contact_sheet(shots, wd.frames / "short-sheet.png", cols=4, width=360)
+        for label, t in (("cut", b["start"] + 0.01), ("+0.3 s", b["start"] + 0.3), ("+0.6 s", b["start"] + 0.6),
+                         ("+1 s", b["start"] + 1), ("end", b["start"] + b["duration"] - 0.5)):
+            name = f"{b['beat']}-{label.replace(' ', '').replace('+', 'plus').replace('.', '')}.png"
+            shots.append((f"{b['beat']} {label}", frame_at(master, t, wd.frames / "short" / name)))
+    contact_sheet(shots, wd.frames / "short-sheet.png", cols=5, width=360)
     frame_at(master, min(4, timeline[0]["duration"] / 2), out / "cover.jpg")
     review = current_short_review(wd, key)
     package = {

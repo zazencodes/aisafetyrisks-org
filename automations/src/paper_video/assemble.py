@@ -1,12 +1,14 @@
 """Stage: scene clips -> master video, captions and chapter timeline."""
 
+from paper_video.align import word_starts
+from paper_video.config import CaptionsConfig
 from paper_video.media import assemble, caption_cues, probe, srt, vtt
 from paper_video.models import Storyboard
 from paper_video.scenes import class_name
 from paper_video.workdir import WorkDir, load_json, save_json
 
 
-def assemble_video(wd: WorkDir, sb: Storyboard) -> dict:
+def assemble_video(wd: WorkDir, sb: Storyboard, captions: CaptionsConfig) -> dict:
     clips, beats, chapters, audio = [], [], [], []
     offset = 0.0
     narration = dict(sb.clips())
@@ -19,8 +21,10 @@ def assemble_video(wd: WorkDir, sb: Storyboard) -> dict:
         if not chapters or chapters[-1]["title"] != scene.chapter:
             chapters.append({"start": round(offset, 2), "title": scene.chapter})
         for b in report["beats"]:
-            beats.append((offset + b["start"], b["narration"], narration[b["beat"]]))
-            audio.append((offset + b["start"], wd.audio / f"{b['beat']}.wav"))
+            wav = wd.audio / f"{b['beat']}.wav"
+            text = narration[b["beat"]]
+            beats.append((offset + b["start"], b["narration"], text, word_starts(wav, text, captions)))
+            audio.append((offset + b["start"], wav))
         offset += probe(clip)["duration"]
 
     master = wd.out / "video.mp4"
