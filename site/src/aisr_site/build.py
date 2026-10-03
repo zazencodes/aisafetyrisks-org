@@ -15,7 +15,7 @@ from markdown_it import MarkdownIt
 from markupsafe import Markup
 from pydantic import BaseModel, ConfigDict, HttpUrl
 
-from aisr_site.schema import CLAIM_REF_RE, Work
+from aisr_site.schema import CLAIM_REF_RE, PaperImpact, Work
 
 SITE_ROOT = Path(__file__).resolve().parents[2]
 CONTENT = SITE_ROOT / "content"
@@ -53,6 +53,7 @@ class LoadedWork(BaseModel):
     slug: str
     dir: Path
     work: Work
+    impact: PaperImpact | None = None
 
 
 def load_config() -> SiteConfig:
@@ -71,13 +72,19 @@ def load_works(include_drafts: bool) -> list[LoadedWork]:
     works = []
     for path in sorted((CONTENT / "works").glob("*/work.yaml")):
         work = Work.model_validate(yaml.safe_load(path.read_text()))
+        impact_path = path.with_name("impact.yaml")
+        impact = PaperImpact.model_validate(yaml.safe_load(impact_path.read_text())) if impact_path.exists() else None
+        if work.status == "published" and impact is None:
+            raise FileNotFoundError(f"{impact_path} is required for a published explainer")
+        if impact and (work.updated_at is None or impact.updated_at > work.updated_at):
+            work = work.model_copy(update={"updated_at": impact.updated_at, "updated_on": impact.updated_at.date()})
         for asset in (work.thumbnail, work.video.captions):
             if not (path.parent / asset).is_file():
                 raise FileNotFoundError(f"{path.parent / asset} is referenced by {path} but missing")
         if work.status == "published" or include_drafts:
-            works.append(LoadedWork(slug=path.parent.name, dir=path.parent, work=work))
-    # Chronological feed, newest first. Drafts (no date yet) float to the top.
-    return sorted(works, key=lambda w: (w.work.published_on or date.max, w.slug), reverse=True)
+            works.append(LoadedWork(slug=path.parent.name, dir=path.parent, work=work, impact=impact))
+    # Group and order explainers by the research publication date, newest first.
+    return sorted(works, key=lambda w: (w.work.paper.published, w.slug), reverse=True)
 
 
 _md = MarkdownIt("commonmark", {"typographer": True}).enable(["replacements", "smartquotes"])

@@ -1,0 +1,28 @@
+updated_at: '2026-10-03T11:54:03.658168-04:00'
+summary: The paper gave researchers a concrete agenda for studying AI accidents. Its influence is visible
+  both in benchmark environments that turned safety problems into experiments and in later criticism that
+  the agenda needed a broader account of real-world deployment. Reading these together helps explain what
+  the original framework made tractable and where it needed expansion.
+examples:
+- title: AI Safety Gridworlds
+  url: https://deepmind.google/blog/specifying-ai-safety-problems-in-simple-environments/
+  year: 2017
+  description: DeepMind explicitly describes this work as building on Concrete Problems in AI Safety.
+    It turns safety questions into small reinforcement-learning environments, making it possible to compare
+    task performance with safe behavior.
+  source_passage: Our new paper builds on a recent shift towards empirical testing
+- title: Concrete Problems in AI Safety, Revisited
+  url: https://arxiv.org/abs/2401.10899
+  year: 2020
+  description: Raji and Dobbe revisit the safety framing using real-world incidents. They argue that understanding
+    failures also requires attention to the social and organizational setting in which AI is deployed.
+    This is a useful challenge to reading the original technical agenda as a complete account of safety.
+  source_passage: an expanded socio-technical framing will be required
+citations:
+  count: 1368
+  url: https://openalex.org/W2462906003
+  retrieved_on: '2026-10-03'
+  record_title: 'Agnostic Learning with Unknown Utilities'
+  scope: Count for the indexed arXiv version; OpenAlex shows a different title and abstract, but the record's authors, date and arXiv location match this paper. The record also lists unrelated DOIs, so treat the count as approximate.
+citation_note: Citation totals depend on index coverage and do not indicate endorsement or scientific
+  correctness.

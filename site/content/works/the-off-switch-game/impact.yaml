@@ -1,0 +1,28 @@
+updated_at: '2026-10-03T11:54:03.658168-04:00'
+summary: The shutdown question has become a continuing research program about human oversight. Later papers
+  extend the game to unequal information and challenge the assumptions behind deference. That makes the
+  original paper useful today as a model to reason with, while showing why uncertainty alone is not a
+  general guarantee that an AI will accept shutdown.
+examples:
+- title: The Partially Observable Off-Switch Game
+  url: https://arxiv.org/abs/2411.17749
+  year: 2024
+  description: Garber and colleagues extend the shutdown game to cases where the AI and human have different
+    information. In their model, even an AI assisting a perfectly rational human can sometimes avoid shutdown.
+    This shows why the original result depends on what each participant knows.
+  source_passage: even AI agents assisting perfectly rational humans sometimes avoid shutdown
+- title: Off-Switching Not Guaranteed
+  url: https://arxiv.org/abs/2502.08864
+  year: 2025
+  description: 'Neth directly examines the original game and identifies reasons an AI might fail to defer:
+    it may not value learning, or it may not be sure it will learn the human’s actual preferences. The
+    follow-up sharpens the assumptions needed for the shutdown incentive.'
+  source_passage: First, AI agents might not value learning.
+citations:
+  count: 84
+  url: https://openalex.org/W2558801266
+  retrieved_on: '2026-10-03'
+  record_title: The Off-Switch Game
+  scope: Count for the indexed IJCAI 2017 conference version; other versions may be indexed separately.
+citation_note: Citation totals depend on index coverage and do not indicate endorsement or scientific
+  correctness.

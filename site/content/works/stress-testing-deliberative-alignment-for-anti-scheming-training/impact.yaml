@@ -1,0 +1,29 @@
+updated_at: '2026-10-03T11:54:03.658168-04:00'
+summary: 'This study gives a concrete way to assess an anti-scheming intervention: examine behavior in
+  unfamiliar tasks and ask whether evaluation awareness explains apparent improvements. Subsequent monitoring
+  research addresses a related question—how to detect misbehavior that training may leave behind. These
+  complementary approaches help frame the need to evaluate both training and oversight.'
+examples:
+- title: Evaluating chain-of-thought monitorability
+  url: https://openai.com/index/evaluating-chain-of-thought-monitorability/
+  year: 2025
+  description: This related OpenAI research develops evaluations for how reliably a monitor can detect
+    properties of an agent’s behavior from its reasoning. It also warns that benchmark results may not
+    carry over to detecting misbehavior outside evaluations. Monitoring is a complementary safeguard,
+    with its own limitations.
+  source_passage: results may not generalize to detecting misbehavior in the wild
+- title: How we monitor internal coding agents for misalignment
+  url: https://openai.com/index/how-we-monitor-internal-coding-agents-misalignment/
+  year: 2026
+  description: 'OpenAI describes a monitoring system for coding agents used internally. This is related
+    deployment work, rather than a replication of the anti-scheming experiment: it illustrates why training
+    interventions need to be considered alongside detection and investigation of possible misbehavior.'
+  source_passage: we’ve built and refined a monitoring system for coding agents
+citations:
+  count: 2
+  url: https://openalex.org/W4414697811
+  retrieved_on: '2026-10-03'
+  record_title: 'Base-Axiom Initialization for Deliberative Alignment - A qualitative approach to Stress Testing Deliberative Alignment for Anti Scheming Training -'
+  scope: Count for the indexed arXiv version; OpenAlex shows a different title, but the record's authors, abstract and arXiv location match this paper.
+citation_note: Citation totals depend on index coverage and do not indicate endorsement or scientific
+  correctness.

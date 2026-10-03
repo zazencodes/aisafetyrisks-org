@@ -17,19 +17,30 @@
 <div class="band">
   <div class="wrap work-title">
     <div>
-      <p class="eyebrow">{{ w.category.label }}{% if w.published_on %}<span class="sep">·</span><time datetime="{{ w.published_on.isoformat() }}">{{ w.published_on|date }}</time>{% endif %}</p>
+      <p class="eyebrow">{{ w.category.label }}<span class="sep">·</span><time datetime="{{ w.paper.published.isoformat() }}">{{ w.paper.published|date }}</time></p>
       <h1>{{ w.title }}</h1>
       <p class="dek">{{ w.dek }}</p>
       <dl class="paper-meta">
         <dt>Research explained</dt>
         <dd class="paper-name">{{ w.paper.title }}</dd>
         <dt>Authors</dt>
+        {% if w.paper.authors|length > 3 %}
+        <dd><details class="authors"><summary>{{ w.paper.authors[:2]|join(", ") }} <span class="more">et al. ({{ w.paper.authors|length }})</span></summary>{{ w.paper.authors|join(", ") }}</details></dd>
+        {% else %}
         <dd>{{ w.paper.authors|join(", ") }}</dd>
+        {% endif %}
         <dt>Published</dt>
         <dd><time datetime="{{ w.paper.published.isoformat() }}">{{ w.paper.published|date }}</time>{% if w.paper.venue %} · {{ w.paper.venue }}{% endif %}{% if w.paper.arxiv_id %} · arXiv:{{ w.paper.arxiv_id }}{% endif %}</dd>
       </dl>
       <div class="actions">
-        <a class="button" href="{{ w.paper.url }}">Original paper <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3h7v7M13 3 4 12" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
+        <a class="button" href="{{ w.paper.url }}" target="_blank" rel="noopener" aria-label="Original paper (opens in a new tab)">Original paper <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3h7v7M13 3 4 12" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
+        {% if lw.impact %}
+          {% if lw.impact.citations %}
+        <a class="button" href="{{ lw.impact.citations.url }}" target="_blank" rel="noopener" aria-label="{{ lw.impact.citations.count }} citations indexed by OpenAlex (opens in a new tab)" title="OpenAlex · Checked {{ lw.impact.citations.retrieved_on|date }} · {{ lw.impact.citations.scope }}">{{ "{:,}".format(lw.impact.citations.count) }} citations</a>
+          {% else %}
+        <span class="citation-unavailable">Citation count unavailable</span>
+          {% endif %}
+        {% endif %}
         {% if w.video.youtube_url %}<a class="button" href="{{ w.video.youtube_url }}">Watch on YouTube</a>{% endif %}
       </div>
     </div>
@@ -60,6 +71,30 @@
     <h2>In brief</h2>
     <div class="prose lede">{{ md(w.summary) }}</div>
   </section>
+
+  {% if lw.impact %}
+  {% set impact = lw.impact %}
+  <section class="measure paper-impact" id="impact" aria-labelledby="impact-heading">
+    <h2 id="impact-heading">Why this paper matters today</h2>
+    <p class="impact-meta">Editorial context · Updated <time datetime="{{ impact.updated_at.isoformat() }}">{{ impact.updated_at.date()|date }}</time></p>
+    <div class="prose"><p>{{ impact.summary }}</p></div>
+    <ul class="impact-examples">
+      {% for example in impact.examples %}
+      <li>
+        <h3><a href="{{ example.url }}" target="_blank" rel="noopener" aria-label="{{ example.title }} (opens in a new tab)">{{ example.title }}</a> <span class="impact-year">({{ example.year }})</span></h3>
+        <p>{{ example.description }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+    <div class="impact-citations">
+      {% if impact.citations %}
+      <p><a href="{{ impact.citations.url }}" target="_blank" rel="noopener" aria-label="Citation record on OpenAlex (opens in a new tab)">{{ "{:,}".format(impact.citations.count) }} citations indexed by OpenAlex</a> · Checked <time datetime="{{ impact.citations.retrieved_on.isoformat() }}">{{ impact.citations.retrieved_on|date }}</time></p>
+      <p>{{ impact.citations.scope }}</p>
+      {% endif %}
+      <p>{{ impact.citation_note }}</p>
+    </div>
+  </section>
+  {% endif %}
 
   <section class="measure">
     <h2>Key points</h2>
@@ -102,7 +137,7 @@
           <span class="kind">{{ c.kind.label }}</span>
           <p class="statement">{{ c.statement }}</p>
           {% for e in c.evidence %}
-          <blockquote>“{{ e.quote }}”<cite><a href="{{ w.paper.pdf_url }}#page={{ e.page }}">Page {{ e.page }}</a></cite></blockquote>
+          <blockquote>“{{ e.quote }}”<cite><a href="{{ w.paper.pdf_url }}#page={{ e.page }}" target="_blank" rel="noopener" aria-label="Page {{ e.page }} of the original paper (opens in a new tab)">Page {{ e.page }}</a></cite></blockquote>
           {% endfor %}
         </div>
       </li>
@@ -114,7 +149,7 @@
     <h2>References</h2>
     <ol class="references">
       {% for r in w.references %}
-      <li><a href="{{ r.url }}">{{ r.title }}</a>{% if r.note %} <span class="note">— {{ r.note }}</span>{% endif %}</li>
+      <li><a href="{{ r.url }}" target="_blank" rel="noopener" aria-label="{{ r.title }} (opens in a new tab)">{{ r.title }}</a>{% if r.note %} <span class="note">— {{ r.note }}</span>{% endif %}</li>
       {% endfor %}
     </ol>
   </section>

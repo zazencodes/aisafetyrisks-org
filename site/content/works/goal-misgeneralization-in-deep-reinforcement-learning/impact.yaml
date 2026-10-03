@@ -1,0 +1,28 @@
+updated_at: '2026-10-03T11:54:03.658168-04:00'
+summary: 'This work helps explain why good training performance can leave an important safety question
+  unanswered: has a system learned the intended goal, or a proxy that only works in familiar situations?
+  Later research broadened the examples and explored a possible mitigation. The continuing value is this
+  distinction between learning how to act and generalizing what to pursue.'
+examples:
+- title: 'Goal Misgeneralization: Why Correct Specifications Aren’t Enough For Correct Goals'
+  url: https://arxiv.org/abs/2210.01790
+  year: 2022
+  description: Shah and colleagues broaden the study of goal misgeneralization with examples across deep-learning
+    domains. They show why a correct training specification can still leave a system pursuing an unintended
+    goal when its circumstances change.
+  source_passage: several examples in deep learning systems across a variety of domains
+- title: Reinforcement Learning from LLM Feedback to Counteract Goal Misgeneralization
+  url: https://arxiv.org/abs/2401.07181
+  year: 2024
+  description: 'Nait El Barj and Sautory investigate a mitigation in a maze-navigation task: language-model
+    feedback helps identify failure scenarios and train a reward model. Their reported improvement is
+    evidence about this task, rather than a general solution to goal misgeneralization.'
+  source_passage: We apply our method to a maze navigation task
+citations:
+  count: 21
+  url: https://openalex.org/W4287164755
+  retrieved_on: '2026-10-03'
+  record_title: Goal Misgeneralization in Deep Reinforcement Learning
+  scope: Count for the indexed arXiv preprint; other versions may be indexed separately.
+citation_note: Citation totals depend on index coverage and do not indicate endorsement or scientific
+  correctness.

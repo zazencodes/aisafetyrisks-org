@@ -139,6 +139,32 @@ class Reference(Strict):
     note: str | None = None
 
 
+class ImpactExample(Strict):
+    title: str = Field(min_length=1)
+    url: HttpUrl
+    year: int = Field(ge=1900)
+    description: str = Field(min_length=20)
+    source_passage: str = Field(min_length=20, description="Verbatim supporting passage from the linked source")
+
+
+class CitationSnapshot(Strict):
+    count: int = Field(ge=0)
+    url: HttpUrl
+    retrieved_on: date
+    record_title: str
+    scope: str = Field(min_length=1, description="Which indexed version the count covers")
+
+
+class PaperImpact(Strict):
+    """Editorial research in impact.yaml, independent of the generated paper explanation."""
+
+    updated_at: AwareDatetime
+    summary: str = Field(min_length=40)
+    examples: list[ImpactExample] = Field(min_length=2, max_length=3)
+    citations: CitationSnapshot | None
+    citation_note: str = Field(min_length=1)
+
+
 class Chapter(Strict):
     start: float = Field(ge=0)
     title: str

@@ -84,6 +84,10 @@ files without rerendering and removes only verified entries. Binaries stay outsi
 
 ## SEO maintenance
 
+- Every published explainer requires `site/content/works/<slug>/impact.yaml` for its
+  “Why this paper matters today” section. Follow [docs/paper-impact.md](docs/paper-impact.md):
+  this separately sourced editorial context covers later research, with verified primary-source
+  passages and optional dated citation counts. It survives `paper-video site` regeneration.
 - Every explainer page must render `VideoObject` JSON-LD with its visible title/summary,
   absolute thumbnail and current hashed media URL, actual duration, and time-zone-aware original
   publication timestamp (`published_at` → `uploadDate`). Keep Article, publisher, and chapter Clip
@@ -101,8 +105,9 @@ files without rerendering and removes only verified entries. Binaries stay outsi
 - Before a site deployment, run `uv run --frozen python -m unittest discover -s site/tests`,
   `uv run --frozen python -m unittest discover -s automations/tests`,
   and `uv run --frozen aisr-site build`. After deployment, verify the live sitemap, robots,
-  video markup and referenced media. Use Search Console's Pages/Videos reports and Google's
-  Rich Results Test to check discovery and eligibility; valid markup does not promise indexing.
+  video markup and referenced media. Use Search Console's Pages/Videos reports to check discovery;
+  valid markup does not promise indexing. Google's Rich Results Test is outside the publication
+  workflow: do not run it or record it as an expected or deferred check.
 - Search Console uses the `aisafetyrisks.org` Domain property and the single sitemap URL
   `https://aisafetyrisks.org/sitemap.xml`. Preserve its Google verification TXT record in DNS.
 - Keep Cloudflare's Always Use HTTPS enabled; verify HTTP URLs redirect to their HTTPS

@@ -109,6 +109,10 @@ re-render scenes, assemble, and refresh the page before approval.
 
 ## Verification and failure recovery
 
+Google's Rich Results Test is outside the publication workflow. Do not run it or record it as an
+expected or deferred check. Validate the live video markup directly and use Search Console's
+Pages/Videos reports for discovery monitoring.
+
 Check both the published page and the exact video URL. Read `video.key` from
 `site/content/works/<slug>/work.yaml` and append it to the configured media base URL:
 
@@ -274,8 +278,7 @@ still processing. Check Pages, Videos, and Core Web Vitals once data is availabl
 Keep publishing useful source-grounded explainers, link related research and topic pages,
 and review search queries/impressions before changing titles. Publish the prepared YouTube
 packages when authorized, link to their canonical explainers, and set the real YouTube URLs
-in content. Validate future video pages with Google's
-[Rich Results Test](https://search.google.com/test/rich-results) and follow Google's
+in content. Validate future video pages' live structured data directly and follow Google's
 [video SEO guidance](https://developers.google.com/search/docs/appearance/video).
 
 
@@ -328,3 +331,4 @@ then continue. `paper-video backup-pending` retries current local files and remo
 verified entries. Expansion backups for this work and the earlier in-context-scheming work
 remain queued; local exports and narration are retained. AGENTS.md, both paper workflows and
 the backup guide document this policy. No YouTube/social upload was performed.
+

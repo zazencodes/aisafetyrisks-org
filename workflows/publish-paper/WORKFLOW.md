@@ -128,6 +128,25 @@ it if the headline is not readable at a glance or the image does not show what t
 2. **Science review**, at most 2 rounds, as in step 3.3 but with `review-site` in place of
    `review-storyboard`. Fix blocker and major issues from the first review in `site.yaml` and
    re-run `paper-video site <slug>` before the second.
+3. Write `site/content/works/<slug>/impact.yaml` following
+   [the paper-impact guide](../../docs/paper-impact.md), including the editorial summary,
+   two or three sourced examples of later research, and the best available citation count.
+   Research these later sources separately from the original paper's claim register.
+   Citation research is required: do not stop at a failed DOI lookup, a mismatched headline
+   date/title, or a search result for a reprint. Inspect the full record, authors, DOI,
+   source locations and original-PDF links. OpenAlex often mislabels arXiv records; matching
+   authors plus a matching arXiv location or DOI identify the paper even under a wrong title or
+   abstract; that is enough. If the arXiv DOI lookup fails, find the record with
+   `https://api.openalex.org/works?filter=locations.landing_page_url:http://arxiv.org/abs/<id>`.
+   Search title/author combinations and alternate
+   preprint, conference, journal or book versions. Consult another citation index when
+   needed to resolve the match or locate a count. A traceable count for a verified reprint
+   or combined-version record is acceptable even if it is not a perfect total for the
+   original version. Record the source, retrieval date and actual scope; never sum
+   overlapping version counts, invent a number, or treat a lookup failure as zero.
+   Ensure the displayed provider attribution matches the source used. Do not ship
+   “Citation count unavailable” merely because the first lookup failed. If this research
+   still yields no defensible count, report it as unresolved publication work.
 
 ### 9. YouTube
 
@@ -148,11 +167,15 @@ Run `paper-video report <slug>` and confirm all required outputs and current rev
 no unresolved blocker or major issues. If a review round limit leaves a failed check or a blocker/
 major issue, report the incomplete work; standing authorization does not waive quality checks.
 Minor issues can remain and must be reported.
+Also confirm `impact.yaml` contains the researched citation count and that the preview shows
+it beside “Original paper”, with the correct source link and version scope. This editorial
+step is checked manually; `paper-video report` does not verify citation research.
 
 Run both test suites and the site build from AGENTS.md. Then run
 `uv run --frozen paper-video approve <slug>` followed by `cd site && npm run deploy`, without
 asking for confirmation. Verify the live page, exact video URL, byte ranges, thumbnail, captions,
-video markup, sitemap, robots and HTTPS redirect as described in the deployment guide. Record the
+video markup, sitemap, robots and HTTPS redirect as described in the deployment guide. Do not run
+Google's Rich Results Test or list it as an expected or deferred check. Record the
 public URL and deployment version. Deferred backups and unavailable Google report access do not
 block publication; record them for later. If explicitly instructed to produce a draft only, stop
 before approval/deployment and provide the local preview instead.

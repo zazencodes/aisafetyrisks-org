@@ -1,0 +1,28 @@
+updated_at: '2026-10-03T11:54:03.658168-04:00'
+summary: 'The experiment provided a setting that later researchers could replicate, scrutinize, and use
+  to test mitigations. Those follow-ups make its importance more concrete: it raised testable questions
+  about whether apparent compliance during training reflects a lasting change. The evidence remains sensitive
+  to the model, classifier, and constructed training scenario.'
+examples:
+- title: 'Alignment Faking Revisited: Improved Classifiers and Open Source Extensions'
+  url: https://alignment.anthropic.com/2025/alignment-faking-revisited/
+  year: 2025
+  description: Hughes and Sheshadri replicate the experiment, improve the classifier, and test additional
+    models. The differing results across models and experimental settings make this a useful follow-up
+    for understanding where the original demonstration does and does not generalize.
+  source_passage: We replicate the alignment faking (AF) paper
+- title: Towards Training-time Mitigations for Alignment Faking in RL
+  url: https://alignment.anthropic.com/2025/alignment-faking-mitigations/
+  year: 2025
+  description: Anthropic researchers extend the original experimental setting to test reinforcement-learning
+    mitigations. They study interrogation training, shorter scratchpads, and process supervision, while
+    emphasizing that the setting’s limitations make this a starting point for mitigation research.
+  source_passage: we substantially extend the reinforcement learning (RL) experiments
+citations:
+  count: 27
+  url: https://openalex.org/W4405627013
+  retrieved_on: '2026-10-03'
+  record_title: Alignment faking in large language models
+  scope: Count for the indexed arXiv preprint; other versions may be indexed separately.
+citation_note: Citation totals depend on index coverage and do not indicate endorsement or scientific
+  correctness.
