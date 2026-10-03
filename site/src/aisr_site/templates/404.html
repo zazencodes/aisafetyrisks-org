@@ -1,7 +1,10 @@
 {% extends "base.html" %}
+{% set page_title = "Page not found — " ~ site.name %}
+{% set noindex = true %}
 {% block main %}
 <div class="wrap page">
   <div class="measure">
+    <img class="page-mark" src="/static/logo.png" width="96" height="96" alt="">
     <h1>Page not found</h1>
     <div class="prose"><p>There is nothing at this address. The <a href="/">list of explainers</a> is a good place to start.</p></div>
   </div>

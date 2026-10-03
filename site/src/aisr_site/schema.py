@@ -10,7 +10,7 @@ from datetime import date
 from enum import StrEnum
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field, HttpUrl, model_validator
+from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, HttpUrl, model_validator
 
 
 class Strict(BaseModel):
@@ -161,7 +161,9 @@ class Review(Strict):
 class Work(Strict):
     status: Literal["draft", "published"]
     published_on: date | None = Field(default=None, description="Publication date on aisafetyrisks.org")
+    published_at: AwareDatetime | None = Field(default=None, description="Original publication timestamp, including time zone")
     updated_on: date | None = None
+    updated_at: AwareDatetime | None = None
     title: str
     dek: str = Field(max_length=240, description="One-sentence summary used in the feed and metadata")
     category: Category
@@ -179,8 +181,8 @@ class Work(Strict):
 
     @model_validator(mode="after")
     def check_consistency(self) -> "Work":
-        if self.status == "published" and (self.published_on is None or self.review is None):
-            raise ValueError("published works require published_on and review")
+        if self.status == "published" and (self.published_on is None or self.published_at is None or self.review is None):
+            raise ValueError("published works require published_on, published_at, and review")
         ids = [c.id for c in self.claims]
         if len(ids) != len(set(ids)):
             raise ValueError("duplicate claim ids")

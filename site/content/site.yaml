@@ -5,7 +5,7 @@ description: >-
   paper works and what it does and does not show, with every claim linked to the original text.
 base_url: https://aisafetyrisks.org
 media_base_url: https://media.aisafetyrisks.org
-youtube_channel_url: null
+youtube_channel_url: https://www.youtube.com/@AISafetyRisks
 creator:
   name: Alexander Galea
   email: alex@galea.dev

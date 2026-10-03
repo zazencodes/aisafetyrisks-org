@@ -57,9 +57,13 @@ repository or documentation.
 ## Finish and publish a reviewed paper
 
 Follow [the full workflow](../workflows/publish-paper/WORKFLOW.md) for authoring, scene
-subagent prompts, science review prompts, and correction rules. Its normal endpoint is a
-draft for human review. Continue with approval and deployment only when the user explicitly
-authorizes them. Additional science review rounds beyond its limits also need authorization.
+subagent prompts, science review prompts, and correction rules. The user has given standing
+authorization for completed paper sessions to approve and deploy as soon as all required checks
+pass. Do not wait for personal review or request publication confirmation. Explicit draft-only or
+pause instructions take precedence. Independent reviews and automated checks still apply.
+Deferred Expansion backups in
+`automations/backlog/media-backups.md` do not block approval or deployment. Additional science
+review rounds beyond its limits also need authorization.
 
 Run all `paper-video` commands from the repository root, replacing `<slug>`:
 
@@ -79,7 +83,7 @@ Run all `paper-video` commands from the repository root, replacing `<slug>`:
    examined. Fix blocker or major issues with the smallest supported edit and review again
    within the authorized round limit. A storyboard edit requires checking, narration,
    affected scene renders, assembly, and page regeneration before publication.
-5. With explicit user authorization, approve:
+5. Under standing publication authorization, approve once all required checks pass:
 
    ```sh
    uv run --frozen paper-video approve <slug>
@@ -87,7 +91,7 @@ Run all `paper-video` commands from the repository root, replacing `<slug>`:
 
    Approval rechecks page provenance and current science reviews, rejects unresolved blocker
    or major issues, uploads the mirrored video to R2, marks the page published, records the
-   human review date, and updates the backlog. Minor issues can remain and must be reported.
+   approval date, and updates the backlog. Minor issues can remain and must be reported.
 6. Deploy the site:
 
    ```sh
@@ -170,3 +174,157 @@ deployed with `works/concrete-problems-in-ai-safety/video-64c977069037.mp4`. The
 version was `f92e10d1-7a6d-49fb-b6fe-8dd4d8ee2864`. The live page and video returned HTTP
 200, and the video supported byte ranges. Five minor visual readability issues remain in scenes
 s01, s02, s06, and s07; there are no blocker or major visual issues.
+
+## Goal misgeneralization publication: 2026-09-30
+
+The maintainer authorized finishing and publishing
+`goal-misgeneralization-in-deep-reinforcement-learning`. The storyboard was corrected to
+remove unsupported detection claims, distinguish critic value from reward, and limit the
+training-diversity conclusion to the observed CoinRun improvement. The spoken Maze result
+now includes its trial exclusion. The YouTube description was corrected to match.
+
+All 23 narration clips were regenerated with the configured Jarnathan voice. All six scenes
+passed current visual reviews with zero layout or visual issues. Assembly produced a
+257-second video; the captions passed the opening, roadmap, chapter, and closing check.
+Storyboard science review 5 and site science review 4 were accurate with no blocker or major
+issues. One minor storyboard issue remains: the 100% permeable-wall result omits `n = 114`
+in the video display; the page includes it.
+
+The page was refreshed after assembly, approved, and deployed with video key
+`works/goal-misgeneralization-in-deep-reinforcement-learning/video-7886099f0396.mp4`.
+Deployment version: `c0945218-3472-49bf-81f9-a6b88f8dd57d`. The public page and exact video
+returned HTTP 200; the video was served as `video/mp4` with byte-range support and a
+17,748,440-byte content length. Browser playback succeeded locally and publicly.
+The YouTube package remains a local artifact; this publication did not upload to YouTube.
+
+After a fresh draft review on 2026-09-30, storyboard science review 6 and site science review 5
+again found no blocker or major issues; the same minor sample-size omission remains. The
+maintainer approved publication, and the current video was uploaded and the site redeployed
+with version `fa6ffcb3-cb7a-4adf-bbfb-afe689fd2171`. Curl verification returned HTTP 200
+for the public page and its referenced `video-7886099f0396.mp4`; the video retained its
+17,748,440-byte length, `video/mp4` content type, and byte-range support.
+
+## Alignment faking publication: 2026-10-01
+
+The maintainer reviewed and approved `alignment-faking-in-large-language-models` after the
+opening animation was rebuilt. The replacement opening lasts 67.566667 seconds and preserves
+every original beat boundary. The final decoded soundtrack hash matched the reviewed original;
+audio sources, later scene code and renders, captions, and timeline remained unchanged.
+
+All seven scenes have current visual reviews with no layout or visual issues. Storyboard science
+review 1 and site science review 2 are accurate with no blocker or major issues. One minor
+storyboard issue remains: the closing does not explicitly qualify the model's open admissions
+as observed before reinforcement learning. The page's initial major issue about the prompted
+setup's reliance on a hidden scratchpad was corrected before its final review.
+
+Approval uploaded the 475-second, 1920×1080 video as
+`works/alignment-faking-in-large-language-models/video-f7b1b6a084ea.mp4` and marked the
+page and backlog published. The doomsday page now links to the explainer beside its paper citation.
+Deployment version: `a53eeca1-99cd-4012-8cc4-2de4f22e7ea8`. The public page references
+that exact video key. Both returned HTTP 200; the video has `video/mp4` content type and a
+28,917,554-byte content length. A byte-range request returned HTTP 206 with the expected
+1,024-byte response. The YouTube package remains a local artifact; this did not upload to YouTube.
+
+## SEO and Search Console setup: 2026-10-01
+
+The `aisafetyrisks.org` Domain property was added in Chrome under the maintainer's Google
+account. The maintainer added the verification TXT record through Cloudflare; Google's
+ownership check succeeded. Keep that DNS record in place. The submitted sitemap URL is
+`https://aisafetyrisks.org/sitemap.xml`; Google periodically checks that URL for updates.
+The homepage's URL Inspection indexing request also succeeded; the UI confirmed
+**Indexing requested**. This queues a crawl and does not mean the page is already indexed.
+
+The build includes Google's video sitemap extension for all four published explainers,
+alongside the homepage and three editorial pages. Video titles, descriptions, thumbnails,
+media URLs, and publication timestamps match the rendered `VideoObject` metadata. Drafts
+stay outside the sitemap/feed, and drafts and the 404 page have `noindex` metadata.
+
+Google's Rich Results Test successfully crawled the alignment-faking page and detected
+a valid VideoObject without video warnings after the timestamp correction. The source-paper
+ScholarlyArticle metadata has optional article warnings where exact publication times and
+author profile URLs are unavailable; do not invent these to satisfy recommendations.
+Article `dateModified` is emitted only when an actual `updated_at` has been recorded.
+
+Original `published_at` timestamps were recovered from the **deployment** creation times
+in `wrangler deployments list`, using the first production version that published each work:
+
+- Concrete problems: `8dd70906-06ad-4782-84fa-10222db5872c`, `2026-09-28T15:01:25.185Z`.
+- Off-switch game: `4322af6d-f977-4a2a-ab60-1cf44d6bc37b`, `2026-09-29T06:11:27.585Z`.
+- Goal misgeneralization: `c0945218-3472-49bf-81f9-a6b88f8dd57d`, `2026-09-30T17:27:32.986Z`.
+- Alignment faking: `a53eeca1-99cd-4012-8cc4-2de4f22e7ea8`, `2026-10-01T04:15:05.836Z`.
+
+Future first approvals record a time-zone-aware `published_at`, and subsequent approvals
+record `updated_at`. Regenerating a page retains the original dates/timestamps. These
+metadata changes do not approve new papers or alter their reviewed scientific prose.
+
+The final SEO deployment is `fdd153b2-9870-4245-814a-3bad1b112760`. Checks passed for all
+eight public pages, all four videos and their thumbnails/captions, sitemap XML against the
+official sitemap and video-extension XSDs, canonical URLs, robots.txt, and the HTTP 404
+response. Three site tests and eight automation tests passed, including mocked publication
+tests that never upload media. Cloudflare's Always Use HTTPS was enabled and verified:
+HTTP URLs return 301 to their HTTPS equivalents, which return 200.
+
+Search Console initially reported **Couldn't fetch** for the submitted sitemap, including
+after one resubmission. Public fetching returns HTTP 200/application/xml, XML validation
+passes, and Google's rich-results crawler reaches the site. Recheck the Sitemaps report
+after Google's processing catches up; do not describe the sitemap as successfully processed
+until the report confirms it. The new property's performance/indexing reports are also
+still processing. Check Pages, Videos, and Core Web Vitals once data is available.
+
+Keep publishing useful source-grounded explainers, link related research and topic pages,
+and review search queries/impressions before changing titles. Publish the prepared YouTube
+packages when authorized, link to their canonical explainers, and set the real YouTube URLs
+in content. Validate future video pages with Google's
+[Rich Results Test](https://search.google.com/test/rich-results) and follow Google's
+[video SEO guidance](https://developers.google.com/search/docs/appearance/video).
+
+
+## In-context scheming publication: 2026-10-02
+
+The maintainer authorized finishing and deploying
+`frontier-models-are-capable-of-in-context-scheming`, explicitly deferring media backup while
+Expansion is unmounted. Existing final exports and current independent reviews passed; all five
+scenes have zero layout or visual issues. The reviewed 159.60-second portrait companion remains a
+local draft with its minor review notes recorded in the work's HANDOVER.md.
+
+The page/media mirror was refreshed, approval uploaded the 433.6-second full video as
+`works/frontier-models-are-capable-of-in-context-scheming/video-38dd01c271e8.mp4`, and the
+backlog/page were marked published. Publication timestamp: `2026-10-02T20:33:50.030547-04:00`.
+All 3 site tests and 31 automation tests passed, as did the site build.
+Deployment version: `808eadf0-d8ca-46ae-b72c-d1d181c0573c`.
+
+The public page, referenced video, thumbnail and captions returned HTTP 200. Video content type
+is `video/mp4`, with a 23,153,629-byte length; a range request returned HTTP 206 and the expected
+1,024 bytes. Live VideoObject media/publication metadata, sitemap entry, robots sitemap pointer,
+and HTTP-to-HTTPS redirect passed verification. Search Console and Rich Results Test were not
+checked for this page during this session. Backup remains pending; local media and narration are
+retained. No YouTube/social upload was performed.
+
+## Anti-scheming training publication: 2026-10-02
+
+The maintainer authorized finishing and publishing
+`stress-testing-deliberative-alignment-for-anti-scheming-training` without personal review.
+The source notes, storyboard, page and all six scenes pass their provenance/science/visual
+checks. The 138.20-second portrait companion passes its independent review and remains local.
+Two minor short review notes concern small secondary chart labels and unavailable listening
+verification; details are recorded in the work's HANDOVER.md.
+
+Approval uploaded the 546.5-second full video as
+`works/stress-testing-deliberative-alignment-for-anti-scheming-training/video-076ef71b2d69.mp4`.
+Publication timestamp: `2026-10-02T21:17:01.563680-04:00`.
+All 3 site tests and 33 automation tests passed, as did the site build.
+Deployment version: `3fb5e5d3-bbd2-4936-ae08-9852f708ef23`.
+
+The public page, exact video, thumbnail and captions return HTTP 200. The video is
+`video/mp4`, 29,823,960 bytes, with byte-range support; the tested range returned HTTP 206
+and 1,024 bytes. Public browser playback succeeds with no media error. Live canonical,
+VideoObject/chapters, sitemap, robots and HTTP-to-HTTPS redirect checks pass. Google's
+Rich Results Test requested login, and Search Console opened its signed-out introduction;
+Google eligibility/discovery reports remain unverified. No indexing claim is made.
+
+The maintainer also requested permanent backup deferral. Assembly and short generation now
+report archive failures and upsert the tracked `automations/backlog/media-backups.md` queue,
+then continue. `paper-video backup-pending` retries current local files and removes only
+verified entries. Expansion backups for this work and the earlier in-context-scheming work
+remain queued; local exports and narration are retained. AGENTS.md, both paper workflows and
+the backup guide document this policy. No YouTube/social upload was performed.

@@ -4,6 +4,7 @@
 {% block main %}
 <article class="wrap page{% if page.slug == 'doomsday' %} page-doomsday{% endif %}">
   <div class="measure">
+    {% if page.slug == 'about' %}<img class="page-mark" src="/static/logo.png" width="96" height="96" alt="">{% endif %}
     <h1>{{ page.title }}</h1>
     <div class="prose">{{ body }}</div>
   </div>

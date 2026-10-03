@@ -150,6 +150,7 @@ def site_jsonld(cfg: SiteConfig, base: str) -> dict:
                 "name": cfg.name,
                 "url": f"{base}/",
                 "founder": {"@id": f"{base}/#creator"},
+                "logo": f"{base}/static/logo.png",
                 **({"sameAs": [str(cfg.youtube_channel_url)]} if cfg.youtube_channel_url else {}),
             },
             {
@@ -164,21 +165,27 @@ def site_jsonld(cfg: SiteConfig, base: str) -> dict:
 
 
 def work_jsonld(cfg: SiteConfig, base: str, lw: LoadedWork, url: str, image: str, video_url: str) -> dict:
-    """Article + VideoObject (chapters as Clips, for key moments) + BreadcrumbList. Drafts carry no dates."""
+    """Article + VideoObject (chapters as Clips, for key moments) + BreadcrumbList."""
     w = lw.work
     dates = {}
-    if w.published_on:
-        dates = {"datePublished": w.published_on.isoformat(),
-                 "dateModified": (w.updated_on or w.published_on).isoformat()}
+    if w.published_at:
+        dates["datePublished"] = w.published_at.isoformat()
+    if w.updated_at:
+        dates["dateModified"] = w.updated_at.isoformat()
     ends = [ch.start for ch in w.video.chapters[1:]] + [w.video.duration_seconds]
     video = {
         "@type": "VideoObject",
         "@id": f"{url}#video",
+        "url": url,
+        "mainEntityOfPage": url,
         "name": w.title,
         "description": w.dek,
         "thumbnailUrl": image,
         "duration": iso_duration(w.video.duration_seconds),
         "contentUrl": video_url,
+        "encodingFormat": "video/mp4",
+        "width": w.video.width,
+        "height": w.video.height,
         "inLanguage": "en",
         "publisher": {"@id": f"{base}/#organization"},
         "hasPart": [
@@ -192,8 +199,8 @@ def work_jsonld(cfg: SiteConfig, base: str, lw: LoadedWork, url: str, image: str
             for ch, end in zip(w.video.chapters, ends)
         ],
     }
-    if w.published_on:
-        video["uploadDate"] = w.published_on.isoformat()
+    if w.published_at:
+        video["uploadDate"] = w.published_at.isoformat()
     if w.video.youtube_url:
         video["sameAs"] = str(w.video.youtube_url)
     return {
@@ -259,12 +266,38 @@ def rss(cfg: SiteConfig, works: list[LoadedWork]) -> str:
     )
 
 
-def sitemap(urls: list[tuple[str, date | None]]) -> str:
-    entries = "".join(
+def sitemap(cfg: SiteConfig, pages: list[Page], works: list[LoadedWork]) -> str:
+    """Canonical pages and video metadata, regenerated from published content only."""
+    base = str(cfg.base_url).rstrip("/")
+    media_base = str(cfg.media_base_url).rstrip("/")
+    published = [lw for lw in works if lw.work.status == "published"]
+    latest = max((lw.work.updated_on or lw.work.published_on for lw in published), default=None)
+    urls = [(f"{base}/", latest)] + [(f"{base}/{p.slug}/", None) for p in pages]
+    entries = [
         f"<url><loc>{escape(u)}</loc>" + (f"<lastmod>{d.isoformat()}</lastmod>" if d else "") + "</url>"
         for u, d in urls
+    ]
+    for lw in published:
+        w = lw.work
+        url = f"{base}/works/{lw.slug}/"
+        modified = w.updated_on or w.published_on
+        entries.append(
+            f"<url><loc>{escape(url)}</loc><lastmod>{modified.isoformat()}</lastmod>"
+            "<video:video>"
+            f"<video:thumbnail_loc>{escape(url + w.thumbnail)}</video:thumbnail_loc>"
+            f"<video:title>{escape(w.title)}</video:title>"
+            f"<video:description>{escape(w.dek)}</video:description>"
+            f"<video:content_loc>{escape(media_base + '/' + w.video.key)}</video:content_loc>"
+            f"<video:duration>{round(w.video.duration_seconds)}</video:duration>"
+            f"<video:publication_date>{w.published_at.isoformat()}</video:publication_date>"
+            "</video:video></url>"
+        )
+    return (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+        'xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">'
+        + "".join(entries) + "</urlset>\n"
     )
-    return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{entries}</urlset>\n'
 
 
 def headers_file(cfg: SiteConfig, media_base_url: str) -> str:
@@ -354,10 +387,7 @@ def build(include_drafts: bool = False, media_base_url: str | None = None) -> Pa
 
     published = [lw for lw in works if lw.work.status == "published"]
     write("feed.xml", rss(cfg, published))
-    latest = max((lw.work.updated_on or lw.work.published_on for lw in published), default=None)
-    urls = [(f"{base}/", latest)] + [(f"{base}/{p.slug}/", None) for p in pages]
-    urls += [(f"{base}/works/{lw.slug}/", lw.work.updated_on or lw.work.published_on) for lw in published]
-    write("sitemap.xml", sitemap(urls))
+    write("sitemap.xml", sitemap(cfg, pages, works))
     write("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {base}/sitemap.xml\n")
     write("_headers", headers_file(cfg, media_base))
     return DIST

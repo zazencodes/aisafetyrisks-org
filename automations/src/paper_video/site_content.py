@@ -99,11 +99,17 @@ def write_site_work(wd: WorkDir, record: PaperRecord, notes: Notes, timeline: di
     key = video_key(wd)
     site_dir = SITE_WORKS / wd.slug
     existing = site_dir / "work.yaml"
-    youtube_url = load_model(existing, Work).video.youtube_url if existing.exists() else None
+    previous = load_model(existing, Work) if existing.exists() else None
+    youtube_url = previous.video.youtube_url if previous else None
 
     draft = load_model(wd.site_draft, WorkDraft)
     work, errors = assemble_work(draft, record, notes, timeline, key, paper_links(pages), cfg, youtube_url)
     if work is not None:
+        if previous:
+            work.published_on = previous.published_on
+            work.published_at = previous.published_at
+            work.updated_on = previous.updated_on
+            work.updated_at = previous.updated_at
         errors = verify_work(work, pages, metadata_text(record)).errors
     save_json(wd.checks / "site.json", {"ok": not errors, "errors": errors})
     if errors:

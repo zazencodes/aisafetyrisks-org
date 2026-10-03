@@ -214,6 +214,7 @@ a:hover { text-decoration-color: currentColor; }
 
 /* ----------------------------------------------------------------- Pages */
 .page { padding-block: clamp(3rem, 8vw, 5.5rem) 4rem; }
+.page-mark { display: block; width: 96px; height: 96px; border-radius: 50%; margin: 0 0 1.75rem; }
 .page h1 { font: 400 clamp(2rem, 4.2vw, 2.9rem)/1.15 var(--serif); margin: 0 0 1.5rem; }
 
 /* Doomsday examples: readable three-beat storyboards until their scenes are animated. */
@@ -245,7 +246,9 @@ a:hover { text-decoration-color: currentColor; }
 /* ---------------------------------------------------------------- Footer */
 .site-footer { border-top: 1px solid var(--rule); font-size: 0.84rem; color: var(--muted); padding: 2.5rem 0 3rem; }
 .site-footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 2rem; }
-.site-footer p { margin: 0; max-width: 34rem; }
+.footer-about { display: flex; align-items: center; gap: 1rem; max-width: 37rem; }
+.site-footer p { margin: 0; }
+.footer-mark { width: 40px; height: 40px; border-radius: 50%; flex: none; }
 .site-footer nav { display: flex; gap: 1.25rem; flex-wrap: wrap; }
 .site-footer a { color: var(--ink-soft); }
 

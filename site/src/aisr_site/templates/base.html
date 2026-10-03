@@ -24,7 +24,8 @@
   <meta name="twitter:image" content="{{ page_image }}">
   <meta name="theme-color" content="#f8f7f3" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#15171a" media="(prefers-color-scheme: dark)">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/static/logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="/static/logo.png">
   <link rel="alternate" type="application/rss+xml" title="{{ site.name }}" href="/feed.xml">
   <link rel="preload" href="/static/fonts/charter_regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{{ css_url }}">
@@ -49,7 +50,10 @@
   </main>
   <footer class="site-footer">
     <div class="wrap">
-      <p>{{ site.name }} publishes source-grounded explanations of AI safety research. Every factual claim links to the passage in the original paper it comes from.</p>
+      <div class="footer-about">
+        <img class="footer-mark" src="/static/logo.png" width="40" height="40" alt="">
+        <p>{{ site.name }} publishes source-grounded explanations of AI safety research. Every factual claim links to the passage in the original paper it comes from.</p>
+      </div>
       <nav aria-label="Footer">
         <a href="/feed.xml">RSS</a>
         {% if site.youtube_channel_url %}<a href="{{ site.youtube_channel_url }}">YouTube</a>{% endif %}
