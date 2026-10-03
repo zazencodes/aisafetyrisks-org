@@ -5,7 +5,15 @@
 # the field's story from early predictions to current evidence of misalignment. Inclusion is not an
 # endorsement of a paper's conclusions. Titles, authors and dates for arXiv papers are copied from
 # the arXiv API; other entries were checked against their landing pages. `published` is the date
-# the work was first made public (arXiv v1 for arXiv papers).
+# the work was first made public (arXiv v1 for arXiv papers). Where only the year or month is known
+# (an undated lecture, a monthly issue), it is the first day of that year or month.
+#
+# Pre-2007 entries trace the field's prehistory: goal-directed machines (1943), loss of control
+# (1951), specification (1960), intelligence explosion (1965), Friendly AI as a design problem
+# (2001) and the superintelligence motivation problem (2003). Turing's lecture has no text PDF
+# online; ingest the OCR of the King's College typescript (two drafts, public domain) in
+# backlog/sources/ with `--source-url` set to its `link`. Good's PDF is an OCR scan: check quotes
+# against the page images.
 #
 # Two entries were published before the shortlist was drawn up and would not make it on merit:
 # The Off-Switch Game and Stress Testing Deliberative Alignment for Anti-Scheming Training. They
@@ -32,6 +40,74 @@
 # category is one of the site categories in site/src/aisr_site/schema.py.
 
 papers:
+- title: Behavior, Purpose and Teleology
+  authors:
+  - Arturo Rosenblueth
+  - Norbert Wiener
+  - Julian Bigelow
+  published: '1943-01-01'
+  link: https://archive.org/download/behavior-purpose-and-teleology-nortbert-wiener-arturo-rosenblueth-y-julian-bigelow/Behavior%2C%20Purpose%20and%20Teleology%20-%20Nortbert%20Wiener%2C%20Arturo%20Rosenblueth%20y%20Julian%20Bigelow.pdf
+  arxiv: null
+  category: alignment
+  relevance: Defines purposeful behaviour mechanistically, as negative feedback toward a goal; the cybernetic
+    basis for treating machines as goal-directed systems.
+  status: queued
+  work: null
+- title: Intelligent Machinery, A Heretical Theory
+  authors:
+  - Alan Turing
+  published: '1951-01-01'
+  link: https://turingarchive.kings.cam.ac.uk/publications-lectures-and-talks-amtb/amt-b-4
+  arxiv: null
+  category: catastrophic-risk
+  relevance: Argues that learning machines would soon outstrip human thinking and that "at some stage
+    therefore we should have to expect the machines to take control".
+  status: queued
+  work: null
+- title: Some Moral and Technical Consequences of Automation
+  authors:
+  - Norbert Wiener
+  published: '1960-05-06'
+  link: https://www.cs.umd.edu/users/gasarch/BLOGPAPERS/moral.pdf
+  arxiv: null
+  category: specification
+  relevance: Warns that a fast learning machine will pursue the purpose we actually put into it, not the
+    one we intended; an early statement of the specification problem.
+  status: queued
+  work: null
+- title: Speculations Concerning the First Ultraintelligent Machine
+  authors:
+  - Irving John Good
+  published: '1965-01-01'
+  link: https://gwern.net/doc/ai/1965-good.pdf
+  arxiv: null
+  category: catastrophic-risk
+  relevance: 'Introduces the intelligence explosion: a machine that designs better machines would be the
+    last invention man need make, provided it is docile enough to be kept under control.'
+  status: queued
+  work: null
+- title: 'Creating Friendly AI 1.0: The Analysis and Design of Benevolent Goal Architectures'
+  authors:
+  - Eliezer Yudkowsky
+  published: '2001-06-15'
+  link: https://intelligence.org/files/CFAI.pdf
+  arxiv: null
+  category: alignment
+  relevance: Treats giving a self-improving AI stable, benevolent goals as an engineering problem; the
+    start of the modern alignment research tradition.
+  status: queued
+  work: null
+- title: Ethical Issues in Advanced Artificial Intelligence
+  authors:
+  - Nick Bostrom
+  published: '2003-07-28'
+  link: https://nickbostrom.com/ethics/ai.pdf
+  arxiv: null
+  category: catastrophic-risk
+  relevance: Argues that a superintelligence's initial motivations decide the outcome, illustrated by
+    the paperclip maximizer; frames the superintelligence motivation problem.
+  status: queued
+  work: null
 - title: The Basic AI Drives
   authors:
   - Stephen M. Omohundro
