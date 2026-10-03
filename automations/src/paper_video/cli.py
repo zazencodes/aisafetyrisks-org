@@ -14,15 +14,20 @@ which calls these commands in order:
   paper-video thumbnail <slug>                  render the thumbnail scene
   paper-video site <slug>                       build the page from site.yaml into site/content/works/
   paper-video youtube <slug>                    package youtube-copy.yaml as youtube.yaml
-  paper-video report <slug>                     write checks/report.md for the human reviewer
-  paper-video approve <slug>                    human sign-off: re-verify, upload media, mark published
+  paper-video report <slug>                     write checks/report.md with validation and publication status
+  paper-video approve <slug>                    authorized publication: re-verify, upload media, mark published
   paper-video backlog [--status S]              list the research backlog
+  paper-video backup-pending                    retry deferred media backups
+  paper-video schedule                          schedule the next published explainer's week on Zernio
+  paper-video schedule-status                   read every scheduled post's status back from Zernio
 """
 
 import argparse
+from datetime import datetime
 
-from paper_video import backlog, pipeline
+from paper_video import backlog, pipeline, social
 from paper_video.briefs import TASKS
+from paper_video.config import load_config
 from paper_video.review import SUBJECTS
 
 
@@ -64,6 +69,9 @@ def main() -> None:
 
     bl = sub.add_parser("backlog", help="list backlog papers")
     bl.add_argument("--status", choices=["queued", "in_progress", "published"])
+    sub.add_parser("backup-pending", help="retry deferred media backups without rebuilding exports")
+    sub.add_parser("schedule", help="upload and schedule the next explainer's long-form video and short")
+    sub.add_parser("schedule-status", help="refresh social.yaml records from Zernio")
 
     args = parser.parse_args()
     match args.command:
@@ -93,6 +101,14 @@ def main() -> None:
             pipeline.report(args.slug)
         case "approve":
             pipeline.approve(args.slug)
+        case "backup-pending":
+            pipeline.backup_pending()
+        case "schedule":
+            social.schedule_next(load_config(), datetime.now().astimezone())
+        case "schedule-status":
+            failures = social.refresh(load_config().social)
+            if failures:
+                raise SystemExit("failed posts:\n- " + "\n- ".join(failures))
         case "backlog":
             for e in backlog.load():
                 if args.status in (None, e.status):

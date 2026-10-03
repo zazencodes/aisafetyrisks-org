@@ -6,7 +6,7 @@ render, assemble and publish.
 """
 
 import subprocess
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 
 from aisr_site.schema import Review, Work
@@ -14,7 +14,7 @@ from aisr_site.schema import Review, Work
 from paper_video import backlog, log
 from paper_video.analyze import check_notes
 from paper_video.assemble import assemble_video
-from paper_video.backup import backup_work
+from paper_video.backup import backup_work, pending_backups, update_pending_backup
 from paper_video.briefs import write_brief
 from paper_video.config import MEDIA_MIRROR, REPO, SITE_WORKS, Config, load_config
 from paper_video.context import metadata_text
@@ -91,6 +91,25 @@ def render_work(slug: str, scenes: list[str] | None) -> None:
     render_scenes(wd, record, _storyboard(wd), cfg, scenes)
 
 
+def _backup(wd: WorkDir, cfg: Config, kind: str) -> None:
+    try:
+        snapshot = backup_work(wd, cfg.backup, kind)
+    except (OSError, ValueError) as error:
+        update_pending_backup(wd.slug, kind, error)
+        log(f"backup deferred: {error}; recorded in automations/backlog/media-backups.md; we'll update it later")
+    else:
+        update_pending_backup(wd.slug, kind, None)
+        log(f"verified backup: {snapshot}")
+
+
+def backup_pending() -> None:
+    cfg = load_config()
+    rows = pending_backups()
+    for slug, kind, _, _ in rows:
+        _backup(WorkDir.for_slug(slug), cfg, kind)
+    log(f"backup retries complete: {len(pending_backups())} pending")
+
+
 def assemble(slug: str) -> None:
     cfg, wd, record = _open(slug)
     sb = _storyboard(wd)
@@ -99,8 +118,7 @@ def assemble(slug: str) -> None:
     if stale:
         raise ValueError(f"renders missing or out of date for {stale}; run `paper-video render {slug}`")
     timeline = assemble_video(wd, sb)
-    snapshot = backup_work(wd, cfg.backup, "full")
-    log(f"verified backup: {snapshot}")
+    _backup(wd, cfg, "full")
     log(f"video assembled: {wd.out / 'video.mp4'} ({timeline['duration']:.0f} s)")
     for p in timeline["problems"]:
         log(f"  problem: {p}")
@@ -114,8 +132,7 @@ def thumbnail(slug: str) -> None:
 def short_work(slug: str) -> None:
     cfg, wd, record = _open(slug)
     result = build_short(wd, record, cfg)
-    snapshot = backup_work(wd, cfg.backup, "short")
-    log(f"verified backup: {snapshot}")
+    _backup(wd, cfg, "short")
     log(f"short assembled: {wd.out / 'short' / 'video.mp4'} ({result['duration']:.2f}s)")
     log(f"social package: {wd.root / 'short-package.yaml'}; run `paper-video check {slug} short` after review")
 
@@ -141,7 +158,7 @@ def _check(path: Path) -> dict | None:
 def report(slug: str) -> None:
     cfg, wd, record = _open(slug)
     lines = [f"# Review report: {wd.slug}", ""]
-    lines += ["Human review is required before publication. Watch `out/video.mp4` in full, read the page",
+    lines += ["Standing authorization covers site publication after all required checks pass; no personal review or confirmation is required. Inspect `out/video.mp4` and the page",
               "(`uv run aisr-site serve --drafts --media-root automations/media`), and check each claim against",
               "the evidence register. Then run `paper-video approve " + wd.slug + "`.", ""]
     notes = _check(wd.checks / "notes.json")
@@ -196,12 +213,21 @@ def report(slug: str) -> None:
             lines.append(f"- **Incomplete**: {e}")
         lines += ["- Video: `out/short/video.mp4`; social copy and links: `short-package.yaml`."]
     lines.append("")
+    lines += ["## Media backups"]
+    deferred = [row for row in pending_backups() if row[0] == wd.slug]
+    if deferred:
+        lines += [f"- {row[1]} backup deferred: {row[3]}" for row in deferred]
+        lines.append("- We'll update backups later; generation and authorized publication can continue.")
+        lines.append("- Queue: `automations/backlog/media-backups.md`; retry: `paper-video backup-pending`.")
+    else:
+        lines.append("- No pending entries in `automations/backlog/media-backups.md`.")
+    lines.append("")
     (wd.checks / "report.md").write_text("\n".join(lines) + "\n")
     log(f"report written: {wd.checks / 'report.md'}")
 
 
 def approve(slug: str) -> None:
-    """Human sign-off: re-check provenance and reviews, upload media, mark the work published."""
+    """Authorized publication: re-check provenance and reviews, upload media, mark published."""
     cfg, wd, record = _open(slug)
     path = SITE_WORKS / slug / "work.yaml"
     work = load_model(path, Work)
@@ -235,8 +261,10 @@ def approve(slug: str) -> None:
     work.status = "published"
     if work.published_on is None:
         work.published_on = today
+        work.published_at = datetime.now().astimezone()
     else:
         work.updated_on = today
+        work.updated_at = datetime.now().astimezone()
     work.review = Review(reviewed_on=today)
     path.write_text(dump_yaml(work.model_dump(mode="json")))
     backlog.set_status(record.arxiv_id, str(record.url), slug, "published")
