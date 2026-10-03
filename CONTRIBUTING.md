@@ -59,18 +59,21 @@ paper if you do not have that CLI.
 ## Choose one paper
 
 Open a GitHub issue naming the queued paper you want to work on, and check existing issues to
-avoid duplicating work. The backlog is `automations/backlog/papers.yaml`, oldest first.
+avoid duplicating work. The backlog is `automations/backlog/papers.yaml`, in priority order.
 Then give your agent this prompt from the repository root:
 
 > Read AGENTS.md and automations/backlog/papers.yaml. Take the first queued paper that is not
 > already claimed in a GitHub issue and follow workflows/publish-paper/WORKFLOW.md for it.
-> Produce a draft for human review, and do not approve or deploy.
+> Complete the required checks and publish under the standing authorization in AGENTS.md.
 
 If you have claimed a specific paper, name it in the prompt instead. Follow the complete
 workflow, including quotation checks, independent science reviews and scene visual reviews.
 The scientific integrity rules are in `automations/src/paper_video/prompts/integrity.md`.
 
-Preview your draft with:
+Maintainer agent sessions publish automatically after passing checks. For an external contribution
+via pull request, explicitly request draft-only mode and follow the submission steps below.
+
+Preview a draft with:
 
 ```sh
 uv run --frozen aisr-site serve --drafts --media-root automations/media

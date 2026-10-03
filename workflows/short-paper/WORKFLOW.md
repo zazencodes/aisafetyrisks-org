@@ -34,8 +34,11 @@ voice and claim provenance without another narration bill. Do not blindly center
    The command also automatically archives the completed exports, narration and available edit
    metadata to the approved Expansion drive location in AGENTS.md and `automations/config.toml`.
    It logs the verified snapshot path. No confirmation is needed for this backup. A missing drive
-   or failed verification fails the command while retaining the local video; resolve it before
-   continuing. See [the backup guide](../../docs/media-backup-plan.md).
+   or failed backup records a deferred paper/export row in `automations/backlog/media-backups.md`
+   while retaining local exports and narration. Say the backup will be updated later and continue
+   all short checks; do not block or ask the user to connect the drive. Retry with
+   `uv run --frozen paper-video backup-pending` when the drive is available. See
+   [the backup guide](../../docs/media-backup-plan.md).
 3. **Independent science and visual review**, at most two rounds. Start a fresh subagent:
    > Run `uv run --frozen paper-video brief <slug> review-short` from the repository root, read
    > the brief it writes, and follow it exactly. Inspect the rendered frames and actual edit for
@@ -50,8 +53,8 @@ voice and claim provenance without another narration bill. Do not blindly center
    to refresh the package with the recorded review, and `paper-video report <slug>`. Link the short,
    cover, captions and social package. State its actual duration and every open review issue.
    `short-package.yaml` contains draft copy, the paper citation, full explainer URL and paper URL.
-   When manually uploading to YouTube, associate it with the full video through the related-video
-   control when the full video has a YouTube URL. Nothing in this workflow uploads or posts.
+   Nothing in this workflow uploads or posts; the short is posted with its long-form video by
+   [the scheduling workflow](../schedule-posts/WORKFLOW.md).
 
 ## Rules
 
@@ -64,6 +67,8 @@ voice and claim provenance without another narration bill. Do not blindly center
   from complete beats, improve the source explainer through its workflow and regenerate it first.
 - Keep scientific/source and short review artifacts versioned. Binaries remain in the existing
   ignored out/render/frames folders. Do not modify the existing site's publication state for backfills.
-- Never run `paper-video approve`, deploy, upload, or post in this workflow. The short is a draft
-  until the user reviews it. Paper approval requires a current short with passing independent review;
-  approval uploads the long video through the existing publication command, not the social short.
+- This workflow produces the local short and package; posting follows the scheduling workflow
+  only when the user asks for it. When used as the companion step in publish-paper, return to that workflow to
+  approve and deploy the full explainer under standing authorization after all checks pass.
+  Standalone short backfills do not approve or redeploy the existing site. Paper approval requires
+  a current short with passing independent review and uploads the long video, not the social short.

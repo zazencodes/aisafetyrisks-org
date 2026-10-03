@@ -1,10 +1,13 @@
 # Publish a paper
 
-Turn one AI safety paper into a draft explainer on aisafetyrisks.org: source-grounded notes, a
+Turn one AI safety paper into a published explainer on aisafetyrisks.org: source-grounded notes, a
 storyboard, a narrated Manim video, one portrait short under three minutes, a thumbnail, a web page
-and a YouTube package. Run it from
-start to finish without asking the user anything. The result stops at human review; publication
-is the user's decision.
+and a YouTube package. Run from start to finish without asking the user anything. The user has
+given standing authorization to approve and deploy as soon as all required checks pass. Do not
+wait for personal review or request publication confirmation. Follow
+[the deployment guide](../../docs/deployment.md). An explicit draft-only or pause instruction
+takes precedence for that task. YouTube and Instagram posting is outside this site authorization;
+it follows [the scheduling workflow](../schedule-posts/WORKFLOW.md) only when the user asks.
 
 Use this workflow when asked to publish, process or make an explainer for a paper (an arXiv id, a
 URL, a PDF, or a paper from `automations/backlog/papers.yaml`), or to resume one.
@@ -105,8 +108,11 @@ for API key setup, voice selection, credit use and regeneration after a voice ch
 
 `assemble` automatically archives the completed exports and narration on the configured Expansion
 drive and logs the verified snapshot path. This backup is already authorized. If the drive is
-unmounted or verification fails, the command fails while retaining the local video; report and fix
-the backup failure before continuing. Follow the backup configuration in AGENTS.md and
+unmounted or a backup fails, the command retains the local video and records deferred work in
+`automations/backlog/media-backups.md`. Report that the backup will be updated later and continue;
+backup availability never blocks this workflow or authorized publication. Keep local exports and
+narration until archived. Retry with `uv run --frozen paper-video backup-pending` when the drive is
+available. Follow the backup configuration in AGENTS.md and
 [the backup guide](../../docs/media-backup-plan.md).
 
 ### 7. Thumbnail
@@ -128,15 +134,30 @@ it if the headline is not readable at a glance or the image does not show what t
 Write `youtube-copy.yaml` following `automations/src/paper_video/prompts/youtube.md`, then run
 `paper-video youtube <slug>`.
 
-### 10. Hand over
+### 10. Companion short
 
-Before handover, follow [the short-form workflow](../short-paper/WORKFLOW.md) to make and independently
+Before publication, follow [the short-form workflow](../short-paper/WORKFLOW.md) to make and independently
 review exactly one short from the completed full video. Run `paper-video check <slug> short`.
 Short-form generation is required for every paper, including resumed drafts. Its review is separate
 from the full storyboard review because removing context can change meaning. If the full video
 changes after this step, rebuild and re-review the short before handover.
 
-Run `paper-video report <slug>`, then tell the user:
+### 11. Publish and hand over
+
+Run `paper-video report <slug>` and confirm all required outputs and current reviews pass, with
+no unresolved blocker or major issues. If a review round limit leaves a failed check or a blocker/
+major issue, report the incomplete work; standing authorization does not waive quality checks.
+Minor issues can remain and must be reported.
+
+Run both test suites and the site build from AGENTS.md. Then run
+`uv run --frozen paper-video approve <slug>` followed by `cd site && npm run deploy`, without
+asking for confirmation. Verify the live page, exact video URL, byte ranges, thumbnail, captions,
+video markup, sitemap, robots and HTTPS redirect as described in the deployment guide. Record the
+public URL and deployment version. Deferred backups and unavailable Google report access do not
+block publication; record them for later. If explicitly instructed to produce a draft only, stop
+before approval/deployment and provide the local preview instead.
+
+Tell the user the published URL, validation result, and:
 - where the results are: `automations/works/<slug>/out/video.mp4`, `out/thumbnail.jpg`,
   `youtube.yaml`, and the page, previewed with
   `uv run --frozen aisr-site serve --drafts --media-root automations/media`;
@@ -157,7 +178,9 @@ Run `paper-video report <slug>`, then tell the user:
 
 - Scientific integrity comes first: `automations/src/paper_video/prompts/integrity.md` applies to
   everything written in this workflow.
-- Do not edit `automations/kit/`, the `paper-video` code or files under `checks/`. Helpers for one
-  video live in its scene files.
-- Never run `paper-video approve` or deploy. Approval marks a human review and uploads
-  media to production.
+- Do not edit `automations/kit/`, the `paper-video` code or files under `checks/` as part of paper
+  authoring. Explicit requests to change the pipeline or workflow authorize those changes. Helpers
+  for one video live in its scene files.
+- Standing user authorization covers `paper-video approve`, production media upload and site
+  deployment after all required checks pass. Publish autonomously; personal review and repeated
+  confirmation are not required. Respect an explicit draft-only or pause instruction.

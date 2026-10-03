@@ -61,8 +61,9 @@ it refreshes the page's chapter times and hashed media mirror. It writes the pag
 when updating a published paper. Check that its science reviews remain current. A voice-only
 change does not alter the reviewed storyboard or page prose, but any prose edit needs a new review.
 
-For a reviewed paper, stop at human review unless the user explicitly asks to publish. When
-publication is authorized, follow [the approval and deployment sequence](deployment.md#finish-and-publish-a-reviewed-paper):
+After all required reviews and checks pass, publish under the user's standing authorization
+without waiting for personal review or confirmation. Respect an explicit draft-only or pause
+instruction. Follow [the approval and deployment sequence](deployment.md#finish-and-publish-a-reviewed-paper):
 `paper-video approve <slug>`, then `cd site && npm run deploy`. Verify the live page references
 the new video key, and check the exact video URL returns HTTP 200, `video/mp4`, and byte-range
 support. The prior hashed video remains available in R2 for existing cached links.
